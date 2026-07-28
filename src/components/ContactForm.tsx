@@ -38,11 +38,11 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-2xl border border-ecom-red/30 bg-white/60 p-8 text-center">
-        <h3 className="font-display text-xl font-medium text-ecom-dark">
+      <div className="rounded-2xl border border-white/20 bg-white/5 p-8 text-center">
+        <h3 className="font-display text-xl font-medium text-white">
           Thanks — we&rsquo;ll be in touch soon.
         </h3>
-        <p className="mt-2 text-ecom-dark/70">
+        <p className="mt-2 text-white/60">
           Your request has been sent to the Ecommetrica team.
         </p>
       </div>
@@ -50,35 +50,33 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-      <Field label="Name" name="name" type="text" required autoComplete="name" />
-      <Field label="Email" name="email" type="email" required autoComplete="email" />
-      <Field
-        label="Phone number"
-        name="phone"
-        type="tel"
-        autoComplete="tel"
-      />
-      <Field label="Company / Firma" name="company" type="text" />
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+      <div className="grid gap-6 sm:grid-cols-2">
+        <Field label="Name" name="name" type="text" required autoComplete="name" />
+        <Field label="Email" name="email" type="email" required autoComplete="email" />
+        <Field label="Phone number" name="phone" type="tel" autoComplete="tel" />
+        <Field label="Company / Firma" name="company" type="text" />
+      </div>
 
-      <label className="flex flex-col gap-2 text-sm font-medium text-ecom-dark">
+      <label className="flex flex-col gap-2 text-xs font-medium tracking-widest text-white/50 uppercase">
         Message
         <textarea
           name="message"
           required
-          rows={5}
-          className="rounded-xl border border-ecom-dark/20 bg-white/60 px-4 py-3 text-base font-normal text-ecom-dark outline-none focus:border-ecom-red"
+          rows={3}
+          className="border-b border-white/30 bg-transparent py-2 text-base font-normal text-white normal-case outline-none placeholder:text-white/30 focus:border-ecom-orange"
         />
       </label>
 
-      {error && <p className="text-sm text-ecom-red">{error}</p>}
+      {error && <p className="text-sm text-ecom-orange">{error}</p>}
 
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-2 inline-flex items-center justify-center rounded-full bg-ecom-dark px-8 py-4 text-sm font-medium text-ecom-cream transition-colors hover:bg-ecom-red disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-2 inline-flex w-fit items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-medium text-ecom-black transition-colors hover:bg-ecom-orange hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "submitting" ? "Sending..." : "Send form"}
+        <span aria-hidden>&#8599;</span>
       </button>
     </form>
   );
@@ -98,14 +96,14 @@ function Field({
   autoComplete?: string;
 }) {
   return (
-    <label className="flex flex-col gap-2 text-sm font-medium text-ecom-dark">
+    <label className="flex flex-col gap-2 text-xs font-medium tracking-widest text-white/50 uppercase">
       {label}
       <input
         name={name}
         type={type}
         required={required}
         autoComplete={autoComplete}
-        className="rounded-xl border border-ecom-dark/20 bg-white/60 px-4 py-3 text-base font-normal text-ecom-dark outline-none focus:border-ecom-red"
+        className="border-b border-white/30 bg-transparent py-2 text-base font-normal text-white normal-case outline-none placeholder:text-white/30 focus:border-ecom-orange"
       />
     </label>
   );

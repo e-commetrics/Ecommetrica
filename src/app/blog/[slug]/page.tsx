@@ -44,6 +44,7 @@ export default async function BlogPostPage({
           year: "numeric",
           month: "long",
           day: "numeric",
+          timeZone: "UTC",
         })}
       </p>
       <h1 className="mt-3 font-display text-4xl font-medium tracking-tight text-ecom-dark">

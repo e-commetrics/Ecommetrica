@@ -2,11 +2,13 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* Ecommetrica BrandBook 2026 */
-  --color-ecom-red: #9c1512;
+  /* Ecommetrica brand */
+  --color-ecom-orange: #e84a34; /* primary accent, from logo mark */
+  --color-ecom-red: #9c1512; /* deep red, BrandBook 2026 */
   --color-ecom-gray: #585a5c;
   --color-ecom-cream: #f2ede9;
   --color-ecom-dark: #25272a;
+  --color-ecom-black: #121213;
 
   --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
@@ -20,4 +22,19 @@ body {
   background: var(--color-ecom-cream);
   color: var(--color-ecom-dark);
   font-family: var(--font-body);
+}
+
+.bg-ecom-gradient {
+  background: linear-gradient(
+    160deg,
+    var(--color-ecom-black) 0%,
+    var(--color-ecom-dark) 30%,
+    var(--color-ecom-red) 75%,
+    var(--color-ecom-orange) 100%
+  );
+}
+
+.text-stroke {
+  -webkit-text-stroke: 1px currentColor;
+  color: transparent;
 }

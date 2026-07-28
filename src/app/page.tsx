@@ -2,8 +2,8 @@ import Hero from "@/components/Hero";
 import SelectWork from "@/components/SelectWork";
 import Pillars from "@/components/Pillars";
 import AboutStudio from "@/components/AboutStudio";
-import Pricing from "@/components/Pricing";
-import ContactCTA from "@/components/ContactCTA";
+import Planes from "@/components/Planes";
+import BigNav from "@/components/BigNav";
 
 export default function Home() {
   return (
@@ -12,8 +12,8 @@ export default function Home() {
       <SelectWork />
       <Pillars />
       <AboutStudio />
-      <Pricing />
-      <ContactCTA />
+      <Planes />
+      <BigNav />
     </>
   );
 }

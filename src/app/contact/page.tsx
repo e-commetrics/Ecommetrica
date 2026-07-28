@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact | Ecommetrica",
@@ -9,20 +8,16 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <div className="mx-auto max-w-3xl px-6 py-20 lg:px-10 lg:py-28">
-      <p className="text-sm font-medium uppercase tracking-[0.2em] text-ecom-red">
+      <p className="text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
         Contact us
       </p>
       <h1 className="mt-6 font-display text-4xl font-medium tracking-tight text-ecom-dark sm:text-5xl">
-        Are you ready?
+        Let&rsquo;s build something that lasts.
       </h1>
       <p className="mt-6 max-w-xl text-ecom-dark/70">
-        Leave a request and our team will reach out to talk about your
-        project.
+        Tell us about your project below — our team gets back to every
+        request personally.
       </p>
-
-      <div className="mt-12">
-        <ContactForm />
-      </div>
     </div>
   );
 }
