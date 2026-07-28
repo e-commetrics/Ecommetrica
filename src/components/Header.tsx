@@ -4,22 +4,26 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useState } from "react";
-
-const navLinks = [
-  { href: "/studio", label: "Studio" },
-  { href: "/work", label: "Work" },
-  { href: "/blog", label: "Blog" },
-  { href: "/contact", label: "Contact" },
-];
+import ThemeSwitcher from "@/components/ThemeSwitcher";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function Header() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
+  const { t } = useLanguage();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
     setHidden(latest > previous && latest > 120);
   });
+
+  const navLinks = [
+    { href: "/studio", label: t.studio },
+    { href: "/work", label: t.work },
+    { href: "/blog", label: t.blog },
+    { href: "/contact", label: t.contact },
+  ];
 
   return (
     <motion.header
@@ -51,26 +55,36 @@ export default function Header() {
           ))}
         </nav>
 
-        <Link
-          href="/contact"
-          className="hidden rounded-full bg-ecom-orange px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-ecom-red md:inline-block"
-        >
-          Let&rsquo;s talk
-        </Link>
+        <div className="hidden items-center gap-5 md:flex">
+          <LanguageSwitcher />
+          <ThemeSwitcher />
+          <Link
+            href="/contact"
+            className="rounded-full bg-ecom-orange px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-ecom-red"
+          >
+            {t.talk}
+          </Link>
+        </div>
 
-        <MobileNav />
+        <MobileNav navLinks={navLinks} talk={t.talk} />
       </div>
     </motion.header>
   );
 }
 
-function MobileNav() {
+function MobileNav({
+  navLinks,
+  talk,
+}: {
+  navLinks: { href: string; label: string }[];
+  talk: string;
+}) {
   return (
     <details className="relative md:hidden">
       <summary className="list-none cursor-pointer select-none rounded-md border border-white/20 px-3 py-2 text-sm text-white">
         Menu
       </summary>
-      <div className="absolute right-0 mt-2 flex w-48 flex-col gap-1 rounded-xl border border-white/10 bg-ecom-black p-3 shadow-lg">
+      <div className="absolute right-0 mt-2 flex w-52 flex-col gap-3 rounded-xl border border-white/10 bg-ecom-black p-3 shadow-lg">
         {navLinks.map((link) => (
           <Link
             key={link.href}
@@ -80,11 +94,15 @@ function MobileNav() {
             {link.label}
           </Link>
         ))}
+        <div className="flex items-center justify-between border-t border-white/10 px-3 pt-3">
+          <LanguageSwitcher />
+          <ThemeSwitcher />
+        </div>
         <Link
           href="/contact"
-          className="mt-1 rounded-md bg-ecom-orange px-3 py-2 text-center text-sm font-medium text-white"
+          className="rounded-md bg-ecom-orange px-3 py-2 text-center text-sm font-medium text-white"
         >
-          Let&rsquo;s talk
+          {talk}
         </Link>
       </div>
     </details>

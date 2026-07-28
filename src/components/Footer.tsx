@@ -1,8 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
 import Reveal from "@/components/Reveal";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="bg-ecom-gradient text-white">
       <div className="mx-auto max-w-7xl px-6 pt-20 lg:px-10 lg:pt-28">
@@ -28,13 +33,13 @@ export default function Footer() {
         <div className="mt-20 flex flex-col gap-4 border-t border-white/15 py-8 text-xs tracking-wide text-white/60 uppercase sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <Link href="/legal/privacy-policy" className="hover:text-white">
-              Privacy policy
+              {t.privacy}
             </Link>
             <Link href="/legal/terms-of-service" className="hover:text-white">
-              Terms of service
+              {t.terms}
             </Link>
             <Link href="/faq" className="hover:text-white">
-              FAQ
+              {t.faq}
             </Link>
           </div>
           <p className="normal-case">
