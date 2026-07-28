@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { useState } from "react";
 
 const navLinks = [
   { href: "/studio", label: "Studio" },
@@ -9,8 +13,20 @@ const navLinks = [
 ];
 
 export default function Header() {
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    setHidden(latest > previous && latest > 120);
+  });
+
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-ecom-black/90 backdrop-blur">
+    <motion.header
+      animate={{ y: hidden ? "-100%" : "0%" }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
+      className="sticky top-0 z-50 border-b border-white/10 bg-ecom-black/90 backdrop-blur"
+    >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
         <Link href="/" className="flex items-center gap-2">
           <Image
@@ -44,7 +60,7 @@ export default function Header() {
 
         <MobileNav />
       </div>
-    </header>
+    </motion.header>
   );
 }
 

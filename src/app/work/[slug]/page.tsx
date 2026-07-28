@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { caseStudies, getCaseStudy } from "@/lib/work";
+import { getInternalCaseStudies, getCaseStudy } from "@/lib/work";
 
 export function generateStaticParams() {
-  return caseStudies.map((project) => ({ slug: project.slug }));
+  return getInternalCaseStudies().map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({
@@ -25,7 +25,7 @@ export default async function CaseStudyPage({
   const { slug } = await params;
   const project = getCaseStudy(slug);
 
-  if (!project) {
+  if (!project || project.external) {
     notFound();
   }
 

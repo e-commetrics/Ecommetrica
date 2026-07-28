@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const clashDisplay = localFont({
   src: [
@@ -28,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={clashDisplay.variable}>
       <body className="flex min-h-screen flex-col antialiased">
+        <SmoothScroll />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

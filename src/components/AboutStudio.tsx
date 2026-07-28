@@ -1,3 +1,5 @@
+import Reveal from "@/components/Reveal";
+
 const team = [
   {
     name: "Kevin O. Okhuysen",
@@ -19,19 +21,19 @@ const team = [
 export default function AboutStudio() {
   return (
     <section id="studio" className="mx-auto max-w-7xl px-6 py-20 lg:px-10 lg:py-28">
-      <div className="text-right">
+      <Reveal className="text-right">
         <p className="text-sm font-medium tracking-[0.2em] text-ecom-dark/50 uppercase">
           About the
         </p>
         <h2 className="mt-1 font-display text-4xl font-medium text-ecom-dark sm:text-5xl">
           Studio <span className="text-ecom-orange">&#10038;</span>
         </h2>
-      </div>
+      </Reveal>
 
       <div className="mt-14 grid gap-10 sm:grid-cols-3">
-        {team.map((member) => (
-          <div key={member.name}>
-            <div className="aspect-square w-full rounded-2xl bg-gradient-to-br from-ecom-dark to-ecom-black" />
+        {team.map((member, i) => (
+          <Reveal key={member.name} delay={i * 0.1}>
+            <div className="aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-br from-ecom-dark to-ecom-black transition-transform duration-500 hover:scale-[1.02]" />
             <h3 className="mt-5 font-display text-lg font-medium text-ecom-orange">
               {member.name}
             </h3>
@@ -39,7 +41,7 @@ export default function AboutStudio() {
               {member.role}
             </p>
             <p className="mt-3 text-ecom-dark/70">{member.bio}</p>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>
