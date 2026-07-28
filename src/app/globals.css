@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Ecommetrica BrandBook 2026 */
+  --color-ecom-red: #9c1512;
+  --color-ecom-gray: #585a5c;
+  --color-ecom-cream: #f2ede9;
+  --color-ecom-dark: #25272a;
+
+  --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ecom-cream);
+  color: var(--color-ecom-dark);
+  font-family: var(--font-body);
+}
