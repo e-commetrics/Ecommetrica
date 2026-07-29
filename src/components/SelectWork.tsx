@@ -8,7 +8,7 @@ export default function SelectWork() {
       <Reveal className="flex items-end justify-between gap-6">
         <h2 className="font-display text-4xl font-medium tracking-tight text-ecom-dark sm:text-6xl">
           Projects{" "}
-          <span className="text-ecom-orange">WOW</span>
+          <span className="text-ecom-orange">Success</span>
         </h2>
         <Link
           href="/work"
