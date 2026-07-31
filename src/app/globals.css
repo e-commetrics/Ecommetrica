@@ -31,8 +31,16 @@
   --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-html {
-  scroll-behavior: smooth;
+/* No `scroll-behavior: smooth` here on purpose: Lenis (SmoothScroll.tsx) runs
+   its own scroll animation, and the two fight over anchor jumps like the
+   header's /#services link — the page stalls part-way or snaps back. Lenis is
+   the smooth scrolling; CSS must stay out of it. When reduced motion is on,
+   Lenis bows out and the browser's instant native scroll is the correct
+   behaviour anyway. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -102,9 +110,13 @@ html.theming *::after {
   );
 }
 
+/* Outlined display text. `-webkit-text-fill-color` — not `color` — is what
+   hollows the glyphs out: the stroke colour is `currentColor`, so zeroing
+   `color` instead would resolve the stroke to transparent too and render
+   nothing at all. */
 .text-stroke {
   -webkit-text-stroke: 1px currentColor;
-  color: transparent;
+  -webkit-text-fill-color: transparent;
 }
 
 /* @tailwindcss/typography ships fixed neutral greys, which go unreadable as

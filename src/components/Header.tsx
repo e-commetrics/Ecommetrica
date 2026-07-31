@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -79,8 +79,37 @@ function MobileNav({
   navLinks: { href: string; label: string }[];
   talk: string;
 }) {
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+
+  const close = useCallback(() => {
+    const el = detailsRef.current;
+    if (el) el.open = false;
+  }, []);
+
+  // `<details>` only closes by re-clicking its summary, so dismissing it the
+  // way every other menu behaves — tapping the page, or Escape — has to be
+  // wired up. Pointerdown (not click) so it also dismisses on a drag/scroll
+  // gesture that starts outside the panel.
+  useEffect(() => {
+    function onPointerDown(event: PointerEvent) {
+      const el = detailsRef.current;
+      if (!el?.open) return;
+      if (!el.contains(event.target as Node)) close();
+    }
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") close();
+    }
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [close]);
+
   return (
-    <details className="relative md:hidden">
+    <details ref={detailsRef} className="relative md:hidden">
       <summary className="list-none cursor-pointer select-none rounded-md border border-white/20 px-3 py-2 text-sm text-white">
         Menu
       </summary>
@@ -89,6 +118,7 @@ function MobileNav({
           <Link
             key={link.href}
             href={link.href}
+            onClick={close}
             className="rounded-md px-3 py-2 text-sm font-medium text-white uppercase tracking-wide hover:bg-white/5"
           >
             {link.label}
@@ -100,6 +130,7 @@ function MobileNav({
         </div>
         <Link
           href="/contact"
+          onClick={close}
           className="rounded-md bg-ecom-orange px-3 py-2 text-center text-sm font-medium text-white"
         >
           {talk}

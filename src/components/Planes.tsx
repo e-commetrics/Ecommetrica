@@ -23,9 +23,9 @@ export default function Planes() {
       <motion.div
         aria-hidden
         style={{ x: drift }}
-        className="pointer-events-none absolute inset-x-0 top-24 select-none text-center lg:top-16"
+        className="pointer-events-none absolute inset-x-0 top-40 select-none text-center lg:top-16"
       >
-        <span className="text-stroke font-display text-[16vw] leading-none font-medium text-white/10">
+        <span className="text-stroke font-display text-[16vw] leading-none font-medium text-white/20">
           PLANES
         </span>
       </motion.div>

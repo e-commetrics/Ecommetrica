@@ -99,12 +99,16 @@ export default function AboutStudio() {
         </h2>
       </motion.div>
 
+      {/* `[&>*]:min-w-0` on the grid is load-bearing: grid items default to
+          `min-width: auto`, so the roster rail's nowrap names below forced the
+          copy column to its min-content width (500px inside a 327px grid on a
+          375px phone) and dragged the whole document 149px wide. */}
       <div
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onFocus={() => setIsPaused(true)}
         onBlur={() => setIsPaused(false)}
-        className="mt-12 grid gap-14 border-t border-ecom-ink/10 pt-20 lg:grid-cols-[1fr_1.2fr] lg:items-center lg:gap-10 lg:pt-28"
+        className="mt-12 grid gap-14 border-t border-ecom-ink/10 pt-20 [&>*]:min-w-0 lg:grid-cols-[1fr_1.2fr] lg:items-center lg:gap-10 lg:pt-28"
       >
         {/* Photo stage: background numeral + stacked "next" card (tints orange on hover) + active card */}
         <div className="group relative mx-auto w-full max-w-[350px]">
@@ -241,7 +245,9 @@ export default function AboutStudio() {
               </motion.button>
             </div>
 
-            <div className="scrollbar-none flex flex-1 items-center gap-5 overflow-x-auto sm:gap-6">
+            {/* Fades at the trailing edge so the names read as "scrolls on"
+                rather than as text cut off by the viewport. */}
+            <div className="scrollbar-none flex flex-1 items-center gap-5 overflow-x-auto [mask-image:linear-gradient(to_right,black_85%,transparent)] sm:gap-6 sm:[mask-image:none]">
               {team.map((t, i) => (
                 <button
                   key={t.name + i}
