@@ -9,10 +9,13 @@ const items = [
 
 export default function BigNav() {
   return (
-    <section className="relative overflow-hidden bg-ecom-cream text-ecom-dark py-24">
+    <section className="relative overflow-hidden bg-ecom-surface text-ecom-ink py-28 lg:py-36">
+      {/* Glows stay clear of the top/bottom edges: a blurred shape clipped by
+          the section boundary draws a hard line there, which shows up the
+          moment this section and its neighbour share a background colour. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-32 -left-24 h-96 w-96 rounded-full bg-ecom-orange/40 blur-3xl"
+        className="pointer-events-none absolute top-32 -left-24 h-96 w-96 rounded-full bg-ecom-orange/40 blur-3xl"
       />
       <div
         aria-hidden
@@ -20,22 +23,22 @@ export default function BigNav() {
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute -bottom-40 left-1/3 h-80 w-80 rounded-full bg-ecom-orange/25 blur-3xl"
+        className="pointer-events-none absolute bottom-32 left-1/3 h-80 w-80 rounded-full bg-ecom-orange/25 blur-3xl"
       />
 
-      <div className="relative mx-auto max-w-7xl divide-y divide-ecom-dark/15 px-6 lg:px-10">
+      <div className="relative mx-auto max-w-7xl divide-y divide-ecom-ink/15 border-y border-ecom-ink/15 px-6 lg:px-10">
         {items.map((item, i) => (
           <Reveal key={item.label} delay={i * 0.08} y={16}>
             <Link
               href={item.href}
-              className="group flex items-center justify-between py-8 sm:py-10"
+              className="group flex items-center justify-between gap-6 py-10 sm:py-12"
             >
-              <span className="font-display text-4xl font-medium tracking-tight uppercase transition-transform duration-300 group-hover:translate-x-2 sm:text-6xl">
+              <span className="font-display text-4xl font-medium tracking-[-0.02em] uppercase transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-3 group-hover:text-ecom-orange sm:text-6xl lg:text-7xl">
                 {item.label}
               </span>
               <span
                 aria-hidden
-                className="text-3xl transition-transform duration-300 group-hover:translate-x-2 group-hover:-translate-y-1 sm:text-5xl"
+                className="shrink-0 text-3xl transition-all duration-300 group-hover:translate-x-2 group-hover:-translate-y-1 group-hover:text-ecom-orange sm:text-5xl"
               >
                 {item.arrow}
               </span>

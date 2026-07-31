@@ -36,51 +36,68 @@ export default async function CaseStudyPage({
     <div className="mx-auto max-w-4xl px-6 py-20 lg:px-10 lg:py-28">
       <Link
         href="/work"
-        className="text-sm font-medium text-ecom-dark/60 hover:text-ecom-red"
+        className="text-sm font-medium text-ecom-ink/60 hover:text-ecom-orange"
       >
         &larr; Back to work
       </Link>
 
-      <p className="mt-8 text-xs font-medium uppercase tracking-widest text-ecom-dark/50">
+      <p className="mt-8 text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
         {project.category}
       </p>
-      <h1 className="mt-3 font-display text-4xl font-medium tracking-tight text-ecom-dark sm:text-5xl">
+      <h1 className="mt-3 font-display text-4xl font-medium tracking-tight text-ecom-ink sm:text-5xl">
         {project.name}
       </h1>
-      <p className="mt-8 text-lg text-ecom-dark/70">
+      <p className="mt-8 text-lg text-ecom-ink/70">
         {details?.summary || project.description}
       </p>
 
+      {project.webpage && (
+        <a
+          href={project.webpage}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group mt-8 inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium uppercase tracking-wide text-white transition-colors duration-300 hover:bg-ecom-red"
+        >
+          Ver sitio
+          <span
+            aria-hidden
+            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          >
+            &#8599;
+          </span>
+        </a>
+      )}
+
       {(details?.client || details?.year || details?.services) && (
-        <dl className="mt-10 grid grid-cols-2 gap-8 border-y border-ecom-dark/10 py-8 sm:grid-cols-3">
+        <dl className="mt-10 grid grid-cols-2 gap-8 border-y border-ecom-ink/10 py-8 sm:grid-cols-3">
           {details?.client && (
             <div>
-              <dt className="text-xs font-medium uppercase tracking-widest text-ecom-dark/50">
+              <dt className="text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
                 Client
               </dt>
-              <dd className="mt-1 text-ecom-dark">{details.client}</dd>
+              <dd className="mt-1 text-ecom-ink">{details.client}</dd>
             </div>
           )}
           {details?.year && (
             <div>
-              <dt className="text-xs font-medium uppercase tracking-widest text-ecom-dark/50">
+              <dt className="text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
                 Year
               </dt>
-              <dd className="mt-1 text-ecom-dark">{details.year}</dd>
+              <dd className="mt-1 text-ecom-ink">{details.year}</dd>
             </div>
           )}
           {details?.services && (
             <div>
-              <dt className="text-xs font-medium uppercase tracking-widest text-ecom-dark/50">
+              <dt className="text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
                 Services
               </dt>
-              <dd className="mt-1 text-ecom-dark">{details.services.join(", ")}</dd>
+              <dd className="mt-1 text-ecom-ink">{details.services.join(", ")}</dd>
             </div>
           )}
         </dl>
       )}
 
-      <div className="relative mt-12 aspect-video w-full overflow-hidden rounded-2xl bg-ecom-dark/10">
+      <div className="relative mt-12 aspect-video w-full overflow-hidden rounded-2xl bg-ecom-ink/10">
         {project.image && (
           <Image
             src={project.image}
@@ -96,7 +113,7 @@ export default async function CaseStudyPage({
           {details.results.map((result) => (
             <li
               key={result}
-              className="rounded-xl border border-ecom-dark/10 p-5 text-ecom-dark/80"
+              className="rounded-xl border border-ecom-ink/10 p-5 text-ecom-ink/80"
             >
               {result}
             </li>
@@ -109,7 +126,7 @@ export default async function CaseStudyPage({
           {details.gallery.map((src) => (
             <div
               key={src}
-              className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-ecom-dark/10"
+              className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-ecom-ink/10"
             >
               <Image src={src} alt={project.name} fill className="object-cover" />
             </div>
@@ -119,10 +136,10 @@ export default async function CaseStudyPage({
 
       {details?.testimonial && (
         <blockquote className="mt-12 border-l-2 border-ecom-orange pl-6">
-          <p className="font-display text-xl text-ecom-dark">
+          <p className="font-display text-xl text-ecom-ink">
             “{details.testimonial.quote}”
           </p>
-          <footer className="mt-3 text-sm text-ecom-dark/60">
+          <footer className="mt-3 text-sm text-ecom-ink/60">
             {details.testimonial.author}
             {details.testimonial.role && `, ${details.testimonial.role}`}
           </footer>
