@@ -34,7 +34,7 @@ export default function Header() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/images/logo-secundario.png"
+            src="/Logos/LOGO SECUNDARIO ECOMMETRICA 2.1.png"
             alt="Ecommetrica"
             width={160}
             height={40}

@@ -9,8 +9,21 @@ const items = [
 
 export default function BigNav() {
   return (
-    <section className="bg-ecom-gradient text-white">
-      <div className="mx-auto max-w-7xl divide-y divide-white/20 px-6 lg:px-10">
+    <section className="relative overflow-hidden bg-ecom-cream text-ecom-dark py-24">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -left-24 h-96 w-96 rounded-full bg-ecom-orange/40 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-1/3 -right-32 h-[28rem] w-[28rem] rounded-full bg-ecom-red/30 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-40 left-1/3 h-80 w-80 rounded-full bg-ecom-orange/25 blur-3xl"
+      />
+
+      <div className="relative mx-auto max-w-7xl divide-y divide-ecom-dark/15 px-6 lg:px-10">
         {items.map((item, i) => (
           <Reveal key={item.label} delay={i * 0.08} y={16}>
             <Link

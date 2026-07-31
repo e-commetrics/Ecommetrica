@@ -1,48 +1,304 @@
-import Reveal from "@/components/Reveal";
+"use client";
 
-const team = [
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+  type Variants,
+} from "motion/react";
+
+const TEAM = [
   {
     name: "Kevin O. Okhuysen",
-    role: "Desarrollo",
-    bio: "Es versátil para facilitar y agilizar procesos de programación para que tu sitio web sea funcional y atractivo.",
+    role: "Full-Stack Developer",
+    description:
+      "Es versátil para facilitar y agilizar procesos de programación para que tu sitio web sea funcional y atractivo.",
+    img: "/images/Team_Members/team1.webp",
+    imgHover: "/images/Team_Members/team1-2.webp",
   },
   {
     name: "Karen Valdez",
-    role: "Creativa",
-    bio: "Es una creativa que eleva la voz de tu proyecto, para atraer clientes y maximizar su crecimiento.",
+    role: "Editora de video & Copywriter",
+    description:
+      "Es una creativa que eleva la voz de tu proyecto para atraer clientes y maximizar su crecimiento.",
+    img: "/images/Team_Members/team2.webp",
+    imgHover: "/images/Team_Members/team2-2.webp",
   },
   {
-    name: "María J. Zuili",
-    role: "Creativa",
-    bio: "Es una creativa que eleva la voz de tu proyecto, para atraer clientes y maximizar su crecimiento.",
+    name: "Juan M. Gonzáles",
+    role: "Director y Consultor",
+    description:
+      "Es un experto en optimizar el posicionamiento, ecosistema digital y la planeación estratégica para que tu negocio crezca.",
+    img: "/images/Team_Members/team3.webp",
+    imgHover: "/images/Team_Members/team3-2.webp",
   },
 ];
 
+const TOTAL = TEAM.length;
+const AUTOPLAY_MS = 5500;
+
+const imageVariants: Variants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    scale: 1.04,
+    x: direction >= 0 ? 28 : -28,
+  }),
+  center: { opacity: 1, scale: 1, x: 0 },
+  exit: (direction: number) => ({
+    opacity: 0,
+    scale: 0.97,
+    x: direction >= 0 ? -28 : 28,
+  }),
+};
+
+const badgeVariants: Variants = {
+  enter: { opacity: 0, y: 10 },
+  center: { opacity: 1, y: 0, transition: { delay: 0.15, duration: 0.35 } },
+  exit: { opacity: 0, y: 10, transition: { duration: 0.15 } },
+};
+
+// The big background numeral moves a shorter distance than the foreground
+// content on the same beat, so it reads as further back (parallax).
+const numeralVariants: Variants = {
+  enter: (direction: number) => ({ opacity: 0, x: direction >= 0 ? 10 : -10 }),
+  center: { opacity: 1, x: 0 },
+  exit: (direction: number) => ({ opacity: 0, x: direction >= 0 ? -10 : 10 }),
+};
+
+const textGroupVariants: Variants = {
+  enter: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
+  center: { transition: { staggerChildren: 0.07 } },
+  exit: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
+};
+
+const textItemVariants: Variants = {
+  enter: (direction: number) => ({
+    opacity: 0,
+    y: 14,
+    x: direction >= 0 ? 16 : -16,
+  }),
+  center: {
+    opacity: 1,
+    y: 0,
+    x: 0,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+  exit: { opacity: 0, y: -10, transition: { duration: 0.25 } },
+};
+
 export default function AboutStudio() {
+  const [[index, direction], setIndex] = useState<[number, number]>([0, 1]);
+  const [isPaused, setIsPaused] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+
+  const member = TEAM[index];
+
+  const goTo = (nextIndex: number) => {
+    const wrapped = (nextIndex + TOTAL) % TOTAL;
+    setIndex([wrapped, nextIndex > index ? 1 : -1]);
+  };
+
+  useEffect(() => {
+    if (isPaused || prefersReducedMotion) return;
+    const id = setInterval(() => {
+      setIndex(([current]) => [(current + 1) % TOTAL, 1]);
+    }, AUTOPLAY_MS);
+    return () => clearInterval(id);
+  }, [index, isPaused, prefersReducedMotion]);
+
   return (
-    <section id="studio" className="mx-auto max-w-7xl px-6 py-20 lg:px-10 lg:py-28">
-      <Reveal className="text-right">
+    <section className="mx-auto max-w-7xl px-6 py-20 lg:px-10 lg:py-28">
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-80px" }}
+        transition={{ duration: 0.6 }}
+        className="text-right"
+      >
         <p className="text-sm font-medium tracking-[0.2em] text-ecom-dark/50 uppercase">
           About the
         </p>
         <h2 className="mt-1 font-display text-4xl font-medium text-ecom-dark sm:text-5xl">
           Studio <span className="text-ecom-orange">&#10038;</span>
         </h2>
-      </Reveal>
+      </motion.div>
 
-      <div className="mt-14 grid gap-10 sm:grid-cols-3">
-        {team.map((member, i) => (
-          <Reveal key={member.name} delay={i * 0.1}>
-            <div className="aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-br from-ecom-dark to-ecom-black transition-transform duration-500 hover:scale-[1.02]" />
-            <h3 className="mt-5 font-display text-lg font-medium text-ecom-orange">
-              {member.name}
-            </h3>
-            <p className="text-sm font-medium tracking-wide text-ecom-dark/50 uppercase">
-              {member.role}
-            </p>
-            <p className="mt-3 text-ecom-dark/70">{member.bio}</p>
-          </Reveal>
-        ))}
+      <div
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onFocus={() => setIsPaused(true)}
+        onBlur={() => setIsPaused(false)}
+        className="mt-12 grid gap-14 border-t border-ecom-dark/10 pt-20 lg:grid-cols-[1fr_1.2fr] lg:items-center lg:gap-10 lg:pt-28"
+      >
+        {/* Photo stage: background numeral + stacked "next" card (tints orange on hover) + active card */}
+        <div className="group relative mx-auto w-full max-w-[350px]">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-14 -left-6 select-none lg:-top-20 lg:-left-12"
+          >
+            <AnimatePresence mode="sync" custom={direction} initial={false}>
+              <motion.span
+                key={index}
+                custom={direction}
+                variants={numeralVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="absolute top-0 left-0 font-display text-[7rem] leading-none font-medium text-ecom-orange/10 sm:text-[9rem] lg:text-[11rem]"
+              >
+                {String(index + 1).padStart(2, "0")}
+              </motion.span>
+            </AnimatePresence>
+          </div>
+
+          <div
+            aria-hidden
+            className="absolute inset-0 translate-x-4 translate-y-4 scale-95 rounded-2xl bg-ecom-dark/5 transition-colors duration-300 group-hover:bg-ecom-orange"
+          />
+
+          <div className="relative aspect-square w-full overflow-hidden rounded-2xl shadow-[0_20px_60px_-25px_rgba(18,18,19,0.35)]">
+            <AnimatePresence mode="sync" custom={direction} initial={false}>
+              <motion.div
+                key={index}
+                custom={direction}
+                variants={imageVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ type: "spring", stiffness: 260, damping: 28 }}
+                className="absolute inset-0 rounded-2xl bg-linear-to-br from-ecom-dark to-ecom-orange hover:from-ecom-orange hover:to-ecom-dark"
+              >
+                <Image
+                  src={member.img}
+                  alt={member.name}
+                  fill
+                  sizes="320px"
+                  priority={index === 0}
+                  className="rounded-2xl object-cover transition-opacity duration-300 group-hover:opacity-0"
+                />
+                <Image
+                  src={member.imgHover}
+                  alt={member.name}
+                  fill
+                  sizes="320px"
+                  className="rounded-2xl object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-0 rounded-2xl bg-linear-to-t from-ecom-black/70 via-transparent to-transparent"
+                />
+                <motion.span
+                  variants={badgeVariants}
+                  className="absolute bottom-4 left-4 rounded-full bg-ecom-black/70 px-4 py-1.5 text-xs font-medium tracking-widest text-white uppercase backdrop-blur"
+                >
+                  {member.role}
+                </motion.span>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Copy */}
+        <div>
+          <div className="relative min-h-48 overflow-hidden sm:min-h-40 lg:min-h-36">
+            <AnimatePresence mode="wait" custom={direction} initial={false}>
+              <motion.div
+                key={index}
+                custom={direction}
+                variants={textGroupVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+              >
+                <motion.span
+                  variants={textItemVariants}
+                  className="block text-xs font-medium tracking-widest text-ecom-dark/50 uppercase"
+                >
+                  {String(index + 1).padStart(2, "0")} /{" "}
+                  {String(TOTAL).padStart(2, "0")}
+                </motion.span>
+                <motion.h3
+                  variants={textItemVariants}
+                  className="mt-3 font-display text-3xl font-medium text-ecom-orange sm:text-4xl"
+                >
+                  {member.name}
+                </motion.h3>
+                <motion.p
+                  variants={textItemVariants}
+                  className="mt-1 text-sm font-medium tracking-wide text-ecom-dark/50 uppercase"
+                >
+                  {member.role}
+                </motion.p>
+                <motion.p
+                  variants={textItemVariants}
+                  className="mt-4 max-w-md text-ecom-dark/70"
+                >
+                  {member.description}
+                </motion.p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Roster: prev/next + full name rail, doubles as navigation */}
+          <div className="mt-8 flex items-center gap-5">
+            <div className="flex shrink-0 items-center gap-3">
+              <motion.button
+                type="button"
+                onClick={() => goTo(index - 1)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Miembro anterior"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-ecom-dark/15 text-ecom-dark transition-colors hover:border-ecom-orange hover:text-ecom-orange"
+              >
+                &#8592;
+              </motion.button>
+              <motion.button
+                type="button"
+                onClick={() => goTo(index + 1)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Siguiente miembro"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-ecom-dark/15 text-ecom-dark transition-colors hover:border-ecom-orange hover:text-ecom-orange"
+              >
+                &#8594;
+              </motion.button>
+            </div>
+
+            <div className="scrollbar-none flex flex-1 items-center gap-5 overflow-x-auto sm:gap-6">
+              {TEAM.map((t, i) => (
+                <button
+                  key={t.name + i}
+                  type="button"
+                  onClick={() => goTo(i)}
+                  aria-label={`Ver a ${t.name}`}
+                  aria-current={i === index}
+                  className={`shrink-0 whitespace-nowrap font-display transition-all duration-300 ${
+                    i === index
+                      ? "text-base text-ecom-orange sm:text-lg"
+                      : "text-sm text-ecom-dark/35 hover:text-ecom-dark/60"
+                  }`}
+                >
+                  {t.name}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-4 h-px w-full overflow-hidden bg-ecom-dark/10">
+            <motion.div
+              key={isPaused || prefersReducedMotion ? "paused" : index}
+              initial={{ scaleX: 0 }}
+              animate={
+                isPaused || prefersReducedMotion ? { scaleX: 0 } : { scaleX: 1 }
+              }
+              transition={{ duration: AUTOPLAY_MS / 1000, ease: "linear" }}
+              className="h-full w-full origin-left bg-ecom-orange/50"
+            />
+          </div>
+        </div>
       </div>
     </section>
   );

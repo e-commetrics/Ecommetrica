@@ -41,10 +41,10 @@ export default function StudioPage() {
             Misión
           </h2>
           <p className="mt-3 text-ecom-dark/70">
-            Brindar soluciones digitales estratégicas, seguras y
-            personalizadas que permitan a empresas y emprendedores fortalecer
-            su presencia digital, optimizar sus procesos y alcanzar un
-            crecimiento sostenible.
+            Brindar soluciones digitales estratégicas, seguras y personalizadas
+            que permitan a empresas y emprendedores fortalecer su presencia
+            digital, optimizar sus procesos y alcanzar un crecimiento
+            sostenible.
           </p>
         </div>
         <div>
@@ -53,8 +53,8 @@ export default function StudioPage() {
           </h2>
           <p className="mt-3 text-ecom-dark/70">
             Ser la consultora digital referente en innovación, estrategia y
-            seguridad tecnológica en Latinoamérica, impulsando la
-            transformación digital de miles de negocios.
+            seguridad tecnológica en Latinoamérica, impulsando la transformación
+            digital de miles de negocios.
           </p>
         </div>
       </div>

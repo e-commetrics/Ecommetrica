@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { caseStudies } from "@/lib/work";
 
@@ -32,13 +33,23 @@ export default function WorkPage() {
               className="group flex flex-col justify-between rounded-2xl border border-ecom-dark/10 bg-white/40 p-8 transition-colors hover:border-ecom-orange/40"
             >
               <div>
-                <p className="text-xs font-medium tracking-widest text-ecom-dark/50 uppercase">
+                <div className="relative aspect-video w-full overflow-hidden rounded-xl bg-ecom-dark/10">
+                  {project.image && (
+                    <Image
+                      src={project.image}
+                      alt={project.name}
+                      fill
+                      className="object-cover"
+                    />
+                  )}
+                </div>
+                <p className="mt-6 text-xs font-medium tracking-widest text-ecom-dark/50 uppercase">
                   {project.category}
                 </p>
                 <h2 className="mt-3 font-display text-2xl font-medium text-ecom-dark">
                   {project.name}
                 </h2>
-                <p className="mt-4 text-ecom-dark/70">{project.blurb}</p>
+                <p className="mt-4 text-ecom-dark/70">{project.description}</p>
               </div>
               <span className="mt-8 inline-flex w-fit items-center gap-2 text-sm font-medium tracking-wide text-ecom-dark uppercase transition-colors group-hover:text-ecom-orange">
                 {project.external ? "Visit site" : "View full branding"}
