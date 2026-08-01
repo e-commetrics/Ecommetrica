@@ -2,7 +2,7 @@
 deployment:
   tasks:
     - echo "Iniciando despliegue en cPanel"
-    - export DOCROOT=public_html
+    - export DOCROOT=dev.ecommetrica.com
     - export DEPLOYPATH=$PWD
     - echo "Directorio público: $DOCROOT"
     - echo "Instalando dependencias"
