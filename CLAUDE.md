@@ -19,13 +19,9 @@ There is no test suite configured. `bun.lock` is present alongside `package-lock
 
 ## Environment variables
 
-Copy `.env.example` to `.env.local`. Required for the contact form (`src/app/api/contact/route.ts`) to actually send email via Resend:
+Copy `.env.example` to `.env.local`. `NEXT_PUBLIC_BACKEND_URL` points the frontend at the Express backend in `backend/` (defaults to `http://localhost:4000` if unset).
 
-- `RESEND_API_KEY`
-- `CONTACT_FROM_EMAIL` — verified sender in Resend
-- `CONTACT_TO_EMAIL` — destination inbox
-
-Without these set, the API route returns a 500 with a friendly error instead of throwing.
+The backend itself reads its own `.env` (copy `backend/.env.example` to `backend/.env`): `PORT`, `FRONTEND_URL`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `CONTACT_TO_EMAIL`. `FRONTEND_URL` is a comma-separated allowlist of origins for CORS (e.g. local dev + qa + production) — with it unset, CORS rejects every cross-origin request rather than defaulting open.
 
 ## Branching
 
@@ -50,6 +46,15 @@ Without these set, the API route returns a 500 with a friendly error instead of 
 
 **Motion**: two shared animation primitives — `Reveal` (scroll-triggered fade/slide-in via `whileInView`, used for on-page sections) and `template.tsx` (route-level transition). Both use the same easing curve (`[0.22, 1, 0.36, 1]`). `SmoothScroll` wraps the whole app in Lenis for inertial scrolling. GSAP is also a dependency for more custom animation work (e.g. `Planes.tsx`, `Counter.tsx`).
 
-**Contact form** (`src/app/api/contact/route.ts`): Node runtime route, validates payload shape/email regex server-side, HTML-escapes all interpolated user input before sending via Resend, and returns 500/502 with generic messages on missing config or send failure — never leaks Resend errors to the client.
+**Frontend API layer** (`src/services/`): all calls to the backend go through here — components never call `axios`/`fetch` directly.
+- `api.ts` — shared axios instance, `baseURL` from `process.env.NEXT_PUBLIC_BACKEND_URL` (default `http://localhost:4000`).
+- `routes.ts` — `API_ROUTES`, the single source of truth for every backend path (e.g. `API_ROUTES.contact`). Add new endpoints here, not as string literals in a service.
+- one `*.service.ts` per feature (e.g. `contact.service.ts`) — wraps `api` calls for that feature, converts `AxiosError` into a plain `Error` with the backend's message.
+
+**Contact form**: `ContactForm.tsx` calls `submitContactForm()` from `src/services/contact.service.ts`, which posts to `API_ROUTES.contact` via the shared `api` axios instance. That hits a separate Express backend (`backend/`, Bun runtime — not a Next.js API route) at `/api/contact`. Backend layout mirrors the same `app` / `route` / `controller` / `services` split: `backend/src/app.ts` wires middleware and mounts `backend/src/route/contact.route.ts`, which delegates to `backend/src/controller/contact.controller.ts` (validates payload shape/email regex) and `backend/src/services/email.service.ts` (HTML-escapes user input, sends via Nodemailer/SMTP, credentials from `process.env`). Returns 400 on invalid input, 502 on send failure — never leaks SMTP errors to the client. `POST /api/contact` is also rate-limited (5 requests / 15 min per IP, via `express-rate-limit`) — returns 429 once exceeded. CORS is locked to `FRONTEND_URL` (see above), not open to all origins. Run it with `bun run dev` inside `backend/`.
+
+Two branded HTML emails are sent per submission (`backend/src/services/email.templates.ts`, brand colors/logo pulled from the main site's `globals.css` and `public/images/logo-principal.png`, embedded via `cid` — see `backend/src/assets/logo.png`): a notification to `CONTACT_TO_EMAIL` (required — failure here 502s the request) and a confirmation to the visitor's own address (best-effort — logged on failure, does not fail the request, since the lead was already captured).
+
+**Backend deploy target is cPanel's Node.js Selector (plain Node, not Bun)**: `bun run build` inside `backend/` (`backend/scripts/build.ts`, via `Bun.build`) bundles `index.ts` + all of `src/**/*.ts` into a single `dist/index.js` (CommonJS — npm packages stay external `require`s, everything else is inlined), plus a minimal generated `dist/package.json`. `dist/` is exactly those two files — no `src/` folder, no separate asset files — that's what gets uploaded to cPanel. There's no logo file committed under `backend/` at all: it's read directly from the frontend's own `public/images/logo-principal.png` — live off disk in dev (`email.service.ts`, monorepo-local `fs.readFileSync`), and inlined at build time into a `__LOGO_PNG_BASE64__` constant via `Bun.build`'s `define` for the production bundle — then attached to emails as an in-memory `Buffer`. See `backend/README.md` for the full deploy steps.
 
 **Brand assets**: logos in `public/images`, fonts in `public/fonts` and `src/fonts` (sourced from `Branding Ecommetrica/REBRANDING`, external to this repo).

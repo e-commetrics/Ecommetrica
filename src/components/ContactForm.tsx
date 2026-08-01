@@ -1,38 +1,31 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import toast from "react-hot-toast";
+import { submitContactForm, type ContactFormPayload } from "@/services/contact.service";
 
-type Status = "idle" | "submitting" | "success" | "error";
+type Status = "idle" | "submitting" | "success";
 
 export default function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
-  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setStatus("submitting");
-    setError(null);
 
     const form = event.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
+    const data = Object.fromEntries(new FormData(form).entries()) as unknown as ContactFormPayload;
+
+    const toastId = toast.loading("Sending your message...");
 
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      if (!res.ok) {
-        const body = await res.json().catch(() => null);
-        throw new Error(body?.error ?? "Something went wrong. Please try again.");
-      }
-
+      await submitContactForm(data);
+      toast.success("Message sent — we'll be in touch soon.", { id: toastId });
       setStatus("success");
       form.reset();
     } catch (err) {
-      setStatus("error");
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      toast.error(err instanceof Error ? err.message : "Something went wrong.", { id: toastId });
+      setStatus("idle");
     }
   }
 
@@ -67,8 +60,6 @@ export default function ContactForm() {
           className="border-b border-white/30 bg-transparent py-2 text-base font-normal text-white normal-case outline-none placeholder:text-white/30 focus:border-ecom-orange"
         />
       </label>
-
-      {error && <p className="text-sm text-ecom-orange">{error}</p>}
 
       <button
         type="submit"
