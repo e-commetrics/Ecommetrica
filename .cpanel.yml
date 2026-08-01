@@ -1,24 +1,13 @@
-
-# .cpanel.yml
-version: 2
-
+---
 deployment:
-	tasks:
-		- echo "Iniciando despliegue en cPanel"
-		- export DOCROOT=public_html
-		- export DEPLOYPATH=$PWD
-		- echo "Directorio público: $DOCROOT"
-		- echo "Instalando dependencias"
-		- npm ci
-		- echo "Generando export estático (carpeta out/)"
-		- npm run build
-		- echo "Sincronizando solo out/ hacia $DOCROOT"
-		- rsync -av --delete $DEPLOYPATH/out/ $HOME/$DOCROOT/
-
-hooks:
-	predeploy:
-		- echo "Hook predeploy: puedes añadir comandos antes del despliegue"
-	postdeploy:
-		- echo "Hook postdeploy: limpieza o notificaciones después del despliegue"
-
-# Fin de .cpanel.yml
+  tasks:
+    - echo "Iniciando despliegue en cPanel"
+    - export DOCROOT=public_html
+    - export DEPLOYPATH=$PWD
+    - echo "Directorio público: $DOCROOT"
+    - echo "Instalando dependencias"
+    - npm ci
+    - echo "Generando export estático (carpeta out/)"
+    - npm run build
+    - echo "Sincronizando solo out/ hacia $DOCROOT"
+    - rsync -av --delete $DEPLOYPATH/out/ $HOME/$DOCROOT/
