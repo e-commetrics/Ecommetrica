@@ -6,8 +6,14 @@ deployment:
 	tasks:
 		- echo "Iniciando despliegue en cPanel"
 		- export DOCROOT=public_html
+		- export DEPLOYPATH=$PWD
 		- echo "Directorio público: $DOCROOT"
-		- rsync -av --exclude='.git' --exclude='.cpanel.yml' --delete ./ $HOME/$DOCROOT/
+		- echo "Instalando dependencias"
+		- npm ci
+		- echo "Generando export estático (carpeta out/)"
+		- npm run build
+		- echo "Sincronizando solo out/ hacia $DOCROOT"
+		- rsync -av --delete $DEPLOYPATH/out/ $HOME/$DOCROOT/
 
 hooks:
 	predeploy:
