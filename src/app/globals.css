@@ -2,16 +2,33 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  /* Ecommetrica brand */
+  /* Ecommetrica brand.
+     Every token below is repointed at runtime by ThemeSwitcher. Two roles,
+     kept strictly separate so a fully dark theme stays possible:
+       - surface / ink  -> the page itself and the text on it. These INVERT
+                           in a dark theme (surface goes dark, ink goes light).
+       - dark / black   -> blocks that are dark in EVERY theme (hero, pricing,
+                           card gradients, image overlays). Text on these is
+                           hardcoded white, so they must never lighten.
+     Use ink for text/borders on the page, and dark/black for dark blocks.
+     Never use ecom-dark as a text color — it is a background role. */
   --color-ecom-orange: #e84a34; /* primary accent, from logo mark */
   --color-ecom-red: #9c1512; /* deep red, BrandBook 2026 */
   --color-ecom-gray: #585a5c;
   --color-ecom-cream: #f2ede9;
+
+  --color-ecom-surface: #f2ede9;
+  --color-ecom-ink: #25272a;
+
   --color-ecom-dark: #25272a;
   --color-ecom-black: #121213;
 
   --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
+
+  /* Shared easing — same curve as Reveal/template.tsx, exposed so CSS
+     transitions feel like the framer-motion ones. */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html {
@@ -19,9 +36,60 @@ html {
 }
 
 body {
-  background: var(--color-ecom-cream);
-  color: var(--color-ecom-dark);
+  background: var(--color-ecom-surface);
+  color: var(--color-ecom-ink);
   font-family: var(--font-body);
+}
+
+/* Film grain, applied once over the whole viewport rather than per section.
+   Per-section grain used to end exactly at each section boundary, which drew
+   a visible texture seam between components as soon as two neighbouring
+   sections shared the same background colour (i.e. in the all-dark theme). */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  /* Above page content so cards and sections get the same texture, but below
+     the sticky header (z-50). */
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.22;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--color-ecom-orange);
+  color: #fff;
+}
+
+/* ThemeSwitcher adds .theming to <html> for the length of a swap so every
+   themed surface cross-fades instead of snapping. It is removed right
+   after, which keeps normal hover transitions untouched. */
+html.theming,
+html.theming *,
+html.theming *::before,
+html.theming *::after {
+  transition:
+    background-color 450ms var(--ease-brand),
+    border-color 450ms var(--ease-brand),
+    color 450ms var(--ease-brand),
+    fill 450ms var(--ease-brand),
+    box-shadow 450ms var(--ease-brand) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.theming,
+  html.theming *,
+  html.theming *::before,
+  html.theming *::after {
+    transition: none !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ecom-orange);
+  outline-offset: 3px;
 }
 
 .bg-ecom-gradient {
@@ -37,4 +105,49 @@ body {
 .text-stroke {
   -webkit-text-stroke: 1px currentColor;
   color: transparent;
+}
+
+/* @tailwindcss/typography ships fixed neutral greys, which go unreadable as
+   soon as the surface turns dark. Repoint its palette at the themed ink so
+   article bodies follow the active theme like everything else. */
+.prose {
+  --tw-prose-body: color-mix(in srgb, var(--color-ecom-ink) 78%, transparent);
+  --tw-prose-headings: var(--color-ecom-ink);
+  --tw-prose-lead: color-mix(in srgb, var(--color-ecom-ink) 70%, transparent);
+  --tw-prose-bold: var(--color-ecom-ink);
+  --tw-prose-links: var(--color-ecom-orange);
+  --tw-prose-counters: color-mix(in srgb, var(--color-ecom-ink) 60%, transparent);
+  --tw-prose-bullets: color-mix(in srgb, var(--color-ecom-ink) 35%, transparent);
+  --tw-prose-hr: color-mix(in srgb, var(--color-ecom-ink) 15%, transparent);
+  --tw-prose-quotes: var(--color-ecom-ink);
+  --tw-prose-quote-borders: color-mix(in srgb, var(--color-ecom-orange) 45%, transparent);
+  --tw-prose-captions: color-mix(in srgb, var(--color-ecom-ink) 60%, transparent);
+  --tw-prose-code: var(--color-ecom-ink);
+  --tw-prose-pre-code: var(--color-ecom-cream);
+  --tw-prose-pre-bg: var(--color-ecom-black);
+  --tw-prose-th-borders: color-mix(in srgb, var(--color-ecom-ink) 30%, transparent);
+  --tw-prose-td-borders: color-mix(in srgb, var(--color-ecom-ink) 15%, transparent);
+}
+
+/* Horizontal rails (team roster, etc.) that scroll without a visible bar. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Eyebrow rule: the small accent dash that precedes section kickers. */
+@utility eyebrow-rule {
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 1.75rem;
+    height: 1px;
+    margin-right: 0.75rem;
+    vertical-align: middle;
+    background: currentColor;
+    opacity: 0.5;
+  }
 }

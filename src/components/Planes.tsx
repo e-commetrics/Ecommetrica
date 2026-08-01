@@ -18,7 +18,7 @@ export default function Planes() {
     <section
       id="services"
       ref={sectionRef}
-      className="relative overflow-hidden bg-ecom-black py-20 lg:py-28"
+      className="relative overflow-hidden bg-ecom-black py-24 lg:py-32"
     >
       <motion.div
         aria-hidden
@@ -30,9 +30,14 @@ export default function Planes() {
         </span>
       </motion.div>
 
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -left-40 bottom-40 h-[30rem] w-[30rem] rounded-full bg-ecom-red/15 blur-[130px]"
+      />
+
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
         <Reveal>
-          <p className="text-sm font-medium tracking-[0.2em] text-white/50 uppercase">
+          <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-white/50 uppercase">
             Nuestros
           </p>
         </Reveal>
@@ -41,36 +46,49 @@ export default function Planes() {
           {plans.map((plan, i) => (
             <Reveal key={plan.name} delay={i * 0.1}>
               <div
-                className={`flex h-full flex-col rounded-2xl border p-7 transition-transform duration-300 hover:-translate-y-1 ${
+                className={`relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 ${
                   plan.featured
-                    ? "border-ecom-orange bg-gradient-to-b from-ecom-red to-ecom-black text-white"
-                    : "border-white/15 bg-white/5 text-white"
+                    ? "border-ecom-orange/60 bg-linear-to-b from-ecom-red to-ecom-black text-white shadow-[0_30px_70px_-35px_var(--color-ecom-orange)]"
+                    : "border-white/12 bg-white/[0.04] text-white hover:border-white/25 hover:bg-white/[0.07]"
                 }`}
               >
-                <h3 className="font-display text-lg font-medium">{plan.name}</h3>
-                <p className="mt-4 font-display text-3xl font-medium">
+                {plan.featured && (
+                  <span className="absolute -top-3 left-8 rounded-full bg-ecom-orange px-3 py-1 text-[0.65rem] font-medium tracking-widest text-white uppercase">
+                    Popular
+                  </span>
+                )}
+                <h3 className="font-display text-lg font-medium tracking-wide">
+                  {plan.name}
+                </h3>
+                <p className="mt-5 font-display text-4xl font-medium tracking-[-0.02em]">
                   {plan.price}
-                  <span className="ml-1 text-sm font-normal text-white/50">
+                  <span className="ml-1.5 text-sm font-normal tracking-normal text-white/50">
                     / {plan.duration}
                   </span>
                 </p>
-                <ul className="mt-6 flex flex-1 flex-col gap-3 text-sm text-white/70">
+                <ul className="mt-8 flex flex-1 flex-col gap-3.5 border-t border-white/10 pt-7 text-sm leading-relaxed text-white/70">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2">
-                      <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-ecom-orange" />
+                    <li key={feature} className="flex items-start gap-2.5">
+                      <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
                       {feature}
                     </li>
                   ))}
                 </ul>
                 <Link
                   href="/contact"
-                  className={`mt-8 inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-medium transition-colors ${
+                  className={`group/cta mt-9 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-medium tracking-wide transition-colors duration-300 ${
                     plan.featured
                       ? "bg-white text-ecom-black hover:bg-ecom-orange hover:text-white"
                       : "bg-white/10 hover:bg-ecom-orange"
                   }`}
                 >
                   Let&rsquo;s talk
+                  <span
+                    aria-hidden
+                    className="transition-transform duration-300 group-hover/cta:translate-x-1"
+                  >
+                    &rarr;
+                  </span>
                 </Link>
               </div>
             </Reveal>

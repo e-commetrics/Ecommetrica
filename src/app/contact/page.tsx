@@ -11,10 +11,10 @@ export default function ContactPage() {
       <p className="text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
         Contact us
       </p>
-      <h1 className="mt-6 font-display text-4xl font-medium tracking-tight text-ecom-dark sm:text-5xl">
+      <h1 className="mt-6 font-display text-4xl font-medium tracking-tight text-ecom-ink sm:text-5xl">
         Let&rsquo;s build something that lasts.
       </h1>
-      <p className="mt-6 max-w-xl text-ecom-dark/70">
+      <p className="mt-6 max-w-xl text-ecom-ink/70">
         Tell us about your project below — our team gets back to every
         request personally.
       </p>

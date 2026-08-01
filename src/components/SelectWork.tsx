@@ -57,17 +57,18 @@ function ProjectSlide({
         whileHover="hover"
         className={`group w-full ${className}`}
       >
-        <div className="relative aspect-4/3 overflow-hidden rounded-2xl bg-linear-to-br from-ecom-dark to-ecom-black">
+        <div className="relative aspect-4/3 overflow-hidden rounded-3xl bg-linear-to-br from-ecom-dark to-ecom-black shadow-[0_30px_80px_-40px_rgba(18,18,19,0.65)] ring-1 ring-ecom-dark/10 transition-shadow duration-500 group-hover:shadow-[0_40px_90px_-35px_rgba(18,18,19,0.75)]">
           {project.image && (
             <Image
               src={project.image}
               alt={project.name}
               fill
-              className="object-cover"
+              className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
             />
           )}
           <div className="absolute inset-0 flex items-start justify-end p-4">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-ecom-cream text-ecom-dark">
+            {/* Sits on the artwork, so it stays a light pill in every theme */}
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-ecom-black shadow-sm transition-all duration-300 group-hover:bg-ecom-orange group-hover:text-white">
               &#8599;
             </span>
           </div>
@@ -79,16 +80,18 @@ function ProjectSlide({
               hover: { opacity: 1, y: 0 },
             }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-ecom-black/90 via-ecom-black/50 to-transparent p-5"
+            className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-ecom-black/90 via-ecom-black/50 to-transparent p-6"
           >
-            <span className="text-xs font-medium tracking-widest text-white/60 uppercase">
+            <span className="text-xs font-medium tracking-widest text-ecom-orange uppercase">
               {String(order).padStart(2, "0")} — {project.category}
             </span>
-            <p className="mt-2 text-sm text-white/80">{project.description}</p>
+            <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-white/80">
+              {project.description}
+            </p>
           </motion.div>
         </div>
 
-        <h3 className="mt-4 font-display text-xl font-medium text-ecom-dark sm:text-2xl">
+        <h3 className="mt-5 font-display text-xl font-medium text-ecom-ink transition-colors duration-300 group-hover:text-ecom-orange sm:text-2xl">
           {project.name}
         </h3>
       </motion.a>
@@ -115,7 +118,7 @@ export default function Projects() {
   return (
     <section
       ref={containerRef}
-      className="relative bg-ecom-cream"
+      className="relative bg-ecom-surface"
       style={{ height: `${SECTION_VH}vh` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden">
@@ -127,10 +130,10 @@ export default function Projects() {
           transition={{ duration: 0.6 }}
           className="pointer-events-none absolute inset-0 z-0 flex flex-col items-center justify-center text-center"
         >
-          <p className="text-sm font-medium tracking-[0.2em] text-ecom-dark/50 uppercase">
+          <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
             Our
           </p>
-          <h2 className="mt-2 font-display text-5xl leading-[0.95] font-medium tracking-tight text-ecom-dark sm:text-7xl lg:text-8xl">
+          <h2 className="mt-3 font-display text-5xl leading-[0.9] font-medium tracking-[-0.03em] text-ecom-ink sm:text-7xl lg:text-[9rem]">
             Projects
             <br />
             <span className="text-ecom-orange">Success</span>
@@ -147,51 +150,60 @@ export default function Projects() {
           style={{ y: trackY }}
           className="relative z-10 flex h-full flex-col"
         >
+          {/* Rhythm: outer-left small -> outer-right large -> inner-left
+              large -> inner-right small. Alternating sides keep it readable
+              while the size/indent variation stops it feeling like a column. */}
           {PROJECTS[0] && (
             <ProjectSlide
               project={PROJECTS[0]}
               order={1}
-              className="max-w-lg mr-auto lg:translate-x-6 lg:-translate-y-14"
+              className="max-w-md mr-auto lg:translate-x-10 lg:-translate-y-8"
             />
           )}
           {PROJECTS[1] && (
             <ProjectSlide
               project={PROJECTS[1]}
               order={2}
-              className="max-w-md ml-auto lg:-translate-x-4 lg:translate-y-20"
+              className="max-w-xl ml-auto lg:-translate-x-10 lg:translate-y-10"
             />
           )}
           {PROJECTS[2] && (
             <ProjectSlide
               project={PROJECTS[2]}
               order={3}
-              className="max-w-xl mx-auto lg:translate-x-16 lg:-translate-y-8"
+              className="max-w-xl mr-auto lg:translate-x-28 lg:-translate-y-6"
             />
           )}
           {PROJECTS[3] && (
             <ProjectSlide
               project={PROJECTS[3]}
               order={4}
-              className="max-w-md mr-auto lg:translate-x-28 lg:translate-y-16"
+              className="max-w-md ml-auto lg:-translate-x-28 lg:translate-y-12"
             />
           )}
         </motion.div>
 
         {/* CTA: top-most layer, pinned to the bottom only for this section */}
         <div className="pointer-events-none absolute inset-x-0 bottom-8 z-20 flex flex-col items-center gap-4">
-          <div className="h-px w-24 overflow-hidden bg-ecom-dark/15">
+          <div className="h-px w-32 overflow-hidden rounded-full bg-ecom-ink/15">
             <motion.div
               style={{ scaleX: scrollYProgress }}
               className="h-full w-full origin-left bg-ecom-orange"
             />
           </div>
           <motion.a
-            href="#"
+            href="/work"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
-            className="pointer-events-auto inline-flex items-center gap-2 rounded-full bg-ecom-dark px-6 py-3 text-sm font-medium text-white uppercase tracking-wide transition-colors hover:bg-ecom-orange"
+            className="group pointer-events-auto inline-flex items-center gap-2.5 rounded-full bg-ecom-dark px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide shadow-lg shadow-ecom-dark/20 transition-colors duration-300 hover:bg-ecom-orange"
           >
-            See all projects <span aria-hidden>&#8599;</span>
+            See all projects
+            <span
+              aria-hidden
+              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            >
+              &#8599;
+            </span>
           </motion.a>
         </div>
       </div>

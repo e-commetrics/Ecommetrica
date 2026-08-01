@@ -10,12 +10,12 @@ export default function Footer() {
 
   return (
     <footer className="bg-ecom-gradient text-white">
-      <div className="mx-auto max-w-7xl px-6 pt-20 lg:px-10 lg:pt-28">
+      <div className="relative mx-auto max-w-7xl px-6 pt-24 lg:px-10 lg:pt-32">
         <Reveal>
-          <p className="text-sm font-medium tracking-[0.2em] text-white/60 uppercase">
+          <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-white/60 uppercase">
             Contact us
           </p>
-          <h2 className="mt-4 font-display text-4xl font-medium tracking-tight sm:text-6xl">
+          <h2 className="mt-5 font-display text-4xl font-medium tracking-[-0.02em] sm:text-6xl lg:text-7xl">
             Are you ready?
           </h2>
           <p className="mt-2 text-lg text-white/70">
@@ -50,11 +50,14 @@ export default function Footer() {
 
       <div className="overflow-hidden">
         <Reveal y={40}>
+          {/* Clash Display Medium renders ECOMMETRICA at 7.22em wide with
+              this tracking, so the size has to stay under ~13.8vw to fit the
+              viewport. 13vw leaves a small margin on either side. */}
           <p
             aria-hidden
-            className="translate-y-[0.15em] text-center font-display text-[15vw] leading-none font-medium whitespace-nowrap text-white select-none"
+            className="translate-y-[0.15em] text-center font-display text-[13vw] leading-none font-medium tracking-[-0.03em] whitespace-nowrap text-white/40 select-none"
           >
-            ECOMMETRICA
+            ECO<span className="text-white">MM</span>ETRICA
           </p>
         </Reveal>
       </div>

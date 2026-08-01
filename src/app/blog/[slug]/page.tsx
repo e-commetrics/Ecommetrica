@@ -34,12 +34,12 @@ export default async function BlogPostPage({
     <article className="mx-auto max-w-2xl px-6 py-20 lg:px-10 lg:py-28">
       <Link
         href="/blog"
-        className="text-sm font-medium text-ecom-dark/60 hover:text-ecom-red"
+        className="text-sm font-medium text-ecom-ink/60 hover:text-ecom-orange"
       >
         &larr; Back to blog
       </Link>
 
-      <p className="mt-8 text-xs font-medium uppercase tracking-widest text-ecom-dark/50">
+      <p className="mt-8 text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
         {new Date(post.meta.date).toLocaleDateString("es-MX", {
           year: "numeric",
           month: "long",
@@ -47,11 +47,11 @@ export default async function BlogPostPage({
           timeZone: "UTC",
         })}
       </p>
-      <h1 className="mt-3 font-display text-4xl font-medium tracking-tight text-ecom-dark">
+      <h1 className="mt-3 font-display text-4xl font-medium tracking-tight text-ecom-ink">
         {post.meta.title}
       </h1>
 
-      <div className="prose prose-neutral mt-10 max-w-none prose-headings:font-display prose-headings:text-ecom-dark prose-a:text-ecom-red">
+      <div className="prose prose-neutral mt-10 max-w-none prose-headings:font-display prose-headings:text-ecom-ink prose-a:text-ecom-orange">
         <MDXRemote source={post.content} />
       </div>
     </article>

@@ -40,41 +40,75 @@ export default function Hero() {
         className="pointer-events-none absolute inset-0 opacity-40"
         initial={{
           background:
-            "linear-gradient(115deg, transparent 40%, rgba(232,74,52,0.25) 55%, transparent 70%), repeating-linear-gradient(115deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 40px)",
+            "linear-gradient(115deg, transparent 40%, color-mix(in srgb, var(--color-ecom-orange) 25%, transparent) 55%, transparent 70%), repeating-linear-gradient(115deg, rgba(255,255,255,0.04) 0 2px, transparent 2px 40px)",
         }}
+      />
+
+      {/* Accent glow anchored behind the headline */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute top-24 -left-32 h-[38rem] w-[38rem] rounded-full bg-ecom-orange/20 blur-[120px]"
       />
 
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative mx-auto max-w-7xl px-6 pt-24 pb-28 lg:px-10 lg:pt-32 lg:pb-40"
+        className="relative mx-auto max-w-7xl px-6 pt-28 pb-32 lg:px-10 lg:pt-40 lg:pb-48"
       >
         <motion.p
           variants={item}
-          className="text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase"
+          className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase"
         >
           Ecommetrica Studio
         </motion.p>
         <motion.h1
           variants={item}
-          className="mt-6 max-w-4xl font-display text-4xl leading-[1.05] font-medium tracking-tight sm:text-6xl lg:text-[5.25rem]"
+          className="mt-8 max-w-5xl text-balance font-display text-[2.75rem] leading-[1.02] font-medium tracking-[-0.02em] sm:text-6xl lg:text-[5.5rem]"
         >
-          We build brands that transform industries and boost businesses.
+          We build brands that{" "}
+          <span className="text-ecom-orange">transform industries</span> and
+          boost businesses.
         </motion.h1>
-        <motion.p variants={item} className="mt-8 max-w-xl text-lg text-white/60">
+        <motion.p
+          variants={item}
+          className="mt-8 max-w-xl text-lg leading-relaxed text-white/60"
+        >
           Through strategies based on market realities.
         </motion.p>
-        <motion.div variants={item} className="mt-10">
+        <motion.div variants={item} className="mt-12 flex flex-wrap items-center gap-6">
           <Link
             href="/#services"
-            className="inline-flex items-center gap-2 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide transition-colors hover:bg-white hover:text-ecom-black"
+            className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
           >
             Discover the services
-            <span aria-hidden>&#8599;</span>
+            <span
+              aria-hidden
+              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            >
+              &#8599;
+            </span>
+          </Link>
+          <Link
+            href="/work"
+            className="group inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-white/60 transition-colors duration-300 hover:text-white"
+          >
+            See our work
+            <span
+              aria-hidden
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            >
+              &rarr;
+            </span>
           </Link>
         </motion.div>
       </motion.div>
+
+      {/* Seam: dissolves the black into the cream section that follows */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-linear-to-b from-transparent to-ecom-surface"
+      />
     </section>
   );
 }
