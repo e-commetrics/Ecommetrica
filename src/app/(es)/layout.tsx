@@ -45,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang={LANG} className={clashDisplay.variable}>
-      <body className="flex min-h-screen flex-col antialiased">
+      <body className="flex min-h-screen flex-col antialiased" suppressHydrationWarning>
         <LanguageProvider lang={LANG}>
           <SmoothScroll />
           <Header />
