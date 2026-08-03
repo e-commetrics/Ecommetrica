@@ -9,15 +9,26 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 
+const PAUSE_DELAY_MS = 400;
+
 export default function Header() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const { t, lang } = useLanguage();
+  const pauseTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    setHidden(latest > previous && latest > 120);
+    // Direction doesn't matter — any active scrolling past the threshold
+    // hides the navbar; only a pause (below) brings it back.
+    setHidden(latest > 120);
+
+    // Scrolling continuously re-arms this timer, so it only fires once the
+    // user actually pauses — that's when the navbar should reappear.
+    clearTimeout(pauseTimer.current);
+    pauseTimer.current = setTimeout(() => setHidden(false), PAUSE_DELAY_MS);
   });
+
+  useEffect(() => () => clearTimeout(pauseTimer.current), []);
 
   const navLinks = [
     { href: localizedHref(lang, "/studio"), label: t.nav.studio },
