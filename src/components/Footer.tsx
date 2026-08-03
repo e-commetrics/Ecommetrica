@@ -4,25 +4,26 @@ import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
 import Reveal from "@/components/Reveal";
 import { useLanguage } from "@/components/LanguageProvider";
+import { localizedHref } from "@/lib/i18n/localizedHref";
 
 export default function Footer() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   return (
     <footer className="bg-ecom-gradient text-white">
       <div className="relative mx-auto max-w-7xl px-6 pt-24 lg:px-10 lg:pt-32">
         <Reveal>
           <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-white/60 uppercase">
-            Contact us
+            {t.footer.eyebrow}
           </p>
           <h2 className="mt-5 font-display text-4xl font-medium tracking-[-0.02em] sm:text-6xl lg:text-7xl">
-            Are you ready?
+            {t.footer.headline}
           </h2>
           <p className="mt-2 text-lg text-white/70">
             <span aria-hidden className="mr-2 text-ecom-orange">
               &mdash;
             </span>
-            Leave a request
+            {t.footer.leaveRequest}
           </p>
         </Reveal>
 
@@ -32,18 +33,18 @@ export default function Footer() {
 
         <div className="mt-20 flex flex-col gap-4 border-t border-white/15 py-8 text-xs tracking-wide text-white/60 uppercase sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap gap-x-6 gap-y-2">
-            <Link href="/legal/privacy-policy" className="hover:text-white">
-              {t.privacy}
+            <Link href={localizedHref(lang, "/legal/privacy-policy")} className="hover:text-white">
+              {t.footer.privacy}
             </Link>
-            <Link href="/legal/terms-of-service" className="hover:text-white">
-              {t.terms}
+            <Link href={localizedHref(lang, "/legal/terms-of-service")} className="hover:text-white">
+              {t.footer.terms}
             </Link>
-            <Link href="/faq" className="hover:text-white">
-              {t.faq}
+            <Link href={localizedHref(lang, "/faq")} className="hover:text-white">
+              {t.footer.faq}
             </Link>
           </div>
           <p className="normal-case">
-            &copy; {new Date().getFullYear()} Ecommetrica. All rights reserved.
+            &copy; {new Date().getFullYear()} Ecommetrica. {t.footer.rights}
           </p>
         </div>
       </div>

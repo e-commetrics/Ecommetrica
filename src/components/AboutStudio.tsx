@@ -9,6 +9,7 @@ import {
   type Variants,
 } from "motion/react";
 import { team } from "@/lib/team";
+import { useLanguage } from "@/components/LanguageProvider";
 
 const TOTAL = team.length;
 const AUTOPLAY_MS = 5500;
@@ -63,6 +64,7 @@ const textItemVariants: Variants = {
 };
 
 export default function AboutStudio() {
+  const { t, lang } = useLanguage();
   const [[index, direction], setIndex] = useState<[number, number]>([0, 1]);
   const [isPaused, setIsPaused] = useState(false);
   const prefersReducedMotion = useReducedMotion();
@@ -92,10 +94,10 @@ export default function AboutStudio() {
         className="text-right"
       >
         <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
-          About the
+          {t.aboutStudio.eyebrow}
         </p>
         <h2 className="mt-2 font-display text-5xl font-medium tracking-[-0.02em] text-ecom-ink sm:text-6xl lg:text-7xl">
-          Studio <span className="text-ecom-orange">&#10038;</span>
+          {t.aboutStudio.studioWord} <span className="text-ecom-orange">&#10038;</span>
         </h2>
       </motion.div>
 
@@ -172,7 +174,7 @@ export default function AboutStudio() {
                   variants={badgeVariants}
                   className="absolute bottom-4 left-4 rounded-full bg-ecom-black/70 px-4 py-1.5 text-xs font-medium tracking-widest text-white uppercase backdrop-blur"
                 >
-                  {member.role}
+                  {member.role[lang]}
                 </motion.span>
               </motion.div>
             </AnimatePresence>
@@ -208,13 +210,13 @@ export default function AboutStudio() {
                   variants={textItemVariants}
                   className="mt-1 text-sm font-medium tracking-wide text-ecom-ink/50 uppercase"
                 >
-                  {member.role}
+                  {member.role[lang]}
                 </motion.p>
                 <motion.p
                   variants={textItemVariants}
                   className="mt-4 max-w-md text-ecom-ink/70"
                 >
-                  {member.description}
+                  {member.description[lang]}
                 </motion.p>
               </motion.div>
             </AnimatePresence>
@@ -228,7 +230,7 @@ export default function AboutStudio() {
                 onClick={() => goTo(index - 1)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                aria-label="Miembro anterior"
+                aria-label={t.aboutStudio.prevAria}
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-ecom-ink/15 text-ecom-ink transition-colors hover:border-ecom-orange hover:text-ecom-orange"
               >
                 &#8592;
@@ -238,7 +240,7 @@ export default function AboutStudio() {
                 onClick={() => goTo(index + 1)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                aria-label="Siguiente miembro"
+                aria-label={t.aboutStudio.nextAria}
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-ecom-ink/15 text-ecom-ink transition-colors hover:border-ecom-orange hover:text-ecom-orange"
               >
                 &#8594;
@@ -248,12 +250,12 @@ export default function AboutStudio() {
             {/* Fades at the trailing edge so the names read as "scrolls on"
                 rather than as text cut off by the viewport. */}
             <div className="scrollbar-none flex flex-1 items-center gap-5 overflow-x-auto [mask-image:linear-gradient(to_right,black_85%,transparent)] sm:gap-6 sm:[mask-image:none]">
-              {team.map((t, i) => (
+              {team.map((person, i) => (
                 <button
-                  key={t.name + i}
+                  key={person.name + i}
                   type="button"
                   onClick={() => goTo(i)}
-                  aria-label={`Ver a ${t.name}`}
+                  aria-label={t.aboutStudio.viewAria(person.name)}
                   aria-current={i === index}
                   className={`shrink-0 whitespace-nowrap font-display transition-all duration-300 ${
                     i === index
@@ -261,7 +263,7 @@ export default function AboutStudio() {
                       : "text-sm text-ecom-ink/35 hover:text-ecom-ink/60"
                   }`}
                 >
-                  {t.name}
+                  {person.name}
                 </button>
               ))}
             </div>

@@ -4,16 +4,19 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
-import type { CaseStudy } from "@/lib/work";
+import { categoryLabel, type CaseStudy, type CategoryId } from "@/lib/work";
+import { useLanguage } from "@/components/LanguageProvider";
+import { localizedHref } from "@/lib/i18n/localizedHref";
+import type { Lang } from "@/lib/i18n/types";
 
-const ALL = "All";
+const ALL = "__all__";
 
 /**
  * Category order follows the order categories first appear in `caseStudies`,
  * so reordering that array reorders both the filter chips and the sections.
  */
 function categoriesOf(projects: CaseStudy[]) {
-  const counts = new Map<string, number>();
+  const counts = new Map<CategoryId, number>();
   for (const project of projects) {
     counts.set(project.category, (counts.get(project.category) ?? 0) + 1);
   }
@@ -21,7 +24,7 @@ function categoriesOf(projects: CaseStudy[]) {
 }
 
 function groupByCategory(projects: CaseStudy[]) {
-  const groups = new Map<string, CaseStudy[]>();
+  const groups = new Map<CategoryId, CaseStudy[]>();
   for (const project of projects) {
     const group = groups.get(project.category);
     if (group) group.push(project);
@@ -30,8 +33,18 @@ function groupByCategory(projects: CaseStudy[]) {
   return [...groups];
 }
 
-function ProjectCard({ project }: { project: CaseStudy }) {
-  const href = project.external ? project.url : `/work/${project.slug}`;
+function ProjectCard({
+  project,
+  lang,
+  viewProjectLabel,
+  visitSiteLabel,
+}: {
+  project: CaseStudy;
+  lang: Lang;
+  viewProjectLabel: string;
+  visitSiteLabel: string;
+}) {
+  const href = project.external ? project.url : localizedHref(lang, `/work/${project.slug}`);
   const external = project.external
     ? { target: "_blank", rel: "noopener noreferrer" }
     : {};
@@ -58,11 +71,11 @@ function ProjectCard({ project }: { project: CaseStudy }) {
           {project.name}
         </h3>
         <p className="mt-4 leading-relaxed text-ecom-ink/70">
-          {project.description}
+          {project.description[lang]}
         </p>
       </div>
       <span className="mt-8 inline-flex w-fit items-center gap-2 text-sm font-medium tracking-wide text-ecom-ink uppercase transition-colors duration-300 group-hover:text-ecom-orange">
-        {project.external ? "Visit site" : "Ver proyecto"}
+        {project.external ? visitSiteLabel : viewProjectLabel}
         <span
           aria-hidden
           className="transition-transform duration-300 group-hover:translate-x-1"
@@ -75,6 +88,7 @@ function ProjectCard({ project }: { project: CaseStudy }) {
 }
 
 export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
+  const { t, lang } = useLanguage();
   const [active, setActive] = useState<string>(ALL);
 
   const categories = useMemo(() => categoriesOf(projects), [projects]);
@@ -87,22 +101,29 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
     return groupByCategory(visible);
   }, [projects, active]);
 
-  const chips: [string, number][] = [[ALL, projects.length], ...categories];
+  const chips: [string, number, string][] = [
+    [ALL, projects.length, t.workGallery.all],
+    ...categories.map(([id, count]): [string, number, string] => [
+      id,
+      count,
+      categoryLabel(id, lang),
+    ]),
+  ];
 
   return (
     <>
       <div
         role="group"
-        aria-label="Filtrar por tipo de proyecto"
+        aria-label={t.workGallery.filterAriaLabel}
         className="mt-12 flex flex-wrap gap-2.5"
       >
-        {chips.map(([label, count]) => {
-          const selected = active === label;
+        {chips.map(([id, count, label]) => {
+          const selected = active === id;
           return (
             <button
-              key={label}
+              key={id}
               type="button"
-              onClick={() => setActive(label)}
+              onClick={() => setActive(id)}
               aria-pressed={selected}
               className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium tracking-widest uppercase transition-colors duration-300 ${
                 selected
@@ -130,7 +151,7 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
         {groups.map(([category, categoryProjects]) => (
           <section key={category} className="mt-16">
             <h2 className="flex items-baseline gap-4 border-b border-ecom-ink/10 pb-5 font-display text-sm font-medium tracking-[0.2em] text-ecom-ink/60 uppercase">
-              {category}
+              {categoryLabel(category, lang)}
               <span className="text-xs text-ecom-ink/35">
                 {String(categoryProjects.length).padStart(2, "0")}
               </span>
@@ -138,7 +159,13 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
 
             <div className="mt-10 grid gap-8 md:grid-cols-2">
               {categoryProjects.map((project) => (
-                <ProjectCard key={project.slug} project={project} />
+                <ProjectCard
+                  key={project.slug}
+                  project={project}
+                  lang={lang}
+                  viewProjectLabel={t.workGallery.viewProject}
+                  visitSiteLabel={t.workGallery.visitSite}
+                />
               ))}
             </div>
           </section>

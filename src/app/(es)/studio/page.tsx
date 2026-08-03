@@ -1,0 +1,103 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import { team } from "@/lib/team";
+import { getDict } from "@/lib/i18n/dict";
+import { seoAlternates } from "@/lib/i18n/seo";
+
+const LANG = "es" as const;
+const t = getDict(LANG);
+
+export const metadata: Metadata = {
+  title: "Studio",
+  description: t.studioPage.metaDescription,
+  keywords: t.studioPage.keywords,
+  alternates: seoAlternates(LANG, "/studio"),
+};
+
+export default function StudioPage() {
+  return (
+    <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10 lg:py-28">
+      <p className="text-sm font-medium uppercase tracking-[0.2em] text-ecom-orange">
+        Studio
+      </p>
+      <h1 className="mt-6 max-w-3xl font-display text-4xl font-medium tracking-tight text-ecom-ink sm:text-5xl">
+        &ldquo;{t.studioPage.quote}&rdquo;
+      </h1>
+
+      <div className="mt-16 grid gap-12 lg:grid-cols-2">
+        <div>
+          <h2 className="font-display text-lg font-medium uppercase tracking-wide text-ecom-ink">
+            {t.studioPage.missionTitle}
+          </h2>
+          <p className="mt-3 text-ecom-ink/70">{t.studioPage.missionCopy}</p>
+        </div>
+        <div>
+          <h2 className="font-display text-lg font-medium uppercase tracking-wide text-ecom-ink">
+            {t.studioPage.visionTitle}
+          </h2>
+          <p className="mt-3 text-ecom-ink/70">{t.studioPage.visionCopy}</p>
+        </div>
+      </div>
+
+      <div className="mt-20 border-t border-ecom-ink/10 pt-16">
+        <h2 className="font-display text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/60">
+          {t.studioPage.howWeWorkTitle}
+        </h2>
+        <div className="mt-8 grid gap-10 sm:grid-cols-2">
+          {t.studioPage.reasons.map((reason) => (
+            <Reason key={reason.title} title={reason.title} copy={reason.copy} />
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-20 border-t border-ecom-ink/10 pt-16">
+        <h2 className="font-display text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/60">
+          {t.studioPage.teamTitle}
+        </h2>
+        <div className="mt-10 grid gap-10 sm:grid-cols-3">
+          {team.map((member) => (
+            <div key={member.name} className="group">
+              {/* Same portrait pair as the home page carousel — swapped on
+                  hover with CSS so this page stays a server component. */}
+              <div className="relative aspect-square w-full overflow-hidden rounded-3xl bg-ecom-ink/10 ring-1 ring-ecom-ink/5">
+                <Image
+                  src={member.img}
+                  alt={member.name}
+                  fill
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                  className="object-cover transition-opacity duration-300 group-hover:opacity-0"
+                />
+                <Image
+                  src={member.imgHover}
+                  alt=""
+                  aria-hidden
+                  fill
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                  className="object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                />
+              </div>
+              <h3 className="mt-5 font-display text-lg font-medium text-ecom-ink">
+                {member.name}
+              </h3>
+              <p className="text-sm font-medium uppercase tracking-wide text-ecom-orange">
+                {member.role[LANG]}
+              </p>
+              <p className="mt-3 text-ecom-ink/70">{member.description[LANG]}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Reason({ title, copy }: { title: string; copy: string }) {
+  return (
+    <div>
+      <h3 className="font-display text-base font-medium text-ecom-ink">
+        {title}
+      </h3>
+      <p className="mt-2 text-ecom-ink/70">{copy}</p>
+    </div>
+  );
+}

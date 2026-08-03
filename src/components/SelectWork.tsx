@@ -4,7 +4,10 @@ import { useRef } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
 import Reveal from "@/components/Reveal";
-import { getFeaturedCaseStudies, type CaseStudy } from "@/lib/work";
+import { getFeaturedCaseStudies, categoryLabel, type CaseStudy } from "@/lib/work";
+import { useLanguage } from "@/components/LanguageProvider";
+import type { Lang } from "@/lib/i18n/types";
+import { localizedHref } from "@/lib/i18n/localizedHref";
 
 const PROJECTS = getFeaturedCaseStudies();
 
@@ -26,9 +29,9 @@ const SECTION_VH = TOTAL * SLIDE_VH + 200;
 
 const IMAGE_SIZES = "(max-width: 1023px) 100vw, 40vw";
 
-function projectLink(project: CaseStudy) {
+function projectLink(project: CaseStudy, lang: Lang) {
   return {
-    href: project.external ? project.url : `/work/${project.slug}`,
+    href: project.external ? project.url : localizedHref(lang, `/work/${project.slug}`),
     ...(project.external
       ? { target: "_blank", rel: "noopener noreferrer" }
       : {}),
@@ -46,10 +49,12 @@ function projectLink(project: CaseStudy) {
 function ProjectSlide({
   project,
   order,
+  lang,
   className = "",
 }: {
   project: CaseStudy;
   order: number;
+  lang: Lang;
   className?: string;
 }) {
   return (
@@ -58,7 +63,7 @@ function ProjectSlide({
       style={{ height: `${SLIDE_VH}vh` }}
     >
       <motion.a
-        {...projectLink(project)}
+        {...projectLink(project, lang)}
         initial="rest"
         whileHover="hover"
         className={`group w-full ${className}`}
@@ -90,10 +95,10 @@ function ProjectSlide({
             className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-ecom-black/90 via-ecom-black/50 to-transparent p-6"
           >
             <span className="text-xs font-medium tracking-widest text-ecom-orange uppercase">
-              {String(order).padStart(2, "0")} — {project.category}
+              {String(order).padStart(2, "0")} — {categoryLabel(project.category, lang)}
             </span>
             <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-white/80">
-              {project.description}
+              {project.description[lang]}
             </p>
           </motion.div>
         </div>
@@ -114,12 +119,14 @@ function ProjectSlide({
 function ProjectListItem({
   project,
   order,
+  lang,
 }: {
   project: CaseStudy;
   order: number;
+  lang: Lang;
 }) {
   return (
-    <a {...projectLink(project)} className="group block">
+    <a {...projectLink(project, lang)} className="group block">
       <div className="relative aspect-4/3 overflow-hidden rounded-3xl bg-linear-to-br from-ecom-dark to-ecom-black shadow-[0_24px_60px_-40px_rgba(18,18,19,0.65)] ring-1 ring-ecom-dark/10">
         {project.image && (
           <Image
@@ -136,27 +143,27 @@ function ProjectListItem({
       </div>
 
       <span className="mt-4 block text-xs font-medium tracking-widest text-ecom-orange uppercase">
-        {String(order).padStart(2, "0")} — {project.category}
+        {String(order).padStart(2, "0")} — {categoryLabel(project.category, lang)}
       </span>
       <h3 className="mt-1.5 font-display text-2xl font-medium tracking-[-0.01em] text-ecom-ink">
         {project.name}
       </h3>
       <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-ecom-ink/70">
-        {project.description}
+        {project.description[lang]}
       </p>
     </a>
   );
 }
 
-function SeeAllProjects({ className = "" }: { className?: string }) {
+function SeeAllProjects({ href, label, className = "" }: { href: string; label: string; className?: string }) {
   return (
     <motion.a
-      href="/work"
+      href={href}
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.97 }}
       className={`group inline-flex items-center gap-2.5 rounded-full bg-ecom-dark px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide shadow-lg shadow-ecom-dark/20 transition-colors duration-300 hover:bg-ecom-orange ${className}`}
     >
-      See all projects
+      {label}
       <span
         aria-hidden
         className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
@@ -168,6 +175,8 @@ function SeeAllProjects({ className = "" }: { className?: string }) {
 }
 
 export default function Projects() {
+  const { t, lang } = useLanguage();
+  const seeAllHref = localizedHref(lang, "/work");
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -195,25 +204,25 @@ export default function Projects() {
       <section className="bg-ecom-surface px-6 py-20 sm:px-10 lg:hidden">
         <Reveal className="text-center">
           <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
-            Our
+            {t.selectWork.eyebrow}
           </p>
           <h2 className="mt-3 font-display text-5xl leading-[0.9] font-medium tracking-[-0.03em] text-ecom-ink sm:text-6xl">
-            Projects
+            {t.selectWork.headline}
             <br />
-            <span className="text-ecom-orange">Success</span>
+            <span className="text-ecom-orange">{t.selectWork.headlineAccent}</span>
           </h2>
         </Reveal>
 
         <div className="mt-14 flex flex-col gap-14">
           {PROJECTS.map((project, i) => (
             <Reveal key={project.slug} delay={0.05}>
-              <ProjectListItem project={project} order={i + 1} />
+              <ProjectListItem project={project} order={i + 1} lang={lang} />
             </Reveal>
           ))}
         </div>
 
         <div className="mt-14 flex justify-center">
-          <SeeAllProjects />
+          <SeeAllProjects href={seeAllHref} label={t.selectWork.seeAll} />
         </div>
       </section>
 
@@ -235,12 +244,12 @@ export default function Projects() {
             className="pointer-events-none absolute inset-0 z-0 flex flex-col items-center justify-center text-center"
           >
             <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
-              Our
+              {t.selectWork.eyebrow}
             </p>
             <h2 className="mt-3 font-display text-5xl leading-[0.9] font-medium tracking-[-0.03em] text-ecom-ink sm:text-7xl lg:text-[9rem]">
-              Projects
+              {t.selectWork.headline}
               <br />
-              <span className="text-ecom-orange">Success</span>
+              <span className="text-ecom-orange">{t.selectWork.headlineAccent}</span>
             </h2>
           </motion.div>
 
@@ -261,6 +270,7 @@ export default function Projects() {
               <ProjectSlide
                 project={PROJECTS[0]}
                 order={1}
+                lang={lang}
                 className="max-w-md mr-auto lg:translate-x-10 lg:-translate-y-8"
               />
             )}
@@ -268,6 +278,7 @@ export default function Projects() {
               <ProjectSlide
                 project={PROJECTS[1]}
                 order={2}
+                lang={lang}
                 className="max-w-xl ml-auto lg:-translate-x-10 lg:translate-y-10"
               />
             )}
@@ -275,6 +286,7 @@ export default function Projects() {
               <ProjectSlide
                 project={PROJECTS[2]}
                 order={3}
+                lang={lang}
                 className="max-w-xl mr-auto lg:translate-x-28 lg:-translate-y-6"
               />
             )}
@@ -282,6 +294,7 @@ export default function Projects() {
               <ProjectSlide
                 project={PROJECTS[3]}
                 order={4}
+                lang={lang}
                 className="max-w-md ml-auto lg:-translate-x-28 lg:translate-y-12"
               />
             )}
@@ -295,7 +308,7 @@ export default function Projects() {
                 className="h-full w-full origin-left bg-ecom-orange"
               />
             </div>
-            <SeeAllProjects className="pointer-events-auto" />
+            <SeeAllProjects href={seeAllHref} label={t.selectWork.seeAll} className="pointer-events-auto" />
           </div>
         </div>
       </section>

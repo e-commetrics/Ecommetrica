@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
+import { localizedHref } from "@/lib/i18n/localizedHref";
 
 const container = {
   hidden: {},
@@ -21,6 +23,7 @@ const item = {
 };
 
 export default function Hero() {
+  const { t, lang } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -60,28 +63,28 @@ export default function Hero() {
           variants={item}
           className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase"
         >
-          Ecommetrica Studio
+          {t.hero.eyebrow}
         </motion.p>
         <motion.h1
           variants={item}
           className="mt-8 max-w-5xl text-balance font-display text-[2.75rem] leading-[1.02] font-medium tracking-[-0.02em] sm:text-6xl lg:text-[5.5rem]"
         >
-          We build brands that{" "}
-          <span className="text-ecom-orange">transform industries</span> and
-          boost businesses.
+          {t.hero.headlinePre}{" "}
+          <span className="text-ecom-orange">{t.hero.headlineAccent}</span>{" "}
+          {t.hero.headlinePost}
         </motion.h1>
         <motion.p
           variants={item}
           className="mt-8 max-w-xl text-lg leading-relaxed text-white/60"
         >
-          Through strategies based on market realities.
+          {t.hero.sub}
         </motion.p>
         <motion.div variants={item} className="mt-12 flex flex-wrap items-center gap-6">
           <Link
-            href="/#services"
+            href={localizedHref(lang, "/#services")}
             className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
           >
-            Discover the services
+            {t.hero.ctaServices}
             <span
               aria-hidden
               className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
@@ -90,10 +93,10 @@ export default function Hero() {
             </span>
           </Link>
           <Link
-            href="/work"
+            href={localizedHref(lang, "/work")}
             className="group inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-white/60 transition-colors duration-300 hover:text-white"
           >
-            See our work
+            {t.hero.ctaWork}
             <span
               aria-hidden
               className="transition-transform duration-300 group-hover:translate-x-1"

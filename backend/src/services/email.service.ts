@@ -3,6 +3,7 @@ import type { Attachment } from "nodemailer/lib/mailer";
 import { readFileSync } from "fs";
 import { join } from "path";
 import { buildConfirmationEmail, buildNotificationEmail } from "./email.templates";
+import type { Lang } from "../types";
 
 export type ContactPayload = {
   name: string;
@@ -10,6 +11,7 @@ export type ContactPayload = {
   phone?: string;
   company?: string;
   message: string;
+  lang: Lang;
 };
 
 // In the production bundle, scripts/build.ts injects the real logo bytes here
@@ -62,7 +64,7 @@ export async function sendContactEmail(payload: ContactPayload) {
   }
 
   const from = `"Ecommetrica" <${process.env.SMTP_USER}>`;
-  const notification = buildNotificationEmail(payload);
+  const notification = buildNotificationEmail(payload, payload.lang);
 
   await transporter.sendMail({
     from,
@@ -74,7 +76,7 @@ export async function sendContactEmail(payload: ContactPayload) {
   });
 
   try {
-    const confirmation = buildConfirmationEmail(payload);
+    const confirmation = buildConfirmationEmail(payload, payload.lang);
     await transporter.sendMail({
       from,
       to: payload.email,

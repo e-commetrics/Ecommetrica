@@ -1,31 +1,12 @@
 import Reveal from "@/components/Reveal";
 import Counter from "@/components/Counter";
+import type { Lang } from "@/lib/i18n/types";
+import { getDict } from "@/lib/i18n/dict";
 
-const flow = ["Marca", "Experiencia", "Cultura"];
+export default function Pillars({ lang }: { lang: Lang }) {
+  const t = getDict(lang);
+  const flow = t.pillars.flow;
 
-const pillars = [
-  {
-    title: "Marca",
-    copy: "Estrategia de marca construida desde el negocio, no desde la forma.",
-  },
-  {
-    title: "Experiencia",
-    copy: "Sistemas digitales seguros y funcionales que sostienen el crecimiento.",
-  },
-  {
-    title: "Cultura",
-    copy: "Acompañamiento como socios estratégicos, con visión de largo plazo.",
-  },
-];
-
-// Placeholder metrics — swap for Ecommetrica's real numbers.
-const stats = [
-  { value: "+40", label: "Proyectos entregados" },
-  { value: "15", label: "Industrias atendidas" },
-  { value: "98%", label: "Clientes que renuevan" },
-];
-
-export default function Pillars() {
   return (
     <section className="relative overflow-hidden bg-ecom-black text-white">
       {/* Accent wash so the flat black picks up the active theme */}
@@ -50,15 +31,14 @@ export default function Pillars() {
 
         <Reveal delay={0.1}>
           <p className="mt-10 max-w-4xl text-balance font-display text-2xl leading-[1.25] font-medium tracking-[-0.01em] sm:text-4xl lg:text-5xl">
-            We build{" "}
-            <span className="text-white">search-first digital systems</span>{" "}
-            <span className="text-white/40">to help</span> category leaders{" "}
-            <span className="text-white/40">lead their industries.</span>
+            {t.pillars.headlinePre}{" "}
+            <span className="text-white">{t.pillars.headlineStrong}</span>{" "}
+            <span className="text-white/40">{t.pillars.headlineTail}</span>
           </p>
         </Reveal>
 
         <div className="mt-20 grid border-t border-white/10 sm:grid-cols-3">
-          {stats.map((stat, i) => (
+          {t.pillars.stats.map((stat, i) => (
             <Reveal
               key={stat.label}
               delay={i * 0.1}
@@ -75,7 +55,7 @@ export default function Pillars() {
         </div>
 
         <div className="mt-20 grid gap-10 border-t border-white/10 pt-16 sm:grid-cols-3">
-          {pillars.map((pillar, i) => (
+          {t.pillars.items.map((pillar, i) => (
             <Reveal key={pillar.title} delay={i * 0.1} className="group">
               <span
                 aria-hidden

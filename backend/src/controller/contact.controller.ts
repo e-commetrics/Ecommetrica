@@ -1,10 +1,15 @@
 import type { Request, Response } from "express";
 import { sendContactEmail } from "../services/email.service";
+import type { Lang } from "../types";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function parseLang(value: unknown): Lang {
+  return value === "en" ? "en" : "es";
+}
+
 export async function submitContact(req: Request, res: Response) {
-  const { name, email, phone, company, message } = req.body ?? {};
+  const { name, email, phone, company, message, lang } = req.body ?? {};
 
   if (
     typeof name !== "string" ||
@@ -24,6 +29,7 @@ export async function submitContact(req: Request, res: Response) {
       message,
       phone: typeof phone === "string" ? phone : undefined,
       company: typeof company === "string" ? company : undefined,
+      lang: parseLang(lang),
     });
 
     return res.status(200).json({ ok: true });

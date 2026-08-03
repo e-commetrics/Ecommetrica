@@ -7,11 +7,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/components/LanguageProvider";
+import { localizedHref } from "@/lib/i18n/localizedHref";
 
 export default function Header() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
@@ -19,10 +20,10 @@ export default function Header() {
   });
 
   const navLinks = [
-    { href: "/studio", label: t.studio },
-    { href: "/work", label: t.work },
-    { href: "/blog", label: t.blog },
-    { href: "/contact", label: t.contact },
+    { href: localizedHref(lang, "/studio"), label: t.nav.studio },
+    { href: localizedHref(lang, "/work"), label: t.nav.work },
+    { href: localizedHref(lang, "/blog"), label: t.nav.blog },
+    { href: localizedHref(lang, "/contact"), label: t.nav.contact },
   ];
 
   return (
@@ -32,7 +33,7 @@ export default function Header() {
       className="sticky top-0 z-50 border-b border-ecom-orange/20 bg-ecom-black/90 backdrop-blur"
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href={localizedHref(lang, "/")} className="flex items-center gap-2">
           <Image
             src="/Logos/LOGO SECUNDARIO ECOMMETRICA 2.1.png"
             alt="Ecommetrica"
@@ -59,14 +60,19 @@ export default function Header() {
           <LanguageSwitcher />
           <ThemeSwitcher />
           <Link
-            href="/contact"
+            href={localizedHref(lang, "/contact")}
             className="rounded-full bg-ecom-orange px-5 py-2.5 text-sm font-medium tracking-wide text-white shadow-lg shadow-ecom-orange/20 transition-all duration-300 hover:bg-ecom-red hover:shadow-ecom-red/25"
           >
-            {t.talk}
+            {t.nav.talk}
           </Link>
         </div>
 
-        <MobileNav navLinks={navLinks} talk={t.talk} />
+        <MobileNav
+          navLinks={navLinks}
+          talk={t.nav.talk}
+          menuLabel={t.mobileMenu.open}
+          contactHref={localizedHref(lang, "/contact")}
+        />
       </div>
     </motion.header>
   );
@@ -75,9 +81,13 @@ export default function Header() {
 function MobileNav({
   navLinks,
   talk,
+  menuLabel,
+  contactHref,
 }: {
   navLinks: { href: string; label: string }[];
   talk: string;
+  menuLabel: string;
+  contactHref: string;
 }) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -111,7 +121,7 @@ function MobileNav({
   return (
     <details ref={detailsRef} className="relative md:hidden">
       <summary className="list-none cursor-pointer select-none rounded-md border border-white/20 px-3 py-2 text-sm text-white">
-        Menu
+        {menuLabel}
       </summary>
       <div className="absolute right-0 mt-2 flex w-52 flex-col gap-3 rounded-xl border border-white/10 bg-ecom-black p-3 shadow-lg">
         {navLinks.map((link) => (
@@ -129,7 +139,7 @@ function MobileNav({
           <ThemeSwitcher />
         </div>
         <Link
-          href="/contact"
+          href={contactHref}
           onClick={close}
           className="rounded-md bg-ecom-orange px-3 py-2 text-center text-sm font-medium text-white"
         >

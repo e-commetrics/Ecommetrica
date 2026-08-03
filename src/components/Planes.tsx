@@ -5,8 +5,11 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { plans } from "@/lib/pricing";
 import Reveal from "@/components/Reveal";
+import { useLanguage } from "@/components/LanguageProvider";
+import { localizedHref } from "@/lib/i18n/localizedHref";
 
 export default function Planes() {
+  const { t, lang } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -26,7 +29,7 @@ export default function Planes() {
         className="pointer-events-none absolute inset-x-0 top-40 select-none text-center lg:top-16"
       >
         <span className="text-stroke font-display text-[16vw] leading-none font-medium text-white/20">
-          PLANES
+          {t.planes.bigWord}
         </span>
       </motion.div>
 
@@ -38,13 +41,13 @@ export default function Planes() {
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
         <Reveal>
           <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-white/50 uppercase">
-            Nuestros
+            {t.planes.eyebrow}
           </p>
         </Reveal>
 
         <div className="mt-24 grid gap-6 lg:mt-32 lg:grid-cols-4">
           {plans.map((plan, i) => (
-            <Reveal key={plan.name} delay={i * 0.1}>
+            <Reveal key={plan.name.en} delay={i * 0.1}>
               <div
                 className={`relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 ${
                   plan.featured
@@ -54,35 +57,35 @@ export default function Planes() {
               >
                 {plan.featured && (
                   <span className="absolute -top-3 left-8 rounded-full bg-ecom-orange px-3 py-1 text-[0.65rem] font-medium tracking-widest text-white uppercase">
-                    Popular
+                    {t.planes.popular}
                   </span>
                 )}
                 <h3 className="font-display text-lg font-medium tracking-wide">
-                  {plan.name}
+                  {plan.name[lang]}
                 </h3>
                 <p className="mt-5 font-display text-4xl font-medium tracking-[-0.02em]">
                   {plan.price}
                   <span className="ml-1.5 text-sm font-normal tracking-normal text-white/50">
-                    / {plan.duration}
+                    / {plan.duration[lang]}
                   </span>
                 </p>
                 <ul className="mt-8 flex flex-1 flex-col gap-3.5 border-t border-white/10 pt-7 text-sm leading-relaxed text-white/70">
                   {plan.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2.5">
+                    <li key={feature.en} className="flex items-start gap-2.5">
                       <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
-                      {feature}
+                      {feature[lang]}
                     </li>
                   ))}
                 </ul>
                 <Link
-                  href="/contact"
+                  href={localizedHref(lang, "/contact")}
                   className={`group/cta mt-9 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-medium tracking-wide transition-colors duration-300 ${
                     plan.featured
                       ? "bg-white text-ecom-black hover:bg-ecom-orange hover:text-white"
                       : "bg-white/10 hover:bg-ecom-orange"
                   }`}
                 >
-                  Let&rsquo;s talk
+                  {t.nav.talk}
                   <span
                     aria-hidden
                     className="transition-transform duration-300 group-hover/cta:translate-x-1"

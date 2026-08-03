@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 /**
  * Each theme re-tints the whole page, not just the accent: the light
@@ -58,6 +59,7 @@ type ThemeId = (typeof THEMES)[number]["id"];
 const STORAGE_KEY = "ecom-theme";
 
 export default function ThemeSwitcher() {
+  const { t } = useLanguage();
   const [active, setActive] = useState<ThemeId>("ember");
 
   useEffect(() => {
@@ -95,7 +97,7 @@ export default function ThemeSwitcher() {
   }
 
   return (
-    <div className="flex items-center gap-1.5" role="group" aria-label="Theme">
+    <div className="flex items-center gap-1.5" role="group" aria-label={t.themeSwitcher.ariaLabel}>
       {THEMES.map((theme) => (
         <button
           key={theme.id}

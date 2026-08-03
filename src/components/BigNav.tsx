@@ -1,13 +1,18 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import type { Lang } from "@/lib/i18n/types";
+import { getDict } from "@/lib/i18n/dict";
+import { localizedHref } from "@/lib/i18n/localizedHref";
 
-const items = [
-  { label: "Work", href: "/work", arrow: "↗" },
-  { label: "Services", href: "/#services", arrow: "→" },
-  { label: "Lets talk", href: "/contact", arrow: "↘" },
-];
+export default function BigNav({ lang }: { lang: Lang }) {
+  const t = getDict(lang);
 
-export default function BigNav() {
+  const items = [
+    { label: t.bigNav.work, href: localizedHref(lang, "/work"), arrow: "↗" },
+    { label: t.bigNav.services, href: localizedHref(lang, "/#services"), arrow: "→" },
+    { label: t.bigNav.talk, href: localizedHref(lang, "/contact"), arrow: "↘" },
+  ];
+
   return (
     <section className="relative overflow-hidden bg-ecom-surface text-ecom-ink py-28 lg:py-36">
       {/* Glows stay clear of the top/bottom edges: a blurred shape clipped by
