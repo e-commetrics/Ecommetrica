@@ -119,7 +119,7 @@ export const dict: Record<Lang, Dict> = {
         "consultoría digital",
       ],
     },
-    nav: { studio: "Studio", work: "Work", blog: "Blog", contact: "Contact", talk: "Hablemos" },
+    nav: { studio: "Estudio", work: "Trabajo", blog: "Blog", contact: "Contacto", talk: "Hablemos" },
     mobileMenu: { open: "Menú" },
     languageSwitcher: { ariaLabel: "Cambiar idioma" },
     themeSwitcher: { ariaLabel: "Tema" },

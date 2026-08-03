@@ -8,7 +8,7 @@ rmSync("dist", { recursive: true, force: true });
 
 // Read the logo straight from the frontend's own asset — no copy kept in
 // backend/ — and inline it into the bundle so dist/index.js is self-contained.
-const logoPath = join(root, "../public/images/logo-principal.png");
+const logoPath = join(root, "../public/images/logo-secundario.png");
 const logoBase64 = readFileSync(logoPath).toString("base64");
 
 const result = await Bun.build({
