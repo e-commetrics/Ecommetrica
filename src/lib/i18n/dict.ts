@@ -66,6 +66,13 @@ export type Dict = {
     successSub: string;
     submitting: string;
     submit: string;
+    errors: {
+      nameRequired: string;
+      emailRequired: string;
+      emailInvalid: string;
+      phoneInvalid: string;
+      messageTooShort: string;
+    };
   };
   contactPage: {
     metaDescription: string;
@@ -200,6 +207,13 @@ export const dict: Record<Lang, Dict> = {
       successSub: "Tu solicitud fue enviada al equipo de Ecommetrica.",
       submitting: "Enviando...",
       submit: "Enviar formulario",
+      errors: {
+        nameRequired: "Ingresa tu nombre.",
+        emailRequired: "Ingresa tu correo.",
+        emailInvalid: "Ingresa un correo válido.",
+        phoneInvalid: "Ingresa un teléfono válido.",
+        messageTooShort: "Escribe un mensaje de al menos 10 caracteres.",
+      },
     },
     contactPage: {
       metaDescription: "Deja tu solicitud y el equipo de Ecommetrica se pondrá en contacto contigo.",
@@ -382,6 +396,13 @@ export const dict: Record<Lang, Dict> = {
       successSub: "Your request has been sent to the Ecommetrica team.",
       submitting: "Sending...",
       submit: "Send form",
+      errors: {
+        nameRequired: "Enter your name.",
+        emailRequired: "Enter your email.",
+        emailInvalid: "Enter a valid email address.",
+        phoneInvalid: "Enter a valid phone number.",
+        messageTooShort: "Write a message of at least 10 characters.",
+      },
     },
     contactPage: {
       metaDescription: "Leave a request and the Ecommetrica team will get back to you.",
