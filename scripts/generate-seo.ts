@@ -8,7 +8,7 @@
 import fs from "fs";
 import path from "path";
 import { SITE_URL } from "../src/lib/i18n/seo";
-import { localizedHref } from "../src/lib/i18n/localizedHref";
+import { localizedHref, withTrailingSlash } from "../src/lib/i18n/localizedHref";
 import { getInternalCaseStudies } from "../src/lib/work";
 import { getAllPosts } from "../src/lib/blog";
 import type { Lang } from "../src/lib/i18n/types";
@@ -58,12 +58,12 @@ function escapeXml(value: string): string {
 }
 
 function urlBlock(entry: Entry, lang: Lang): string {
-  const loc = escapeXml(SITE_URL + localizedHref(lang, entry.path));
+  const loc = escapeXml(SITE_URL + withTrailingSlash(localizedHref(lang, entry.path)));
   const alternates = LANGS.map(
     (altLang) =>
-      `    <xhtml:link rel="alternate" hreflang="${altLang}" href="${escapeXml(SITE_URL + localizedHref(altLang, entry.path))}" />`,
+      `    <xhtml:link rel="alternate" hreflang="${altLang}" href="${escapeXml(SITE_URL + withTrailingSlash(localizedHref(altLang, entry.path)))}" />`,
   ).join("\n");
-  const xDefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(SITE_URL + localizedHref("es", entry.path))}" />`;
+  const xDefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(SITE_URL + withTrailingSlash(localizedHref("es", entry.path)))}" />`;
   const lastmod = entry.lastmod ? `\n    <lastmod>${entry.lastmod}</lastmod>` : "";
 
   return `  <url>

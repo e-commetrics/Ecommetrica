@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
@@ -11,10 +12,18 @@ import { localizedHref } from "@/lib/i18n/localizedHref";
 
 const PAUSE_DELAY_MS = 400;
 
+/** Active if the pathname is that link or one of its sub-routes (e.g. /work/some-slug). */
+function isActiveHref(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export default function Header() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const { t, lang } = useLanguage();
+  // Falls back to "" (matches nothing) — usePathname() has no router context
+  // to read from on the bypassed global-not-found page.
+  const pathname = usePathname() ?? "";
   const pauseTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -35,7 +44,7 @@ export default function Header() {
     { href: localizedHref(lang, "/work"), label: t.nav.work },
     { href: localizedHref(lang, "/blog"), label: t.nav.blog },
     { href: localizedHref(lang, "/contact"), label: t.nav.contact },
-  ];
+  ].map((link) => ({ ...link, active: isActiveHref(pathname, link.href) }));
 
   return (
     <motion.header
@@ -60,7 +69,10 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className="relative text-white/70 transition-colors duration-300 after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-ecom-orange after:transition-all after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-white hover:after:w-full"
+              aria-current={link.active ? "page" : undefined}
+              className={`relative transition-colors duration-300 after:absolute after:-bottom-1.5 after:left-0 after:h-px after:bg-ecom-orange after:transition-all after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-white hover:after:w-full ${
+                link.active ? "text-white after:w-full" : "text-white/70 after:w-0"
+              }`}
             >
               {link.label}
             </Link>
@@ -95,7 +107,7 @@ function MobileNav({
   menuLabel,
   contactHref,
 }: {
-  navLinks: { href: string; label: string }[];
+  navLinks: { href: string; label: string; active: boolean }[];
   talk: string;
   menuLabel: string;
   contactHref: string;
@@ -140,7 +152,10 @@ function MobileNav({
             key={link.href}
             href={link.href}
             onClick={close}
-            className="rounded-md px-3 py-2 text-sm font-medium text-white uppercase tracking-wide hover:bg-white/5"
+            aria-current={link.active ? "page" : undefined}
+            className={`rounded-md px-3 py-2 text-sm font-medium uppercase tracking-wide hover:bg-white/5 ${
+              link.active ? "bg-white/5 text-ecom-orange" : "text-white"
+            }`}
           >
             {link.label}
           </Link>

@@ -40,7 +40,7 @@ Upload the contents of `dist/` (`index.js`, `package.json`) to the cPanel Node a
 
 1. Run `npm install` (via the Node.js Selector's "Run NPM Install" button, or its terminal) to install `express`, `cors`, `dotenv`, `express-rate-limit`, `nodemailer` from `dist/package.json`.
 2. Set the app's entry point to `index.js`.
-3. Set env vars in the Node.js Selector UI: `FRONTEND_URL`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `CONTACT_TO_EMAIL` (`PORT` is provided by cPanel/Passenger automatically — no need to set it).
+3. Set env vars in the Node.js Selector UI: `FRONTEND_URL`, `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `CONTACT_TO_EMAIL`, `FRONTEND_STATIC_DIR` (`PORT` is provided by cPanel/Passenger automatically — no need to set it).
 4. Start/restart the app.
 
 `dist/` is gitignored — rerun `bun run build` after any change and re-upload.
@@ -51,6 +51,7 @@ Upload the contents of `dist/` (`index.js`, `package.json`) to the cPanel Node a
 - `src/app.ts` — Express app setup (CORS allowlist via `FRONTEND_URL`, middleware, route mounting).
 - `src/route/` — route definitions (`POST /api/contact` is rate-limited, 5 req / 15 min per IP).
 - `src/controller/` — request handling and validation.
+- `src/services/notFound.template.ts` / `logo.ts` — 404 fallback: cPanel's Node.js Selector (Passenger) forwards any request Apache can't resolve as a static file to this app, so `app.ts`'s catch-all serves a branded 404 instead of Express's bare "Cannot GET /...". If `FRONTEND_STATIC_DIR` is set to the frontend's static export folder on the same account (containing `404.html`), it serves that real Next.js-rendered page (full branding, and it already detects es/en from the URL client-side); otherwise it falls back to `notFound.template.ts`'s plain built-in page.
 - `src/services/email.service.ts` — sends mail via Nodemailer/SMTP: a required notification to `CONTACT_TO_EMAIL` (team) and a best-effort confirmation to the visitor's own email. Attaches the logo as an in-memory `Buffer` (via `cid`), not a file path. There's no logo file committed in `backend/` at all — the logo always comes straight from the frontend's `public/images/logo-secundario.png`: in dev it's read live off disk (`fs.readFileSync`, monorepo-local only), and in the production bundle `scripts/build.ts` reads the same file at build time and inlines it as a `__LOGO_PNG_BASE64__` constant via `Bun.build`'s `define`, so `dist/index.js` ships fully self-contained.
 - `src/services/email.templates.ts` — branded HTML email templates (Ecommetrica colors/logo) shared by both emails.
 - `scripts/build.ts` — the `bun run build` bundler script (uses `Bun.build`).

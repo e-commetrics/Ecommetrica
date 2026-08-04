@@ -108,6 +108,14 @@ export type Dict = {
     termsKeywords: string[];
     termsBody: string;
   };
+  notFound: {
+    title: string;
+    eyebrow: string;
+    headline: string;
+    sub: string;
+    cta: string;
+    ctaContact: string;
+  };
 };
 
 export const dict: Record<Lang, Dict> = {
@@ -299,6 +307,14 @@ export const dict: Record<Lang, Dict> = {
       termsBody:
         "Esta página es un marcador de posición. Reemplaza este texto con los términos de servicio reales de Ecommetrica antes del lanzamiento.",
     },
+    notFound: {
+      title: "Página no encontrada",
+      eyebrow: "Error 404",
+      headline: "Esta página no existe.",
+      sub: "El enlace que seguiste puede estar roto o la página fue movida. Volvamos a terreno conocido.",
+      cta: "Volver al inicio",
+      ctaContact: "Contáctanos",
+    },
   },
   en: {
     siteMeta: {
@@ -485,6 +501,14 @@ export const dict: Record<Lang, Dict> = {
       termsKeywords: ["terms of service", "Ecommetrica terms and conditions"],
       termsBody:
         "This page is a placeholder. Replace this copy with Ecommetrica's actual terms of service before launch.",
+    },
+    notFound: {
+      title: "Page not found",
+      eyebrow: "Error 404",
+      headline: "This page doesn't exist.",
+      sub: "The link you followed may be broken, or the page may have moved. Let's get you back on track.",
+      cta: "Back to home",
+      ctaContact: "Contact us",
     },
   },
 };

@@ -1,8 +1,7 @@
 import nodemailer from "nodemailer";
 import type { Attachment } from "nodemailer/lib/mailer";
-import { readFileSync } from "fs";
-import { join } from "path";
 import { buildConfirmationEmail, buildNotificationEmail } from "./email.templates";
+import { LOGO_BASE64 } from "./logo";
 import type { Lang } from "../types";
 
 export type ContactPayload = {
@@ -14,24 +13,7 @@ export type ContactPayload = {
   lang: Lang;
 };
 
-// In the production bundle, scripts/build.ts injects the real logo bytes here
-// via Bun.build's `define`, read at build time from the frontend's own
-// public/images/logo-secundario.png — so dist/index.js needs no asset file.
-declare const __LOGO_PNG_BASE64__: string | undefined;
-
 const LOGO_CID = "ecommetrica-logo";
-
-function loadLogoBase64(): string {
-  if (typeof __LOGO_PNG_BASE64__ !== "undefined") {
-    return __LOGO_PNG_BASE64__;
-  }
-  // Dev fallback (unbundled `bun run index.ts`): read straight from the
-  // frontend's public folder, since this only ever runs inside the monorepo.
-  const devLogoPath = join(__dirname, "../../../public/images/logo-secundario.png");
-  return readFileSync(devLogoPath).toString("base64");
-}
-
-const LOGO_BASE64 = loadLogoBase64();
 
 function getTransporter() {
   const host = process.env.SMTP_HOST;
