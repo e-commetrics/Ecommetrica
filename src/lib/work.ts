@@ -20,6 +20,10 @@ export type CaseStudy = {
   category: CategoryId;
   description: Localized;
   image?: string;
+  /** Shown on hover on the homepage card, and inline on the project's own page. */
+  video?: string;
+  /** CSS `object-position` for the homepage hover crop (aspect-4/3). Defaults to "center". */
+  videoPosition?: string;
   featured?: boolean;
   details?: CaseStudyDetails;
   /** Live client site. Rendered as the "Ver sitio" button on /work/[slug]. */
@@ -87,6 +91,8 @@ export const caseStudies: CaseStudy[] = [
       en: "An orthopedic traumatologist who wanted a modern, minimalist website to stand out from conventional sites in the field of traumatology. We achieved a professional, straightforward design.",
     },
     image: "/Works/dr-monge.png",
+    video: "/videos/monge-ortopedia-testimonial.webm",
+    videoPosition: "center 15%",
     featured: true,
     webpage: "https://mongeortopedia.com/",
     details: {
@@ -105,6 +111,7 @@ export const caseStudies: CaseStudy[] = [
       en: "A feminist OB/GYN with more than 15 years of experience who wanted an inclusive, dynamic website. We designed an engaging, responsive experience that reflects her essence and values, giving her patients a pleasant navigation experience.",
     },
     image: "/Works/dra-cesia-borjon.png",
+    video: "/videos/cesia-borjon-testimonial.webm",
     featured: true,
     webpage: "https://cesiaborjon.com/",
     details: {

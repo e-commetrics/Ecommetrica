@@ -6,6 +6,7 @@ import { getInternalCaseStudies, getCaseStudy, categoryLabel } from "@/lib/work"
 import { getDict } from "@/lib/i18n/dict";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 import { seoAlternates } from "@/lib/i18n/seo";
+import VideoLightbox from "@/components/VideoLightbox";
 
 const LANG = "es" as const;
 const t = getDict(LANG);
@@ -64,21 +65,33 @@ export default async function CaseStudyPage({
         {(details?.summary ?? project.description)[LANG]}
       </p>
 
-      {project.webpage && (
-        <a
-          href={project.webpage}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group mt-8 inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium uppercase tracking-wide text-white transition-colors duration-300 hover:bg-ecom-red"
-        >
-          {t.workDetail.visitSite}
-          <span
-            aria-hidden
-            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          >
-            &#8599;
-          </span>
-        </a>
+      {(project.webpage || project.video) && (
+        <div className="mt-8 flex flex-wrap items-center gap-4">
+          {project.webpage && (
+            <a
+              href={project.webpage}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium uppercase tracking-wide text-white transition-colors duration-300 hover:bg-ecom-red"
+            >
+              {t.workDetail.visitSite}
+              <span
+                aria-hidden
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              >
+                &#8599;
+              </span>
+            </a>
+          )}
+          {project.video && (
+            <VideoLightbox
+              src={project.video}
+              label={t.workDetail.watchVideo}
+              closeLabel={t.workDetail.closeVideo}
+              title={project.name}
+            />
+          )}
+        </div>
       )}
 
       {(details?.client || details?.year || details?.services) && (

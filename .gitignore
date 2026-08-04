@@ -30,3 +30,6 @@ next-env.d.ts
 
 # claude code local tooling (machine-specific paths)
 .claude/
+
+# videos
+/public/videos

@@ -94,7 +94,15 @@ export type Dict = {
     teamTitle: string;
   };
   workPage: { metaDescription: string; keywords: string[]; headline: string };
-  workDetail: { back: string; visitSite: string; client: string; year: string; services: string };
+  workDetail: {
+    back: string;
+    visitSite: string;
+    watchVideo: string;
+    closeVideo: string;
+    client: string;
+    year: string;
+    services: string;
+  };
   blogPage: { metaDescription: string; keywords: string[]; headline: string; dateLocale: string };
   blogDetail: { back: string; dateLocale: string };
   faqPage: { title: string; metaDescription: string; keywords: string[] };
@@ -277,6 +285,8 @@ export const dict: Record<Lang, Dict> = {
     workDetail: {
       back: "Volver a trabajo",
       visitSite: "Ver sitio",
+      watchVideo: "Ver video",
+      closeVideo: "Cerrar video",
       client: "Cliente",
       year: "Año",
       services: "Servicios",
@@ -472,6 +482,8 @@ export const dict: Record<Lang, Dict> = {
     workDetail: {
       back: "Back to work",
       visitSite: "Visit site",
+      watchVideo: "Watch video",
+      closeVideo: "Close video",
       client: "Client",
       year: "Year",
       services: "Services",

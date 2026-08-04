@@ -8,6 +8,7 @@ import { getFeaturedCaseStudies, categoryLabel, type CaseStudy } from "@/lib/wor
 import { useLanguage } from "@/components/LanguageProvider";
 import type { Lang } from "@/lib/i18n/types";
 import { localizedHref } from "@/lib/i18n/localizedHref";
+import { useVideoAvailable } from "@/lib/useVideoAvailable";
 
 const PROJECTS = getFeaturedCaseStudies();
 
@@ -57,6 +58,9 @@ function ProjectSlide({
   lang: Lang;
   className?: string;
 }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoAvailable = useVideoAvailable(project.video);
+
   return (
     <div
       className="flex w-full shrink-0 items-center px-6 sm:px-14 lg:px-24"
@@ -66,6 +70,15 @@ function ProjectSlide({
         {...projectLink(project, lang)}
         initial="rest"
         whileHover="hover"
+        onHoverStart={() => {
+          // play() is async; if the pointer leaves before it resolves, the
+          // resulting pause() rejects it with an AbortError — expected, not a bug.
+          videoRef.current?.play().catch(() => {});
+        }}
+        onHoverEnd={() => {
+          videoRef.current?.pause();
+          if (videoRef.current) videoRef.current.currentTime = 0;
+        }}
         className={`group w-full ${className}`}
       >
         <div className="relative aspect-4/3 overflow-hidden rounded-3xl bg-linear-to-br from-ecom-dark to-ecom-black shadow-[0_30px_80px_-40px_rgba(18,18,19,0.65)] ring-1 ring-ecom-dark/10 transition-shadow duration-500 group-hover:shadow-[0_40px_90px_-35px_rgba(18,18,19,0.75)]">
@@ -76,6 +89,20 @@ function ProjectSlide({
               fill
               sizes={IMAGE_SIZES}
               className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+            />
+          )}
+          {project.video && videoAvailable && (
+            <motion.video
+              ref={videoRef}
+              src={project.video}
+              muted
+              loop
+              playsInline
+              preload="none"
+              variants={{ rest: { opacity: 0 }, hover: { opacity: 1 } }}
+              transition={{ duration: 0.3 }}
+              style={{ objectPosition: project.videoPosition ?? "center" }}
+              className="absolute inset-0 h-full w-full object-cover"
             />
           )}
           <div className="absolute inset-0 flex items-start justify-end p-4">
