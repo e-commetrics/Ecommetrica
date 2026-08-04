@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default function GlobalNotFound() {
   return (
     <html lang="es" className={clashDisplay.variable}>
-      <body className="flex min-h-screen flex-col antialiased" suppressHydrationWarning>
+      <body className="antialiased" suppressHydrationWarning>
         <GlobalNotFoundShell />
       </body>
     </html>

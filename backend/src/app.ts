@@ -3,8 +3,6 @@ import cors from "cors";
 import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 import contactRoute from "./route/contact.route";
-import { buildNotFoundHtml } from "./services/notFound.template";
-import type { Lang } from "./types";
 
 const app = express();
 
@@ -29,12 +27,9 @@ app.use("/api/contact", contactRoute);
 // Last resort: cPanel's Node.js Selector (Passenger) forwards any request
 // Apache can't serve as a static file to this app, so an unmatched route
 // (e.g. a stale/typo'd frontend path) would otherwise hit Express's bare
-// "Cannot GET /..." instead of a branded page.
-app.use((req, res) => {
-  // Prefer the real Next.js-rendered 404 (full branding, and it detects
-  // es/en client-side from the URL itself — see GlobalNotFoundShell) when
-  // this backend shares a filesystem with the deployed frontend build.
-  // Falls back to the plain built-in page (e.g. local dev, where this isn't set).
+// "Cannot GET /...". Serve the real Next.js-rendered 404 from the deployed
+// frontend build instead, since this backend shares a filesystem with it.
+app.use((_req, res) => {
   const frontendNotFoundPath = process.env.FRONTEND_STATIC_DIR
     ? join(process.env.FRONTEND_STATIC_DIR, "404.html")
     : undefined;
@@ -44,8 +39,7 @@ app.use((req, res) => {
     return;
   }
 
-  const lang: Lang = req.path === "/en" || req.path.startsWith("/en/") ? "en" : "es";
-  res.status(404).type("html").send(buildNotFoundHtml(lang));
+  res.status(404).send("Not found");
 });
 
 export default app;

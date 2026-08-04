@@ -2,20 +2,17 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Toaster } from "react-hot-toast";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import SmoothScroll from "@/components/SmoothScroll";
 import { LanguageProvider, useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 import type { Lang } from "@/lib/i18n/types";
 
 // global-not-found.tsx is built once into a single static out/404.html, so
 // the server-rendered markup is always Spanish. This detects the language
-// from the actual broken URL after mount and swaps the whole shell —
-// Header/Footer pick it up automatically via useLanguage(). Starting from
-// "es" (matching the server render) and only switching post-mount avoids a
-// hydration mismatch; it does mean a brief flash of Spanish on /en/* 404s.
+// from the actual broken URL (/ vs /en/) after mount and swaps the copy.
+// Starting from "es" (matching the server render) and only switching
+// post-mount avoids a hydration mismatch; it does mean a brief flash of
+// Spanish on /en/* 404s. Deliberately isolated — no Header/Footer, since
+// the Footer carries the ContactForm and this page should be just the 404.
 export default function GlobalNotFoundShell() {
   const [lang, setLang] = useState<Lang>("es");
 
@@ -27,26 +24,7 @@ export default function GlobalNotFoundShell() {
 
   return (
     <LanguageProvider lang={lang}>
-      <SmoothScroll />
-      <Header />
-      <main className="flex-1">
-        <NotFoundContent />
-      </main>
-      <Footer />
-      <Toaster
-        position="bottom-right"
-        toastOptions={{
-          style: {
-            background: "#25272a",
-            color: "#f2ede9",
-            fontSize: "14px",
-            borderRadius: "9999px",
-            padding: "12px 20px",
-          },
-          success: { iconTheme: { primary: "#e84a34", secondary: "#f2ede9" } },
-          error: { iconTheme: { primary: "#9c1512", secondary: "#f2ede9" } },
-        }}
-      />
+      <NotFoundContent />
     </LanguageProvider>
   );
 }
@@ -55,7 +33,7 @@ function NotFoundContent() {
   const { t, lang } = useLanguage();
 
   return (
-    <section className="relative flex min-h-[70vh] items-center overflow-hidden bg-ecom-black text-white">
+    <section className="relative flex h-screen items-center overflow-hidden bg-ecom-black text-white">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 text-center select-none"
