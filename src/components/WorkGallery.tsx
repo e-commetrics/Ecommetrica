@@ -50,39 +50,52 @@ function ProjectCard({
     : {};
 
   return (
+    // No card chrome: the image sits straight on the page and the title reads as
+    // a label under it. The old bordered, padded, tinted box shrank every image
+    // and made 23 projects look like a table of contents rather than a portfolio.
     <Link
       href={href}
       {...external}
-      className="group flex flex-col justify-between rounded-3xl border border-ecom-ink/10 bg-ecom-ink/[0.03] p-8 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-ecom-orange/40 hover:bg-ecom-ink/[0.06] hover:shadow-[0_30px_70px_-45px_rgba(18,18,19,0.5)]"
+      aria-label={`${project.name} — ${project.external ? visitSiteLabel : viewProjectLabel}`}
+      className="group flex flex-col"
     >
-      <div>
-        <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-ecom-ink/10">
-          {project.image && (
-            <Image
-              src={project.image}
-              alt={project.name}
-              fill
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
-            />
-          )}
-        </div>
-        <h3 className="mt-7 font-display text-2xl font-medium tracking-[-0.01em] text-ecom-ink transition-colors duration-300 group-hover:text-ecom-orange">
-          {project.name}
-        </h3>
-        <p className="mt-4 leading-relaxed text-ecom-ink/70">
-          {project.description[lang]}
-        </p>
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-ecom-ink/10">
+        {project.image && (
+          <Image
+            src={project.image}
+            alt={project.name}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
+          />
+        )}
       </div>
-      <span className="mt-8 inline-flex w-fit items-center gap-2 text-sm font-medium tracking-wide text-ecom-ink uppercase transition-colors duration-300 group-hover:text-ecom-orange">
-        {project.external ? visitSiteLabel : viewProjectLabel}
+
+      <h3 className="mt-6 flex items-center gap-2.5 font-display text-2xl font-medium tracking-[-0.01em] text-ecom-ink transition-colors duration-300 group-hover:text-ecom-orange sm:text-3xl">
+        <span className="relative">
+          {project.name}
+          {/* Underline grows from the left on hover — the rule is drawn here
+              rather than with `underline` so it can animate. */}
+          <span
+            aria-hidden
+            className="absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-100 bg-current transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-0"
+          />
+          <span
+            aria-hidden
+            className="absolute -bottom-1.5 left-0 h-0.5 w-full origin-left scale-x-0 bg-ecom-orange transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100"
+          />
+        </span>
         <span
           aria-hidden
-          className="transition-transform duration-300 group-hover:translate-x-1"
+          className="shrink-0 text-xl transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
         >
-          &rarr;
+          {project.external ? "↗" : "→"}
         </span>
-      </span>
+      </h3>
+
+      <p className="mt-4 max-w-prose text-sm leading-relaxed text-ecom-ink/60">
+        {project.description[lang]}
+      </p>
     </Link>
   );
 }
@@ -157,7 +170,7 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
               </span>
             </h2>
 
-            <div className="mt-10 grid gap-8 md:grid-cols-2">
+            <div className="mt-12 grid gap-x-10 gap-y-20 md:grid-cols-2 lg:gap-x-16">
               {categoryProjects.map((project) => (
                 <ProjectCard
                   key={project.slug}

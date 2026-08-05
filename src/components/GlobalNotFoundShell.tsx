@@ -52,7 +52,7 @@ function NotFoundContent() {
         <p className="eyebrow-rule text-center text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
           {t.notFound.eyebrow}
         </p>
-        <h1 className="mt-8 text-balance font-display text-4xl font-medium tracking-[-0.02em] sm:text-5xl">
+        <h1 className="mt-8 text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em]">
           {t.notFound.headline}
         </h1>
         <p className="mx-auto mt-6 max-w-md text-lg leading-relaxed text-white/60">

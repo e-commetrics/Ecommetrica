@@ -31,14 +31,14 @@ export default function BigNav({ lang }: { lang: Lang }) {
         className="pointer-events-none absolute bottom-32 left-1/3 h-80 w-80 rounded-full bg-ecom-orange/25 blur-3xl"
       />
 
-      <div className="relative mx-auto max-w-7xl divide-y divide-ecom-ink/15 border-y border-ecom-ink/15 px-6 lg:px-10">
+      <div className="relative shell divide-y divide-ecom-ink/15 border-y border-ecom-ink/15">
         {items.map((item, i) => (
           <Reveal key={item.label} delay={i * 0.08} y={16}>
             <Link
               href={item.href}
               className="group flex items-center justify-between gap-6 py-10 sm:py-12"
             >
-              <span className="font-display text-4xl font-medium tracking-[-0.02em] uppercase transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-3 group-hover:text-ecom-orange sm:text-6xl lg:text-7xl">
+              <span className="font-display text-[clamp(2.5rem,6vw,7rem)] font-medium leading-[0.98] tracking-[-0.03em] uppercase transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-3 group-hover:text-ecom-orange ">
                 {item.label}
               </span>
               <span

@@ -85,7 +85,7 @@ export default function AboutStudio() {
   }, [index, isPaused, prefersReducedMotion]);
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
+    <section className="shell py-24 lg:py-32">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -104,16 +104,21 @@ export default function AboutStudio() {
       {/* `[&>*]:min-w-0` on the grid is load-bearing: grid items default to
           `min-width: auto`, so the roster rail's nowrap names below forced the
           copy column to its min-content width (500px inside a 327px grid on a
-          375px phone) and dragged the whole document 149px wide. */}
+          375px phone) and dragged the whole document 149px wide.
+
+          The photo column is bounded in rem rather than a fraction for a
+          related reason: on the wider shell a `1fr` column grew to ~800px while
+          the card stayed capped at 350px, marooning the portrait in empty
+          space. */}
       <div
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onFocus={() => setIsPaused(true)}
         onBlur={() => setIsPaused(false)}
-        className="mt-12 grid gap-14 border-t border-ecom-ink/10 pt-20 [&>*]:min-w-0 lg:grid-cols-[1fr_1.2fr] lg:items-center lg:gap-10 lg:pt-28"
+        className="mt-12 grid gap-14 border-t border-ecom-ink/10 pt-20 [&>*]:min-w-0 lg:grid-cols-[minmax(20rem,30rem)_1fr] lg:items-center lg:gap-20 lg:pt-28"
       >
         {/* Photo stage: background numeral + stacked "next" card (tints orange on hover) + active card */}
-        <div className="group relative mx-auto w-full max-w-[350px]">
+        <div className="group relative mx-auto w-full max-w-[350px] lg:mx-0 lg:max-w-none">
           <div
             aria-hidden
             className="pointer-events-none absolute -top-14 -left-6 select-none lg:-top-20 lg:-left-12"

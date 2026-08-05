@@ -11,25 +11,29 @@ export default function Footer() {
 
   return (
     <footer className="bg-ecom-gradient text-white">
-      <div className="relative mx-auto max-w-7xl px-6 pt-24 lg:px-10 lg:pt-32">
-        <Reveal>
-          <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-white/60 uppercase">
-            {t.footer.eyebrow}
-          </p>
-          <h2 className="mt-5 font-display text-4xl font-medium tracking-[-0.02em] sm:text-6xl lg:text-7xl">
-            {t.footer.headline}
-          </h2>
-          <p className="mt-2 text-lg text-white/70">
-            <span aria-hidden className="mr-2 text-ecom-orange">
-              &mdash;
-            </span>
-            {t.footer.leaveRequest}
-          </p>
-        </Reveal>
+      <div className="relative shell pt-24 lg:pt-32">
+        {/* Headline and form sit side by side: stacked, the form's own max-width
+            left most of the shell empty on a wide screen. */}
+        <div className="grid gap-14 lg:grid-cols-2 lg:items-start lg:gap-24">
+          <Reveal>
+            <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-white/60 uppercase">
+              {t.footer.eyebrow}
+            </p>
+            <h2 className="mt-5 font-display text-[clamp(2.5rem,6vw,7rem)] font-medium leading-[0.98] tracking-[-0.03em]">
+              {t.footer.headline}
+            </h2>
+            <p className="mt-4 max-w-md text-lg text-white/70">
+              <span aria-hidden className="mr-2 text-ecom-orange">
+                &mdash;
+              </span>
+              {t.footer.leaveRequest}
+            </p>
+          </Reveal>
 
-        <Reveal delay={0.15} className="mt-12 max-w-2xl">
-          <ContactForm />
-        </Reveal>
+          <Reveal delay={0.15} className="lg:pt-6">
+            <ContactForm />
+          </Reveal>
+        </div>
 
         <div className="mt-20 flex flex-col gap-4 border-t border-white/15 py-8 text-xs tracking-wide text-white/60 uppercase sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap gap-x-6 gap-y-2">

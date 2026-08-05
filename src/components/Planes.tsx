@@ -41,7 +41,7 @@ export default function Planes() {
         className="pointer-events-none absolute -left-40 bottom-40 h-[30rem] w-[30rem] rounded-full bg-ecom-red/15 blur-[130px]"
       />
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-10">
+      <div className="relative shell">
         <Reveal>
           <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-white/50 uppercase">
             {t.planes.eyebrow}

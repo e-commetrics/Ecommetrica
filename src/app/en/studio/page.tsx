@@ -17,11 +17,11 @@ export const metadata: Metadata = {
 
 export default function StudioPage() {
   return (
-    <div className="mx-auto max-w-7xl px-6 py-20 lg:px-10 lg:py-28">
+    <div className="shell py-20 lg:py-28">
       <p className="text-sm font-medium uppercase tracking-[0.2em] text-ecom-orange">
         Studio
       </p>
-      <h1 className="mt-6 max-w-3xl font-display text-4xl font-medium tracking-tight text-ecom-ink sm:text-5xl">
+      <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
         &ldquo;{t.studioPage.quote}&rdquo;
       </h1>
 

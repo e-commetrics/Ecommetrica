@@ -47,7 +47,7 @@ export default async function CaseStudyPage({
   const details = project.details;
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-20 lg:px-10 lg:py-28">
+    <div className="shell py-20 lg:py-28">
       <Link
         href={localizedHref(LANG, "/work")}
         className="text-sm font-medium text-ecom-ink/60 hover:text-ecom-orange"
@@ -58,7 +58,7 @@ export default async function CaseStudyPage({
       <p className="mt-8 text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
         {categoryLabel(project.category, LANG)}
       </p>
-      <h1 className="mt-3 font-display text-4xl font-medium tracking-tight text-ecom-ink sm:text-5xl">
+      <h1 className="mt-3 font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
         {project.name}
       </h1>
       <p className="mt-8 text-lg text-ecom-ink/70">

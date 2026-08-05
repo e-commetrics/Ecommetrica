@@ -15,13 +15,13 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
     // scroll-mt clears the sticky header when /#services jumps here.
     <section
       id="services"
-      className="mx-auto max-w-7xl scroll-mt-24 px-6 py-24 lg:px-10 lg:py-32"
+      className="shell scroll-mt-24 py-24 lg:py-32"
     >
       <Reveal>
         <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
           {t.servicesOverview.eyebrow}
         </p>
-        <h2 className="mt-6 font-display text-4xl font-medium tracking-[-0.02em] text-ecom-ink sm:text-6xl lg:text-7xl">
+        <h2 className="mt-6 font-display text-[clamp(2.5rem,6vw,7rem)] font-medium leading-[0.98] tracking-[-0.03em] text-ecom-ink ">
           {t.servicesOverview.headline}
           <br />
           <span className="text-ecom-orange">{t.servicesOverview.headlineAccent}</span>

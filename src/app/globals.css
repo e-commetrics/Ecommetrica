@@ -141,6 +141,28 @@ html.theming *::after {
   --tw-prose-td-borders: color-mix(in srgb, var(--color-ecom-ink) 15%, transparent);
 }
 
+/* The page shell — one definition for every section's horizontal bounds, so
+   the site's width is tuned here and nowhere else.
+
+   This replaces a centred 1280px column that every section repeated inline.
+   That cap, on a 1900px display, left ~300px of dead margin on each side
+   and made the whole site read as a narrow centred column. Now content runs
+   near the viewport edges; the max-width only engages past ~1792px so body copy
+   on ultra-wide monitors doesn't stretch to unreadable line lengths. */
+@utility shell {
+  width: 100%;
+  max-width: 112rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 3rem;
+  }
+}
+
 /* Horizontal rails (team roster, etc.) that scroll without a visible bar. */
 @utility scrollbar-none {
   scrollbar-width: none;

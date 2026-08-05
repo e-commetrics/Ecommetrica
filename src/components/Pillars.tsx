@@ -15,7 +15,7 @@ export default function Pillars({ lang }: { lang: Lang }) {
         className="pointer-events-none absolute -right-40 top-1/4 h-[32rem] w-[32rem] rounded-full bg-ecom-orange/10 blur-[130px]"
       />
 
-      <div className="relative mx-auto max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
+      <div className="relative shell py-24 lg:py-32">
         <Reveal className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm font-medium tracking-[0.15em] text-white/50 uppercase">
           {flow.map((item, i) => (
             <span key={item} className="flex items-center gap-3">

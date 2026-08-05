@@ -53,7 +53,7 @@ export default function Header() {
       transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
       className="sticky top-0 z-50 border-b border-ecom-orange/20 bg-ecom-black/90 backdrop-blur"
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
+      <div className="shell flex items-center justify-between py-4">
         <Link href={localizedHref(lang, "/")} className="flex items-center gap-2">
           <Image
             src="/Logos/LOGO SECUNDARIO ECOMMETRICA 2.1.png"

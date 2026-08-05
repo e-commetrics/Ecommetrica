@@ -57,29 +57,38 @@ export default function Hero() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative mx-auto max-w-7xl px-6 pt-28 pb-32 lg:px-10 lg:pt-40 lg:pb-48"
+        className="relative shell pt-28 pb-32 lg:pt-40 lg:pb-48"
       >
-        <motion.p
+        {/* Eyebrow and sub sit on one row at opposite edges rather than stacked
+            down the left — that asymmetry is what lets the headline below own
+            the full width instead of competing with a column of small text. */}
+        <motion.div
           variants={item}
-          className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase"
+          className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-16"
         >
-          {t.hero.eyebrow}
-        </motion.p>
+          <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
+            {t.hero.eyebrow}
+          </p>
+          <p className="max-w-md text-lg leading-relaxed text-white/60 lg:text-right">
+            {t.hero.sub}
+          </p>
+        </motion.div>
+
+        {/* Fluid size: scales with the viewport so the headline stays edge-to-edge
+            at every width instead of stepping between fixed breakpoints. */}
         <motion.h1
           variants={item}
-          className="mt-8 max-w-5xl text-balance font-display text-[2.75rem] leading-[1.02] font-medium tracking-[-0.02em] sm:text-6xl lg:text-[5.5rem]"
+          className="mt-14 text-balance font-display text-[clamp(2.75rem,7.5vw,8.5rem)] leading-[0.95] font-medium tracking-[-0.035em] lg:mt-20"
         >
           {t.hero.headlinePre}{" "}
           <span className="text-ecom-orange">{t.hero.headlineAccent}</span>{" "}
           {t.hero.headlinePost}
         </motion.h1>
-        <motion.p
+
+        <motion.div
           variants={item}
-          className="mt-8 max-w-xl text-lg leading-relaxed text-white/60"
+          className="mt-14 flex flex-wrap items-center gap-6 lg:mt-20"
         >
-          {t.hero.sub}
-        </motion.p>
-        <motion.div variants={item} className="mt-12 flex flex-wrap items-center gap-6">
           <Link
             href={localizedHref(lang, "/#services")}
             className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
