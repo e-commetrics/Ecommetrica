@@ -344,6 +344,9 @@ export const dict: Record<Lang, Dict> = {
         "En 2023 comenzó Ecommetrica con un equipo pequeño pero lleno de buenas ideas y corazón. Estamos en Tijuana.",
         "Nuestro equipo cuenta con un bagaje de más de 10 años de experiencia elaborando proyectos relacionados con el mundo digital, el diseño y el marketing online.",
         "Nos basamos en métodos iterativos de mejora: análisis, planificación, medición y testeo. Con mucha creatividad y método para generar marcas únicas.",
+        // Salvaged from a source paragraph that otherwise repeated the two
+        // lines above almost word for word; only this half said anything new.
+        "Trabajamos con planeación estratégica y segura, y soluciones a la medida para tu negocio digital y tu comercio en línea.",
       ],
       missionTitle: "Misión",
       missionCopy:
@@ -607,6 +610,9 @@ export const dict: Record<Lang, Dict> = {
         "Ecommetrica started in 2023 with a small team full of good ideas and heart. We're based in Tijuana.",
         "Our team brings over 10 years of experience building projects across the digital world, design, and online marketing.",
         "We work from iterative methods of improvement: analysis, planning, measurement, and testing. Plenty of creativity, and a method behind it, to build brands that stand out.",
+        // See the note on the Spanish side — this is the half of a source
+        // paragraph that wasn't already said two lines above.
+        "We work with strategic, secure planning and made-to-measure solutions for your digital business and your online store.",
       ],
       missionTitle: "Mission",
       missionCopy:
