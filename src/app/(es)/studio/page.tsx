@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Methodology from "@/components/Methodology";
 import { team } from "@/lib/team";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
@@ -23,6 +24,12 @@ export default function StudioPage() {
       <h1 className="mt-6 max-w-3xl font-display text-4xl font-medium tracking-tight text-ecom-ink sm:text-5xl">
         &ldquo;{t.studioPage.quote}&rdquo;
       </h1>
+
+      <div className="mt-10 max-w-3xl space-y-4 text-lg leading-relaxed text-ecom-ink/70">
+        {t.studioPage.intro.map((paragraph) => (
+          <p key={paragraph}>{paragraph}</p>
+        ))}
+      </div>
 
       <div className="mt-16 grid gap-12 lg:grid-cols-2">
         <div>
@@ -49,6 +56,8 @@ export default function StudioPage() {
           ))}
         </div>
       </div>
+
+      <Methodology lang={LANG} />
 
       <div className="mt-20 border-t border-ecom-ink/10 pt-16">
         <h2 className="font-display text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/60">

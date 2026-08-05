@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import SelectWork from "@/components/SelectWork";
 import Pillars from "@/components/Pillars";
+import ServicesOverview from "@/components/ServicesOverview";
 import AboutStudio from "@/components/AboutStudio";
 import Planes from "@/components/Planes";
 import BigNav from "@/components/BigNav";
@@ -24,6 +25,7 @@ export default function Home() {
       <Hero />
       <SelectWork />
       <Pillars lang="en" />
+      <ServicesOverview lang="en" />
       <AboutStudio />
       <Planes />
       <BigNav lang="en" />

@@ -9,7 +9,7 @@ export default function BigNav({ lang }: { lang: Lang }) {
 
   const items = [
     { label: t.bigNav.work, href: localizedHref(lang, "/work"), arrow: "↗" },
-    { label: t.bigNav.services, href: localizedHref(lang, "/#services"), arrow: "→" },
+    { label: t.bigNav.services, href: localizedHref(lang, "/services"), arrow: "→" },
     { label: t.bigNav.talk, href: localizedHref(lang, "/contact"), arrow: "↘" },
   ];
 

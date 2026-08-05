@@ -41,6 +41,7 @@ export default function Header() {
 
   const navLinks = [
     { href: localizedHref(lang, "/studio"), label: t.nav.studio },
+    { href: localizedHref(lang, "/services"), label: t.nav.services },
     { href: localizedHref(lang, "/work"), label: t.nav.work },
     { href: localizedHref(lang, "/blog"), label: t.nav.blog },
     { href: localizedHref(lang, "/contact"), label: t.nav.contact },
@@ -64,7 +65,9 @@ export default function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-8 text-sm font-medium tracking-wide uppercase md:flex">
+        {/* gap tightens at md: five links plus both switchers and the CTA pill
+            overflow the bar at 768px on the wider gap. */}
+        <nav className="hidden items-center gap-5 text-sm font-medium tracking-wide uppercase md:flex lg:gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.href}

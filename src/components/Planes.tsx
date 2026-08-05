@@ -18,10 +18,13 @@ export default function Planes() {
   const drift = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
 
   return (
+    // `#services` now belongs to ServicesOverview — the CTA that pointed here
+    // said "discover the services" and landed on pricing. This keeps a pricing
+    // deep link available under its own name.
     <section
-      id="services"
+      id="planes"
       ref={sectionRef}
-      className="relative overflow-hidden bg-ecom-black py-24 lg:py-32"
+      className="relative scroll-mt-24 overflow-hidden bg-ecom-black py-24 lg:py-32"
     >
       <motion.div
         aria-hidden
@@ -43,9 +46,12 @@ export default function Planes() {
           <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-white/50 uppercase">
             {t.planes.eyebrow}
           </p>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/70">
+            {t.planes.sub}
+          </p>
         </Reveal>
 
-        <div className="mt-24 grid gap-6 lg:mt-32 lg:grid-cols-4">
+        <div className="mt-16 grid gap-6 lg:mt-24 lg:grid-cols-4">
           {plans.map((plan, i) => (
             <Reveal key={plan.name.en} delay={i * 0.1}>
               <div

@@ -2,7 +2,14 @@ import type { Lang } from "@/lib/i18n/types";
 
 export type Dict = {
   siteMeta: { title: string; description: string; keywords: string[] };
-  nav: { studio: string; work: string; blog: string; contact: string; talk: string };
+  nav: {
+    studio: string;
+    services: string;
+    work: string;
+    blog: string;
+    contact: string;
+    talk: string;
+  };
   mobileMenu: { open: string };
   languageSwitcher: { ariaLabel: string };
   themeSwitcher: { ariaLabel: string };
@@ -33,7 +40,15 @@ export type Dict = {
     stats: { value: string; label: string }[];
   };
   bigNav: { work: string; services: string; talk: string };
-  planes: { eyebrow: string; bigWord: string; popular: string };
+  planes: { eyebrow: string; bigWord: string; sub: string; popular: string };
+  servicesOverview: {
+    eyebrow: string;
+    headline: string;
+    headlineAccent: string;
+    sub: string;
+    cta: string;
+    viewAria: (name: string) => string;
+  };
   selectWork: {
     eyebrow: string;
     headline: string;
@@ -52,6 +67,13 @@ export type Dict = {
     prevAria: string;
     nextAria: string;
     viewAria: (name: string) => string;
+  };
+  methodology: {
+    eyebrow: string;
+    headline: string;
+    intro: string[];
+    /** `copy` is optional: an unwritten step renders as a title only. */
+    steps: { title: string; copy?: string }[];
   };
   contactForm: {
     nameLabel: string;
@@ -81,10 +103,18 @@ export type Dict = {
     headline: string;
     sub: string;
   };
+  servicesPage: {
+    metaDescription: string;
+    keywords: string[];
+    eyebrow: string;
+    headline: string;
+    sub: string;
+  };
   studioPage: {
     metaDescription: string;
     keywords: string[];
     quote: string;
+    intro: string[];
     missionTitle: string;
     missionCopy: string;
     visionTitle: string;
@@ -129,20 +159,27 @@ export type Dict = {
 export const dict: Record<Lang, Dict> = {
   es: {
     siteMeta: {
-      title: "Ecommetrica | Estrategia, tecnología y marketing digital",
+      title: "Ecommetrica | Desarrollo Web a Medida, Webapps y Ecommerce",
       description:
-        "Construimos ecosistemas digitales seguros para el crecimiento sostenible de los negocios. Estrategia, tecnología y marketing trabajando juntos.",
+        "Creamos páginas, webapps y tiendas en línea. Impulsa tu marca con branding y marketing digital en Tijuana, San Diego y Los Ángeles.",
       keywords: [
-        "Ecommetrica",
-        "agencia digital",
-        "desarrollo web",
-        "marketing digital",
-        "branding",
-        "seguridad tecnológica",
-        "consultoría digital",
+        "Desarrollo web a medida",
+        "Código",
+        "agencias de desarrollo web",
+        "desarrollo de webapps",
+        "tiendas en línea Tijuana",
+        "branding y diseño web",
+        "consultoría tecnológica",
       ],
     },
-    nav: { studio: "Estudio", work: "Trabajo", blog: "Blog", contact: "Contacto", talk: "Hablemos" },
+    nav: {
+      studio: "Estudio",
+      services: "Servicios",
+      work: "Trabajo",
+      blog: "Blog",
+      contact: "Contacto",
+      talk: "Hablemos",
+    },
     mobileMenu: { open: "Menú" },
     languageSwitcher: { ariaLabel: "Cambiar idioma" },
     themeSwitcher: { ariaLabel: "Tema" },
@@ -152,15 +189,15 @@ export const dict: Record<Lang, Dict> = {
       faq: "FAQ",
       eyebrow: "Contáctanos",
       headline: "¿Estás listo?",
-      leaveRequest: "Deja tu solicitud",
+      leaveRequest: "Hablemos de lo que tu página web podría aportar a tu negocio.",
       rights: "Todos los derechos reservados.",
     },
     hero: {
-      eyebrow: "Ecommetrica Studio",
-      headlinePre: "Construimos marcas que",
-      headlineAccent: "transforman industrias",
-      headlinePost: "e impulsan negocios.",
-      sub: "A través de estrategias basadas en realidades de mercado.",
+      eyebrow: "Desarrollo web y webapps en Tijuana y San Diego",
+      headlinePre: "Haz de tu",
+      headlineAccent: "página web",
+      headlinePost: "tu ventaja competitiva.",
+      sub: "Tu website y tus webapps son las herramientas de crecimiento más eficaces.",
       ctaServices: "Descubre los servicios",
       ctaWork: "Ve nuestro trabajo",
     },
@@ -190,7 +227,22 @@ export const dict: Record<Lang, Dict> = {
       ],
     },
     bigNav: { work: "Trabajo", services: "Servicios", talk: "Hablemos" },
-    planes: { eyebrow: "Nuestros", bigWord: "PLANES", popular: "Popular" },
+    planes: {
+      eyebrow: "Nuestros",
+      bigWord: "PLANES",
+      // TODO(copy): placeholder lead-in borrowed from the loose brand phrases.
+      // This section deserves copy written to introduce pricing specifically.
+      sub: "Páginas web y tiendas online únicas para maximizar las ventas y liderar tu presencia en internet.",
+      popular: "Popular",
+    },
+    servicesOverview: {
+      eyebrow: "Nuestros",
+      headline: "Servicios",
+      headlineAccent: "a la medida",
+      sub: "Estrategia, diseño y desarrollo trabajando para que tu marca o empresa funcione tan bien como se ve.",
+      cta: "Ver todos los servicios",
+      viewAria: (name) => `Ver ${name}`,
+    },
     selectWork: {
       eyebrow: "Nuestros",
       headline: "Proyectos",
@@ -209,6 +261,29 @@ export const dict: Record<Lang, Dict> = {
       prevAria: "Miembro anterior",
       nextAria: "Siguiente miembro",
       viewAria: (name) => `Ver a ${name}`,
+    },
+    methodology: {
+      eyebrow: "Nuestra metodología",
+      headline: "Trabajo en equipo y bajo una misma metodología",
+      intro: [
+        "Conoce las bases para que no te den gato por liebre.",
+        "Hemos tenido el gozo de poner nuestro gramito de arena en proyectos nuevos, refrescar proyectos con larga trayectoria y mejorar sitios web y aplicaciones.",
+      ],
+      steps: [
+        {
+          title: "Crea tu sitio desde cero",
+          copy: "Aquí una idea o un objeto puede inspirarnos. Y si ya tienes todo listo, ¡comenzamos!",
+        },
+        {
+          title: "Creamos código limpio para ofrecer experiencias dinámicas",
+          // TODO(copy): needs a `copy` paragraph — steps 1 and 3 have one, this
+          // one arrived as a title only. Renders as a title until filled.
+        },
+        {
+          title: "Siempre tendrás un DEVELOPMENT",
+          copy: "Mientras creamos tu página, tienda en línea o webapp siempre tendrás una versión beta para que conviertas el tráfico en ingresos, realices pruebas con herramientas nativas y personalices según tu público.",
+        },
+      ],
     },
     contactForm: {
       nameLabel: "Nombre",
@@ -238,6 +313,21 @@ export const dict: Record<Lang, Dict> = {
       headline: "Construyamos algo que perdure.",
       sub: "Cuéntanos sobre tu proyecto — nuestro equipo responde cada solicitud personalmente.",
     },
+    servicesPage: {
+      metaDescription:
+        "Desarrollo web a medida, webapps, tiendas en línea, SEO y AEO, campañas, video y diseño. Todos los servicios de Ecommetrica en Tijuana, San Diego y Los Ángeles.",
+      keywords: [
+        "servicios de desarrollo web",
+        "desarrollo de webapps",
+        "tiendas en línea Tijuana",
+        "posicionamiento SEO y AEO",
+        "mantenimiento web",
+        "diseño y branding",
+      ],
+      eyebrow: "Servicios",
+      headline: "Convierte tu sitio web obsoleto en tu principal activo de crecimiento.",
+      sub: "Todo lo que hacemos, servicio por servicio.",
+    },
     studioPage: {
       metaDescription:
         "Construimos ecosistemas digitales seguros para el crecimiento sostenible de los negocios.",
@@ -250,6 +340,11 @@ export const dict: Record<Lang, Dict> = {
       ],
       quote:
         "Construimos ecosistemas digitales seguros para el crecimiento sostenible de los negocios.",
+      intro: [
+        "En 2023 comenzó Ecommetrica con un equipo pequeño pero lleno de buenas ideas y corazón. Estamos en Tijuana.",
+        "Nuestro equipo cuenta con un bagaje de más de 10 años de experiencia elaborando proyectos relacionados con el mundo digital, el diseño y el marketing online.",
+        "Nos basamos en métodos iterativos de mejora: análisis, planificación, medición y testeo. Con mucha creatividad y método para generar marcas únicas.",
+      ],
       missionTitle: "Misión",
       missionCopy:
         "Brindar soluciones digitales estratégicas, seguras y personalizadas que permitan a empresas y emprendedores fortalecer su presencia digital, optimizar sus procesos y alcanzar un crecimiento sostenible.",
@@ -328,20 +423,28 @@ export const dict: Record<Lang, Dict> = {
   },
   en: {
     siteMeta: {
-      title: "Ecommetrica | Strategy, technology, and digital marketing",
+      title: "Ecommetrica | Custom Web Development & Webapps Agency",
       description:
-        "We build secure digital ecosystems for sustainable business growth. Strategy, technology, and marketing working together.",
+        "High-performance web apps, custom code websites, branding, and digital marketing. Premium tech consulting serving Tijuana, San Diego, and LA.",
       keywords: [
-        "Ecommetrica",
-        "digital agency",
-        "web development",
-        "digital marketing",
-        "branding",
-        "technology security",
-        "digital consulting",
+        "Custom web development",
+        "web apps agency",
+        "e-commerce developers",
+        "CMS",
+        "Webflow development",
+        "Rank in AI search",
+        "Branding Tijuana San Diego",
+        "software development company",
       ],
     },
-    nav: { studio: "Studio", work: "Work", blog: "Blog", contact: "Contact", talk: "Let's talk" },
+    nav: {
+      studio: "Studio",
+      services: "Services",
+      work: "Work",
+      blog: "Blog",
+      contact: "Contact",
+      talk: "Let's talk",
+    },
     mobileMenu: { open: "Menu" },
     languageSwitcher: { ariaLabel: "Toggle language" },
     themeSwitcher: { ariaLabel: "Theme" },
@@ -351,15 +454,15 @@ export const dict: Record<Lang, Dict> = {
       faq: "FAQ",
       eyebrow: "Contact us",
       headline: "Are you ready?",
-      leaveRequest: "Leave a request",
+      leaveRequest: "Let's talk about what your website could be doing for your business.",
       rights: "All rights reserved.",
     },
     hero: {
-      eyebrow: "Ecommetrica Studio",
-      headlinePre: "We build brands that",
-      headlineAccent: "transform industries",
-      headlinePost: "and boost businesses.",
-      sub: "Through strategies based on market realities.",
+      eyebrow: "Web development & webapps in Tijuana and San Diego",
+      headlinePre: "Make your",
+      headlineAccent: "website",
+      headlinePost: "your competitive edge.",
+      sub: "Your website and your web apps are the most effective growth tools you have.",
       ctaServices: "Discover the services",
       ctaWork: "See our work",
     },
@@ -389,7 +492,22 @@ export const dict: Record<Lang, Dict> = {
       ],
     },
     bigNav: { work: "Work", services: "Services", talk: "Let's talk" },
-    planes: { eyebrow: "Our", bigWord: "PLANS", popular: "Popular" },
+    planes: {
+      eyebrow: "Our",
+      bigWord: "PLANS",
+      // TODO(copy): placeholder lead-in borrowed from the loose brand phrases.
+      // This section deserves copy written to introduce pricing specifically.
+      sub: "One-of-a-kind websites and online stores built to maximize sales and lead your presence online.",
+      popular: "Popular",
+    },
+    servicesOverview: {
+      eyebrow: "Our",
+      headline: "Services",
+      headlineAccent: "made to measure",
+      sub: "Strategy, design, and development working together so your brand or company works as well as it looks.",
+      cta: "See all services",
+      viewAria: (name) => `View ${name}`,
+    },
     selectWork: {
       eyebrow: "Our",
       headline: "Projects",
@@ -408,6 +526,29 @@ export const dict: Record<Lang, Dict> = {
       prevAria: "Previous member",
       nextAria: "Next member",
       viewAria: (name) => `View ${name}`,
+    },
+    methodology: {
+      eyebrow: "Our methodology",
+      headline: "One team, one methodology",
+      intro: [
+        "Know how it works, so nobody can pull the wool over your eyes.",
+        "We've had the joy of adding our grain of sand to brand-new projects, refreshing long-running ones, and improving existing websites and apps.",
+      ],
+      steps: [
+        {
+          title: "Build your site from scratch",
+          copy: "An idea — even an object — can spark it. And if you already have everything ready, we start right away.",
+        },
+        {
+          title: "Clean code that delivers dynamic experiences",
+          // TODO(copy): needs a `copy` paragraph — steps 1 and 3 have one, this
+          // one arrived as a title only. Renders as a title until filled.
+        },
+        {
+          title: "You always have a DEVELOPMENT build",
+          copy: "While we build your site, online store, or web app, you always have a beta version — so you can turn traffic into revenue, run tests with native tools, and tailor it to your audience.",
+        },
+      ],
     },
     contactForm: {
       nameLabel: "Name",
@@ -437,6 +578,21 @@ export const dict: Record<Lang, Dict> = {
       headline: "Let's build something that lasts.",
       sub: "Tell us about your project below — our team gets back to every request personally.",
     },
+    servicesPage: {
+      metaDescription:
+        "Custom web development, web apps, online stores, SEO and AEO, campaigns, video, and design. Every Ecommetrica service across Tijuana, San Diego, and LA.",
+      keywords: [
+        "web development services",
+        "web apps agency",
+        "e-commerce developers",
+        "SEO and AEO positioning",
+        "web maintenance",
+        "branding and design",
+      ],
+      eyebrow: "Services",
+      headline: "Turn your outdated website into your biggest growth asset.",
+      sub: "Everything we do, service by service.",
+    },
     studioPage: {
       metaDescription: "We build secure digital ecosystems for sustainable business growth.",
       keywords: [
@@ -447,6 +603,11 @@ export const dict: Record<Lang, Dict> = {
         "mission and vision",
       ],
       quote: "We build secure digital ecosystems for sustainable business growth.",
+      intro: [
+        "Ecommetrica started in 2023 with a small team full of good ideas and heart. We're based in Tijuana.",
+        "Our team brings over 10 years of experience building projects across the digital world, design, and online marketing.",
+        "We work from iterative methods of improvement: analysis, planning, measurement, and testing. Plenty of creativity, and a method behind it, to build brands that stand out.",
+      ],
       missionTitle: "Mission",
       missionCopy:
         "To provide strategic, secure, and personalized digital solutions that let businesses and entrepreneurs strengthen their digital presence, optimize their processes, and reach sustainable growth.",
