@@ -13,7 +13,7 @@ export type Faq = {
 export const faqs: Faq[] = [
   {
     // Ecommetrica (B2C) and Ecommetrics (B2B) are two distinct brands, not a
-    // typo — confirmed by the owner. Keep both names spelled as-is.
+    // typo — confirmed by the owner. Keep both names spelled as-is
     question: {
       es: "¿En qué área se especializan?",
       en: "What areas do you specialize in?",
