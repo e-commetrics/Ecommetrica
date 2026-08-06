@@ -91,7 +91,7 @@ export const serviceGroups: ServiceGroup[] = [
   },
   {
     id: "social-ads",
-    name: { es: "Social media ads", en: "Social media ads" },
+    name: { es: "Anuncios para redes sociales", en: "Social media ads" },
     tagline: {
       es: "Atrae a los clientes que quieres e incrementa tus seguidores.",
       en: "Attract the clients you want and grow your following.",
@@ -183,7 +183,7 @@ export const serviceCategories: ServiceCategory[] = [
     highlights: [
       { es: "Posicionamiento SEO y AEO", en: "SEO & AEO positioning" },
       { es: "Campañas Google", en: "Google campaigns" },
-      { es: "Social media ads", en: "Social media ads" },
+      { es: "Anuncios para redes sociales", en: "Social media ads" },
     ],
   },
   {

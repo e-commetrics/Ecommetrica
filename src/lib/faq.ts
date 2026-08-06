@@ -3,7 +3,6 @@ import type { Localized } from "@/lib/i18n/types";
 /**
  * OPEN COPY GAPS — `grep -rn "TODO(copy)" src/`:
  *   "¿Cómo hacemos que consigas más clientes?" — the answer never names the tools
- *   "¿En qué área se especializan?"            — a second brand name was dropped
  *   "¿Cuánto tiempo…?"                          — timings vs. src/lib/pricing.ts
  */
 export type Faq = {
@@ -13,18 +12,15 @@ export type Faq = {
 
 export const faqs: Faq[] = [
   {
-    // TODO(copy): the source answer split the work between "Ecommetrica" (B2C)
-    // and "Ecommetrics" (B2B) as if they were two separate brands. That claim is
-    // unconfirmed and reads as a typo, so it is left out here — the areas
-    // themselves are kept. Restore the split only once it's confirmed real, and
-    // then explain it, because as written it confused more than it clarified.
+    // Ecommetrica (B2C) and Ecommetrics (B2B) are two distinct brands, not a
+    // typo — confirmed by the owner. Keep both names spelled as-is.
     question: {
       es: "¿En qué área se especializan?",
       en: "What areas do you specialize in?",
     },
     answer: {
-      es: "Trabajamos B2C para turismo médico, marcas personales y productos, y B2B con desarrollo web robusto para la industria alimenticia y automotriz. Te guiamos paso a paso para diseñar un plan estratégico que impulse tu crecimiento, te dé autonomía, te abra a nivel regional e internacional y automatice tus procesos para maximizar eficiencia y resultados.",
-      en: "We work B2C for medical tourism, personal brands, and products, and B2B with robust web development for the food and automotive industries. We guide you step by step to design a strategic plan that drives your growth, gives you autonomy, opens you up regionally and internationally, and automates your processes to maximize efficiency and results.",
+      es: "En Ecommetrica nos especializamos en B2C para turismo médico, marcas personales y productos; y en Ecommetrics, orientada a desarrollo web robusto, en B2B para la industria alimenticia y automotriz. Te guiamos paso a paso para diseñar un plan estratégico que impulse tu crecimiento, te dé autonomía, te abra a nivel regional e internacional y automatice tus procesos para maximizar eficiencia y resultados.",
+      en: "At Ecommetrica we specialize in B2C for medical tourism, personal brands, and products; and at Ecommetrics, focused on robust web development, in B2B for the food and automotive industries. We guide you step by step to design a strategic plan that drives your growth, gives you autonomy, opens you up regionally and internationally, and automates your processes to maximize efficiency and results.",
     },
   },
   {
@@ -33,22 +29,8 @@ export const faqs: Faq[] = [
       en: "How much does a website or app cost?",
     },
     answer: {
-      es: "A diferencia de la ropa unitalla, una página web o aplicación depende del tamaño, las necesidades, la complejidad y los entregables de cada cliente. Manejamos paquetes que se adaptan a distintas necesidades y hacemos consultorías para casos particulares. Nos adaptamos, colaboramos y garantizamos la transparencia del proceso desde la primera llamada hasta la entrega final.",
-      en: "Unlike one-size-fits-all clothing, a website or app depends on the size, needs, complexity, and deliverables of each client. We offer packages that fit a range of needs, and we run consultations for specific cases. We adapt, we collaborate, and we guarantee a transparent process from the first call to the final delivery.",
-    },
-  },
-  {
-    // TODO(copy): the source answer gave 3 / 6 / 8 months (small / medium /
-    // robust), but src/lib/pricing.ts sells 3 / 4 / 6 / 8. Phrased as a range
-    // here so the two don't contradict each other — reconcile them and then
-    // state the real per-package timings.
-    question: {
-      es: "¿Cuánto tiempo tomará tener mi tienda en línea lista?",
-      en: "How long will it take to have my online store ready?",
-    },
-    answer: {
-      es: "Con nosotros siempre tienes una tienda funcionando: desde el inicio trabajas sobre una versión de desarrollo. La entrega final depende del paquete que elijas, desde tres meses para una tienda pequeña hasta ocho para una construcción robusta.",
-      en: "You always have a working store with us: from day one you work on a development build. Final delivery depends on the package you choose, from three months for a small store up to eight for a robust build.",
+      es: "A diferencia de la ropa unitalla, una página web o aplicación depende del tamaño, las necesidades, la complejidad y los entregables de cada cliente. Manejamos paquetes que se adaptan a cada una de las necesidades y hacemos consultorías para casos particulares, para adaptar 100% lo que buscas. Nos adaptamos, colaboramos y garantizamos la transparencia del proceso desde la primera llamada hasta la entrega final.",
+      en: "Unlike one-size-fits-all clothing, a website or app depends on the size, needs, complexity, and deliverables of each client. We offer packages that fit every need, and we run consultations for specific cases so we can adapt 100% to what you're looking for. We adapt, we collaborate, and we guarantee a transparent process from the first call to the final delivery.",
     },
   },
   {
@@ -60,8 +42,21 @@ export const faqs: Faq[] = [
       en: "How do we get you more clients?",
     },
     answer: {
-      es: "Detrás de cada objetivo hay herramientas para conseguirlo. Definimos cuáles son las tuyas poniendo las cosas sobre la mesa: objetivos, presupuesto y plazos.",
-      en: "Behind every goal there are tools to reach it. We work out which ones are yours by putting everything on the table: goals, budget, and timelines.",
+      es: "Detrás de cada objetivo hay herramientas para conseguirlo. Todo dependerá de tus objetivos y de poner las cosas sobre la mesa hablando de presupuesto.",
+      en: "Behind every goal there are tools to reach it. It all depends on your goals and on putting everything on the table when we talk budget.",
+    },
+  },
+  {
+    // TODO(copy): these timings (3 / 6 / 8 months for small / medium / robust)
+    // are the owner's own copy, but src/lib/pricing.ts sells four tiers —
+    // 3 / 4 / 6 / 8 — so the 4-month Plan Pro has no timing named here.
+    question: {
+      es: "¿Cuánto tiempo tomará tener mi tienda en línea lista?",
+      en: "How long will it take to have my online store ready?",
+    },
+    answer: {
+      es: "Siempre tienes una tienda lista con nosotros. Tu tienda final se te entregará de acuerdo al paquete seleccionado: puede ser tan robusta como una página que requiera una construcción de 8 meses, una mediana de 6 meses o una pequeña de 3 meses.",
+      en: "You always have a store ready with us. Your final store is delivered according to the package you select: it can be as robust as a site that takes an 8-month build, a mid-size one at 6 months, or a small one at 3 months.",
     },
   },
   {
