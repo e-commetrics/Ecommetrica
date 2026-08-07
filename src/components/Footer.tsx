@@ -30,7 +30,7 @@ export default function Footer() {
             </p>
           </Reveal>
 
-          <Reveal delay={0.15} className="lg:pt-6">
+          <Reveal id="contact-form" delay={0.15} className="scroll-mt-24 lg:pt-6">
             <ContactForm />
           </Reveal>
         </div>

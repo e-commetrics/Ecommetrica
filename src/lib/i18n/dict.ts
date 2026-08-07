@@ -40,7 +40,7 @@ export type Dict = {
     stats: { value: string; label: string }[];
   };
   bigNav: { work: string; services: string; talk: string };
-  planes: { eyebrow: string; bigWord: string; sub: string; popular: string };
+  planes: { eyebrow: string; bigWord: string; sub: string; popular: string; select: string };
   servicesOverview: {
     eyebrow: string;
     headline: string;
@@ -80,6 +80,7 @@ export type Dict = {
     emailLabel: string;
     phoneLabel: string;
     companyLabel: string;
+    packageSummaryLabel: string;
     messageLabel: string;
     sendingToast: string;
     successToast: string;
@@ -136,6 +137,37 @@ export type Dict = {
   blogPage: { metaDescription: string; keywords: string[]; headline: string; dateLocale: string };
   blogDetail: { back: string; dateLocale: string };
   faqPage: { title: string; metaDescription: string; keywords: string[] };
+  packagesPage: {
+    metaDescription: string;
+    keywords: string[];
+    eyebrow: string;
+    headline: string;
+    sub: string;
+  };
+  packagesFlow: {
+    stepLabels: [string, string, string, string, string];
+    stepOf: (current: number, total: number) => string;
+    choosePlanCta: string;
+    planSelected: string;
+    changePlan: string;
+    addCta: string;
+    addedCta: string;
+    includedBadge: string;
+    backCta: string;
+    continueCta: string;
+    reviewCta: string;
+    requirePlanNotice: string;
+    orderSummaryLabel: string;
+    summaryTitle: string;
+    summaryBasePlan: string;
+    summaryExtras: string;
+    summaryNoExtras: string;
+    summaryTotal: string;
+    summarySendCta: string;
+    messagePlanLabel: string;
+    messageExtrasLabel: string;
+    messageTotalLabel: string;
+  };
   legal: {
     privacyTitle: string;
     privacyMetaDescription: string;
@@ -234,6 +266,7 @@ export const dict: Record<Lang, Dict> = {
       // This section deserves copy written to introduce pricing specifically.
       sub: "Páginas web y tiendas online únicas para maximizar las ventas y liderar tu presencia en internet.",
       popular: "Popular",
+      select: "Seleccionar",
     },
     servicesOverview: {
       eyebrow: "Nuestros",
@@ -290,6 +323,7 @@ export const dict: Record<Lang, Dict> = {
       emailLabel: "Correo",
       phoneLabel: "Teléfono",
       companyLabel: "Empresa",
+      packageSummaryLabel: "Paquete seleccionado",
       messageLabel: "Mensaje",
       sendingToast: "Enviando tu mensaje...",
       successToast: "Mensaje enviado — nos pondremos en contacto pronto.",
@@ -402,6 +436,43 @@ export const dict: Record<Lang, Dict> = {
         "Preguntas frecuentes sobre los servicios de Ecommetrica: branding, desarrollo web, marketing digital y seguridad tecnológica.",
       keywords: ["preguntas frecuentes", "FAQ Ecommetrica", "servicios Ecommetrica"],
     },
+    packagesPage: {
+      metaDescription:
+        "Arma tu paquete: elige tu plan base y agrega los extras de marketing, integraciones y personalización que tu proyecto necesita.",
+      keywords: [
+        "paquetes Ecommetrica",
+        "planes de desarrollo web",
+        "extras de marketing digital",
+        "cotización personalizada",
+      ],
+      eyebrow: "Arma tu paquete",
+      headline: "Elige tu plan y hazlo tuyo.",
+      sub: "Empieza con un plan base y súmale los extras que tu proyecto necesita — tú decides qué lleva tu paquete.",
+    },
+    packagesFlow: {
+      stepLabels: ["Plan", "Marketing", "Integraciones", "Personalización", "Resumen"],
+      stepOf: (current, total) => `Paso ${current} de ${total}`,
+      choosePlanCta: "Seleccionar",
+      planSelected: "Plan seleccionado",
+      changePlan: "Cambiar plan",
+      addCta: "Agregar",
+      addedCta: "Agregado",
+      includedBadge: "Incluido en tu plan",
+      backCta: "Atrás",
+      continueCta: "Continuar",
+      reviewCta: "Ver resumen",
+      requirePlanNotice: "Elige un plan base para continuar.",
+      orderSummaryLabel: "Tu paquete",
+      summaryTitle: "Resumen de tu paquete",
+      summaryBasePlan: "Plan base",
+      summaryExtras: "Extras seleccionados",
+      summaryNoExtras: "Sin extras adicionales.",
+      summaryTotal: "Total estimado",
+      summarySendCta: "Enviar solicitud",
+      messagePlanLabel: "Plan elegido",
+      messageExtrasLabel: "Extras seleccionados",
+      messageTotalLabel: "Total estimado",
+    },
     legal: {
       privacyTitle: "Aviso de privacidad",
       privacyMetaDescription:
@@ -502,6 +573,7 @@ export const dict: Record<Lang, Dict> = {
       // This section deserves copy written to introduce pricing specifically.
       sub: "One-of-a-kind websites and online stores built to maximize sales and lead your presence online.",
       popular: "Popular",
+      select: "Select",
     },
     servicesOverview: {
       eyebrow: "Our",
@@ -558,6 +630,7 @@ export const dict: Record<Lang, Dict> = {
       emailLabel: "Email",
       phoneLabel: "Phone number",
       companyLabel: "Company",
+      packageSummaryLabel: "Selected package",
       messageLabel: "Message",
       sendingToast: "Sending your message...",
       successToast: "Message sent — we'll be in touch soon.",
@@ -667,6 +740,43 @@ export const dict: Record<Lang, Dict> = {
       metaDescription:
         "Frequently asked questions about Ecommetrica's services: branding, web development, digital marketing, and technology security.",
       keywords: ["frequently asked questions", "Ecommetrica FAQ", "Ecommetrica services"],
+    },
+    packagesPage: {
+      metaDescription:
+        "Build your package: choose your base plan and add the marketing, integration, and customization extras your project needs.",
+      keywords: [
+        "Ecommetrica packages",
+        "web development plans",
+        "digital marketing add-ons",
+        "custom quote",
+      ],
+      eyebrow: "Build your package",
+      headline: "Choose your plan and make it yours.",
+      sub: "Start with a base plan and add the extras your project needs — you decide what goes into your package.",
+    },
+    packagesFlow: {
+      stepLabels: ["Plan", "Marketing", "Integrations", "Customization", "Summary"],
+      stepOf: (current, total) => `Step ${current} of ${total}`,
+      choosePlanCta: "Select",
+      planSelected: "Plan selected",
+      changePlan: "Change plan",
+      addCta: "Add",
+      addedCta: "Added",
+      includedBadge: "Included in your plan",
+      backCta: "Back",
+      continueCta: "Continue",
+      reviewCta: "View summary",
+      requirePlanNotice: "Choose a base plan to continue.",
+      orderSummaryLabel: "Your package",
+      summaryTitle: "Your package summary",
+      summaryBasePlan: "Base plan",
+      summaryExtras: "Selected extras",
+      summaryNoExtras: "No additional extras.",
+      summaryTotal: "Estimated total",
+      summarySendCta: "Send request",
+      messagePlanLabel: "Chosen plan",
+      messageExtrasLabel: "Selected extras",
+      messageTotalLabel: "Estimated total",
     },
     legal: {
       privacyTitle: "Privacy Policy",

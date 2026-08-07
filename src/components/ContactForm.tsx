@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { submitContactForm } from "@/services/contact.service";
 import { useLanguage } from "@/components/LanguageProvider";
+import { useContactPrefill } from "@/components/ContactPrefillProvider";
 import { createContactFormSchema, type ContactFormValues } from "@/lib/validation/contactForm";
 
 type Status = "idle" | "submitting" | "success";
@@ -17,6 +18,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function ContactForm() {
   const { t, lang } = useLanguage();
+  const { packageSummary, setPackageSummary } = useContactPrefill();
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
@@ -70,12 +72,18 @@ export default function ContactForm() {
     setStatus("submitting");
     const toastId = toast.loading(t.contactForm.sendingToast);
 
+    // The package summary is shown as its own locked field, never merged into the
+    // editable textarea — it's stitched back in here so the team's email still
+    // gets the full picture in one "message".
+    const message = packageSummary ? `${packageSummary}\n\n${data.message}` : data.message;
+
     try {
-      await submitContactForm({ ...data, lang });
+      await submitContactForm({ ...data, message, lang });
       toast.success(t.contactForm.successToast, { id: toastId });
       setStatus("success");
       form.reset();
       setTouched({});
+      setPackageSummary("");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t.contactForm.errorFallback, { id: toastId });
       setStatus("idle");
@@ -136,6 +144,20 @@ export default function ContactForm() {
           onChange={handleChange}
         />
       </div>
+
+      {packageSummary && (
+        <label className="flex flex-col gap-2 text-xs font-medium tracking-widest text-white/50 uppercase">
+          {t.contactForm.packageSummaryLabel}
+          <textarea
+            readOnly
+            aria-readonly="true"
+            value={packageSummary}
+            rows={4}
+            tabIndex={-1}
+            className="cursor-not-allowed resize-none border-b border-white/15 bg-white/[0.03] py-2 text-sm font-normal text-white/60 normal-case outline-none"
+          />
+        </label>
+      )}
 
       <label className="flex flex-col gap-2 text-xs font-medium tracking-widest text-white/50 uppercase">
         {t.contactForm.messageLabel}

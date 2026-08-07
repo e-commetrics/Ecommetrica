@@ -84,14 +84,14 @@ export default function Planes() {
                   ))}
                 </ul>
                 <Link
-                  href={localizedHref(lang, "/contact")}
+                  href={`${localizedHref(lang, "/packages")}?plan=${plan.id}`}
                   className={`group/cta mt-9 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-medium tracking-wide transition-colors duration-300 ${
                     plan.featured
                       ? "bg-white text-ecom-black hover:bg-ecom-orange hover:text-white"
                       : "bg-white/10 hover:bg-ecom-orange"
                   }`}
                 >
-                  {t.nav.talk}
+                  {t.planes.select}
                   <span
                     aria-hidden
                     className="transition-transform duration-300 group-hover/cta:translate-x-1"
