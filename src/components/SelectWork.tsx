@@ -7,7 +7,7 @@ import Reveal from "@/components/Reveal";
 import { getFeaturedCaseStudies, categoryLabel, getProjectVideo, type CaseStudy } from "@/lib/work";
 import { useLanguage } from "@/components/LanguageProvider";
 import type { Lang } from "@/lib/i18n/types";
-import { localizedHref } from "@/lib/i18n/localizedHref";
+import { localizedHref, withTrailingSlash } from "@/lib/i18n/localizedHref";
 import { useVideoAvailable } from "@/lib/useVideoAvailable";
 
 const PROJECTS = getFeaturedCaseStudies();
@@ -59,7 +59,7 @@ const SLIDE_LAYOUT = [
 
 function projectLink(project: CaseStudy, lang: Lang) {
   return {
-    href: project.external ? project.url : localizedHref(lang, `/work/${project.slug}`),
+    href: project.external ? project.url : withTrailingSlash(localizedHref(lang, `/work/${project.slug}`)),
     ...(project.external
       ? { target: "_blank", rel: "noopener noreferrer" }
       : {}),
@@ -259,7 +259,7 @@ function SeeAllProjects({ href, label, className = "" }: { href: string; label: 
 
 export default function Projects() {
   const { t, lang } = useLanguage();
-  const seeAllHref = localizedHref(lang, "/work");
+  const seeAllHref = withTrailingSlash(localizedHref(lang, "/work"));
   // Artwork of the card currently under the pointer, or null. Desktop only —
   // the touch layout has no hover to drive it.
   const [hoveredImage, setHoveredImage] = useState<string | null>(null);

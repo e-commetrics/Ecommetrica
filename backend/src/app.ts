@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import { existsSync, readFileSync } from "fs";
-import { join } from "path";
+import { extname, join } from "path";
 import contactRoute from "./route/contact.route";
 
 const app = express();
@@ -23,6 +23,23 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/api/contact", contactRoute);
+
+// Same Passenger fallback as below, but for a narrower case: the frontend's
+// static export (trailingSlash: true) only has an index.html at
+// "/work/slug/", never at "/work/slug". Apache's own mod_dir would normally
+// 301 that bare path to the slash-terminated one, but it never gets the
+// chance — a directory with no exact file match already falls through to
+// this app. Redo that redirect here before the 404 fallback below claims it.
+app.use((req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") return next();
+  if (req.path === "/" || req.path.endsWith("/") || extname(req.path)) return next();
+
+  const staticDir = process.env.FRONTEND_STATIC_DIR;
+  if (!staticDir || !existsSync(join(staticDir, req.path, "index.html"))) return next();
+
+  const query = req.url.slice(req.path.length);
+  res.redirect(301, `${req.path}/${query}`);
+});
 
 // Last resort: cPanel's Node.js Selector (Passenger) forwards any request
 // Apache can't serve as a static file to this app, so an unmatched route
