@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostSource } from "@/lib/blog";
+import { mdxComponents } from "@/components/mdxComponents";
 import { getDict } from "@/lib/i18n/dict";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 import { seoAlternates } from "@/lib/i18n/seo";
@@ -65,7 +66,7 @@ export default async function BlogPostPage({
       </h1>
 
       <div className="prose prose-neutral mt-10 max-w-none lg:prose-lg prose-headings:font-display prose-headings:text-ecom-ink prose-a:text-ecom-orange">
-        <MDXRemote source={post.content} />
+        <MDXRemote source={post.content} components={mdxComponents} />
       </div>
     </article>
   );
