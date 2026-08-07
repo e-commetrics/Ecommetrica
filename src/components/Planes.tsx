@@ -24,7 +24,11 @@ export default function Planes() {
     <section
       id="planes"
       ref={sectionRef}
-      className="relative scroll-mt-24 overflow-hidden bg-ecom-black py-24 lg:py-32"
+      // overflow-clip, not -hidden: the drifting background word below is
+      // pushed past the right edge by its scroll-linked x transform, and
+      // `hidden` would make this a scroll container — so focus or
+      // scrollIntoView inside could jog the whole section sideways.
+      className="relative scroll-mt-24 overflow-clip bg-ecom-black py-24 lg:py-32"
     >
       <motion.div
         aria-hidden

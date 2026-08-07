@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Methodology from "@/components/Methodology";
+import Highlight from "@/components/Highlight";
+import ImageSlot from "@/components/ImageSlot";
 import { team } from "@/lib/team";
+import { imageSlots } from "@/lib/imageSlots";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
 
@@ -31,6 +34,16 @@ export default function StudioPage() {
         ))}
       </div>
 
+      {/* Full-width banner between the opening statement and mission/vision —
+          this page ran text-only from the quote all the way to the team grid. */}
+      <div className="relative mt-16">
+        <Highlight
+          shape="asterisk"
+          className="absolute -top-8 right-6 z-10 w-16 sm:w-20"
+        />
+        <ImageSlot ratio="21 / 9" label={imageSlots.studioBanner[LANG]} />
+      </div>
+
       <div className="mt-16 grid gap-12 lg:grid-cols-2">
         <div>
           <h2 className="font-display text-lg font-medium uppercase tracking-wide text-ecom-ink">
@@ -46,11 +59,21 @@ export default function StudioPage() {
         </div>
       </div>
 
-      <div className="mt-20 border-t border-ecom-ink/10 pt-16">
-        <h2 className="font-display text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/60">
+      {/* overflow-clip rather than -hidden: the arch hangs past the right edge,
+          and `hidden` would make this a sideways-scrollable container. */}
+      <div className="relative mt-20 overflow-clip border-t border-ecom-ink/10 pt-16">
+        {/* Arch, tonal rather than accent — a soft mass behind the reasons grid
+            so this block reads as a section instead of a wall of paragraphs. */}
+        <Highlight
+          shape="arch"
+          tone="ink"
+          className="absolute -top-4 -right-24 w-[26rem] lg:w-[34rem]"
+          opacity={0.06}
+        />
+        <h2 className="relative font-display text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/60">
           {t.studioPage.howWeWorkTitle}
         </h2>
-        <div className="mt-8 grid gap-10 sm:grid-cols-2">
+        <div className="relative mt-8 grid gap-10 sm:grid-cols-2">
           {t.studioPage.reasons.map((reason) => (
             <Reason key={reason.title} title={reason.title} copy={reason.copy} />
           ))}

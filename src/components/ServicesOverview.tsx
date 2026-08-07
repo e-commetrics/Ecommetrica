@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import Highlight from "@/components/Highlight";
 import { serviceCategories } from "@/lib/services";
 import type { Lang } from "@/lib/i18n/types";
 import { getDict } from "@/lib/i18n/dict";
@@ -13,23 +14,53 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
     // AboutStudio does, so the two adjacent light sections share one continuous
     // paint and no boundary line can appear between them under `noir`.
     // scroll-mt clears the sticky header when /#services jumps here.
+    // overflow-clip because the coil below deliberately runs past the right
+    // edge. Unlike the dark blocks, this section is the shell itself and had no
+    // clipping of its own, so the overflow would reach the document and add a
+    // horizontal scrollbar. `clip` crops it without becoming a scroll container.
     <section
       id="services"
-      className="shell scroll-mt-24 py-24 lg:py-32"
+      className="shell scroll-mt-24 overflow-clip py-24 lg:py-32"
     >
-      <Reveal>
-        <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
-          {t.servicesOverview.eyebrow}
-        </p>
-        <h2 className="mt-6 font-display text-[clamp(2.5rem,6vw,7rem)] font-medium leading-[0.98] tracking-[-0.03em] text-ecom-ink ">
-          {t.servicesOverview.headline}
-          <br />
-          <span className="text-ecom-orange">{t.servicesOverview.headlineAccent}</span>
-        </h2>
-        <p className="mt-8 max-w-2xl text-lg leading-relaxed text-ecom-ink/70">
-          {t.servicesOverview.sub}
-        </p>
-      </Reveal>
+      {/* Headline, intro and image are one row so the image can run the full
+          height of the text beside it rather than just the intro's. The two
+          text blocks stay in a column of their own for that reason — with the
+          headline above the grid, as it was, the row was only ever as tall as
+          the intro and the image had nothing to measure up to. */}
+      <div className="grid gap-10 lg:grid-cols-[1fr_minmax(0,34rem)] lg:gap-16">
+        <div>
+          <Reveal>
+            <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
+              {t.servicesOverview.eyebrow}
+            </p>
+            <h2 className="mt-6 font-display text-[clamp(2.5rem,6vw,7rem)] font-medium leading-[0.98] tracking-[-0.03em] text-ecom-ink ">
+              {t.servicesOverview.headline}
+              <br />
+              <span className="text-ecom-orange">{t.servicesOverview.headlineAccent}</span>
+            </h2>
+          </Reveal>
+
+          <Reveal delay={0.1} className="mt-8">
+            <p className="max-w-2xl text-lg leading-relaxed text-ecom-ink/70">
+              {t.servicesOverview.sub}
+            </p>
+          </Reveal>
+        </div>
+
+        {/* Runs wider than its column on purpose, so it carries on past the
+            right edge of the screen and only ever shows as a fragment. The
+            section's overflow-clip does the cropping — see the note there;
+            without it this would hand the whole document a sideways scrollbar.
+            Only from lg: up: stacked, the column is the full width and an
+            overflow this big would leave barely a sliver of the shape. */}
+        <Reveal delay={0.2}>
+          <Highlight
+            shape="rings"
+            className="w-full lg:w-[160%] lg:max-w-none"
+            opacity={0.4}
+          />
+        </Reveal>
+      </div>
 
       <div className="mt-16 grid gap-10 border-t border-ecom-ink/10 pt-14 sm:grid-cols-2 lg:grid-cols-4">
         {serviceCategories.map((category, i) => (

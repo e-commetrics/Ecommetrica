@@ -34,7 +34,11 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-ecom-black text-white"
+      // overflow-clip rather than -hidden: both crop the decorative layers
+      // below, but `hidden` also makes the section a scroll container, so any
+      // overhang lets focus or scrollIntoView jog the whole hero sideways.
+      // `clip` can never scroll — see the matching note in Pillars/BigNav.
+      className="relative overflow-clip bg-ecom-black text-white"
     >
       {/* Placeholder diagonal backdrop — swap for real photography when available */}
       <motion.div

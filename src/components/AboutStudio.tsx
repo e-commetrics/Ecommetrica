@@ -9,6 +9,7 @@ import {
   type Variants,
 } from "motion/react";
 import { team } from "@/lib/team";
+import Highlight from "@/components/Highlight";
 import { useLanguage } from "@/components/LanguageProvider";
 
 const TOTAL = team.length;
@@ -96,8 +97,11 @@ export default function AboutStudio() {
         <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
           {t.aboutStudio.eyebrow}
         </p>
-        <h2 className="mt-2 font-display text-5xl font-medium tracking-[-0.02em] text-ecom-ink sm:text-6xl lg:text-7xl">
-          {t.aboutStudio.studioWord} <span className="text-ecom-orange">&#10038;</span>
+        {/* The asterisk was a &#10038; glyph, whose weight and proportions are
+            the font's rather than the brand's — swapped for the real mark. */}
+        <h2 className="mt-2 flex items-center justify-end gap-4 font-display text-5xl font-medium tracking-[-0.02em] text-ecom-ink sm:text-6xl lg:text-7xl">
+          {t.aboutStudio.studioWord}
+          <Highlight shape="asterisk" className="w-9 shrink-0 sm:w-11 lg:w-14" />
         </h2>
       </motion.div>
 

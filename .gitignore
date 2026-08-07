@@ -31,5 +31,8 @@ next-env.d.ts
 # claude code local tooling (machine-specific paths)
 .claude/
 
-# videos
+# videos — masters are hundreds of MB, far past what git (or a Vercel bundle)
+# should carry. Components probe with HEAD (useVideoAvailable) so a checkout
+# without them simply doesn't render the player.
 /public/videos
+/public/testimonials

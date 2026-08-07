@@ -7,11 +7,31 @@ export type CaseStudyDetails = {
   summary?: Localized;
   results?: Localized[];
   gallery?: string[];
-  testimonial?: {
-    quote: Localized;
-    author: string;
-    role?: Localized;
-  };
+};
+
+/**
+ * A filmed client testimonial. Lives at the top level rather than inside
+ * `details` because it drives three things at once: the player on the project
+ * page, the "con testimonial" filter on /work, and — when the project has no
+ * `video` of its own — the hover preview on the home page.
+ *
+ * `quote` is optional and is a *pull quote for the video*, not a substitute for
+ * it: leave it unset rather than paraphrasing what the client said on camera.
+ */
+export type Testimonial = {
+  /** Lives in public/testimonials, which is gitignored (see .gitignore). */
+  video: string;
+  /**
+   * Display width / height. Declared rather than measured so the frame is the
+   * right shape on the first paint — waiting for the file's own metadata means
+   * a portrait interview renders pillarboxed inside a 16:9 box until it lands.
+   */
+  aspect?: number;
+  /** Frame shown before playback. Also gitignored if it sits next to the video. */
+  poster?: string;
+  author: string;
+  role?: Localized;
+  quote?: Localized;
 };
 
 export type CaseStudy = {
@@ -25,6 +45,7 @@ export type CaseStudy = {
   /** CSS `object-position` for the homepage hover crop (aspect-4/3). Defaults to "center". */
   videoPosition?: string;
   featured?: boolean;
+  testimonial?: Testimonial;
   details?: CaseStudyDetails;
   /** Live client site. Rendered as the "Ver sitio" button on /work/[slug]. */
   webpage: string;
@@ -60,8 +81,10 @@ export function categoryLabel(category: CategoryId, lang: Lang) {
  * Portfolio island + the Spanish half of the i18n dictionary). Names and slugs
  * are readable versions of the domains that source uses as titles.
  *
- * Only the first four carry `featured: true`, which is what puts them on the
- * home page.
+ * `featured: true` is what puts an entry on the home page, in the order it
+ * appears in this array. Eight are flagged, picked to cover all five main
+ * categories rather than to be the eight best — the home section reads as a
+ * cross-section of the studio, and /work is where the full list lives.
  */
 export const caseStudies: CaseStudy[] = [
   {
@@ -91,10 +114,15 @@ export const caseStudies: CaseStudy[] = [
       en: "An orthopedic traumatologist who wanted a modern, minimalist website to stand out from conventional sites in the field of traumatology. We achieved a professional, straightforward design.",
     },
     image: "/Works/dr-monge.png",
-    video: "/videos/monge-ortopedia-testimonial.webm",
     videoPosition: "center 15%",
     featured: true,
     webpage: "https://mongeortopedia.com/",
+    testimonial: {
+      video: "/testimonials/ricardo-monge.mp4",
+      aspect: 9 / 16,
+      author: "Dr. Ricardo Monge",
+      role: { es: "Traumatólogo ortopedista", en: "Orthopedic traumatologist" },
+    },
     details: {
       summary: {
         es: "Un traumatólogo ortopedista que buscaba un sitio web moderno y minimalista para diferenciarse de los sitios convencionales en el ámbito de la traumatología. Logramos un diseño profesional y sencillo.",
@@ -111,9 +139,14 @@ export const caseStudies: CaseStudy[] = [
       en: "A feminist OB/GYN with more than 15 years of experience who wanted an inclusive, dynamic website. We designed an engaging, responsive experience that reflects her essence and values, giving her patients a pleasant navigation experience.",
     },
     image: "/Works/dra-cesia-borjon.png",
-    video: "/videos/cesia-borjon-testimonial.webm",
     featured: true,
     webpage: "https://cesiaborjon.com/",
+    testimonial: {
+      video: "/testimonials/cesia-borjon.mp4",
+      aspect: 9 / 16,
+      author: "Dra. Cesia Borjon",
+      role: { es: "Ginecóloga-obstetra", en: "OB/GYN" },
+    },
     details: {
       summary: {
         es: "Una ginecóloga-obstetra feminista con más de 15 años de experiencia que quería crear un sitio web inclusivo y dinámico. Diseñamos una experiencia atractiva y reactiva que refleja su esencia y valores, permitiendo a sus pacientes una navegación agradable.",
@@ -150,6 +183,7 @@ export const caseStudies: CaseStudy[] = [
       en: "A high-end dental aesthetics center that needed to renew its website and optimize its UX/UI with an image reflecting Bites' distinctive style. We built in a calendar that lets patients book appointments and pay directly from the page, giving users a smooth, efficient, self-service experience through a web app.",
     },
     image: "/projects/bitespage.webp",
+    featured: true,
     webpage: "https://ecommetrica.com/bites",
   },
   {
@@ -198,6 +232,7 @@ export const caseStudies: CaseStudy[] = [
       en: "A carbon-fiber accessories and parts store for race cars that needed to optimize its checkout flow, product layout, and overall interface. We implemented a new inventory and logistics system to improve product flow, selection, and checkout, alongside a UI/UX overhaul of the store.",
     },
     image: "/projects/carboneticspage.webp",
+    featured: true,
     webpage: "https://carboneticsinc.com",
   },
   {
@@ -269,6 +304,7 @@ export const caseStudies: CaseStudy[] = [
       en: "A legal and accounting consultancy that wanted to stand out from the sector with a modern website, plus improved corporate email management. We built an innovative, functional, SEO-optimized site along with a web app that centralizes email and information management, improving overall efficiency.",
     },
     image: "/projects/gpepage.webp",
+    featured: true,
     webpage: "https://gpeconsultores.com.mx",
   },
   {
@@ -315,6 +351,7 @@ export const caseStudies: CaseStudy[] = [
       en: "A beauty-products distributor that wanted to modernize and strengthen its Shopify store. We ran a rebrand, restructured the store, and optimized product layout and presentation for intuitive, coherent navigation. Focusing on visual and verbal message cohesion let us build an appealing store.",
     },
     image: "/projects/chikpage.webp",
+    featured: true,
     webpage: "https://chik.mx",
   },
   {
@@ -375,4 +412,14 @@ export function getInternalCaseStudies() {
 
 export function getFeaturedCaseStudies() {
   return caseStudies.filter((project) => project.featured);
+}
+
+export function hasTestimonial(
+  project: CaseStudy,
+): project is CaseStudy & { testimonial: Testimonial } {
+  return Boolean(project.testimonial);
+}
+
+export function getTestimonialCaseStudies() {
+  return caseStudies.filter(hasTestimonial);
 }
