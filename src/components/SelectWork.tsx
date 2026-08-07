@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
 import Reveal from "@/components/Reveal";
-import { getFeaturedCaseStudies, categoryLabel, type CaseStudy } from "@/lib/work";
+import { getFeaturedCaseStudies, categoryLabel, getProjectVideo, type CaseStudy } from "@/lib/work";
 import { useLanguage } from "@/components/LanguageProvider";
 import type { Lang } from "@/lib/i18n/types";
 import { localizedHref } from "@/lib/i18n/localizedHref";
@@ -90,7 +90,8 @@ function ProjectSlide({
   previewing: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const videoAvailable = useVideoAvailable(project.video);
+  const video = getProjectVideo(project);
+  const videoAvailable = useVideoAvailable(video);
 
   return (
     <div
@@ -127,10 +128,10 @@ function ProjectSlide({
               className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
             />
           )}
-          {project.video && videoAvailable && (
+          {video && videoAvailable && (
             <motion.video
               ref={videoRef}
-              src={project.video}
+              src={video}
               muted
               loop
               playsInline

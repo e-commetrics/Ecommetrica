@@ -19,7 +19,7 @@ export type CaseStudyDetails = {
  * it: leave it unset rather than paraphrasing what the client said on camera.
  */
 export type Testimonial = {
-  /** Lives in public/testimonials, which is gitignored (see .gitignore). */
+  /** Lives in public/videos, which is gitignored (see .gitignore). */
   video: string;
   /**
    * Display width / height. Declared rather than measured so the frame is the
@@ -118,7 +118,7 @@ export const caseStudies: CaseStudy[] = [
     featured: true,
     webpage: "https://mongeortopedia.com/",
     testimonial: {
-      video: "/testimonials/ricardo-monge.mp4",
+      video: "/videos/monge-ortopedia-testimonial.webm",
       aspect: 9 / 16,
       author: "Dr. Ricardo Monge",
       role: { es: "Traumatólogo ortopedista", en: "Orthopedic traumatologist" },
@@ -142,7 +142,7 @@ export const caseStudies: CaseStudy[] = [
     featured: true,
     webpage: "https://cesiaborjon.com/",
     testimonial: {
-      video: "/testimonials/cesia-borjon.mp4",
+      video: "/videos/cesia-borjon-testimonial.webm",
       aspect: 9 / 16,
       author: "Dra. Cesia Borjon",
       role: { es: "Ginecóloga-obstetra", en: "OB/GYN" },
@@ -412,6 +412,16 @@ export function getInternalCaseStudies() {
 
 export function getFeaturedCaseStudies() {
   return caseStudies.filter((project) => project.featured);
+}
+
+/**
+ * The video for a project: its own showcase clip if it has one, otherwise the
+ * client testimonial. Single source of truth for the hover preview on the home
+ * page and the "Ver video" button on /work/[slug] — both fall back to the
+ * testimonial so adding a `video` to a project upgrades both in one place.
+ */
+export function getProjectVideo(project: CaseStudy): string | undefined {
+  return project.video ?? project.testimonial?.video;
 }
 
 export function hasTestimonial(
