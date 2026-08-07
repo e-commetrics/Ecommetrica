@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "motion/react";
-import { categoryLabel, type CaseStudy, type CategoryId } from "@/lib/work";
+import { categoryLabel, hasTestimonial, type CaseStudy, type CategoryId } from "@/lib/work";
 import { useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 import type { Lang } from "@/lib/i18n/types";
@@ -103,19 +103,36 @@ function ProjectCard({
 export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
   const { t, lang } = useLanguage();
   const [active, setActive] = useState<string>(ALL);
+  const [testimonialsOnly, setTestimonialsOnly] = useState(false);
 
-  const categories = useMemo(() => categoriesOf(projects), [projects]);
+  const testimonials = useMemo(() => projects.filter(hasTestimonial), [projects]);
+
+  /* The two filters are different axes — category is a single choice, the
+     testimonial toggle narrows whatever that choice produced — so the toggle
+     narrows the pool first and the category chips count within it. Otherwise a
+     chip would advertise "Medical 06" and then render two cards. */
+  const pool = testimonialsOnly ? testimonials : projects;
+
+  const categories = useMemo(() => categoriesOf(pool), [pool]);
 
   const groups = useMemo(() => {
     const visible =
-      active === ALL
-        ? projects
-        : projects.filter((project) => project.category === active);
+      active === ALL ? pool : pool.filter((project) => project.category === active);
     return groupByCategory(visible);
-  }, [projects, active]);
+  }, [pool, active]);
+
+  function toggleTestimonials() {
+    const next = !testimonialsOnly;
+    // Narrowing to testimonials can empty the selected category, which would
+    // leave a chip selected above nothing at all. Fall back to "all".
+    if (next && !testimonials.some((project) => project.category === active)) {
+      setActive(ALL);
+    }
+    setTestimonialsOnly(next);
+  }
 
   const chips: [string, number, string][] = [
-    [ALL, projects.length, t.workGallery.all],
+    [ALL, pool.length, t.workGallery.all],
     ...categories.map(([id, count]): [string, number, string] => [
       id,
       count,
@@ -125,38 +142,66 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
 
   return (
     <>
-      <div
-        role="group"
-        aria-label={t.workGallery.filterAriaLabel}
-        className="mt-12 flex flex-wrap gap-2.5"
-      >
-        {chips.map(([id, count, label]) => {
-          const selected = active === id;
-          return (
+      <div className="mt-12 flex flex-wrap items-center gap-2.5">
+        <div
+          role="group"
+          aria-label={t.workGallery.filterAriaLabel}
+          className="flex flex-wrap gap-2.5"
+        >
+          {chips.map(([id, count, label]) => {
+            const selected = active === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => setActive(id)}
+                aria-pressed={selected}
+                className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium tracking-widest uppercase transition-colors duration-300 ${
+                  selected
+                    ? "border-ecom-orange bg-ecom-orange text-white"
+                    : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/40 hover:text-ecom-ink"
+                }`}
+              >
+                {label}
+                <span className={selected ? "text-white/70" : "text-ecom-ink/40"}>
+                  {String(count).padStart(2, "0")}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Separate axis from the category chips, so it gets a rule and an
+            outlined "on" state rather than the solid fill a selected category
+            gets — two solid orange pills would read as one broken radio group. */}
+        {testimonials.length > 0 && (
+          <>
+            <span aria-hidden className="mx-1 hidden h-6 w-px bg-ecom-ink/15 sm:block" />
             <button
-              key={id}
               type="button"
-              onClick={() => setActive(id)}
-              aria-pressed={selected}
+              onClick={toggleTestimonials}
+              aria-pressed={testimonialsOnly}
+              aria-label={t.workGallery.withTestimonialAriaLabel}
               className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium tracking-widest uppercase transition-colors duration-300 ${
-                selected
-                  ? "border-ecom-orange bg-ecom-orange text-white"
+                testimonialsOnly
+                  ? "border-ecom-orange bg-ecom-orange/10 text-ecom-orange"
                   : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/40 hover:text-ecom-ink"
               }`}
             >
-              {label}
-              <span className={selected ? "text-white/70" : "text-ecom-ink/40"}>
-                {String(count).padStart(2, "0")}
+              <PlayIcon className="h-2.5 w-2.5" />
+              {t.workGallery.withTestimonial}
+              <span className={testimonialsOnly ? "text-ecom-orange/60" : "text-ecom-ink/40"}>
+                {String(testimonials.length).padStart(2, "0")}
               </span>
             </button>
-          );
-        })}
+          </>
+        )}
       </div>
 
       {/* Keyed on the active filter so the results fade in on each change
           rather than snapping to a different list in place. */}
       <motion.div
-        key={active}
+        key={`${active}-${testimonialsOnly}`}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
@@ -185,5 +230,13 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
         ))}
       </motion.div>
     </>
+  );
+}
+
+function PlayIcon({ className }: { className?: string }) {
+  return (
+    <svg aria-hidden viewBox="0 0 16 16" fill="currentColor" className={className}>
+      <path d="M4 2.5v11l10-5.5-10-5.5z" />
+    </svg>
   );
 }

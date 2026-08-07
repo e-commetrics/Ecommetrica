@@ -44,7 +44,7 @@ export default async function BlogPostPage({
   }
 
   return (
-    <article className="mx-auto max-w-2xl px-6 py-20 lg:px-10 lg:py-28">
+    <article className="mx-auto max-w-4xl px-6 py-20 lg:px-10 lg:py-28">
       <Link
         href={localizedHref(LANG, "/blog")}
         className="text-sm font-medium text-ecom-ink/60 hover:text-ecom-orange"
@@ -64,7 +64,7 @@ export default async function BlogPostPage({
         {post.meta.title}
       </h1>
 
-      <div className="prose prose-neutral mt-10 max-w-none prose-headings:font-display prose-headings:text-ecom-ink prose-a:text-ecom-orange">
+      <div className="prose prose-neutral mt-10 max-w-none lg:prose-lg prose-headings:font-display prose-headings:text-ecom-ink prose-a:text-ecom-orange">
         <MDXRemote source={post.content} />
       </div>
     </article>

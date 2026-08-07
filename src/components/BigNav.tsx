@@ -13,8 +13,10 @@ export default function BigNav({ lang }: { lang: Lang }) {
     { label: t.bigNav.talk, href: localizedHref(lang, "/contact"), arrow: "↘" },
   ];
 
+  // overflow-clip: same reason as Hero/Pillars — the glow below overhangs the
+  // right edge, and -hidden would leave this section sideways-scrollable.
   return (
-    <section className="relative overflow-hidden bg-ecom-surface text-ecom-ink py-28 lg:py-36">
+    <section className="relative overflow-clip bg-ecom-surface text-ecom-ink py-28 lg:py-36">
       {/* Glows stay clear of the top/bottom edges: a blurred shape clipped by
           the section boundary draws a hard line there, which shows up the
           moment this section and its neighbour share a background colour. */}

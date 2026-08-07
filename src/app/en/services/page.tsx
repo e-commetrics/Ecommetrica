@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import Highlight from "@/components/Highlight";
+import ImageSlot from "@/components/ImageSlot";
 import { serviceGroups } from "@/lib/services";
+import { imageSlots } from "@/lib/imageSlots";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
 
@@ -22,9 +25,6 @@ export default function ServicesPage() {
       <h1 className="mt-6 max-w-5xl text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
         {t.servicesPage.headline}
       </h1>
-      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ecom-ink/70">
-        {t.servicesPage.sub}
-      </p>
 
       {/* Two columns: a single stack of seven would run body copy the full
           width of the shell, well past a readable line length. */}
@@ -60,6 +60,21 @@ export default function ServicesPage() {
             )}
           </section>
         ))}
+
+        {/* Seven groups across two columns leave the eighth cell empty, so the
+            image fills a hole that already existed. Beside the headline it was
+            taller than the eyebrow+title block and rode up above the text;
+            here it starts on the same rule as the group next to it. */}
+        <div className="relative border-t border-ecom-ink/10 pt-8">
+          <Highlight
+            shape="asterisk"
+            // The negative inset only from sm: up. Below 640px the shell pads
+            // just 1.25rem, so a -1.75rem offset would hang 8px past the
+            // viewport and give the whole document a horizontal scrollbar.
+            className="absolute -top-5 right-0 z-10 w-14 sm:-top-7 sm:-right-7 sm:w-16"
+          />
+          <ImageSlot ratio="4 / 3" label={imageSlots.servicesPageIntro[LANG]} />
+        </div>
       </div>
     </div>
   );

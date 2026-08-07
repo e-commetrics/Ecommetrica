@@ -20,6 +20,7 @@ const THEMES = [
     label: "Ember",
     accent: "#e84a34", // ecom-orange, the logo mark
     accentDeep: "#9c1512", // ecom-red
+    logo: "#e84a34", // tracks the accent here
     surface: "#f2ede9", // warm beige paper
     ink: "#25272a",
     dark: "#25272a",
@@ -33,6 +34,7 @@ const THEMES = [
     label: "Crimson",
     accent: "#e02e42",
     accentDeep: "#6e0f1c",
+    logo: "#e02e42", // tracks the accent here too
     surface: "#1a1013",
     ink: "#f2e6e4",
     dark: "#261a1e",
@@ -47,6 +49,9 @@ const THEMES = [
     label: "Noir",
     accent: "#7c8085",
     accentDeep: "#4a4d51",
+    // The one theme where the logo parts company with the accent: this accent
+    // is a mid grey, and the lockup is meant to read white on the dark bar.
+    logo: "#ffffff",
     surface: "#141517",
     ink: "#eceded",
     dark: "#1e1f22",
@@ -91,6 +96,7 @@ export default function ThemeSwitcher() {
     root.style.setProperty("--color-ecom-ink", theme.ink);
     root.style.setProperty("--color-ecom-dark", theme.dark);
     root.style.setProperty("--color-ecom-black", theme.black);
+    root.style.setProperty("--color-ecom-logo", theme.logo);
 
     setActive(id);
     if (persist) window.localStorage.setItem(STORAGE_KEY, id);

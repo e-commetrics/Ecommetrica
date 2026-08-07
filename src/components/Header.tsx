@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -11,6 +10,9 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 
 const PAUSE_DELAY_MS = 400;
+
+/** Space-encoded: `url()` tolerates a raw space far less reliably than this. */
+const LOGO_SRC = "/Logos/LOGO%20PRINCIPAL%20ECOMMETRICA%203.png";
 
 /** Active if the pathname is that link or one of its sub-routes (e.g. /work/some-slug). */
 function isActiveHref(pathname: string, href: string) {
@@ -48,20 +50,57 @@ export default function Header() {
   ].map((link) => ({ ...link, active: isActiveHref(pathname, link.href) }));
 
   return (
-    <motion.header
-      animate={{ y: hidden ? "-100%" : "0%" }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
-      className="sticky top-0 z-50 border-b border-ecom-orange/20 bg-ecom-black/90 backdrop-blur"
-    >
+    <>
+      {/* The logo lost next/image's `priority` when it became a mask, and a
+          mask that has not loaded yet paints as an unmasked box — a solid
+          accent rectangle in the bar. Preloading keeps it out of that window.
+          React hoists this into <head>. */}
+      <link rel="preload" as="image" href={LOGO_SRC} />
+      <motion.header
+        animate={{ y: hidden ? "-100%" : "0%" }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] as const }}
+        className="sticky top-0 z-50 border-b border-ecom-orange/20 bg-ecom-black/90 backdrop-blur"
+      >
       <div className="shell flex items-center justify-between py-4">
         <Link href={localizedHref(lang, "/")} className="flex items-center gap-2">
-          <Image
-            src="/Logos/LOGO SECUNDARIO ECOMMETRICA 2.1.png"
-            alt="Ecommetrica"
-            width={160}
-            height={40}
-            priority
-            className="h-7 w-auto"
+          {/* Primary lockup (mark + wordmark) rather than the isotype alone, so
+              the brand name is legible in the bar.
+
+              Painted as a CSS mask instead of drawn as an image, for the same
+              reason the shapes in Highlight.tsx are: the PNG is a flat #E84A34
+              silhouette, so as an <img> it would sit at ember's orange while
+              the rest of the bar re-tints under crimson and noir. As a mask the
+              file contributes only its alpha — antialiased edges included — and
+              background-color supplies the pixels from the live logo token.
+              That also means the swap cross-fades for free, since the .theming
+              rule in globals.css transitions background-color.
+
+              --color-ecom-logo, not the accent: they match in the colored
+              themes, but noir's accent is a mid grey and the lockup has to
+              stay white there.
+
+              aspect-ratio rather than w-auto: with no intrinsic image there is
+              no natural width for `auto` to resolve against. 940x190 is the
+              file's real size, so the wordmark never smears. */}
+          <span
+            role="img"
+            aria-label="Ecommetrica"
+            className="block h-7 sm:h-8"
+            style={{
+              aspectRatio: "940 / 190",
+              backgroundColor: "var(--color-ecom-logo)",
+              // Unprefixed alone drops the mask on WebKit, which then paints
+              // the raw background box — a solid accent rectangle where the
+              // logo should be.
+              WebkitMaskImage: `url("${LOGO_SRC}")`,
+              maskImage: `url("${LOGO_SRC}")`,
+              WebkitMaskSize: "contain",
+              maskSize: "contain",
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskPosition: "center",
+              maskPosition: "center",
+            }}
           />
         </Link>
 
@@ -99,8 +138,9 @@ export default function Header() {
           menuLabel={t.mobileMenu.open}
           contactHref={localizedHref(lang, "/contact")}
         />
-      </div>
-    </motion.header>
+        </div>
+      </motion.header>
+    </>
   );
 }
 

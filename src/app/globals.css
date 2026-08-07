@@ -13,6 +13,11 @@
      Use ink for text/borders on the page, and dark/black for dark blocks.
      Never use ecom-dark as a text color — it is a background role. */
   --color-ecom-orange: #e84a34; /* primary accent, from logo mark */
+  /* The navbar lockup. Its own token rather than the accent: it tracks the
+     accent in the colored themes, but the monochrome one wants a white logo,
+     not the grey its accent resolves to. Default is ember's, so the mark is
+     right on the server render before ThemeSwitcher repoints it. */
+  --color-ecom-logo: #e84a34;
   --color-ecom-red: #9c1512; /* deep red, BrandBook 2026 */
   --color-ecom-gray: #585a5c;
   --color-ecom-cream: #f2ede9;

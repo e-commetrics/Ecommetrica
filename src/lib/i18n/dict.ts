@@ -1,5 +1,12 @@
 import type { Lang } from "@/lib/i18n/types";
 
+/** One titled block of a legal document — see `LegalDocument.tsx` for rendering. */
+export type LegalSection = {
+  heading: string;
+  paragraphs: string[];
+  bullets?: string[];
+};
+
 export type Dict = {
   siteMeta: { title: string; description: string; keywords: string[] };
   nav: {
@@ -38,6 +45,7 @@ export type Dict = {
     headlineTail: string;
     items: { title: string; copy: string }[];
     stats: { value: string; label: string }[];
+    imageAlt: string;
   };
   bigNav: { work: string; services: string; talk: string };
   planes: { eyebrow: string; bigWord: string; sub: string; popular: string };
@@ -60,6 +68,8 @@ export type Dict = {
     all: string;
     viewProject: string;
     visitSite: string;
+    withTestimonial: string;
+    withTestimonialAriaLabel: string;
   };
   aboutStudio: {
     eyebrow: string;
@@ -108,7 +118,6 @@ export type Dict = {
     keywords: string[];
     eyebrow: string;
     headline: string;
-    sub: string;
   };
   studioPage: {
     metaDescription: string;
@@ -132,6 +141,8 @@ export type Dict = {
     client: string;
     year: string;
     services: string;
+    testimonial: string;
+    testimonialAria: (author: string) => string;
   };
   blogPage: { metaDescription: string; keywords: string[]; headline: string; dateLocale: string };
   blogDetail: { back: string; dateLocale: string };
@@ -140,11 +151,13 @@ export type Dict = {
     privacyTitle: string;
     privacyMetaDescription: string;
     privacyKeywords: string[];
-    privacyBody: string;
+    privacyIntro: string[];
+    privacySections: LegalSection[];
     termsTitle: string;
     termsMetaDescription: string;
     termsKeywords: string[];
-    termsBody: string;
+    termsIntro: string[];
+    termsSections: LegalSection[];
   };
   notFound: {
     title: string;
@@ -184,8 +197,8 @@ export const dict: Record<Lang, Dict> = {
     languageSwitcher: { ariaLabel: "Cambiar idioma" },
     themeSwitcher: { ariaLabel: "Tema" },
     footer: {
-      privacy: "Aviso de privacidad",
-      terms: "Términos de servicio",
+      privacy: "Política de privacidad",
+      terms: "Términos y condiciones",
       faq: "FAQ",
       eyebrow: "Contáctanos",
       headline: "¿Estás listo?",
@@ -225,6 +238,8 @@ export const dict: Record<Lang, Dict> = {
         { value: "15", label: "Industrias atendidas" },
         { value: "98%", label: "Clientes que renuevan" },
       ],
+      imageAlt:
+        "El equipo de Ecommetrica trabajando: laptops abiertas alrededor de una mesa alta durante una sesión de revisión.",
     },
     bigNav: { work: "Trabajo", services: "Servicios", talk: "Hablemos" },
     planes: {
@@ -254,6 +269,8 @@ export const dict: Record<Lang, Dict> = {
       all: "Todos",
       viewProject: "Ver proyecto",
       visitSite: "Visitar sitio",
+      withTestimonial: "Con testimonial",
+      withTestimonialAriaLabel: "Mostrar solo proyectos con testimonial en video",
     },
     aboutStudio: {
       eyebrow: "Sobre el",
@@ -326,7 +343,6 @@ export const dict: Record<Lang, Dict> = {
       ],
       eyebrow: "Servicios",
       headline: "Convierte tu sitio web obsoleto en tu principal activo de crecimiento.",
-      sub: "Todo lo que hacemos, servicio por servicio.",
     },
     studioPage: {
       metaDescription:
@@ -341,7 +357,7 @@ export const dict: Record<Lang, Dict> = {
       quote:
         "Construimos ecosistemas digitales seguros para el crecimiento sostenible de los negocios.",
       intro: [
-        "En 2023 comenzó Ecommetrica con un equipo pequeño pero lleno de buenas ideas y corazón. Estamos en Tijuana.",
+        "En 2023 comenzó Ecommetrica con un equipo pequeño pero lleno de buenas ideas y corazón.",
         "Nuestro equipo cuenta con un bagaje de más de 10 años de experiencia elaborando proyectos relacionados con el mundo digital, el diseño y el marketing online.",
         "Nos basamos en métodos iterativos de mejora: análisis, planificación, medición y testeo. Con mucha creatividad y método para generar marcas únicas.",
         // Salvaged from a source paragraph that otherwise repeated the two
@@ -388,6 +404,8 @@ export const dict: Record<Lang, Dict> = {
       client: "Cliente",
       year: "Año",
       services: "Servicios",
+      testimonial: "Testimonial",
+      testimonialAria: (author) => `Video testimonial de ${author}`,
     },
     blogPage: {
       metaDescription: "Estrategia, tecnología y marketing digital desde Ecommetrica.",
@@ -403,17 +421,72 @@ export const dict: Record<Lang, Dict> = {
       keywords: ["preguntas frecuentes", "FAQ Ecommetrica", "servicios Ecommetrica"],
     },
     legal: {
-      privacyTitle: "Aviso de privacidad",
+      privacyTitle: "Política de privacidad",
       privacyMetaDescription:
-        "Aviso de privacidad de Ecommetrica: qué datos recopilamos, cómo los usamos y cómo puedes solicitar su eliminación.",
-      privacyKeywords: ["aviso de privacidad", "política de privacidad Ecommetrica"],
-      privacyBody:
-        "Esta página es un marcador de posición. Reemplaza este texto con la política de privacidad real de Ecommetrica antes del lanzamiento — qué datos se recopilan en este sitio (incluyendo el formulario de contacto), cómo se almacenan y usan, y cómo los visitantes pueden solicitar su eliminación.",
-      termsTitle: "Términos de servicio",
-      termsMetaDescription: "Términos de servicio de Ecommetrica para el uso de este sitio web.",
-      termsKeywords: ["términos de servicio", "términos y condiciones Ecommetrica"],
-      termsBody:
-        "Esta página es un marcador de posición. Reemplaza este texto con los términos de servicio reales de Ecommetrica antes del lanzamiento.",
+        "Política de privacidad de Ecommetrica: qué datos recopilamos, cómo los usamos y cómo puedes solicitar su eliminación.",
+      privacyKeywords: ["política de privacidad", "aviso de privacidad Ecommetrica"],
+      privacyIntro: [
+        "En ecommetrica.com, accesible desde https://ecommetrica.com, una de nuestras principales prioridades es la privacidad de nuestros visitantes. Este documento de Política de Privacidad contiene los tipos de información que son recopilados y registrados por Ecommetrica y cómo los usamos.",
+        "Si tiene preguntas adicionales o requiere más información sobre nuestra Política de Privacidad, no dude en contactarnos.",
+        "Esta Política de Privacidad se aplica únicamente a nuestras actividades en línea y es válida para los visitantes de nuestro sitio web en lo que respecta a la información que comparten y/o recopilan en ecommetrica.com. Esta política no es aplicable a ninguna información recolectada fuera de línea o a través de otros canales que no sean este sitio web.",
+      ],
+      privacySections: [
+        {
+          heading: "Consentimiento",
+          paragraphs: [
+            "Al utilizar nuestro sitio web, usted acepta nuestra Política de Privacidad y está de acuerdo con sus términos.",
+          ],
+        },
+        {
+          heading: "La información que recogemos",
+          paragraphs: [
+            "La información personal que se le pide que proporcione, y las razones por las que se le pide que la proporcione, se le aclarará en el momento en que le pidamos que proporcione su información personal.",
+            "Si se pone en contacto con nosotros directamente, es posible que recibamos información adicional sobre usted, como su nombre, dirección de correo electrónico, número de teléfono, el contenido del mensaje y/o los archivos adjuntos que nos envíe, y cualquier otra información que decida proporcionar.",
+            "Cuando se registra en una Cuenta, podemos pedirle su información de contacto, incluyendo elementos como el nombre, el nombre de la empresa, la dirección, la dirección de correo electrónico y el número de teléfono.",
+          ],
+        },
+        {
+          heading: "Cómo utilizamos su información",
+          paragraphs: ["Utilizamos la información que recogemos de varias maneras, incluyendo:"],
+          bullets: [
+            "Proporcionar, operar y mantener nuestra web.",
+            "Mejorar, personalizar y ampliar nuestra web.",
+            "Comprender y analizar cómo se utiliza nuestra web.",
+            "Desarrollar nuevos productos, servicios, características y funcionalidades.",
+            "Comunicarse con usted, ya sea directamente o a través de uno de nuestros socios, incluyendo el servicio de atención al cliente, para proporcionarle actualizaciones y otra información relacionada con la web, y para fines de marketing y promoción.",
+            "Enviarle correos electrónicos.",
+            "Encontrar y prevenir el fraude.",
+          ],
+        },
+        {
+          heading: "Archivos de registro",
+          paragraphs: [
+            "ecommetrica.com sigue un procedimiento estándar de uso de archivos de registro. Estos archivos registran a los visitantes cuando visitan los sitios web. Todas las empresas de hosting hacen esto y una parte de los análisis de los servicios de hosting. La información recogida por los archivos de registro incluye las direcciones del protocolo de Internet (IP), el tipo de navegador, el proveedor de servicios de Internet (ISP), la fecha y la hora, las páginas de referencia/salida y posiblemente el número de clics. Éstas no están vinculadas a ninguna información que permita la identificación personal.",
+            "El propósito de la información es analizar las tendencias, administrar el sitio, rastrear el movimiento de los usuarios en el sitio web y reunir información demográfica.",
+          ],
+        },
+      ],
+      termsTitle: "Términos y condiciones",
+      termsMetaDescription:
+        "Términos y condiciones de Ecommetrica: cómo atendemos las consultas de soporte y cómo notificar un cambio o devolución.",
+      termsKeywords: ["términos y condiciones", "términos de servicio Ecommetrica"],
+      termsIntro: [
+        "La página de ecommetrica.com contiene el contacto directo con nuestro personal de atención al cliente.",
+      ],
+      termsSections: [
+        {
+          heading: "Consultas y soporte",
+          paragraphs: [
+            "Todas las consultas realizadas en la página son directas a nuestro equipo de soporte. Las consultas son respondidas por correo electrónico y deberán ser atendidas por el cliente en el periodo de 48hrs a 24hrs después de la consulta. Consultas no respondidas podrán ser consideradas como resueltas por el cliente.",
+          ],
+        },
+        {
+          heading: "Cambios y devoluciones",
+          paragraphs: [
+            "Toda situación que se presente por cambio o devolución deberá ser notificada por correo electrónico a juanmanuel@ecommetrica.com enviando descripción del problema o razón de la devolución.",
+          ],
+        },
+      ],
     },
     notFound: {
       title: "Página no encontrada",
@@ -453,7 +526,7 @@ export const dict: Record<Lang, Dict> = {
     themeSwitcher: { ariaLabel: "Theme" },
     footer: {
       privacy: "Privacy policy",
-      terms: "Terms of service",
+      terms: "Terms & conditions",
       faq: "FAQ",
       eyebrow: "Contact us",
       headline: "Are you ready?",
@@ -493,6 +566,8 @@ export const dict: Record<Lang, Dict> = {
         { value: "15", label: "Industries served" },
         { value: "98%", label: "Clients who renew" },
       ],
+      imageAlt:
+        "The Ecommetrica team at work: laptops open around a high table during a review session.",
     },
     bigNav: { work: "Work", services: "Services", talk: "Let's talk" },
     planes: {
@@ -522,6 +597,8 @@ export const dict: Record<Lang, Dict> = {
       all: "All",
       viewProject: "View project",
       visitSite: "Visit site",
+      withTestimonial: "With testimonial",
+      withTestimonialAriaLabel: "Show only projects with a video testimonial",
     },
     aboutStudio: {
       eyebrow: "About the",
@@ -594,7 +671,6 @@ export const dict: Record<Lang, Dict> = {
       ],
       eyebrow: "Services",
       headline: "Turn your outdated website into your biggest growth asset.",
-      sub: "Everything we do, service by service.",
     },
     studioPage: {
       metaDescription: "We build secure digital ecosystems for sustainable business growth.",
@@ -607,7 +683,7 @@ export const dict: Record<Lang, Dict> = {
       ],
       quote: "We build secure digital ecosystems for sustainable business growth.",
       intro: [
-        "Ecommetrica started in 2023 with a small team full of good ideas and heart. We're based in Tijuana.",
+        "Ecommetrica started in 2023 with a small team full of good ideas and heart.",
         "Our team brings over 10 years of experience building projects across the digital world, design, and online marketing.",
         "We work from iterative methods of improvement: analysis, planning, measurement, and testing. Plenty of creativity, and a method behind it, to build brands that stand out.",
         // See the note on the Spanish side — this is the half of a source
@@ -654,6 +730,8 @@ export const dict: Record<Lang, Dict> = {
       client: "Client",
       year: "Year",
       services: "Services",
+      testimonial: "Testimonial",
+      testimonialAria: (author) => `Video testimonial from ${author}`,
     },
     blogPage: {
       metaDescription: "Strategy, technology, and digital marketing from Ecommetrica.",
@@ -669,17 +747,72 @@ export const dict: Record<Lang, Dict> = {
       keywords: ["frequently asked questions", "Ecommetrica FAQ", "Ecommetrica services"],
     },
     legal: {
-      privacyTitle: "Privacy Policy",
+      privacyTitle: "Privacy policy",
       privacyMetaDescription:
         "Ecommetrica's privacy policy: what data we collect, how we use it, and how you can request its deletion.",
-      privacyKeywords: ["privacy policy", "Ecommetrica privacy policy"],
-      privacyBody:
-        "This page is a placeholder. Replace this copy with Ecommetrica's actual privacy policy before launch — what data is collected through this site (including the contact form), how it is stored and used, and how visitors can request deletion.",
-      termsTitle: "Terms of Service",
-      termsMetaDescription: "Ecommetrica's terms of service for using this website.",
-      termsKeywords: ["terms of service", "Ecommetrica terms and conditions"],
-      termsBody:
-        "This page is a placeholder. Replace this copy with Ecommetrica's actual terms of service before launch.",
+      privacyKeywords: ["privacy policy", "Ecommetrica privacy notice"],
+      privacyIntro: [
+        "At ecommetrica.com, accessible from https://ecommetrica.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document describes the types of information that are collected and recorded by Ecommetrica and how we use them.",
+        "If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.",
+        "This Privacy Policy applies only to our online activities and is valid for visitors to our website with regard to the information they share and/or collect on ecommetrica.com. This policy does not apply to any information collected offline or through channels other than this website.",
+      ],
+      privacySections: [
+        {
+          heading: "Consent",
+          paragraphs: [
+            "By using our website, you accept our Privacy Policy and agree to its terms.",
+          ],
+        },
+        {
+          heading: "Information we collect",
+          paragraphs: [
+            "The personal information you are asked to provide, and the reasons you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information.",
+            "If you contact us directly, we may receive additional information about you, such as your name, email address, phone number, the contents of the message and/or attachments you send us, and any other information you choose to provide.",
+            "When you register for an Account, we may ask for your contact information, including items such as name, company name, address, email address, and phone number.",
+          ],
+        },
+        {
+          heading: "How we use your information",
+          paragraphs: ["We use the information we collect in various ways, including to:"],
+          bullets: [
+            "Provide, operate, and maintain our website.",
+            "Improve, personalize, and expand our website.",
+            "Understand and analyze how our website is used.",
+            "Develop new products, services, features, and functionality.",
+            "Communicate with you, either directly or through one of our partners, including for customer service, to provide you with updates and other information relating to the website, and for marketing and promotional purposes.",
+            "Send you emails.",
+            "Find and prevent fraud.",
+          ],
+        },
+        {
+          heading: "Log files",
+          paragraphs: [
+            "ecommetrica.com follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this, and it is part of hosting services' analytics. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable.",
+            "The purpose of the information is to analyze trends, administer the site, track users' movement on the website, and gather demographic information.",
+          ],
+        },
+      ],
+      termsTitle: "Terms & conditions",
+      termsMetaDescription:
+        "Ecommetrica's terms and conditions: how we handle support enquiries and how to report a change or return.",
+      termsKeywords: ["terms and conditions", "Ecommetrica terms of service"],
+      termsIntro: [
+        "The ecommetrica.com website puts you in direct contact with our customer support staff.",
+      ],
+      termsSections: [
+        {
+          heading: "Enquiries and support",
+          paragraphs: [
+            "All enquiries made through the site go directly to our support team. Enquiries are answered by email and must be attended to by the client within 24 to 48 hours of the enquiry. Enquiries that go unanswered may be considered resolved by the client.",
+          ],
+        },
+        {
+          heading: "Changes and returns",
+          paragraphs: [
+            "Any situation involving a change or return must be reported by email to juanmanuel@ecommetrica.com, including a description of the problem or the reason for the return.",
+          ],
+        },
+      ],
     },
     notFound: {
       title: "Page not found",
