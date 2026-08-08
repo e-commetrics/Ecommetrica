@@ -46,6 +46,7 @@ export default function Header() {
     { href: localizedHref(lang, "/services"), label: t.nav.services },
     { href: localizedHref(lang, "/work"), label: t.nav.work },
     { href: localizedHref(lang, "/blog"), label: t.nav.blog },
+    { href: localizedHref(lang, "/faq"), label: t.nav.faq },
     { href: localizedHref(lang, "/contact"), label: t.nav.contact },
   ].map((link) => ({ ...link, active: isActiveHref(pathname, link.href) }));
 
@@ -104,9 +105,11 @@ export default function Header() {
           />
         </Link>
 
-        {/* gap tightens at md: five links plus both switchers and the CTA pill
-            overflow the bar at 768px on the wider gap. */}
-        <nav className="hidden items-center gap-5 text-sm font-medium tracking-wide uppercase md:flex lg:gap-8">
+        {/* Breakpoint is lg, not md: six links plus both switchers and the CTA
+            pill need ~880px, and the bar only has ~700px at 768px — the tablet
+            band gets the mobile menu, which carries the same links. The wider
+            gap likewise waits for xl, since it overflows again at 1024. */}
+        <nav className="hidden items-center gap-5 text-sm font-medium tracking-wide uppercase lg:flex xl:gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -121,7 +124,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-5 md:flex">
+        <div className="hidden items-center gap-5 lg:flex">
           <LanguageSwitcher />
           <ThemeSwitcher />
           <Link
@@ -185,7 +188,7 @@ function MobileNav({
   }, [close]);
 
   return (
-    <details ref={detailsRef} className="relative md:hidden">
+    <details ref={detailsRef} className="relative lg:hidden">
       <summary className="list-none cursor-pointer select-none rounded-md border border-white/20 px-3 py-2 text-sm text-white">
         {menuLabel}
       </summary>

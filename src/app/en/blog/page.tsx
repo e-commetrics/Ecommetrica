@@ -34,7 +34,7 @@ export default function BlogPage() {
             href={localizedHref(LANG, `/blog/${post.slug}`)}
             className="group py-8 first:pt-0"
           >
-            <p className="text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
+            <p className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
               {new Date(post.date).toLocaleDateString(t.blogPage.dateLocale, {
                 year: "numeric",
                 month: "long",

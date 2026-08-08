@@ -1,13 +1,10 @@
-import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import Counter from "@/components/Counter";
 import Highlight from "@/components/Highlight";
+import ImageSlot from "@/components/ImageSlot";
 import type { Lang } from "@/lib/i18n/types";
 import { getDict } from "@/lib/i18n/dict";
-
-// Percent-encoded rather than renamed, matching how the other spaced brand
-// assets are referenced (see Highlight.tsx, Header.tsx).
-const TEAM_PHOTO = "/images/1.%20Foto%20Team%201.webp";
+import { imageSlots } from "@/lib/imageSlots";
 
 export default function Pillars({ lang }: { lang: Lang }) {
   const t = getDict(lang);
@@ -42,16 +39,18 @@ export default function Pillars({ lang }: { lang: Lang }) {
         {/* Statement and image share a row: the copy was capped at max-w-4xl
             inside the full shell, so the right third of this block was empty at
             every desktop width. */}
-        {/* The photo column is `auto`, not a fraction: the source is 257px wide,
-            so it's pinned to 20rem rather than allowed to stretch with the
-            viewport and soften further, and the statement takes the remainder.
-            An `auto` track sizes to its content, and everything in this one is
-            either a percentage width or an absolutely-positioned `fill` image —
-            no intrinsic width between them — so the width below has to be a
-            definite length or the whole column resolves to zero. */}
-        <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-16">
+        {/* Both columns are fractions, and the image gets the larger share. It
+            used to be a fixed `auto` track pinned to 20rem because the photo
+            behind it was only 257px wide and anything wider went soft — with the
+            photo gone there is nothing to pin it to, so the frame stretches with
+            the viewport instead.
+
+            The statement drops to 36px between lg and 2xl to pay for it: at the
+            1024px end of `lg` its column is ~360px, and 48px type there sets
+            about seven characters to the line. */}
+        <div className="mt-10 grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:items-center lg:gap-16">
           <Reveal delay={0.1}>
-            <p className="text-balance font-display text-2xl leading-[1.25] font-medium tracking-[-0.01em] sm:text-4xl lg:text-5xl">
+            <p className="text-balance font-display text-2xl leading-[1.25] font-medium tracking-[-0.01em] sm:text-4xl 2xl:text-5xl">
               {t.pillars.headlinePre}{" "}
               <span className="text-white">{t.pillars.headlineStrong}</span>{" "}
               <span className="text-white/40">{t.pillars.headlineTail}</span>
@@ -64,17 +63,17 @@ export default function Pillars({ lang }: { lang: Lang }) {
               viewport edge once the photo stopped filling it. */}
           <Reveal
             delay={0.2}
-            className="relative mx-auto w-full max-w-[20rem] lg:mx-0 lg:w-[20rem]"
+            className="relative mx-auto w-full max-w-[40rem] lg:mx-0 lg:max-w-none"
           >
             {/* Monogram half off the top-right corner of the slot — ties the
                 photo back to the mark without needing an overlay on it.
-                Accent, not white: it used to sit on a flat dark placeholder,
-                but the photo's top-right corner is a white wall, so a white
-                mark disappeared into it. Accent is the one tone contrast-checked
-                against both light and dark (see the token contract in
-                CLAUDE.md), and unlike white it still follows the theme.
-                The shadow does the rest of the work wherever the photo goes
-                pale behind it; over the black section it costs nothing. */}
+                Accent, not white: the mark has to survive whatever ends up in
+                this frame, and a white one vanishes against a pale corner.
+                Accent is the one tone contrast-checked against both light and
+                dark (see the token contract in CLAUDE.md), and unlike white it
+                still follows the theme. The shadow does the rest of the work
+                wherever a photo goes pale behind it; over the black section it
+                costs nothing. */}
             <Highlight
               shape="monogram"
               tone="accent"
@@ -83,21 +82,11 @@ export default function Pillars({ lang }: { lang: Lang }) {
               className="absolute -top-8 right-0 z-10 w-24 [filter:drop-shadow(0_2px_14px_rgba(18,18,19,0.55))] sm:-top-10 sm:-right-6 sm:w-32"
               opacity={0.9}
             />
-            <div className="relative aspect-4/3 w-full overflow-hidden rounded-3xl bg-white/8 ring-1 ring-white/10">
-              {/* The source is nearly square, so 4/3 crops a fifth of its
-                  height. Pulled up to 20% rather than centered so that fifth
-                  comes off the table legs at the bottom instead of splitting
-                  evenly and clipping the standing heads. */}
-              <Image
-                src={TEAM_PHOTO}
-                alt={t.pillars.imageAlt}
-                fill
-                // Fixed, because the frame is: a viewport-relative hint would
-                // make Next fetch a variant wider than the box ever gets.
-                sizes="320px"
-                className="object-cover object-[center_20%]"
-              />
-            </div>
+            <ImageSlot
+              ratio="4 / 3"
+              tone="dark"
+              label={imageSlots.pillarsStatement[lang]}
+            />
           </Reveal>
         </div>
 
@@ -125,10 +114,12 @@ export default function Pillars({ lang }: { lang: Lang }) {
                 aria-hidden
                 className="block h-px w-10 bg-ecom-orange transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:w-20"
               />
-              <h3 className="mt-5 font-display text-lg font-medium tracking-wide text-ecom-orange uppercase">
+              <h3 className="mt-5 font-display text-2xl font-medium tracking-wide text-ecom-orange uppercase sm:text-3xl">
                 {pillar.title}
               </h3>
-              <p className="mt-3 leading-relaxed text-white/60">{pillar.copy}</p>
+              <p className="mt-3 leading-relaxed text-white/60">
+                {pillar.copy}
+              </p>
             </Reveal>
           ))}
         </div>

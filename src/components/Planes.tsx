@@ -66,7 +66,7 @@ export default function Planes() {
                 }`}
               >
                 {plan.featured && (
-                  <span className="absolute -top-3 left-8 rounded-full bg-ecom-orange px-3 py-1 text-[0.65rem] font-medium tracking-widest text-white uppercase">
+                  <span className="absolute -top-3 left-8 rounded-full bg-ecom-orange px-3 py-1 text-xs font-medium tracking-widest text-white uppercase">
                     {t.planes.popular}
                   </span>
                 )}

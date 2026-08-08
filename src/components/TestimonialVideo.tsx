@@ -108,7 +108,7 @@ export default function TestimonialVideo({
           className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-ecom-black/70 to-transparent"
         />
         <span className="absolute inset-x-0 bottom-0 flex justify-center p-4">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-5 py-2.5 text-xs font-medium uppercase tracking-widest text-ecom-black transition-colors duration-300 group-hover:bg-ecom-orange group-hover:text-white">
+          <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-5 py-2.5 text-sm font-medium uppercase tracking-widest text-ecom-black transition-colors duration-300 group-hover:bg-ecom-orange group-hover:text-white">
             <PlayIcon className="h-2.5 w-2.5" />
             {watchLabel}
           </span>

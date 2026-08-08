@@ -181,7 +181,7 @@ export default function AboutStudio() {
                 />
                 <motion.span
                   variants={badgeVariants}
-                  className="absolute bottom-4 left-4 rounded-full bg-ecom-black/70 px-4 py-1.5 text-xs font-medium tracking-widest text-white uppercase backdrop-blur"
+                  className="absolute bottom-4 left-4 rounded-full bg-ecom-black/70 px-4 py-1.5 text-sm font-medium tracking-widest text-white uppercase backdrop-blur"
                 >
                   {member.role[lang]}
                 </motion.span>
@@ -204,7 +204,7 @@ export default function AboutStudio() {
               >
                 <motion.span
                   variants={textItemVariants}
-                  className="block text-xs font-medium tracking-widest text-ecom-ink/50 uppercase"
+                  className="block text-sm font-medium tracking-widest text-ecom-ink/50 uppercase"
                 >
                   {String(index + 1).padStart(2, "0")} /{" "}
                   {String(TOTAL).padStart(2, "0")}

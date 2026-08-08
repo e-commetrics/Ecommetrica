@@ -51,7 +51,7 @@ export default function ImageSlot({
       />
       <div className="w-full p-5 sm:p-6">
         <p
-          className={`text-[0.7rem] font-medium tracking-[0.18em] uppercase ${
+          className={`text-xs font-medium tracking-[0.18em] uppercase ${
             isDark ? "text-white/40" : "text-ecom-ink/40"
           }`}
         >

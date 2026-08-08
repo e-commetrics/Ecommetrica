@@ -245,7 +245,7 @@ function Stepper({
 }) {
   return (
     <div>
-      <p className="text-xs font-medium tracking-[0.2em] text-ecom-ink/50 uppercase lg:hidden">
+      <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase lg:hidden">
         {stepOfLabel}
       </p>
       <ol className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-3 lg:mt-0">
@@ -268,7 +268,7 @@ function Stepper({
                 onClick={() => onStepClick(index)}
                 disabled={!reachable}
                 aria-current={isActive ? "step" : undefined}
-                className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-medium tracking-wide transition-colors duration-300 sm:px-4 sm:text-sm ${
+                className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-medium tracking-wide transition-colors duration-300 sm:px-4 ${
                   isActive
                     ? "border-ecom-orange bg-ecom-orange text-white"
                     : isDone
@@ -277,7 +277,7 @@ function Stepper({
                 } ${reachable ? "cursor-pointer" : "cursor-not-allowed"}`}
               >
                 <span
-                  className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[0.65rem] ${
+                  className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs ${
                     isActive ? "bg-white/25" : isDone ? "bg-ecom-orange/15 text-ecom-orange" : "bg-ecom-ink/10"
                   }`}
                 >
@@ -323,7 +323,7 @@ function PlanStep({
             }`}
           >
             {plan.featured && (
-              <span className="absolute -top-3 left-7 rounded-full bg-ecom-orange px-3 py-1 text-[0.65rem] font-medium tracking-widest text-white uppercase">
+              <span className="absolute -top-3 left-7 rounded-full bg-ecom-orange px-3 py-1 text-xs font-medium tracking-widest text-white uppercase">
                 Popular
               </span>
             )}
@@ -333,7 +333,7 @@ function PlanStep({
               </h3>
               <span
                 aria-hidden
-                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-xs transition-colors duration-300 ${
+                className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-sm transition-colors duration-300 ${
                   isSelected
                     ? "border-ecom-orange bg-ecom-orange text-white"
                     : "border-ecom-ink/20 text-transparent"
@@ -357,7 +357,7 @@ function PlanStep({
               ))}
             </ul>
             <span
-              className={`mt-6 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-xs font-medium tracking-wide uppercase ${
+              className={`mt-6 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-sm font-medium tracking-wide uppercase ${
                 isSelected ? "bg-ecom-orange text-white" : "bg-ecom-ink/5 text-ecom-ink/70"
               }`}
             >
@@ -427,7 +427,7 @@ function AddonStep({
                 onClick={() => onToggle(addon)}
                 disabled={included}
                 aria-pressed={selected}
-                className={`mt-5 inline-flex w-fit items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium tracking-wide uppercase transition-colors duration-300 ${
+                className={`mt-5 inline-flex w-fit items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium tracking-wide uppercase transition-colors duration-300 ${
                   included
                     ? "cursor-not-allowed border-ecom-ink/10 text-ecom-ink/40"
                     : selected
@@ -466,7 +466,7 @@ function SummaryStep({
 
       {plan && (
         <div className="mt-8 rounded-2xl border border-ecom-orange/40 bg-ecom-orange/[0.06] p-6">
-          <p className="text-xs font-medium tracking-[0.2em] text-ecom-orange uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
             {t.packagesFlow.summaryBasePlan}
           </p>
           <div className="mt-3 flex items-baseline justify-between gap-4">
@@ -480,7 +480,7 @@ function SummaryStep({
       )}
 
       <div className="mt-6">
-        <p className="text-xs font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
+        <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
           {t.packagesFlow.summaryExtras}
         </p>
         {addons.length === 0 ? (
@@ -528,7 +528,7 @@ function OrderSummary({
 
   return (
     <aside className="rounded-2xl border border-ecom-ink/10 bg-ecom-ink/[0.02] p-6 lg:sticky lg:top-28">
-      <p className="text-xs font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
+      <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
         {t.packagesFlow.orderSummaryLabel}
       </p>
 

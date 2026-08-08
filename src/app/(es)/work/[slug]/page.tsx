@@ -68,7 +68,7 @@ export default async function CaseStudyPage({
         }
       >
         <div className={project.testimonial ? "lg:col-start-1 lg:row-start-1" : undefined}>
-          <p className="text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
+          <p className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
             {categoryLabel(project.category, LANG)}
           </p>
           <h1 className="mt-3 font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
@@ -85,7 +85,7 @@ export default async function CaseStudyPage({
             narrow enough to read as one screen with the summary above it. */}
         {project.testimonial && (
           <figure className="mx-auto w-full max-w-[17rem] sm:max-w-[19rem] lg:col-start-2 lg:row-start-1 lg:row-span-2 lg:mx-0 lg:w-[19rem]">
-            <p className="text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
+            <p className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
               {t.workDetail.testimonial}
             </p>
             <div className="mt-4">
@@ -140,7 +140,7 @@ export default async function CaseStudyPage({
         <dl className="mt-10 grid grid-cols-2 gap-8 border-y border-ecom-ink/10 py-8 sm:grid-cols-3">
           {details?.client && (
             <div>
-              <dt className="text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
+              <dt className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
                 {t.workDetail.client}
               </dt>
               <dd className="mt-1 text-ecom-ink">{details.client}</dd>
@@ -148,7 +148,7 @@ export default async function CaseStudyPage({
           )}
           {details?.year && (
             <div>
-              <dt className="text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
+              <dt className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
                 {t.workDetail.year}
               </dt>
               <dd className="mt-1 text-ecom-ink">{details.year}</dd>
@@ -156,7 +156,7 @@ export default async function CaseStudyPage({
           )}
           {details?.services && (
             <div>
-              <dt className="text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
+              <dt className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
                 {t.workDetail.services}
               </dt>
               <dd className="mt-1 text-ecom-ink">{details.services.join(", ")}</dd>

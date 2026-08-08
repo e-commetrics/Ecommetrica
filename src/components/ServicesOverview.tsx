@@ -62,28 +62,62 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
         </Reveal>
       </div>
 
-      <div className="mt-16 grid gap-10 border-t border-ecom-ink/10 pt-14 sm:grid-cols-2 lg:grid-cols-4">
+      {/* gap-12, not gap-10: each card's hover surface bleeds 1.25rem past its
+          content on every side (the -m-5/p-5 pair below), so the gap has to
+          clear 2.5rem of bleed before neighbouring cards start touching. */}
+      <div className="mt-16 grid gap-12 border-t border-ecom-ink/10 pt-14 sm:grid-cols-2 lg:grid-cols-4">
         {serviceCategories.map((category, i) => (
           <Reveal key={category.groupId} delay={i * 0.1}>
+            {/* The -m-5/p-5 pair is what lets the card have a hover surface at
+                all: padding alone would indent the rule and the heading away
+                from the section's left edge, where they currently line up with
+                the headline above. Cancelling it with the same negative margin
+                leaves every glyph exactly where it was and grows only the box
+                that gets painted.
+
+                The height has to add that padding back. Grid stretch sizes this
+                link to the tallest card's *content*, so at a plain `h-full` the
+                tallest card has exactly its own content height to fit content
+                plus 2.5rem of padding — and the last line or two spill out the
+                bottom of the painted box. Adding the pair back keeps all four
+                boxes identical and gives every one of them room for the longest
+                card's copy. */}
             <Link
               href={localizedHref(lang, `/services#${category.groupId}`)}
               aria-label={t.servicesOverview.viewAria(category.name[lang])}
-              className="group flex h-full flex-col"
+              className="group -m-5 flex h-[calc(100%+2.5rem)] flex-col rounded-2xl p-5 ring-1 ring-transparent transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:bg-ecom-ink/[0.04] hover:ring-ecom-ink/10"
             >
+              {/* 2px at rest, not 1: an `h-px` bar lands on a fractional device
+                  pixel at half these columns' offsets and antialiases itself
+                  away entirely, so only two of the four ever showed a rule.
+                  Sweeps the full width of the card and doubles on hover, rather
+                  than nudging from 2.5rem to 5rem — at a glance the old growth
+                  read as nothing moving at all. */}
               <span
                 aria-hidden
-                className="block h-px w-10 bg-ecom-orange transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:w-20"
+                className="block h-0.5 w-10 rounded-full bg-ecom-orange transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:h-1 group-hover:w-full"
               />
-              <h3 className="mt-5 font-display text-lg font-medium tracking-wide text-ecom-ink uppercase transition-colors duration-300 group-hover:text-ecom-orange">
+              <h3 className="mt-5 flex items-center gap-2 font-display text-lg font-medium tracking-wide text-ecom-ink uppercase transition-colors duration-300 group-hover:text-ecom-orange">
                 {category.name[lang]}
+                {/* Only appears on hover: the card is a link, and nothing else
+                    in the resting state says so. */}
+                <span
+                  aria-hidden
+                  className="-translate-x-1 opacity-0 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-0 group-hover:opacity-100"
+                >
+                  &rarr;
+                </span>
               </h3>
               {category.body?.map((paragraph) => (
-                <p key={paragraph.en} className="mt-3 leading-relaxed text-ecom-ink/70">
+                <p
+                  key={paragraph.en}
+                  className="mt-3 leading-relaxed text-ecom-ink/70 transition-colors duration-300 group-hover:text-ecom-ink/90"
+                >
                   {paragraph[lang]}
                 </p>
               ))}
               {category.highlights && (
-                <ul className="mt-5 flex flex-col gap-2.5 border-t border-ecom-ink/10 pt-5 text-sm text-ecom-ink/60">
+                <ul className="mt-5 flex flex-col gap-2.5 border-t border-ecom-ink/10 pt-5 text-sm text-ecom-ink/60 transition-colors duration-300 group-hover:border-ecom-orange/25 group-hover:text-ecom-ink/80">
                   {category.highlights.map((highlight) => (
                     <li key={highlight.en} className="flex items-start gap-2.5">
                       <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />

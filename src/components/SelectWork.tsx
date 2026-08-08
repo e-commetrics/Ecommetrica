@@ -14,47 +14,58 @@ const PROJECTS = getFeaturedCaseStudies();
 
 const TOTAL = PROJECTS.length;
 
-// Fraction of the pinned scroll spent holding the title alone, with every
-// project still parked off-screen below, before the first one is let in.
-const HOLD = 0.18;
-
 // Height of each project's slide, in vh. Deliberately smaller than a card is
-// tall (a 2:1 card at these widths runs ~32-42vh) so consecutive cards overlap
+// tall (a 2:1 card at these widths runs ~38-48vh) so consecutive cards overlap
 // vertically instead of queueing up one per screen — two or three are in frame
 // at once, which is what makes the track read as a scatter rather than a list.
-const SLIDE_VH = 40;
+// Tighter than the 40 it started at: at that spacing the frame regularly held a
+// single card with dead surface above and below it.
+const SLIDE_VH = 36;
 
-// Extra 100vh at the head (title-only hold) and tail (room for the last
-// project to fully clear the top) beyond the slide track itself.
-const SECTION_VH = TOTAL * SLIDE_VH + 200;
+// Slack beyond the slide track itself, for the head (title-only hold) and the
+// tail (room for the last project to fully clear the top).
+//
+// This is the section's scroll budget, not its motion: the track always travels
+// the same distance, so a smaller number here spends less page scroll covering
+// it. Trimmed from 200 because the ends of the track are necessarily the sparse
+// part — the first and last cards have no neighbour to share the frame with —
+// and the tail in particular sat on one lone card for most of a screen.
+const SECTION_VH = TOTAL * SLIDE_VH + 150;
 
-// Cards are wide (2:1) and run up to max-w-2xl, so on a 1500px screen the
-// largest is ~670px — 40vw would under-serve it.
-const IMAGE_SIZES = "(max-width: 1023px) 100vw, 50vw";
+// Cards are wide (2:1) and run up to max-w-3xl (768px), which 50vw only covers
+// past a 1536px viewport — hence 55vw rather than something narrower.
+const IMAGE_SIZES = "(max-width: 1023px) 100vw, 55vw";
 
 /**
  * Per-slide size and position on desktop, applied in order — index 0 is the
  * first featured project. This is the ONLY thing controlling where a card
  * lands, and each entry is meant to be hand-tuned on its own:
- * - width:  max-w-lg (small) / max-w-xl (medium) / max-w-2xl (large)
+ * - width:  max-w-xl (small) / max-w-2xl (medium) / max-w-3xl (large)
  * - side:   mr-auto (left) / ml-auto (right)
  * - nudge:  lg:translate-x-*, lg:-translate-x-*, lg:translate-y-*, lg:-translate-y-*
  *
  * The rhythm alternates sides while varying width and indent, so no two
- * neighbours share an edge and the column never straightens out. Widths stay
- * at or under max-w-2xl on purpose: anything larger blankets the pinned title
- * behind it instead of passing across it. If there are more featured projects
- * than entries here the list simply repeats.
+ * neighbours share an edge and the column never straightens out. Every other
+ * entry is also pulled well off its own edge (the -x-28/-x-32 ones), which is
+ * what keeps the track from resolving into two tidy columns hugging the
+ * margins. If there are more featured projects than entries here the list
+ * simply repeats.
+ *
+ * Widths cap at max-w-3xl, up from max-w-2xl: a card that size still clears
+ * half the pinned title, so it reads as passing across the headline rather than
+ * blanketing it — while the smaller cards left ~650px of bare surface beside
+ * them at every desktop width. Nothing here rotates on purpose; the scatter
+ * comes from size and position alone.
  */
 const SLIDE_LAYOUT = [
-  "max-w-xl mr-auto lg:translate-x-4 lg:-translate-y-6",
-  "max-w-2xl ml-auto lg:-translate-x-6 lg:translate-y-8",
-  "max-w-lg mr-auto lg:translate-x-36 lg:-translate-y-4",
-  "max-w-2xl ml-auto lg:-translate-x-28 lg:translate-y-10",
-  "max-w-lg mr-auto lg:translate-x-8 lg:-translate-y-8",
-  "max-w-xl ml-auto lg:-translate-x-40 lg:translate-y-6",
-  "max-w-2xl mr-auto lg:translate-x-20 lg:-translate-y-4",
-  "max-w-lg ml-auto lg:-translate-x-10 lg:translate-y-8",
+  "max-w-3xl mr-auto lg:translate-x-6 lg:-translate-y-4",
+  "max-w-2xl ml-auto lg:-translate-x-8 lg:translate-y-10",
+  "max-w-3xl mr-auto lg:translate-x-28 lg:-translate-y-8",
+  "max-w-xl ml-auto lg:-translate-x-32 lg:translate-y-6",
+  "max-w-2xl mr-auto lg:translate-x-12 lg:-translate-y-10",
+  "max-w-3xl ml-auto lg:-translate-x-10 lg:translate-y-4",
+  "max-w-2xl mr-auto lg:translate-x-36 lg:-translate-y-6",
+  "max-w-3xl ml-auto lg:-translate-x-20 lg:translate-y-8",
 ];
 
 function projectLink(project: CaseStudy, lang: Lang) {
@@ -158,7 +169,7 @@ function ProjectSlide({
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-ecom-black/90 via-ecom-black/50 to-transparent p-6"
           >
-            <span className="text-xs font-medium tracking-widest text-ecom-orange uppercase">
+            <span className="text-sm font-medium tracking-widest text-ecom-orange uppercase">
               {String(order).padStart(2, "0")} — {categoryLabel(project.category, lang)}
             </span>
             <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-white/80">
@@ -167,8 +178,9 @@ function ProjectSlide({
           </motion.div>
         </div>
 
-        {/* The pinned headline scrolls behind this in the very same ink color
-            and swallows the name wherever the two cross.
+        {/* The pinned headline scrolls behind this and swallows the name
+            wherever the two cross — including on hover, when the name takes
+            the same accent the headline is set in.
 
             This used to carry a solid slab of surface colour to punch through
             it, but a filled box has a visible edge: it reads as a rectangle cut
@@ -225,7 +237,7 @@ function ProjectListItem({
         </span>
       </div>
 
-      <span className="mt-4 block text-xs font-medium tracking-widest text-ecom-orange uppercase">
+      <span className="mt-4 block text-sm font-medium tracking-widest text-ecom-orange uppercase">
         {String(order).padStart(2, "0")} — {categoryLabel(project.category, lang)}
       </span>
       <h3 className="mt-1.5 font-display text-2xl font-medium tracking-[-0.01em] text-ecom-ink">
@@ -278,13 +290,21 @@ export default function Projects() {
     offset: ["start start", "end end"],
   });
 
-  // 0 -> HOLD: parked one viewport below (fully hidden), title stays alone.
-  // HOLD -> 1: slides up continuously until the last project has completely
-  // cleared the top edge, right as the section releases.
+  // One straight line from "parked a full viewport below" to "the last project
+  // has completely cleared the top edge", the second reached right as the
+  // section releases. Every pixel of pinned scroll moves the track.
+  //
+  // There used to be a flat leg at the head that held the track still for the
+  // first stretch, to give the title a beat on its own. But the section is
+  // pinned for its whole length, so the only thing that reads as scrolling
+  // while it is on screen is the track: freezing that froze the page, and the
+  // section felt jammed right where it should have been picking up. The beat
+  // survives anyway — the first card still has to climb about a sixth of a
+  // viewport before its top edge shows, and now the climb is visible.
   const trackY = useTransform(
     scrollYProgress,
-    [0, HOLD, 1],
-    ["100vh", "100vh", `-${TOTAL * SLIDE_VH}vh`],
+    [0, 1],
+    ["100vh", `-${TOTAL * SLIDE_VH}vh`],
   );
 
   return (
@@ -298,10 +318,7 @@ export default function Projects() {
           --------------------------------------------------------------- */}
       <section className="bg-ecom-surface px-6 py-20 sm:px-10 lg:hidden">
         <Reveal className="text-center">
-          <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
-            {t.selectWork.eyebrow}
-          </p>
-          <h2 className="mt-3 font-display text-5xl leading-[0.9] font-medium tracking-[-0.03em] text-ecom-ink sm:text-6xl">
+          <h2 className="font-display text-5xl leading-[0.9] font-medium tracking-[-0.03em] text-ecom-ink sm:text-6xl">
             {t.selectWork.headline}
             <br />
             <span className="text-ecom-orange">{t.selectWork.headlineAccent}</span>
@@ -388,10 +405,7 @@ export default function Projects() {
                 previewing ? "opacity-20" : "opacity-100"
               }`}
             >
-              <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
-                {t.selectWork.eyebrow}
-              </p>
-              <h2 className="mt-3 font-display text-5xl leading-[0.9] font-medium tracking-[-0.03em] text-ecom-ink sm:text-7xl lg:text-[9rem]">
+              <h2 className="font-display text-5xl leading-[0.9] font-medium tracking-[-0.03em] text-ecom-ink sm:text-7xl lg:text-[9rem]">
                 {t.selectWork.headline}
                 <br />
                 <span className="text-ecom-orange">{t.selectWork.headlineAccent}</span>

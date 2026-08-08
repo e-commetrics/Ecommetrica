@@ -146,7 +146,7 @@ export default function ContactForm() {
       </div>
 
       {packageSummary && (
-        <label className="flex flex-col gap-2 text-xs font-medium tracking-widest text-white/50 uppercase">
+        <label className="flex flex-col gap-2 text-sm font-medium tracking-widest text-white/50 uppercase">
           {t.contactForm.packageSummaryLabel}
           <textarea
             readOnly
@@ -159,7 +159,7 @@ export default function ContactForm() {
         </label>
       )}
 
-      <label className="flex flex-col gap-2 text-xs font-medium tracking-widest text-white/50 uppercase">
+      <label className="flex flex-col gap-2 text-sm font-medium tracking-widest text-white/50 uppercase">
         {t.contactForm.messageLabel}
         <textarea
           ref={(el) => {
@@ -212,7 +212,7 @@ function Field({
   const errorId = `contact-${name}-error`;
 
   return (
-    <label className="flex flex-col gap-2 text-xs font-medium tracking-widest text-white/50 uppercase">
+    <label className="flex flex-col gap-2 text-sm font-medium tracking-widest text-white/50 uppercase">
       {label}
       <input
         ref={(el) => {
@@ -246,7 +246,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -4 }}
           transition={{ duration: 0.2, ease: EASE }}
-          className="flex items-center gap-1.5 text-xs font-normal normal-case text-red-400"
+          className="flex items-center gap-1.5 text-sm font-normal normal-case text-red-400"
         >
           <WarningIcon />
           {message}

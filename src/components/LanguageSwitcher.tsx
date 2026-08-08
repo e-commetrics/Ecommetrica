@@ -14,7 +14,7 @@ export default function LanguageSwitcher() {
 
   return (
     <div
-      className="flex items-center gap-1 text-xs font-medium tracking-widest text-white/60 uppercase"
+      className="flex items-center gap-1 text-sm font-medium tracking-widest text-white/60 uppercase"
       role="group"
       aria-label={t.languageSwitcher.ariaLabel}
     >

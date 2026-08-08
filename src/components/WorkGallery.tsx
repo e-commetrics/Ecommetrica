@@ -156,7 +156,7 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
                 type="button"
                 onClick={() => setActive(id)}
                 aria-pressed={selected}
-                className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium tracking-widest uppercase transition-colors duration-300 ${
+                className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium tracking-widest uppercase transition-colors duration-300 ${
                   selected
                     ? "border-ecom-orange bg-ecom-orange text-white"
                     : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/40 hover:text-ecom-ink"
@@ -182,7 +182,7 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
               onClick={toggleTestimonials}
               aria-pressed={testimonialsOnly}
               aria-label={t.workGallery.withTestimonialAriaLabel}
-              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs font-medium tracking-widest uppercase transition-colors duration-300 ${
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium tracking-widest uppercase transition-colors duration-300 ${
                 testimonialsOnly
                   ? "border-ecom-orange bg-ecom-orange/10 text-ecom-orange"
                   : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/40 hover:text-ecom-ink"
@@ -210,7 +210,7 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
           <section key={category} className="mt-16">
             <h2 className="flex items-baseline gap-4 border-b border-ecom-ink/10 pb-5 font-display text-sm font-medium tracking-[0.2em] text-ecom-ink/60 uppercase">
               {categoryLabel(category, lang)}
-              <span className="text-xs text-ecom-ink/35">
+              <span className="text-sm text-ecom-ink/45">
                 {String(categoryProjects.length).padStart(2, "0")}
               </span>
             </h2>

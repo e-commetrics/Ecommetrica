@@ -53,7 +53,7 @@ export default async function BlogPostPage({
         &larr; {t.blogDetail.back}
       </Link>
 
-      <p className="mt-8 text-xs font-medium uppercase tracking-widest text-ecom-ink/50">
+      <p className="mt-8 text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
         {new Date(post.meta.date).toLocaleDateString(t.blogDetail.dateLocale, {
           year: "numeric",
           month: "long",

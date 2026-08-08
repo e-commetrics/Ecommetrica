@@ -14,6 +14,7 @@ export type Dict = {
     services: string;
     work: string;
     blog: string;
+    faq: string;
     contact: string;
     talk: string;
   };
@@ -45,7 +46,6 @@ export type Dict = {
     headlineTail: string;
     items: { title: string; copy: string }[];
     stats: { value: string; label: string }[];
-    imageAlt: string;
   };
   bigNav: { work: string; services: string; talk: string };
   planes: { eyebrow: string; bigWord: string; sub: string; popular: string; select: string };
@@ -58,7 +58,6 @@ export type Dict = {
     viewAria: (name: string) => string;
   };
   selectWork: {
-    eyebrow: string;
     headline: string;
     headlineAccent: string;
     seeAll: string;
@@ -147,7 +146,17 @@ export type Dict = {
   };
   blogPage: { metaDescription: string; keywords: string[]; headline: string; dateLocale: string };
   blogDetail: { back: string; dateLocale: string };
-  faqPage: { title: string; metaDescription: string; keywords: string[] };
+  faqPage: {
+    title: string;
+    metaDescription: string;
+    keywords: string[];
+    eyebrow: string;
+    headline: string;
+    listHeading: string;
+    stillTitle: string;
+    stillCopy: string;
+    cta: string;
+  };
   packagesPage: {
     metaDescription: string;
     keywords: string[];
@@ -222,6 +231,7 @@ export const dict: Record<Lang, Dict> = {
       services: "Servicios",
       work: "Trabajo",
       blog: "Blog",
+      faq: "FAQ",
       contact: "Contacto",
       talk: "Hablemos",
     },
@@ -248,9 +258,9 @@ export const dict: Record<Lang, Dict> = {
     },
     pillars: {
       flow: ["Marca", "Experiencia", "Cultura"],
-      headlinePre: "Construimos",
-      headlineStrong: "sistemas digitales enfocados en búsqueda",
-      headlineTail: "para ayudar a los líderes de categoría a liderar sus industrias.",
+      headlinePre: "Páginas web y tiendas online",
+      headlineStrong: "únicas",
+      headlineTail: "para maximizar las ventas y liderar tu presencia en internet.",
       items: [
         {
           title: "Marca",
@@ -270,16 +280,12 @@ export const dict: Record<Lang, Dict> = {
         { value: "15", label: "Industrias atendidas" },
         { value: "98%", label: "Clientes que renuevan" },
       ],
-      imageAlt:
-        "El equipo de Ecommetrica trabajando: laptops abiertas alrededor de una mesa alta durante una sesión de revisión.",
     },
     bigNav: { work: "Trabajo", services: "Servicios", talk: "Hablemos" },
     planes: {
       eyebrow: "Nuestros",
       bigWord: "PLANES",
-      // TODO(copy): placeholder lead-in borrowed from the loose brand phrases.
-      // This section deserves copy written to introduce pricing specifically.
-      sub: "Páginas web y tiendas online únicas para maximizar las ventas y liderar tu presencia en internet.",
+      sub: "Cuatro paquetes con todo incluido: sitio web, SEO, redes y publicidad. Elige el que corresponda a la etapa de tu negocio.",
       popular: "Popular",
       select: "Seleccionar",
     },
@@ -292,9 +298,8 @@ export const dict: Record<Lang, Dict> = {
       viewAria: (name) => `Ver ${name}`,
     },
     selectWork: {
-      eyebrow: "Nuestros",
-      headline: "Proyectos",
-      headlineAccent: "Éxito",
+      headline: "Nuestros",
+      headlineAccent: "Proyectos",
       seeAll: "Ver todos los proyectos",
     },
     workGallery: {
@@ -326,8 +331,7 @@ export const dict: Record<Lang, Dict> = {
         },
         {
           title: "Creamos código limpio para ofrecer experiencias dinámicas",
-          // TODO(copy): needs a `copy` paragraph — steps 1 and 3 have one, this
-          // one arrived as a title only. Renders as a title until filled.
+          copy: "Escribimos cada componente a la medida: código ordenado que carga rápido y es fácil de mantener.",
         },
         {
           title: "Siempre tendrás un DEVELOPMENT",
@@ -453,6 +457,12 @@ export const dict: Record<Lang, Dict> = {
       metaDescription:
         "Preguntas frecuentes sobre los servicios de Ecommetrica: branding, desarrollo web, marketing digital y seguridad tecnológica.",
       keywords: ["preguntas frecuentes", "FAQ Ecommetrica", "servicios Ecommetrica"],
+      eyebrow: "Preguntas frecuentes",
+      headline: "Lo que nos preguntan antes de empezar.",
+      listHeading: "Preguntas frecuentes",
+      stillTitle: "¿No está tu pregunta?",
+      stillCopy: "Escríbenos y te respondemos personalmente.",
+      cta: "Hablemos",
     },
     packagesPage: {
       metaDescription:
@@ -589,6 +599,7 @@ export const dict: Record<Lang, Dict> = {
       services: "Services",
       work: "Work",
       blog: "Blog",
+      faq: "FAQ",
       contact: "Contact",
       talk: "Let's talk",
     },
@@ -615,9 +626,9 @@ export const dict: Record<Lang, Dict> = {
     },
     pillars: {
       flow: ["Brand", "Experience", "Culture"],
-      headlinePre: "We build",
-      headlineStrong: "search-first digital systems",
-      headlineTail: "to help category leaders lead their industries.",
+      headlinePre: "One-of-a-kind",
+      headlineStrong: "websites and online stores",
+      headlineTail: "built to maximize sales and lead your presence online.",
       items: [
         {
           title: "Brand",
@@ -637,16 +648,12 @@ export const dict: Record<Lang, Dict> = {
         { value: "15", label: "Industries served" },
         { value: "98%", label: "Clients who renew" },
       ],
-      imageAlt:
-        "The Ecommetrica team at work: laptops open around a high table during a review session.",
     },
     bigNav: { work: "Work", services: "Services", talk: "Let's talk" },
     planes: {
       eyebrow: "Our",
       bigWord: "PLANS",
-      // TODO(copy): placeholder lead-in borrowed from the loose brand phrases.
-      // This section deserves copy written to introduce pricing specifically.
-      sub: "One-of-a-kind websites and online stores built to maximize sales and lead your presence online.",
+      sub: "Four all-inclusive packages: website, SEO, social media, and advertising. Pick the one that matches where your business is.",
       popular: "Popular",
       select: "Select",
     },
@@ -659,9 +666,8 @@ export const dict: Record<Lang, Dict> = {
       viewAria: (name) => `View ${name}`,
     },
     selectWork: {
-      eyebrow: "Our",
-      headline: "Projects",
-      headlineAccent: "Success",
+      headline: "Our",
+      headlineAccent: "Projects",
       seeAll: "See all projects",
     },
     workGallery: {
@@ -693,8 +699,7 @@ export const dict: Record<Lang, Dict> = {
         },
         {
           title: "Clean code that delivers dynamic experiences",
-          // TODO(copy): needs a `copy` paragraph — steps 1 and 3 have one, this
-          // one arrived as a title only. Renders as a title until filled.
+          copy: "We write every component to measure: clean code that loads fast and stays easy to maintain.",
         },
         {
           title: "You always have a DEVELOPMENT build",
@@ -818,6 +823,12 @@ export const dict: Record<Lang, Dict> = {
       metaDescription:
         "Frequently asked questions about Ecommetrica's services: branding, web development, digital marketing, and technology security.",
       keywords: ["frequently asked questions", "Ecommetrica FAQ", "Ecommetrica services"],
+      eyebrow: "Frequently asked questions",
+      headline: "What people ask us before we start.",
+      listHeading: "Frequently asked questions",
+      stillTitle: "Question not here?",
+      stillCopy: "Write to us and we'll answer personally.",
+      cta: "Let's talk",
     },
     packagesPage: {
       metaDescription:

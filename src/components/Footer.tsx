@@ -35,7 +35,7 @@ export default function Footer() {
           </Reveal>
         </div>
 
-        <div className="mt-20 flex flex-col gap-4 border-t border-white/15 py-8 text-xs tracking-wide text-white/60 uppercase sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-20 flex flex-col gap-4 border-t border-white/15 py-8 text-sm tracking-wide text-white/60 uppercase sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <Link href={localizedHref(lang, "/legal/privacy-policy")} className="hover:text-white">
               {t.footer.privacy}
