@@ -144,7 +144,14 @@ export type Dict = {
     testimonial: string;
     testimonialAria: (author: string) => string;
   };
-  blogPage: { metaDescription: string; keywords: string[]; headline: string; dateLocale: string };
+  blogPage: {
+    metaDescription: string;
+    keywords: string[];
+    headline: string;
+    intro: { lead: string; listTitle: string; items: string[]; closing: string };
+    latestTitle: string;
+    dateLocale: string;
+  };
   blogDetail: { back: string; dateLocale: string };
   faqPage: {
     title: string;
@@ -449,6 +456,18 @@ export const dict: Record<Lang, Dict> = {
       metaDescription: "Estrategia, tecnología y marketing digital desde Ecommetrica.",
       keywords: ["blog Ecommetrica", "estrategia digital", "tecnología", "marketing digital"],
       headline: "Ideas sobre estrategia, tecnología y marketing.",
+      intro: {
+        lead: "En Ecommetrica creemos que la tecnología y el marketing funcionan mejor cuando trabajan juntos, guiados por una estrategia clara. Este blog es el espacio donde compartimos cómo pensamos las decisiones digitales de nuestros clientes: no desde la forma, sino desde el contexto real del negocio.",
+        listTitle: "Qué vas a encontrar aquí",
+        items: [
+          "Casos de estudio de marca y desarrollo web.",
+          "Notas sobre seguridad y arquitectura digital.",
+          "Criterios que usamos para tomar decisiones de marketing basadas en datos.",
+        ],
+        closing:
+          "Si estás construyendo o escalando tu presencia digital, este es un buen lugar para empezar a seguir cómo lo hacemos.",
+      },
+      latestTitle: "Últimas publicaciones",
       dateLocale: "es-MX",
     },
     blogDetail: { back: "Volver al blog", dateLocale: "es-MX" },
@@ -815,6 +834,18 @@ export const dict: Record<Lang, Dict> = {
       metaDescription: "Strategy, technology, and digital marketing from Ecommetrica.",
       keywords: ["Ecommetrica blog", "digital strategy", "technology", "digital marketing"],
       headline: "Ideas on strategy, technology, and marketing.",
+      intro: {
+        lead: "At Ecommetrica we believe technology and marketing work best when they work together, guided by a clear strategy. This blog is the space where we share how we think through our clients' digital decisions — not from form, but from the real context of the business.",
+        listTitle: "What you'll find here",
+        items: [
+          "Brand and web development case studies.",
+          "Notes on security and digital architecture.",
+          "The criteria we use to make data-driven marketing decisions.",
+        ],
+        closing:
+          "If you're building or scaling your digital presence, this is a good place to start following how we do it.",
+      },
+      latestTitle: "Latest posts",
       dateLocale: "en-US",
     },
     blogDetail: { back: "Back to blog", dateLocale: "en-US" },

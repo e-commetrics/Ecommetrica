@@ -27,7 +27,33 @@ export default function BlogPage() {
         {t.blogPage.headline}
       </h1>
 
-      <div className="mt-16 flex flex-col divide-y divide-ecom-ink/10">
+      {/* Page intro: what this blog is, for first-time visitors. Kept as page
+          copy (not a post) so it never scrolls out of the feed over time. */}
+      <div className="mt-10 grid gap-10 border-b border-ecom-ink/10 pb-14 lg:mt-14 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
+        <div className="max-w-2xl space-y-5 text-lg leading-relaxed text-ecom-ink/70">
+          <p>{t.blogPage.intro.lead}</p>
+          <p>{t.blogPage.intro.closing}</p>
+        </div>
+        <div>
+          <p className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
+            {t.blogPage.intro.listTitle}
+          </p>
+          <ul className="mt-5 space-y-4">
+            {t.blogPage.intro.items.map((item) => (
+              <li key={item} className="flex gap-3 text-ecom-ink/80">
+                <span aria-hidden className="mt-2.5 size-1.5 shrink-0 rounded-full bg-ecom-orange" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <h2 className="mt-14 text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/50">
+        {t.blogPage.latestTitle}
+      </h2>
+
+      <div className="mt-8 flex flex-col divide-y divide-ecom-ink/10">
         {posts.map((post) => (
           <Link
             key={post.slug}
@@ -42,9 +68,9 @@ export default function BlogPage() {
                 timeZone: "UTC",
               })}
             </p>
-            <h2 className="mt-2 font-display text-2xl font-medium text-ecom-ink transition-colors group-hover:text-ecom-orange">
+            <h3 className="mt-2 font-display text-2xl font-medium text-ecom-ink transition-colors group-hover:text-ecom-orange">
               {post.title}
-            </h2>
+            </h3>
             <p className="mt-3 text-ecom-ink/70">{post.excerpt}</p>
           </Link>
         ))}

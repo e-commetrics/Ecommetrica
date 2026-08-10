@@ -32,7 +32,7 @@ export const team: TeamMember[] = [
     imgHover: "/images/Team_Members/team2-2.webp",
   },
   {
-    name: "Juan M. Gonzáles",
+    name: "Juan M. González",
     role: { es: "Director y Consultor", en: "Director & Consultant" },
     description: {
       es: "Es un experto en optimizar el posicionamiento, ecosistema digital y la planeación estratégica para que tu negocio crezca.",
