@@ -59,7 +59,7 @@ export default function RootLayout({
                 style: {
                   background: "#25272a",
                   color: "#f2ede9",
-                  fontSize: "14px",
+                  fontSize: "17px",
                   borderRadius: "9999px",
                   padding: "12px 20px",
                 },

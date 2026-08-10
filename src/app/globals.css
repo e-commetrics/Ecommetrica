@@ -31,6 +31,27 @@
   --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
 
+  /* Texto corrido, +3px sobre el default de Tailwind en cada tamaño. Clash
+     Display tiene una altura-x baja para ser una fuente de texto, así que
+     14px de body se leen más chicos de lo que miden y cansan la vista en
+     párrafos largos.
+     De --text-2xl para arriba viven los títulos y displays, y quedan en su
+     valor original. --text-xl sube con los demás por una razón mecánica, no
+     estética: es el único escalón que toca el texto de lectura por abajo
+     (FaqAccordion es `text-lg sm:text-xl`, ImageSlot es `text-sm
+     sm:text-base`), y si se quedara en 1.25rem la escala se invertiría —
+     lg (21px) pasaría a --text-xl (20px) y la pregunta del FAQ ENCOGERÍA al
+     llegar al breakpoint. Al mover los tamaños de lectura hay que empujar
+     este también para que la escala siga siendo monótona.
+     Los --text-*--line-height del default son ratios sin unidad
+     (calc(1.25 / 0.875), etc.), así que el interlineado escala solo con el
+     nuevo tamaño y no hace falta redefinirlo. */
+  --text-xs: 0.9375rem; /* 15px, era 12 */
+  --text-sm: 1.0625rem; /* 17px, era 14 — el tamaño de body más usado del sitio */
+  --text-base: 1.1875rem; /* 19px, era 16 */
+  --text-lg: 1.3125rem; /* 21px, era 18 */
+  --text-xl: 1.375rem; /* 22px, era 20 — ver nota de monotonía arriba */
+
   /* Shared easing — same curve as Reveal/template.tsx, exposed so CSS
      transitions feel like the framer-motion ones. */
   --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
