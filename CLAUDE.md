@@ -66,3 +66,13 @@ Two branded HTML emails are sent per submission (`backend/src/services/email.tem
 **Backend deploy target is cPanel's Node.js Selector (plain Node, not Bun)**: `bun run build` inside `backend/` (`backend/scripts/build.ts`, via `Bun.build`) bundles `index.ts` + all of `src/**/*.ts` into a single `dist/index.js` (CommonJS — npm packages stay external `require`s, everything else is inlined), plus a minimal generated `dist/package.json`. `dist/` is exactly those two files — no `src/` folder, no separate asset files — that's what gets uploaded to cPanel. There's no logo file committed under `backend/` at all: it's read directly from the frontend's own `public/images/logo-secundario.png` — live off disk in dev (`email.service.ts`, monorepo-local `fs.readFileSync`), and inlined at build time into a `__LOGO_PNG_BASE64__` constant via `Bun.build`'s `define` for the production bundle — then attached to emails as an in-memory `Buffer`. See `backend/README.md` for the full deploy steps.
 
 **Brand assets**: logos in `public/images`, fonts in `public/fonts` and `src/fonts` (sourced from `Branding Ecommetrica/REBRANDING`, external to this repo).
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
