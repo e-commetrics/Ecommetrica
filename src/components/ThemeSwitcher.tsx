@@ -4,15 +4,8 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 
 /**
- * Each theme re-tints the whole page, not just the accent: the light
- * surface, the dark sections and the two accents all shift together, so
- * switching reads as a different art direction rather than a recolored
- * button. What never changes is the light/dark *structure* — light sections
- * stay light in every theme, dark sections stay dark — only their hue and
- * temperature move.
- *
- * `swatch` is what the picker dot shows; it's the accent for the colored
- * themes and the surface pair for the monochrome one.
+ * Each theme re-tints the whole page — surface, dark sections, both accents — so
+ * switching reads as a different art direction, not a recolored button. Light/dark structure never changes, only hue and temperature.
  */
 const THEMES = [
   {
@@ -27,9 +20,7 @@ const THEMES = [
     black: "#121213",
   },
   {
-    // Deep oxblood. Goes dark like noir — same seamless surface/black trick —
-    // but stays saturated and warm, so it reads as a different art direction
-    // rather than a rosier ember.
+    // Deep oxblood — goes dark like noir but stays saturated/warm, not a rosier ember.
     id: "crimson",
     label: "Crimson",
     accent: "#e02e42",
@@ -41,10 +32,8 @@ const THEMES = [
     black: "#1a1013",
   },
   {
-    // Fully dark, fully desaturated. `surface` and `black` are deliberately
-    // the SAME value: the light and dark sections collapse onto one another
-    // so no boundary line can appear between components. `dark` sits a hair
-    // above them so card gradients still separate from the page.
+    // Fully dark/desaturated. `surface`/`black` share a value so no seam shows between
+    // sections; `dark` sits a hair above so card gradients still separate.
     id: "noir",
     label: "Noir",
     accent: "#7c8085",

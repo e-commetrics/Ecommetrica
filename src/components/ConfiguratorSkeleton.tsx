@@ -1,6 +1,5 @@
-/** Placeholder shown while PackagesConfigurator hydrates (it needs useSearchParams,
- * so static export can't prerender it) — kept close to the wizard's real dimensions
- * so hydration doesn't cause a layout jump. */
+/** Placeholder while PackagesConfigurator hydrates (needs useSearchParams, so static
+ *  export can't prerender it) — sized close to the real wizard to avoid a layout jump. */
 export default function ConfiguratorSkeleton() {
   return (
     <div className="mt-16 animate-pulse">

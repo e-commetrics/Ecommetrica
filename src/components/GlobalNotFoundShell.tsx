@@ -6,13 +6,9 @@ import { LanguageProvider, useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 import type { Lang } from "@/lib/i18n/types";
 
-// global-not-found.tsx is built once into a single static out/404.html, so
-// the server-rendered markup is always Spanish. This detects the language
-// from the actual broken URL (/ vs /en/) after mount and swaps the copy.
-// Starting from "es" (matching the server render) and only switching
-// post-mount avoids a hydration mismatch; it does mean a brief flash of
-// Spanish on /en/* 404s. Deliberately isolated — no Header/Footer, since
-// the Footer carries the ContactForm and this page should be just the 404.
+// The static out/404.html is always server-rendered in Spanish; this detects the real
+// language from the URL post-mount to avoid a hydration mismatch (briefly flashes Spanish
+// on /en/* 404s). No Header/Footer here — the Footer carries the ContactForm.
 export default function GlobalNotFoundShell() {
   const [lang, setLang] = useState<Lang>("es");
 

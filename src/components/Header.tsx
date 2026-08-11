@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { createPortal } from "react-dom";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
@@ -10,6 +11,17 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 
 const PAUSE_DELAY_MS = 400;
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const menuContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05, delayChildren: 0.25 } },
+};
+
+const menuItem = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: EASE } },
+};
 
 /** Space-encoded: `url()` tolerates a raw space far less reliably than this. */
 const LOGO_SRC = "/Logos/LOGO%20PRINCIPAL%20ECOMMETRICA%203.png";
@@ -52,10 +64,7 @@ export default function Header() {
 
   return (
     <>
-      {/* The logo lost next/image's `priority` when it became a mask, and a
-          mask that has not loaded yet paints as an unmasked box — a solid
-          accent rectangle in the bar. Preloading keeps it out of that window.
-          React hoists this into <head>. */}
+      {/* Preload: an unloaded mask paints as a solid accent rectangle. React hoists this into <head>. */}
       <link rel="preload" as="image" href={LOGO_SRC} />
       <motion.header
         animate={{ y: hidden ? "-100%" : "0%" }}
@@ -64,25 +73,8 @@ export default function Header() {
       >
       <div className="shell flex items-center justify-between py-4">
         <Link href={localizedHref(lang, "/")} className="flex items-center gap-2">
-          {/* Primary lockup (mark + wordmark) rather than the isotype alone, so
-              the brand name is legible in the bar.
-
-              Painted as a CSS mask instead of drawn as an image, for the same
-              reason the shapes in Highlight.tsx are: the PNG is a flat #E84A34
-              silhouette, so as an <img> it would sit at ember's orange while
-              the rest of the bar re-tints under crimson and noir. As a mask the
-              file contributes only its alpha — antialiased edges included — and
-              background-color supplies the pixels from the live logo token.
-              That also means the swap cross-fades for free, since the .theming
-              rule in globals.css transitions background-color.
-
-              --color-ecom-logo, not the accent: they match in the colored
-              themes, but noir's accent is a mid grey and the lockup has to
-              stay white there.
-
-              aspect-ratio rather than w-auto: with no intrinsic image there is
-              no natural width for `auto` to resolve against. 940x190 is the
-              file's real size, so the wordmark never smears. */}
+          {/* Primary lockup (mark + wordmark), painted as a CSS mask like Highlight.tsx's shapes
+              so background-color (--color-ecom-logo) supplies theme-following pixels instead of a fixed baked-in color. */}
           <span
             role="img"
             aria-label="Ecommetrica"
@@ -105,10 +97,7 @@ export default function Header() {
           />
         </Link>
 
-        {/* Breakpoint is lg, not md: six links plus both switchers and the CTA
-            pill need ~880px, and the bar only has ~700px at 768px — the tablet
-            band gets the mobile menu, which carries the same links. The wider
-            gap likewise waits for xl, since it overflows again at 1024. */}
+        {/* Breakpoint is lg, not md: six links + switchers + CTA need ~880px, the bar only has ~700px at 768px. */}
         <nav className="hidden items-center gap-5 text-sm font-medium tracking-wide uppercase lg:flex xl:gap-8">
           {navLinks.map((link) => (
             <Link
@@ -139,6 +128,7 @@ export default function Header() {
           navLinks={navLinks}
           talk={t.nav.talk}
           menuLabel={t.mobileMenu.open}
+          closeLabel={t.mobileMenu.close}
           contactHref={localizedHref(lang, "/contact")}
         />
         </div>
@@ -151,73 +141,196 @@ function MobileNav({
   navLinks,
   talk,
   menuLabel,
+  closeLabel,
   contactHref,
 }: {
   navLinks: { href: string; label: string; active: boolean }[];
   talk: string;
   menuLabel: string;
+  closeLabel: string;
   contactHref: string;
 }) {
-  const detailsRef = useRef<HTMLDetailsElement>(null);
+  const [open, setOpen] = useState(false);
+  const close = useCallback(() => setOpen(false), []);
 
-  const close = useCallback(() => {
-    const el = detailsRef.current;
-    if (el) el.open = false;
-  }, []);
+  // Portal to <body>: the header has `backdrop-blur`, which — like `transform` or
+  // `filter` — creates a containing block for fixed descendants, so a `fixed
+  // inset-0` panel left inside it is confined to the header's own box instead of
+  // covering the viewport.
+  const [portalReady, setPortalReady] = useState(false);
+  useEffect(() => setPortalReady(true), []);
 
-  // `<details>` only closes by re-clicking its summary, so dismissing it the
-  // way every other menu behaves — tapping the page, or Escape — has to be
-  // wired up. Pointerdown (not click) so it also dismisses on a drag/scroll
-  // gesture that starts outside the panel.
+  // No "outside" to tap once the panel covers the viewport, so only Escape
+  // closes it — page scroll is locked for as long as it's open.
   useEffect(() => {
-    function onPointerDown(event: PointerEvent) {
-      const el = detailsRef.current;
-      if (!el?.open) return;
-      if (!el.contains(event.target as Node)) close();
-    }
+    if (!open) return;
+
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") close();
     }
-
-    document.addEventListener("pointerdown", onPointerDown);
     document.addEventListener("keydown", onKeyDown);
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
     return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
       document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = previousOverflow;
     };
-  }, [close]);
+  }, [open, close]);
 
   return (
-    <details ref={detailsRef} className="relative lg:hidden">
-      <summary className="list-none cursor-pointer select-none rounded-md border border-white/20 px-3 py-2 text-sm text-white">
-        {menuLabel}
-      </summary>
-      <div className="absolute right-0 mt-2 flex w-52 flex-col gap-3 rounded-xl border border-white/10 bg-ecom-black p-3 shadow-lg">
-        {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            onClick={close}
-            aria-current={link.active ? "page" : undefined}
-            className={`rounded-md px-3 py-2 text-sm font-medium uppercase tracking-wide hover:bg-white/5 ${
-              link.active ? "bg-white/5 text-ecom-orange" : "text-white"
-            }`}
-          >
-            {link.label}
-          </Link>
-        ))}
-        <div className="flex items-center justify-between border-t border-white/10 px-3 pt-3">
-          <LanguageSwitcher />
-          <ThemeSwitcher />
-        </div>
-        <Link
-          href={contactHref}
-          onClick={close}
-          className="rounded-md bg-ecom-orange px-3 py-2 text-center text-sm font-medium text-white"
-        >
-          {talk}
-        </Link>
-      </div>
-    </details>
+    <div className="lg:hidden">
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label={menuLabel}
+        aria-expanded={open}
+        className="flex h-9 w-9 items-center justify-center rounded-md border border-white/20 text-white"
+      >
+        <MenuIcon className="h-4 w-4" />
+      </button>
+
+      {portalReady &&
+        createPortal(
+          <AnimatePresence>
+            {open && (
+              <div
+                className="fixed inset-0 z-[60] overflow-hidden"
+                role="dialog"
+                aria-modal="true"
+                aria-label={menuLabel}
+              >
+                {/* Curtain: two panels slide in from their own edge and meet at the
+                    center, covering the screen; closing reverses it, each panel
+                    retreating back off its own side. */}
+                <motion.div
+                  initial={{ x: "-100%" }}
+                  animate={{ x: "0%" }}
+                  exit={{ x: "-100%" }}
+                  transition={{ duration: 0.45, ease: EASE }}
+                  className="absolute inset-y-0 left-0 w-1/2 bg-ecom-black"
+                />
+                <motion.div
+                  initial={{ x: "100%" }}
+                  animate={{ x: "0%" }}
+                  exit={{ x: "100%" }}
+                  transition={{ duration: 0.45, ease: EASE }}
+                  className="absolute inset-y-0 right-0 w-1/2 bg-ecom-black"
+                />
+
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1, transition: { duration: 0.35, delay: 0.2, ease: EASE } }}
+                  exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                  className="relative z-10 flex h-full flex-col"
+                >
+                  <div className="shell flex items-center justify-between py-4">
+                    <span
+                      role="img"
+                      aria-label="Ecommetrica"
+                      className="block h-7"
+                      style={{
+                        aspectRatio: "940 / 190",
+                        backgroundColor: "var(--color-ecom-logo)",
+                        WebkitMaskImage: `url("${LOGO_SRC}")`,
+                        maskImage: `url("${LOGO_SRC}")`,
+                        WebkitMaskSize: "contain",
+                        maskSize: "contain",
+                        WebkitMaskRepeat: "no-repeat",
+                        maskRepeat: "no-repeat",
+                        WebkitMaskPosition: "center",
+                        maskPosition: "center",
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={close}
+                      aria-label={closeLabel}
+                      className="flex h-9 w-9 items-center justify-center rounded-md border border-white/20 text-white transition-colors duration-300 hover:border-ecom-orange hover:text-ecom-orange"
+                    >
+                      <CloseIcon className="h-4 w-4" />
+                    </button>
+                  </div>
+
+                  <motion.nav
+                    variants={menuContainer}
+                    initial="hidden"
+                    animate="show"
+                    className="flex flex-1 flex-col items-center justify-center gap-8 px-6"
+                  >
+                    {navLinks.map((link) => (
+                      <motion.div key={link.href} variants={menuItem}>
+                        <Link
+                          href={link.href}
+                          onClick={close}
+                          aria-current={link.active ? "page" : undefined}
+                          className={`font-display text-3xl font-medium tracking-wide uppercase transition-colors duration-300 hover:text-ecom-orange ${
+                            link.active ? "text-ecom-orange" : "text-white"
+                          }`}
+                        >
+                          {link.label}
+                        </Link>
+                      </motion.div>
+                    ))}
+                  </motion.nav>
+
+                  <motion.div
+                    variants={menuItem}
+                    initial="hidden"
+                    animate="show"
+                    className="shell flex flex-col items-center gap-6 pb-10"
+                  >
+                    <div className="flex items-center gap-6">
+                      <LanguageSwitcher />
+                      <ThemeSwitcher />
+                    </div>
+                    <Link
+                      href={contactHref}
+                      onClick={close}
+                      className="rounded-full bg-ecom-orange px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:bg-ecom-red"
+                    >
+                      {talk}
+                    </Link>
+                  </motion.div>
+                </motion.div>
+              </div>
+            )}
+          </AnimatePresence>,
+          document.body,
+        )}
+    </div>
+  );
+}
+
+function MenuIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      className={className}
+    >
+      <path d="M3 5h14M3 10h14M3 15h14" />
+    </svg>
+  );
+}
+
+function CloseIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+      strokeLinecap="round"
+      className={className}
+    >
+      <path d="M5 5l10 10M15 5L5 15" />
+    </svg>
   );
 }

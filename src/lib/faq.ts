@@ -1,10 +1,6 @@
 import type { Localized } from "@/lib/i18n/types";
 
-/**
- * OPEN COPY GAPS — `grep -rn "TODO(copy)" src/`:
- *   "¿Cómo hacemos que consigas más clientes?" — the answer never names the tools
- *   "¿Cuánto tiempo…?"                          — timings vs. src/lib/pricing.ts
- */
+/** Open copy gaps: `grep -rn "TODO(copy)" src/`. */
 export type Faq = {
   question: Localized;
   answer: Localized;
@@ -34,9 +30,7 @@ export const faqs: Faq[] = [
     },
   },
   {
-    // TODO(copy): this answer doesn't answer the question — it describes how the
-    // conversation goes, not what we actually do to bring in clients. Needs the
-    // concrete levers named (SEO and AEO, Google campaigns, social ads, email).
+    // TODO(copy): answer describes the conversation, not the actual levers (SEO/AEO, Google campaigns, social ads, email).
     question: {
       es: "¿Cómo hacemos que consigas más clientes?",
       en: "How do we get you more clients?",
@@ -47,9 +41,7 @@ export const faqs: Faq[] = [
     },
   },
   {
-    // TODO(copy): these timings (3 / 6 / 8 months for small / medium / robust)
-    // are the owner's own copy, but src/lib/pricing.ts sells four tiers —
-    // 3 / 4 / 6 / 8 — so the 4-month Plan Pro has no timing named here.
+    // TODO(copy): pricing.ts sells four tiers (3/4/6/8 months) but this only names three — 4-month Plan Pro has no timing here.
     question: {
       es: "¿Cuánto tiempo tomará tener mi tienda en línea lista?",
       en: "How long will it take to have my online store ready?",

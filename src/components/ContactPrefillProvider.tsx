@@ -21,9 +21,8 @@ export function ContactPrefillProvider({ children }: { children: ReactNode }) {
   );
 }
 
-/** Lets the /packages configurator hand its summary off to the footer's
- * ContactForm, which lives on every route and outlives client-side navigation.
- * ContactForm shows it as a locked, read-only field — never as editable text. */
+/** Lets /packages hand its summary to the footer's ContactForm (lives on every route,
+ *  outlives navigation), which shows it as a locked, read-only field. */
 export function useContactPrefill() {
   return useContext(ContactPrefillContext);
 }

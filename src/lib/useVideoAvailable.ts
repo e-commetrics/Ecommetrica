@@ -3,14 +3,8 @@
 import { useEffect, useState } from "react";
 
 /**
- * Case-study videos live in public/videos, which is gitignored (see .gitignore) —
- * a checkout without the media files would otherwise show a broken hover video or
- * a "Ver video" button that opens onto a dead player. Probes with a HEAD request
- * so a missing file just means the video feature quietly doesn't render.
- *
- * Starts optimistic (true) so the common case — the file is actually there —
- * never flashes/hides anything; it only flips to false once the probe confirms
- * the file is missing.
+ * Case-study videos live in public/videos, which is gitignored — probes with a HEAD
+ * request so a missing file quietly hides the video feature instead of showing a broken player. Starts optimistic (true) so the common case never flashes.
  */
 export function useVideoAvailable(src?: string): boolean {
   const [available, setAvailable] = useState(Boolean(src));

@@ -4,11 +4,8 @@ import "./globals.css";
 import GlobalNotFoundShell from "@/components/GlobalNotFoundShell";
 import { getDict } from "@/lib/i18n/dict";
 
-// This bypasses the (es)/en root layouts entirely (see next.config.ts —
-// `experimental.globalNotFound`), so it has to be a full standalone
-// document and re-declare anything those layouts normally provide. Stays a
-// Server Component (no "use client") because it exports `metadata`; the
-// language-aware bits live in GlobalNotFoundShell.
+// Bypasses the (es)/en root layouts (next.config.ts's `experimental.globalNotFound`), so this
+// is a full standalone document; stays a Server Component to export `metadata`.
 const t = getDict("es");
 
 const clashDisplay = localFont({

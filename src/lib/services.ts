@@ -1,27 +1,8 @@
 import type { Localized } from "@/lib/i18n/types";
 
 /**
- * Service taxonomy — the single source for both the /services page (seven full
- * groups) and the home-page ServicesOverview section (four summary cards).
- *
- * The two lists are deliberately different shapes, not duplicates: the seven
- * groups are what we sell line by line, the four categories are how we pitch
- * it. Each card points at its primary group via `groupId`, and the grouping is:
- *   Diseño      → diseno
- *   Desarrollo  → desarrollo-web  (also covers mantenimiento-web)
- *   SEO y AEO   → seo-aeo         (also covers campanas-google, social-ads)
- *   Video       → video
- *
- * OPEN COPY GAPS — `grep -rn "TODO(copy)" src/`:
- *   serviceCategories → "desarrollo-web".highlights — three bullets missing
- *   serviceCategories → "video".body                — descriptive paragraph missing
- *   serviceCategories → "seo-aeo"                   — a brand-storytelling paragraph
- *                                                     from the source copy is parked,
- *                                                     see the note at that entry
- *
- * Every optional field renders nothing when absent, so the site ships clean
- * with these unfilled. Do not add placeholder or Lorem text to close a gap —
- * the absent field is the signal, and filler hides it.
+ * Service taxonomy: seven groups feed /services, four categories (each mapped
+ * via `groupId`) feed the home ServicesOverview. Optional fields render nothing when absent — don't add placeholder copy to close a gap.
  */
 
 /** Anchor id on /services. Home cards deep-link to `/services#<id>`. */
@@ -158,9 +139,7 @@ export const serviceCategories: ServiceCategory[] = [
         en: "Every client also gets a custom web app that simplifies running the business: all their information, appointment calendars, reviews, bulk email campaigns, and much more in one click.",
       },
     ],
-    // TODO(copy): needs `highlights` — three bullets, same shape as the "diseno"
-    // entry above (there they are: Dirección de arte / Identidad visual / Diseño
-    // web). Renders body-only until filled; do not add filler to close the gap.
+    // TODO(copy): needs `highlights` — three bullets, same shape as the "diseno" entry above.
   },
   {
     groupId: "seo-aeo",
@@ -175,11 +154,8 @@ export const serviceCategories: ServiceCategory[] = [
         en: "We build digital ecosystems connecting your website to social media, we produce and distribute high-value content, and we run highly effective email marketing campaigns.",
       },
     ],
-    // TODO(copy): the source copy opened this category with a brand-storytelling
-    // paragraph ("Le damos alma y personalidad a tu marca… narrativas e
-    // historias que conecten con la gente") that describes content/copywriting,
-    // not search. Parked here rather than published under a search heading —
-    // decide whether it becomes a fifth category or gets dropped.
+    // TODO(copy): source copy opened with a brand-storytelling paragraph (content/copywriting,
+    // not search) — parked; decide if it becomes its own category or gets dropped.
     highlights: [
       { es: "Posicionamiento SEO y AEO", en: "SEO & AEO positioning" },
       { es: "Campañas Google", en: "Google campaigns" },
@@ -189,9 +165,7 @@ export const serviceCategories: ServiceCategory[] = [
   {
     groupId: "video",
     name: { es: "Video", en: "Video" },
-    // TODO(copy): needs `body` — one or two paragraphs describing the offer, the
-    // way the other three categories do. The source copy for Video was only the
-    // bullet list below. Renders highlights-only until filled.
+    // TODO(copy): needs `body` paragraph(s), like the other three categories — source copy only had this bullet list.
     highlights: [
       { es: "Publicidad", en: "Advertising" },
       { es: "Videos para empresas", en: "Corporate videos" },

@@ -14,22 +14,12 @@ const PROJECTS = getFeaturedCaseStudies();
 
 const TOTAL = PROJECTS.length;
 
-// Height of each project's slide, in vh. Deliberately smaller than a card is
-// tall (a 2:1 card at these widths runs ~38-48vh) so consecutive cards overlap
-// vertically instead of queueing up one per screen — two or three are in frame
-// at once, which is what makes the track read as a scatter rather than a list.
-// Tighter than the 40 it started at: at that spacing the frame regularly held a
-// single card with dead surface above and below it.
+// Smaller than a card is tall, so consecutive cards overlap vertically and
+// 2-3 sit in frame at once — reads as a scatter, not a list.
 const SLIDE_VH = 36;
 
-// Slack beyond the slide track itself, for the head (title-only hold) and the
-// tail (room for the last project to fully clear the top).
-//
-// This is the section's scroll budget, not its motion: the track always travels
-// the same distance, so a smaller number here spends less page scroll covering
-// it. Trimmed from 200 because the ends of the track are necessarily the sparse
-// part — the first and last cards have no neighbour to share the frame with —
-// and the tail in particular sat on one lone card for most of a screen.
+// Scroll budget beyond the slide track itself: head hold for the title, tail
+// room for the last card to clear the top.
 const SECTION_VH = TOTAL * SLIDE_VH + 150;
 
 // Cards are wide (2:1) and run up to max-w-3xl (768px), which 50vw only covers
@@ -37,25 +27,8 @@ const SECTION_VH = TOTAL * SLIDE_VH + 150;
 const IMAGE_SIZES = "(max-width: 1023px) 100vw, 55vw";
 
 /**
- * Per-slide size and position on desktop, applied in order — index 0 is the
- * first featured project. This is the ONLY thing controlling where a card
- * lands, and each entry is meant to be hand-tuned on its own:
- * - width:  max-w-xl (small) / max-w-2xl (medium) / max-w-3xl (large)
- * - side:   mr-auto (left) / ml-auto (right)
- * - nudge:  lg:translate-x-*, lg:-translate-x-*, lg:translate-y-*, lg:-translate-y-*
- *
- * The rhythm alternates sides while varying width and indent, so no two
- * neighbours share an edge and the column never straightens out. Every other
- * entry is also pulled well off its own edge (the -x-28/-x-32 ones), which is
- * what keeps the track from resolving into two tidy columns hugging the
- * margins. If there are more featured projects than entries here the list
- * simply repeats.
- *
- * Widths cap at max-w-3xl, up from max-w-2xl: a card that size still clears
- * half the pinned title, so it reads as passing across the headline rather than
- * blanketing it — while the smaller cards left ~650px of bare surface beside
- * them at every desktop width. Nothing here rotates on purpose; the scatter
- * comes from size and position alone.
+ * Per-slide size/position on desktop (index 0 = first featured project, repeats
+ * if more projects than entries) — the only thing controlling card placement; hand-tune each entry.
  */
 const SLIDE_LAYOUT = [
   "max-w-3xl mr-auto lg:translate-x-6 lg:-translate-y-4",
@@ -93,11 +66,9 @@ function ProjectSlide({
   className?: string;
   /** Reports this card's artwork up so the ambient wash can pick it up. */
   onPreviewStart: (image: string | null) => void;
-  /** Hands the same artwork back on leave, so the parent can tell a genuine
-   *  exit from a stale one — see the note on the handler in Projects. */
+  /** Hands the same artwork back on leave so the parent can tell a genuine exit from a stale one. */
   onPreviewEnd: (image: string | null) => void;
-  /** True while *any* card is hovered, not just this one — the headline is
-   *  dimmed section-wide, so every caption drops its slab together. */
+  /** True while *any* card is hovered — headline dims section-wide. */
   previewing: boolean;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -126,9 +97,8 @@ function ProjectSlide({
         }}
         className={`group w-full ${className}`}
       >
-        {/* 2:1 is roughly the native ratio of the screenshots in /projects and
-            /Works (1.9–2.1), so object-cover trims a few percent rather than
-            slicing the sides off a full-width web page. */}
+        {/* 2:1 roughly matches the screenshots' native ratio, so object-cover trims a
+            few percent instead of slicing off the sides. */}
         <div className="relative aspect-2/1 overflow-hidden rounded-3xl bg-linear-to-br from-ecom-dark to-ecom-black shadow-[0_30px_80px_-40px_rgba(18,18,19,0.65)] ring-1 ring-ecom-dark/10 transition-shadow duration-500 group-hover:shadow-[0_40px_90px_-35px_rgba(18,18,19,0.75)]">
           {project.image && (
             <Image
@@ -178,19 +148,9 @@ function ProjectSlide({
           </motion.div>
         </div>
 
-        {/* The pinned headline scrolls behind this and swallows the name
-            wherever the two cross — including on hover, when the name takes
-            the same accent the headline is set in.
-
-            This used to carry a solid slab of surface colour to punch through
-            it, but a filled box has a visible edge: it reads as a rectangle cut
-            out of the headline, and the moment the wash tints the section that
-            rectangle stays the old colour. A soft halo does the same job with
-            no edge to notice — it only registers where dark letterforms sit
-            directly behind the name, and is invisible against bare surface.
-
-            Dropped entirely while previewing: the headline is dimmed then (see
-            the title layer), so there is nothing left to separate from. */}
+        {/* Soft text-shadow halo separates the name from the pinned headline scrolling
+            behind it, with no hard edge like a filled box would have. Dropped while
+            previewing, since the headline is dimmed then. */}
         <h3
           className="mt-4 font-display text-xl font-medium text-ecom-ink transition-colors duration-300 group-hover:text-ecom-orange sm:text-2xl"
           style={{
@@ -206,11 +166,8 @@ function ProjectSlide({
   );
 }
 
-/**
- * Touch layout. Deliberately not the pinned one: category and description live
- * under the artwork as real text instead of inside a hover-only overlay, which
- * a finger can never trigger.
- */
+/** Touch layout: category/description live under the artwork as real text
+ *  instead of a hover-only overlay, which a finger can never trigger. */
 function ProjectListItem({
   project,
   order,
@@ -278,11 +235,8 @@ export default function Projects() {
   const previewing = hoveredImage !== null;
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Cards overlap and the track is in constant motion under the pointer, so
-  // leave events routinely land *after* the enter event of the card taking
-  // over. Clearing unconditionally would wipe the incoming card's artwork and
-  // leave the wash off while a card is plainly hovered. Only the card still
-  // showing gets to retract it.
+  // Leave events routinely land after the next card's enter event (cards overlap
+  // and the track moves), so only the card still showing gets to retract its preview.
   const endPreview = (image: string | null) =>
     setHoveredImage((current) => (current === image ? null : current));
   const { scrollYProgress } = useScroll({
@@ -290,17 +244,8 @@ export default function Projects() {
     offset: ["start start", "end end"],
   });
 
-  // One straight line from "parked a full viewport below" to "the last project
-  // has completely cleared the top edge", the second reached right as the
-  // section releases. Every pixel of pinned scroll moves the track.
-  //
-  // There used to be a flat leg at the head that held the track still for the
-  // first stretch, to give the title a beat on its own. But the section is
-  // pinned for its whole length, so the only thing that reads as scrolling
-  // while it is on screen is the track: freezing that froze the page, and the
-  // section felt jammed right where it should have been picking up. The beat
-  // survives anyway — the first card still has to climb about a sixth of a
-  // viewport before its top edge shows, and now the climb is visible.
+  // One straight line from "parked a viewport below" to "last project cleared the
+  // top edge", reached as the section releases — every pixel of pinned scroll moves the track.
   const trackY = useTransform(
     scrollYProgress,
     [0, 1],
@@ -309,13 +254,8 @@ export default function Projects() {
 
   return (
     <>
-      {/* ---------------------------------------------------------------
-          Touch / small screens. The pinned version below is desktop-only
-          on purpose: at this width the cards span the full column, so they
-          completely cover the title behind them, and the pin turns four
-          cards into ~4 screens of scrolling that barely moves the page —
-          which reads as the scroll being stuck.
-          --------------------------------------------------------------- */}
+      {/* Touch/small screens. The pinned version is desktop-only: at this width cards
+          span the full column and cover the title, turning the pin into stuck-feeling scroll. */}
       <section className="bg-ecom-surface px-6 py-20 sm:px-10 lg:hidden">
         <Reveal className="text-center">
           <h2 className="font-display text-5xl leading-[0.9] font-medium tracking-[-0.03em] text-ecom-ink sm:text-6xl">
@@ -338,47 +278,24 @@ export default function Projects() {
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------
-          Desktop: pinned title with the projects scrolling across it.
-          --------------------------------------------------------------- */}
+      {/* Desktop: pinned title with the projects scrolling across it. */}
       <section
         ref={containerRef}
         className="relative hidden bg-ecom-surface lg:block"
         style={{ height: `${SECTION_VH}vh` }}
       >
         <div className="sticky top-0 h-screen overflow-hidden">
-          {/* Ambient wash: a hugely blurred copy of the hovered card's artwork,
-              so the pinned frame takes on that project's palette.
-
-              The downward fade is the blur itself, not a gradient — filter:
-              blur() blurs the alpha channel too, so this box's own bottom edge
-              dissolves over roughly the blur radius. That is why it stops at
-              70% height: the soft edge lands mid-screen where it is visible,
-              while the other three sit on the viewport edges once the section
-              is pinned, so `overflow-hidden` cropping them never shows.
-
-              First in the DOM and unpositioned in z, so the title and cards
-              below paint over it without needing a stacking order.
-
-              PERFORMANCE, and it is not optional here. A blur this wide over a
-              full-width box is expensive enough that animating opacity on it
-              re-ran the filter every frame and locked the compositor — it froze
-              the page solid in testing. `translateZ(0)` + `will-change:opacity`
-              promote it to its own layer, so the blurred result rasterises once
-              and the transition only animates that layer's alpha. The radius is
-              also well below the 110px first tried: past a point a wider blur
-              costs more without looking any more diffuse. */}
+          {/* Ambient wash: blurred copy of the hovered card's artwork, tinting the pinned
+              frame with that project's palette. translateZ(0)/will-change promote it to
+              its own layer — animating opacity without that re-ran the blur every frame and froze the page. */}
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 top-0 h-[70%] bg-cover bg-center transition-opacity duration-500 ease-out"
             style={{
               backgroundImage: hoveredImage ? `url("${hoveredImage}")` : undefined,
               opacity: hoveredImage ? 0.55 : 0,
-              // saturate() because these are web-page screenshots, not the
-              // saturated photography this effect is usually built on: most of
-              // them are largely white UI, which averages out to a grey haze
-              // once blurred. The boost is what makes a project's palette
-              // actually read. Drop it to 1 for a flatter, more neutral wash.
+              // saturate() boost: these are mostly white-UI screenshots, which blur into a
+              // grey haze otherwise. Drop to 1 for a flatter, more neutral wash.
               filter: "blur(64px) saturate(1.4)",
               transform: "translateZ(0)",
               willChange: "opacity",
@@ -393,13 +310,9 @@ export default function Projects() {
             transition={{ duration: 0.6 }}
             className="pointer-events-none absolute inset-0 z-0 flex flex-col items-center justify-center text-center"
           >
-            {/* Recedes while a card is previewed. Two reasons: at full strength
-                it competes with the wash carrying that project's colour, and it
-                is what swallows the card captions crossing it — dimming it is
-                what lets those captions drop their surface slab, which would
-                otherwise sit on the tinted background as a pale rectangle.
-                Nested rather than animated on the parent so the whileInView
-                reveal above keeps ownership of opacity on first sight. */}
+            {/* Dims while a card is previewed, so it doesn't compete with the wash's tint
+                and lets card captions drop their surface slab. Nested, not on the parent,
+                so whileInView above keeps ownership of first-sight opacity. */}
             <div
               className={`transition-opacity duration-500 ease-out ${
                 previewing ? "opacity-20" : "opacity-100"
@@ -413,12 +326,8 @@ export default function Projects() {
             </div>
           </motion.div>
 
-          {/* Projects: middle layer, opaque cards pass in front of the title.
-              Which projects appear is the `featured` flag in src/lib/work.ts,
-              in the order they sit in that array; where each one lands is the
-              matching entry in SLIDE_LAYOUT above. Adding a featured project
-              needs no change here — add a layout entry if you want its slot
-              tuned rather than recycled from the top of the list. */}
+          {/* Projects: middle layer. Which ones appear is the `featured` flag in
+              src/lib/work.ts; where each lands is SLIDE_LAYOUT above. */}
           <motion.div
             style={{ y: trackY }}
             className="relative z-10 flex h-full flex-col"

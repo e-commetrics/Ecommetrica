@@ -5,11 +5,8 @@ export type PackageAddon = {
   name: Localized;
   description: Localized;
   price: number;
-  /**
-   * Plan ids (see `Plan.id` in pricing.ts) whose feature list already covers this
-   * service. The configurator marks the addon "included" for those plans instead
-   * of letting it be added twice — this is what keeps each plan's extras unique.
-   */
+  /** Plan ids (see `Plan.id` in pricing.ts) whose feature list already covers this —
+   *  configurator marks the addon "included" instead of letting it be added twice. */
   includedInPlanIds: string[];
 };
 

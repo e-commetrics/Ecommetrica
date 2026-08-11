@@ -11,10 +11,8 @@ export default function SmoothScroll() {
     const lenis = new Lenis({
       duration: 1.1,
       easing: (t: number) => 1 - Math.pow(1 - t, 3),
-      // Lenis owns its own rAF loop. Driving it by hand is easy to get wrong:
-      // a recursive requestAnimationFrame only hands back the id of the *next*
-      // frame, so cleanup that stores the first id leaves the loop running
-      // forever against a destroyed instance — one leaked loop per navigation.
+      // autoRaf: Lenis owns its own rAF loop — driving it by hand risks a leaked
+      // loop, since cleanup can only ever store the first frame's id.
       autoRaf: true,
       // Touch devices keep native scrolling. Hijacking touch is what makes a
       // page feel like it sticks or lags behind the finger on mobile.

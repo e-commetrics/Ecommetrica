@@ -18,16 +18,11 @@ export default function Planes() {
   const drift = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
 
   return (
-    // `#services` now belongs to ServicesOverview — the CTA that pointed here
-    // said "discover the services" and landed on pricing. This keeps a pricing
-    // deep link available under its own name.
+    // id="planes": #services now belongs to ServicesOverview, so this keeps a pricing deep link under its own name.
     <section
       id="planes"
       ref={sectionRef}
-      // overflow-clip, not -hidden: the drifting background word below is
-      // pushed past the right edge by its scroll-linked x transform, and
-      // `hidden` would make this a scroll container — so focus or
-      // scrollIntoView inside could jog the whole section sideways.
+      // overflow-clip, not -hidden: keeps the section from becoming a scroll container.
       className="relative scroll-mt-24 overflow-clip bg-ecom-black py-24 lg:py-32"
     >
       <motion.div

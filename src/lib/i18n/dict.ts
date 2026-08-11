@@ -18,7 +18,7 @@ export type Dict = {
     contact: string;
     talk: string;
   };
-  mobileMenu: { open: string };
+  mobileMenu: { open: string; close: string };
   languageSwitcher: { ariaLabel: string };
   themeSwitcher: { ariaLabel: string };
   footer: {
@@ -242,7 +242,7 @@ export const dict: Record<Lang, Dict> = {
       contact: "Contacto",
       talk: "Hablemos",
     },
-    mobileMenu: { open: "Menú" },
+    mobileMenu: { open: "Menú", close: "Cerrar menú" },
     languageSwitcher: { ariaLabel: "Cambiar idioma" },
     themeSwitcher: { ariaLabel: "Tema" },
     footer: {
@@ -622,7 +622,7 @@ export const dict: Record<Lang, Dict> = {
       contact: "Contact",
       talk: "Let's talk",
     },
-    mobileMenu: { open: "Menu" },
+    mobileMenu: { open: "Menu", close: "Close menu" },
     languageSwitcher: { ariaLabel: "Toggle language" },
     themeSwitcher: { ariaLabel: "Theme" },
     footer: {

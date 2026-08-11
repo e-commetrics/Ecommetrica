@@ -61,16 +61,11 @@ export default function ServicesPage() {
           </section>
         ))}
 
-        {/* Seven groups across two columns leave the eighth cell empty, so the
-            image fills a hole that already existed. Beside the headline it was
-            taller than the eyebrow+title block and rode up above the text;
-            here it starts on the same rule as the group next to it. */}
+        {/* Seven groups across two columns leave the eighth cell empty — image fills that hole. */}
         <div className="relative border-t border-ecom-ink/10 pt-8">
           <Highlight
             shape="asterisk"
-            // The negative inset only from sm: up. Below 640px the shell pads
-            // just 1.25rem, so a -1.75rem offset would hang 8px past the
-            // viewport and give the whole document a horizontal scrollbar.
+            // Negative inset only from sm: up, so it never hangs past the viewport below 640px.
             className="absolute -top-5 right-0 z-10 w-14 sm:-top-7 sm:-right-7 sm:w-16"
           />
           <ImageSlot ratio="4 / 3" label={imageSlots.servicesPageIntro[LANG]} />

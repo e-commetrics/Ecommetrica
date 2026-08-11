@@ -72,9 +72,7 @@ export default function ContactForm() {
     setStatus("submitting");
     const toastId = toast.loading(t.contactForm.sendingToast);
 
-    // The package summary is shown as its own locked field, never merged into the
-    // editable textarea — it's stitched back in here so the team's email still
-    // gets the full picture in one "message".
+    // Stitched back in here so the team's email gets the full picture in one "message".
     const message = packageSummary ? `${packageSummary}\n\n${data.message}` : data.message;
 
     try {

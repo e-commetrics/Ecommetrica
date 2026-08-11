@@ -1,30 +1,13 @@
 /**
- * Decorative brand shapes from `public/highlights/`.
- *
- * The source PNGs are flat silhouettes baked in one fixed color (the asterisk
- * and rings are orange, the arch grey, the monogram white), so dropping them in
- * as <img> would strand them at `ember`'s palette while the rest of the page
- * re-tints under `crimson` and `noir`. They are painted as CSS masks instead:
- * the PNG contributes only its alpha channel and `background-color` supplies the
- * pixels, which means every shape follows the live theme token.
- *
- * `tone` is the role, not a color — see the token contract in CLAUDE.md:
- * - accent  -> --color-ecom-orange. Safe on light surfaces and on dark blocks.
- * - ink     -> page text color. Light-surface sections only; inverts under noir.
- * - white   -> hardcoded, for the blocks that stay dark in every theme.
- *
- * Always decorative: rendered aria-hidden and non-interactive at every call
- * site, so nothing here is reachable by a screen reader or a pointer.
+ * Decorative brand shapes from `public/highlights/`, painted as CSS masks so
+ * `background-color` supplies theme-following pixels instead of a fixed baked-in
+ * color. `tone` is a role, not a literal color (see CLAUDE.md's token contract).
  */
 
 type Shape = "asterisk" | "rings" | "arch" | "monogram";
 type Tone = "accent" | "ink" | "white";
 
-/**
- * The filenames ship with spaces in them. `url()` tolerates that unquoted far
- * less reliably than an encoded path does, so the space is pre-encoded here
- * rather than at each call site.
- */
+/** Filenames ship with spaces — pre-encoded here since raw `url()` handles that unreliably. */
 const SHAPE_SRC: Record<Shape, string> = {
   asterisk: "/highlights/highlight%20ecommetrica%204.png",
   rings: "/highlights/highlight%20ecommetrica%203.png",

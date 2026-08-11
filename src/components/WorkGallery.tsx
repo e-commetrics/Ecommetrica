@@ -11,10 +11,8 @@ import type { Lang } from "@/lib/i18n/types";
 
 const ALL = "__all__";
 
-/**
- * Category order follows the order categories first appear in `caseStudies`,
- * so reordering that array reorders both the filter chips and the sections.
- */
+/** Category order follows first appearance in `caseStudies` — reordering that
+ *  array reorders both the filter chips and the sections. */
 function categoriesOf(projects: CaseStudy[]) {
   const counts = new Map<CategoryId, number>();
   for (const project of projects) {
@@ -50,9 +48,7 @@ function ProjectCard({
     : {};
 
   return (
-    // No card chrome: the image sits straight on the page and the title reads as
-    // a label under it. The old bordered, padded, tinted box shrank every image
-    // and made 23 projects look like a table of contents rather than a portfolio.
+    // No card chrome: image sits straight on the page, title reads as a label under it.
     <Link
       href={href}
       {...external}
@@ -107,10 +103,8 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
 
   const testimonials = useMemo(() => projects.filter(hasTestimonial), [projects]);
 
-  /* The two filters are different axes — category is a single choice, the
-     testimonial toggle narrows whatever that choice produced — so the toggle
-     narrows the pool first and the category chips count within it. Otherwise a
-     chip would advertise "Medical 06" and then render two cards. */
+  /* Toggle narrows the pool first, category chips count within it — otherwise a
+     chip could advertise "Medical 06" and render two cards. */
   const pool = testimonialsOnly ? testimonials : projects;
 
   const categories = useMemo(() => categoriesOf(pool), [pool]);
@@ -171,9 +165,7 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
           })}
         </div>
 
-        {/* Separate axis from the category chips, so it gets a rule and an
-            outlined "on" state rather than the solid fill a selected category
-            gets — two solid orange pills would read as one broken radio group. */}
+        {/* Outlined "on" state, not solid fill, so it doesn't read as part of the category radio group. */}
         {testimonials.length > 0 && (
           <>
             <span aria-hidden className="mx-1 hidden h-6 w-px bg-ecom-ink/15 sm:block" />

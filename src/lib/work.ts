@@ -10,22 +10,14 @@ export type CaseStudyDetails = {
 };
 
 /**
- * A filmed client testimonial. Lives at the top level rather than inside
- * `details` because it drives three things at once: the player on the project
- * page, the "con testimonial" filter on /work, and — when the project has no
- * `video` of its own — the hover preview on the home page.
- *
- * `quote` is optional and is a *pull quote for the video*, not a substitute for
- * it: leave it unset rather than paraphrasing what the client said on camera.
+ * A filmed client testimonial. Top-level, not inside `details`, since it drives the
+ * project-page player, the /work filter, and the home hover preview fallback. `quote`
+ * is a pull quote for the video, not a substitute — leave unset rather than paraphrase.
  */
 export type Testimonial = {
   /** Lives in public/videos, which is gitignored (see .gitignore). */
   video: string;
-  /**
-   * Display width / height. Declared rather than measured so the frame is the
-   * right shape on the first paint — waiting for the file's own metadata means
-   * a portrait interview renders pillarboxed inside a 16:9 box until it lands.
-   */
+  /** Display width/height, declared not measured, so the frame is right-shaped on first paint. */
   aspect?: number;
   /** Frame shown before playback. Also gitignored if it sits next to the video. */
   poster?: string;
@@ -76,15 +68,8 @@ export function categoryLabel(category: CategoryId, lang: Lang) {
 }
 
 /**
- * Copy, categories, images and live URLs for everything below the first four
- * entries were pulled from the portfolio section of ecommetrica.com (its
- * Portfolio island + the Spanish half of the i18n dictionary). Names and slugs
- * are readable versions of the domains that source uses as titles.
- *
- * `featured: true` is what puts an entry on the home page, in the order it
- * appears in this array. Eight are flagged, picked to cover all five main
- * categories rather than to be the eight best — the home section reads as a
- * cross-section of the studio, and /work is where the full list lives.
+ * Entries below the first four were pulled from ecommetrica.com's portfolio section.
+ * `featured: true` puts an entry on the home page (in array order) — the eight flagged cover all five categories rather than being the eight "best".
  */
 export const caseStudies: CaseStudy[] = [
   {
@@ -239,9 +224,7 @@ export const caseStudies: CaseStudy[] = [
     slug: "la-cocina",
     name: "La Cocina",
     category: "Industrial",
-    // TODO: ecommetrica.com has no real copy for this one — its description key
-    // points at the category string, so the site literally renders "Industrias".
-    // Replace with the actual case-study text.
+    // TODO: no real copy for this one on ecommetrica.com — replace with actual case-study text.
     description: {
       es: "Proyecto de desarrollo web para La Cocina.",
       en: "Web development project for La Cocina.",
@@ -414,12 +397,8 @@ export function getFeaturedCaseStudies() {
   return caseStudies.filter((project) => project.featured);
 }
 
-/**
- * The video for a project: its own showcase clip if it has one, otherwise the
- * client testimonial. Single source of truth for the hover preview on the home
- * page and the "Ver video" button on /work/[slug] — both fall back to the
- * testimonial so adding a `video` to a project upgrades both in one place.
- */
+/** A project's own showcase clip, or the client testimonial as fallback —
+ *  single source for both the home hover preview and the "Ver video" button. */
 export function getProjectVideo(project: CaseStudy): string | undefined {
   return project.video ?? project.testimonial?.video;
 }

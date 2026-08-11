@@ -10,23 +10,14 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
   const t = getDict(lang);
 
   return (
-    // No background class: this inherits the body surface the same way
-    // AboutStudio does, so the two adjacent light sections share one continuous
-    // paint and no boundary line can appear between them under `noir`.
-    // scroll-mt clears the sticky header when /#services jumps here.
-    // overflow-clip because the coil below deliberately runs past the right
-    // edge. Unlike the dark blocks, this section is the shell itself and had no
-    // clipping of its own, so the overflow would reach the document and add a
-    // horizontal scrollbar. `clip` crops it without becoming a scroll container.
+    // No bg class: shares the body surface with adjacent sections so noir shows no seam.
+    // scroll-mt clears the sticky header; overflow-clip crops the coil past the right edge.
     <section
       id="services"
       className="shell scroll-mt-24 overflow-clip py-24 lg:py-32"
     >
-      {/* Headline, intro and image are one row so the image can run the full
-          height of the text beside it rather than just the intro's. The two
-          text blocks stay in a column of their own for that reason — with the
-          headline above the grid, as it was, the row was only ever as tall as
-          the intro and the image had nothing to measure up to. */}
+      {/* One row so the image runs the full height of headline+intro together,
+          not just the intro's. */}
       <div className="grid gap-10 lg:grid-cols-[1fr_minmax(0,34rem)] lg:gap-16">
         <div>
           <Reveal>
@@ -47,12 +38,8 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
           </Reveal>
         </div>
 
-        {/* Runs wider than its column on purpose, so it carries on past the
-            right edge of the screen and only ever shows as a fragment. The
-            section's overflow-clip does the cropping — see the note there;
-            without it this would hand the whole document a sideways scrollbar.
-            Only from lg: up: stacked, the column is the full width and an
-            overflow this big would leave barely a sliver of the shape. */}
+        {/* 160% wide on purpose, bleeding past the right edge (section's overflow-clip
+            crops it); full width below lg where there's no room to spare. */}
         <Reveal delay={0.2}>
           <Highlight
             shape="rings"
@@ -62,37 +49,20 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
         </Reveal>
       </div>
 
-      {/* gap-12, not gap-10: each card's hover surface bleeds 1.25rem past its
-          content on every side (the -m-5/p-5 pair below), so the gap has to
-          clear 2.5rem of bleed before neighbouring cards start touching. */}
+      {/* gap-12: clears the 2.5rem hover bleed from the -m-5/p-5 pair below so
+          neighbouring cards don't touch. */}
       <div className="mt-16 grid gap-12 border-t border-ecom-ink/10 pt-14 sm:grid-cols-2 lg:grid-cols-4">
         {serviceCategories.map((category, i) => (
           <Reveal key={category.groupId} delay={i * 0.1}>
-            {/* The -m-5/p-5 pair is what lets the card have a hover surface at
-                all: padding alone would indent the rule and the heading away
-                from the section's left edge, where they currently line up with
-                the headline above. Cancelling it with the same negative margin
-                leaves every glyph exactly where it was and grows only the box
-                that gets painted.
-
-                The height has to add that padding back. Grid stretch sizes this
-                link to the tallest card's *content*, so at a plain `h-full` the
-                tallest card has exactly its own content height to fit content
-                plus 2.5rem of padding — and the last line or two spill out the
-                bottom of the painted box. Adding the pair back keeps all four
-                boxes identical and gives every one of them room for the longest
-                card's copy. */}
+            {/* -m-5/p-5 grows the hover surface without indenting content from the
+                section edge; h-[calc(100%+2.5rem)] adds that padding back so content doesn't clip. */}
             <Link
               href={localizedHref(lang, `/services#${category.groupId}`)}
               aria-label={t.servicesOverview.viewAria(category.name[lang])}
               className="group -m-5 flex h-[calc(100%+2.5rem)] flex-col rounded-2xl p-5 ring-1 ring-transparent transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:bg-ecom-ink/[0.04] hover:ring-ecom-ink/10"
             >
-              {/* 2px at rest, not 1: an `h-px` bar lands on a fractional device
-                  pixel at half these columns' offsets and antialiases itself
-                  away entirely, so only two of the four ever showed a rule.
-                  Sweeps the full width of the card and doubles on hover, rather
-                  than nudging from 2.5rem to 5rem — at a glance the old growth
-                  read as nothing moving at all. */}
+              {/* h-0.5 not h-px: at half these columns' offsets a 1px bar lands on a
+                  fractional device pixel and antialiases away. */}
               <span
                 aria-hidden
                 className="block h-0.5 w-10 rounded-full bg-ecom-orange transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:h-1 group-hover:w-full"

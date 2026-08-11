@@ -1,19 +1,9 @@
 import type { Localized } from "@/lib/i18n/types";
 
 /**
- * Captions for the reserved photography slots rendered by <ImageSlot>.
- *
- * Deliberately NOT in `src/lib/i18n/dict.ts`: every one of these is scaffolding
- * that disappears the moment the real photo lands, and the shared dictionary is
- * for copy that stays. Keeping them here means the whole placeholder pass can be
- * removed in one step — delete a slot's entry, delete its <ImageSlot>, drop in
- * an <Image>.
- *
- * Each label describes the shot the layout is waiting for, so whoever sources
- * the photography knows what to brief. The ratio lives at the call site, next to
- * the layout that depends on it.
- *
- * Outstanding slots: `grep -rn "ImageSlot" src`
+ * Captions for the reserved photography slots rendered by <ImageSlot>. Kept out of
+ * dict.ts since these are scaffolding — delete a slot's entry + <ImageSlot>, drop in an
+ * <Image> once the real photo lands. Outstanding slots: `grep -rn "ImageSlot" src`.
  */
 export const imageSlots = {
   /** Studio page, under the opening quote. Light surface, wide banner. */

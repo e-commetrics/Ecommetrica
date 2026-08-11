@@ -3,11 +3,7 @@ import Image from "next/image";
 
 /**
  * Screenshot block for MDX posts: one or more `<BlogImage>` sharing a caption.
- *
- * Marked `not-prose` so the typography plugin keeps its hands off and every
- * style here resolves through the themed tokens instead of the plugin's fixed
- * greys. That is also why the classes live in this file rather than inline in
- * the .mdx — Tailwind only scans source files for class names.
+ * `not-prose` keeps the typography plugin's fixed greys off; classes live here, not inline in .mdx, since Tailwind only scans source files.
  */
 export function BlogFigure({
   caption,
@@ -29,20 +25,9 @@ export function BlogFigure({
 }
 
 /**
- * One image inside a `<BlogFigure>`.
- *
- * `width`/`height` arrive as strings on purpose: next-mdx-remote strips every
- * JSX *expression* attribute from post content (its `blockJS` guard), so
- * `width={1833}` would silently never reach this component — only plain string
- * attributes survive. They are the image's intrinsic size, so the browser
- * reserves the row and nothing shifts while it loads.
- *
- * The image renders at that intrinsic width capped to the column: an 1800px
- * screenshot fills the measure, a 500px crop stays 500px instead of being
- * upscaled into mush. Sizing deliberately leaves the width to the HTML
- * attribute (only `max-w-full` and `h-auto` are set) — a `w-auto` here would
- * collapse every not-yet-loaded lazy image to zero height, so the ones further
- * down the post never reserve their row and never come into view to load.
+ * One image inside a `<BlogFigure>`. `width`/`height` arrive as strings: next-mdx-remote
+ * strips JSX expression attributes, so only plain string attrs like these survive to set
+ * intrinsic size. Only `max-w-full`/`h-auto` are set — `w-auto` would zero out lazy images before they load.
  */
 export function BlogImage({
   src,

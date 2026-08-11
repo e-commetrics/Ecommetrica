@@ -34,10 +34,7 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      // overflow-clip rather than -hidden: both crop the decorative layers
-      // below, but `hidden` also makes the section a scroll container, so any
-      // overhang lets focus or scrollIntoView jog the whole hero sideways.
-      // `clip` can never scroll — see the matching note in Pillars/BigNav.
+      // overflow-clip, not -hidden: crops decorative layers without becoming a scroll container.
       className="relative overflow-clip bg-ecom-black text-white"
     >
       {/* Placeholder diagonal backdrop — swap for real photography when available */}
@@ -63,9 +60,7 @@ export default function Hero() {
         animate="show"
         className="relative shell pt-28 pb-32 lg:pt-40 lg:pb-48"
       >
-        {/* Eyebrow and sub sit on one row at opposite edges rather than stacked
-            down the left — that asymmetry is what lets the headline below own
-            the full width instead of competing with a column of small text. */}
+        {/* Eyebrow/sub on one row at opposite edges, not stacked, so the headline owns the full width. */}
         <motion.div
           variants={item}
           className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-16"

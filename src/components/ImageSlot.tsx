@@ -1,17 +1,6 @@
 /**
- * A reserved spot for photography that doesn't exist yet.
- *
- * Renders as a flat block of color at the exact size and ratio the real image
- * will occupy, so the layout around it is already final — dropping in the photo
- * later is a one-line swap for <Image>, not a re-layout. The label states what
- * belongs there and at what ratio, which is the whole point: an unlabelled grey
- * box reads as a broken image, a labelled one reads as a decision.
- *
- * Fills its container, so the caller owns the dimensions. Give it an explicit
- * `ratio` (or a height) or it collapses to nothing.
- *
- * NOTE: this is scaffolding. Every instance is meant to be replaced by a real
- * <Image>; `grep -rn "ImageSlot" src` lists what is still outstanding.
+ * Reserved spot for photography that doesn't exist yet — flat color block at the real
+ * image's size/ratio, swappable for <Image> later. Scaffolding: `grep -rn "ImageSlot" src`.
  */
 
 export default function ImageSlot({
@@ -41,8 +30,7 @@ export default function ImageSlot({
           : "bg-ecom-ink/8 ring-1 ring-ecom-ink/10"
       } ${className}`}
     >
-      {/* Corner tick: reads as a crop mark, and keeps the empty box from looking
-          like a failed image load. */}
+      {/* Corner tick: reads as a crop mark, not a failed image load. */}
       <span
         aria-hidden
         className={`absolute top-5 left-5 h-6 w-6 border-t border-l ${

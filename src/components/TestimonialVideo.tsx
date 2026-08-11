@@ -7,18 +7,9 @@ import { useVideoAvailable } from "@/lib/useVideoAvailable";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 /**
- * Filmed client testimonial on /work/[slug]: a muted preview that plays itself
- * in the header, and a full-size player over a dimmed page on demand.
- *
- * Two <video> elements rather than one moved into the overlay — React would
- * unmount and remount the node on the way, which drops the buffer and restarts
- * the download. They share a position instead: opening always starts the big
- * one from zero, and closing hands its timestamp back to the preview so the
- * conversation carries on from wherever you left it rather than snapping back.
- *
- * `aspect` seeds the box at the right shape for the first paint. Without it the
- * frame renders 16:9, and a portrait clip sits pillarboxed until metadata
- * arrives — on a large file that's a visible, and visibly wrong, first frame.
+ * Filmed client testimonial: a muted autoplay preview plus a full-size player on demand.
+ * Two <video> elements, not one moved into the overlay, since React would unmount/remount
+ * and drop the buffer; closing hands the timestamp back to the preview. `aspect` avoids a 16:9 flash before a portrait clip's metadata loads.
  */
 export default function TestimonialVideo({
   src,
