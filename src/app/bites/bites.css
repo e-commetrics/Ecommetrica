@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@theme {
+  --font-poppins: var(--font-poppins-sans), sans-serif;
+  --font-roboto: var(--font-roboto-sans), sans-serif;
+  --font-poorstory: var(--font-poorstory-sans), cursive;
+  --font-pompiere: var(--font-pompiere-sans), cursive;
+}

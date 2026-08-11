@@ -149,7 +149,7 @@ export const caseStudies: CaseStudy[] = [
     },
     image: "/Works/dr-arturo-lopez.png",
     featured: true,
-    webpage: "https://ecommetrica.com/arturo/",
+    webpage: "/arturo",
     details: {
       summary: {
         es: "Un cirujano plástico que requería una landing page efectiva para destacar sus servicios de rejuvenecimiento facial, como rellenos y otros tratamientos antienvejecimiento. El diseño se enfocó en ser breve pero impactante, equilibrando simplicidad y elegancia con un video y un mensaje conciso con sus datos de contacto.",
@@ -169,7 +169,7 @@ export const caseStudies: CaseStudy[] = [
     },
     image: "/projects/bitespage.webp",
     featured: true,
-    webpage: "https://ecommetrica.com/bites",
+    webpage: "/bites",
   },
   {
     slug: "reforma-dental",
