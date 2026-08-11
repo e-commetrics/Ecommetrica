@@ -145,6 +145,27 @@ html.theming *::after {
   -webkit-text-fill-color: transparent;
 }
 
+/* Marquee.tsx: the track is two copies of the same content back to back, so a
+   -50% translate loops seamlessly into its own duplicate with no visible seam. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 22s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
 /* @tailwindcss/typography ships fixed neutral greys, which go unreadable as
    soon as the surface turns dark. Repoint its palette at the themed ink so
    article bodies follow the active theme like everything else. */

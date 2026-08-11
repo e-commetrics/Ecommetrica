@@ -6,6 +6,7 @@ import ServicesOverview from "@/components/ServicesOverview";
 import AboutStudio from "@/components/AboutStudio";
 import Planes from "@/components/Planes";
 import BigNav from "@/components/BigNav";
+import Marquee from "@/components/Marquee";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
 
@@ -29,6 +30,7 @@ export default function Home() {
       <AboutStudio />
       <Planes />
       <BigNav lang="es" />
+      <Marquee text={t.nav.talk} />
     </>
   );
 }

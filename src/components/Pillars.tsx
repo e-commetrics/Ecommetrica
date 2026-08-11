@@ -73,7 +73,7 @@ export default function Pillars({ lang }: { lang: Lang }) {
             <Reveal
               key={stat.label}
               delay={i * 0.1}
-              className="border-b border-white/10 py-10 sm:border-b-0 sm:border-l sm:first:border-l-0 sm:px-8 sm:first:pl-0"
+              className="border-b border-white/10 py-10 last:border-b-0 sm:border-b-0 sm:border-l sm:first:border-l-0 sm:px-8 sm:first:pl-0"
             >
               <p className="font-display text-5xl font-medium tracking-[-0.02em] text-ecom-orange sm:text-6xl">
                 <Counter value={stat.value} />

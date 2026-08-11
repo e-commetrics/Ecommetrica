@@ -18,7 +18,7 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
     >
       {/* One row so the image runs the full height of headline+intro together,
           not just the intro's. */}
-      <div className="grid gap-10 lg:grid-cols-[1fr_minmax(0,34rem)] lg:gap-16">
+      <div className="grid gap-10 lg:grid-cols-[1fr_minmax(0,34rem)] lg:items-center lg:gap-16">
         <div>
           <Reveal>
             <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
@@ -39,8 +39,12 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
         </div>
 
         {/* 160% wide on purpose, bleeding past the right edge (section's overflow-clip
-            crops it); full width below lg where there's no room to spare. */}
-        <Reveal delay={0.2}>
+            crops it); full width below lg where there's no room to spare. The mask
+            fades that edge out instead of cutting it off hard. */}
+        <Reveal
+          delay={0.2}
+          className="lg:[-webkit-mask-image:linear-gradient(to_right,black_75%,transparent_100%)] lg:[mask-image:linear-gradient(to_right,black_75%,transparent_100%)]"
+        >
           <Highlight
             shape="rings"
             className="w-full lg:w-[160%] lg:max-w-none"
