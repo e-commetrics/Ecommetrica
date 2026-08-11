@@ -53,7 +53,7 @@ export default function Pillars({ lang }: { lang: Lang }) {
             {/* Monogram half off the slot's top-right corner, ties photo back to the mark.
                 Accent, not white, since it's the one tone contrast-checked on both light and dark (CLAUDE.md). */}
             <Highlight
-              shape="monogram"
+              shape="logo"
               tone="accent"
               // Negative inset only from sm: up — below 640px the shell pads
               // just 1.25rem, so a wider offset would overhang the viewport.

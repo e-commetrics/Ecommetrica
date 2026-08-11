@@ -4,7 +4,7 @@
  * color. `tone` is a role, not a literal color (see CLAUDE.md's token contract).
  */
 
-type Shape = "asterisk" | "rings" | "arch" | "monogram";
+type Shape = "asterisk" | "rings" | "arch" | "monogram" | "logo";
 type Tone = "accent" | "ink" | "white";
 
 /** Filenames ship with spaces — pre-encoded here since raw `url()` handles that unreliably. */
@@ -13,6 +13,7 @@ const SHAPE_SRC: Record<Shape, string> = {
   rings: "/highlights/highlight%20ecommetrica%203.png",
   arch: "/highlights/highlight%20ecommetrica%205.png",
   monogram: "/highlights/highlight%20ecommetrica%202.png",
+  logo: "/highlights/highlight%20ecommetrica%201.png",
 };
 
 /** Intrinsic ratio of each PNG, so callers can size on one axis and let the
@@ -22,6 +23,7 @@ export const SHAPE_ASPECT: Record<Shape, string> = {
   rings: "1122 / 525",
   arch: "707 / 353",
   monogram: "400 / 343",
+  logo: "400 / 343",
 };
 
 const TONE_BG: Record<Tone, string> = {

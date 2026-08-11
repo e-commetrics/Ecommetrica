@@ -30,7 +30,16 @@ export default function Home() {
       <AboutStudio />
       <Planes />
       <BigNav lang="en" />
-      <Marquee text={t.nav.talk} />
+      <Marquee
+        words={[
+          t.nav.talk,
+          t.servicesOverview.headline,
+          t.bigNav.work,
+          t.selectWork.headlineAccent,
+          ...t.pillars.flow,
+          t.aboutStudio.studioWord,
+        ]}
+      />
     </>
   );
 }
