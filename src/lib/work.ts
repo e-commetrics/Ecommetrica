@@ -32,6 +32,8 @@ export type CaseStudy = {
   category: CategoryId;
   description: Localized;
   image?: string;
+  /** alt/title for `image` on the homepage card. Falls back to `name` when unset. */
+  imageAlt?: Localized;
   /** Shown on hover on the homepage card, and inline on the project's own page. */
   video?: string;
   /** CSS `object-position` for the homepage hover crop (aspect-4/3). Defaults to "center". */
@@ -77,10 +79,15 @@ export const caseStudies: CaseStudy[] = [
     name: "Dr. Lumbán",
     category: "Medical",
     description: {
-      es: "Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus leo eu aenean sed diam urna tempor pulvinar vivamus fringilla lacus nec metus bibendum egestas iaculis massa nisl malesuada lacinia integer nunc posuere ut hendrerit.",
-      en: "Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus leo eu aenean sed diam urna tempor pulvinar vivamus fringilla lacus nec metus bibendum egestas iaculis massa nisl malesuada lacinia integer nunc posuere ut hendrerit.",
+      es: "El otorrinolaringólogo Jaime Lumbán, con más de 33 años de trayectoria en Tijuana, buscaba actualizar su página web a una plataforma moderna, ágil y segura, diseñada para reafirmar su posición como un referente de vanguardia en la región.",
+      en: "ENT specialist Jaime Lumbán, with more than 33 years of experience in Tijuana, wanted to update his website to a modern, agile, and secure platform designed to reaffirm his position as a leading reference in the region.",
     },
-    image: "/Works/dr-lumban.png",
+    image:
+      "/Works/Ecommetrica%20modernizo%20y%20optimizo%20la%20pagina%20web%20y%20branding%20del%20dr%20Jaime%20Lumban.png",
+    imageAlt: {
+      es: "Ecommetrica optimizo toda la estructura del sitio web del dr lumban por algo mas eficiente y moderno",
+      en: "Ecommetrica optimized Dr. Lumbán's entire website structure into something more efficient and modern",
+    },
     featured: true,
     webpage: "https://drlumban.com/",
     details: {
@@ -98,7 +105,12 @@ export const caseStudies: CaseStudy[] = [
       es: "Un traumatólogo ortopedista que buscaba un sitio web moderno y minimalista para diferenciarse de los sitios convencionales en el ámbito de la traumatología. Logramos un diseño profesional y sencillo.",
       en: "An orthopedic traumatologist who wanted a modern, minimalist website to stand out from conventional sites in the field of traumatology. We achieved a professional, straightforward design.",
     },
-    image: "/Works/dr-monge.png",
+    image:
+      "/Works/Ecommetrica%20realizo%20la%20pagina%20del%20dr%20ricardo%20monge%20asi%20como%20calendario%20de%20citas.png",
+    imageAlt: {
+      es: "Ecommetrica creo una pagina web robusta con calendario interno para el dr ricardo monge",
+      en: "Ecommetrica built a robust website with an internal booking calendar for Dr. Ricardo Monge",
+    },
     videoPosition: "center 15%",
     featured: true,
     webpage: "https://mongeortopedia.com/",
@@ -123,7 +135,12 @@ export const caseStudies: CaseStudy[] = [
       es: "Una ginecóloga-obstetra feminista con más de 15 años de experiencia que quería crear un sitio web inclusivo y dinámico. Diseñamos una experiencia atractiva y reactiva que refleja su esencia y valores, permitiendo a sus pacientes una navegación agradable.",
       en: "A feminist OB/GYN with more than 15 years of experience who wanted an inclusive, dynamic website. We designed an engaging, responsive experience that reflects her essence and values, giving her patients a pleasant navigation experience.",
     },
-    image: "/Works/dra-cesia-borjon.png",
+    image:
+      "/Works/Ecommetrica%20realizo%20la%20pagina%20y%20branding%20de%20la%20ginecologa%20Cesia%20Borjon.png",
+    imageAlt: {
+      es: "ecommetrica creo una pagina web extensa y branding unico para la dra. Cesia ginecóloga en Tijuana",
+      en: "Ecommetrica built an extensive website and unique branding for Dr. Cesia, an OB/GYN in Tijuana",
+    },
     featured: true,
     webpage: "https://cesiaborjon.com/",
     testimonial: {
@@ -147,7 +164,11 @@ export const caseStudies: CaseStudy[] = [
       es: "Un cirujano plástico que requería una landing page efectiva para destacar sus servicios de rejuvenecimiento facial, como rellenos y otros tratamientos antienvejecimiento. El diseño se enfocó en ser breve pero impactante, equilibrando simplicidad y elegancia con un video y un mensaje conciso con sus datos de contacto.",
       en: "A plastic surgeon who needed an effective landing page to highlight his facial rejuvenation services, such as fillers and other anti-aging treatments. The design focused on being brief yet impactful, balancing simplicity and elegance with a video and a concise message with his contact details.",
     },
-    image: "/Works/dr-arturo-lopez.png",
+    image: "/Works/Ecommetrica%20realizo%20el%20landing%20page%20del%20dr%20arturo%20lopez.png",
+    imageAlt: {
+      es: "ecommetrica creo un landing page breve y atemporal para el dr arturo lopez",
+      en: "Ecommetrica created a brief, timeless landing page for Dr. Arturo López",
+    },
     featured: true,
     webpage: "/arturo",
     details: {
@@ -167,7 +188,12 @@ export const caseStudies: CaseStudy[] = [
       es: "Es un centro de alta estética dental que necesitaba renovar su página web y optimizar su UX/UI con una imagen que reflejara el estilo distintivo de Bites. Incorporamos un calendario que permite agendar citas y realizar pagos directamente desde la página, brindando una experiencia fluida y eficiente en la que los usuarios pueden tener el control mediante una web app.",
       en: "A high-end dental aesthetics center that needed to renew its website and optimize its UX/UI with an image reflecting Bites' distinctive style. We built in a calendar that lets patients book appointments and pay directly from the page, giving users a smooth, efficient, self-service experience through a web app.",
     },
-    image: "/projects/bitespage.webp",
+    image:
+      "/projects/Ecommetrica%20mejoro%20la%20pagina%20web%20de%20bites%20dentistas%20en%20tijuana.webp",
+    imageAlt: {
+      es: "Ecommetrica implemento mejoras en la pagina web de bites para hacerla más atractiva y facil de navegar",
+      en: "Ecommetrica implemented improvements to the Bites website to make it more appealing and easier to navigate",
+    },
     featured: true,
     webpage: "/bites",
   },
@@ -216,7 +242,11 @@ export const caseStudies: CaseStudy[] = [
       es: "Una tienda de accesorios y partes de fibra de carbono para autos de carrera que necesitaba optimizar su sistema de compras, disposición de productos e interfaz general. Implementamos un nuevo sistema de inventario y logística para mejorar el flujo de productos, selección y compra, además de optimizar la apariencia UI/UX de la tienda.",
       en: "A carbon-fiber accessories and parts store for race cars that needed to optimize its checkout flow, product layout, and overall interface. We implemented a new inventory and logistics system to improve product flow, selection, and checkout, alongside a UI/UX overhaul of the store.",
     },
-    image: "/projects/carboneticspage.webp",
+    image: "/projects/Ecommetrica%20mejoro%20la%20tienda%20en%20linea%20de%20carbonetics.webp",
+    imageAlt: {
+      es: "Ecommetrica mejoro la estructura de la tienda en linea de carbonetics además de implementaciones en automatización",
+      en: "Ecommetrica improved the structure of Carbonetics' online store, along with automation implementations",
+    },
     featured: true,
     webpage: "https://carboneticsinc.com",
   },
@@ -286,7 +316,11 @@ export const caseStudies: CaseStudy[] = [
       es: "Una firma de consultoría legal y contable que buscaba posicionarse y diferenciarse del sector con un sitio web moderno, además de mejorar la gestión de correos corporativos. Desarrollamos un sitio innovador y funcional optimizado para el posicionamiento, además de una web app que centraliza la gestión y cantidad de correos e información, mejorando la eficiencia general.",
       en: "A legal and accounting consultancy that wanted to stand out from the sector with a modern website, plus improved corporate email management. We built an innovative, functional, SEO-optimized site along with a web app that centralizes email and information management, improving overall efficiency.",
     },
-    image: "/projects/gpepage.webp",
+    image: "/projects/ecommetrica%20creo%20la%20pagina%20de%20GPE%20asi%20como%20un%20rebranding.webp",
+    imageAlt: {
+      es: "Ecommetrica realizo una pagina web unica para un despacho de abogados ademas que refresco su imagen institucional",
+      en: "Ecommetrica built a unique website for a law firm and refreshed its institutional image",
+    },
     featured: true,
     webpage: "https://gpeconsultores.com.mx",
   },
@@ -333,7 +367,12 @@ export const caseStudies: CaseStudy[] = [
       es: "Un distribuidor de productos de belleza que quería modernizar y fortalecer su tienda en Shopify. Realizamos un rebranding, reestructuramos la tienda, optimizamos la distribución y presentación de productos, asegurando una navegación intuitiva y coherente. Enfocarnos en la cohesión del mensaje visual y verbal nos permitió crear una tienda atractiva.",
       en: "A beauty-products distributor that wanted to modernize and strengthen its Shopify store. We ran a rebrand, restructured the store, and optimized product layout and presentation for intuitive, coherent navigation. Focusing on visual and verbal message cohesion let us build an appealing store.",
     },
-    image: "/projects/chikpage.webp",
+    image:
+      "/projects/ecommetrica%20mejoro%20y%20creo%20el%20branding%20de%20chik%20distribuidora%20de%20productos%20de%20belleza%20en%20hidalgo.webp",
+    imageAlt: {
+      es: "Ecommetrica mejoro la estructura de la tienda en linea de chik ademas de crear un brandind llamativo",
+      en: "Ecommetrica improved the structure of Chik's online store and created an eye-catching brand identity",
+    },
     featured: true,
     webpage: "https://chik.mx",
   },

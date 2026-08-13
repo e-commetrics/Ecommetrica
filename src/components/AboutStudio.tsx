@@ -162,7 +162,8 @@ export default function AboutStudio() {
               >
                 <Image
                   src={member.img}
-                  alt={member.name}
+                  alt={member.imgAlt?.[lang] ?? member.name}
+                  title={member.imgAlt?.[lang] ?? member.name}
                   fill
                   sizes="320px"
                   priority={index === 0}
@@ -170,7 +171,8 @@ export default function AboutStudio() {
                 />
                 <Image
                   src={member.imgHover}
-                  alt={member.name}
+                  alt={member.imgHoverAlt?.[lang] ?? member.name}
+                  title={member.imgHoverAlt?.[lang] ?? member.name}
                   fill
                   sizes="320px"
                   className="rounded-3xl object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100"

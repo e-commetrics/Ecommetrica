@@ -1,10 +1,8 @@
 import Reveal from "@/components/Reveal";
 import Counter from "@/components/Counter";
 import Highlight from "@/components/Highlight";
-import ImageSlot from "@/components/ImageSlot";
 import type { Lang } from "@/lib/i18n/types";
 import { getDict } from "@/lib/i18n/dict";
-import { imageSlots } from "@/lib/imageSlots";
 
 export default function Pillars({ lang }: { lang: Lang }) {
   const t = getDict(lang);
@@ -60,10 +58,14 @@ export default function Pillars({ lang }: { lang: Lang }) {
               className="absolute -top-8 right-0 z-10 w-24 [filter:drop-shadow(0_2px_14px_rgba(18,18,19,0.55))] sm:-top-10 sm:-right-6 sm:w-32"
               opacity={0.9}
             />
-            <ImageSlot
-              ratio="4 / 3"
-              tone="dark"
-              label={imageSlots.pillarsStatement[lang]}
+            <video
+              src="/videos/pillars-flow.webm"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="relative w-full rounded-3xl object-cover ring-1 ring-white/10"
+              style={{ aspectRatio: "4 / 3" }}
             />
           </Reveal>
         </div>

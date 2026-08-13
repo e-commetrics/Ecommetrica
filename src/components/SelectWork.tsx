@@ -103,7 +103,8 @@ function ProjectSlide({
           {project.image && (
             <Image
               src={project.image}
-              alt={project.name}
+              alt={project.imageAlt?.[lang] ?? project.name}
+              title={project.imageAlt?.[lang] ?? project.name}
               fill
               sizes={IMAGE_SIZES}
               className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
@@ -183,7 +184,8 @@ function ProjectListItem({
         {project.image && (
           <Image
             src={project.image}
-            alt={project.name}
+            alt={project.imageAlt?.[lang] ?? project.name}
+            title={project.imageAlt?.[lang] ?? project.name}
             fill
             sizes={IMAGE_SIZES}
             className="object-cover"

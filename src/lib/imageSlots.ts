@@ -17,10 +17,4 @@ export const imageSlots = {
     es: "Producto terminado en contexto: sitio en laptop y móvil sobre escritorio real",
     en: "Finished work in context: a site on laptop and phone on a real desk",
   },
-
-  /** Home, Pillars section, beside the statement. Dark block in every theme. */
-  pillarsStatement: {
-    es: "Equipo en sesión de trabajo — encuadre horizontal, ambiente real de oficina",
-    en: "Team in a working session — landscape framing, real office setting",
-  },
 } satisfies Record<string, Localized>;

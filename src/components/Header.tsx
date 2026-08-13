@@ -77,7 +77,7 @@ export default function Header() {
               so background-color (--color-ecom-logo) supplies theme-following pixels instead of a fixed baked-in color. */}
           <span
             role="img"
-            aria-label="Ecommetrica"
+            aria-label={t.nav.logoAlt}
             className="block h-7 sm:h-8"
             style={{
               aspectRatio: "940 / 190",
@@ -130,6 +130,7 @@ export default function Header() {
           menuLabel={t.mobileMenu.open}
           closeLabel={t.mobileMenu.close}
           contactHref={localizedHref(lang, "/contact")}
+          logoAlt={t.nav.logoAlt}
         />
         </div>
       </motion.header>
@@ -143,12 +144,14 @@ function MobileNav({
   menuLabel,
   closeLabel,
   contactHref,
+  logoAlt,
 }: {
   navLinks: { href: string; label: string; active: boolean }[];
   talk: string;
   menuLabel: string;
   closeLabel: string;
   contactHref: string;
+  logoAlt: string;
 }) {
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
@@ -228,7 +231,7 @@ function MobileNav({
                   <div className="shell flex items-center justify-between py-4">
                     <span
                       role="img"
-                      aria-label="Ecommetrica"
+                      aria-label={logoAlt}
                       className="block h-7"
                       style={{
                         aspectRatio: "940 / 190",

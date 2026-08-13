@@ -17,6 +17,7 @@ export type Dict = {
     faq: string;
     contact: string;
     talk: string;
+    logoAlt: string;
   };
   mobileMenu: { open: string; close: string };
   languageSwitcher: { ariaLabel: string };
@@ -48,6 +49,7 @@ export type Dict = {
     stats: { value: string; label: string }[];
   };
   bigNav: { work: string; services: string; talk: string };
+  marquee: { words: string[] };
   planes: { eyebrow: string; bigWord: string; sub: string; popular: string; select: string };
   servicesOverview: {
     eyebrow: string;
@@ -241,6 +243,8 @@ export const dict: Record<Lang, Dict> = {
       faq: "FAQ",
       contact: "Contacto",
       talk: "Hablemos",
+      logoAlt:
+        "Ecommetrica es una consultora y empresa de gestión especializada en marketing y tecnología para el comercio electrónico de empresas y marcas",
     },
     mobileMenu: { open: "Menú", close: "Cerrar menú" },
     languageSwitcher: { ariaLabel: "Cambiar idioma" },
@@ -289,6 +293,18 @@ export const dict: Record<Lang, Dict> = {
       ],
     },
     bigNav: { work: "Trabajo", services: "Servicios", talk: "Hablemos" },
+    marquee: {
+      words: [
+        "Páginas",
+        "Webapps",
+        "Tiendas en línea",
+        "Branding",
+        "Marketing digital",
+        "Tijuana",
+        "San Diego",
+        "Los Ángeles",
+      ],
+    },
     planes: {
       eyebrow: "Nuestros",
       bigWord: "PLANES",
@@ -621,6 +637,8 @@ export const dict: Record<Lang, Dict> = {
       faq: "FAQ",
       contact: "Contact",
       talk: "Let's talk",
+      logoAlt:
+        "Ecommetrica is a consulting and management company specialized in marketing and technology for e-commerce businesses and brands",
     },
     mobileMenu: { open: "Menu", close: "Close menu" },
     languageSwitcher: { ariaLabel: "Toggle language" },
@@ -669,6 +687,18 @@ export const dict: Record<Lang, Dict> = {
       ],
     },
     bigNav: { work: "Work", services: "Services", talk: "Let's talk" },
+    marquee: {
+      words: [
+        "Web pages",
+        "Webapps",
+        "Online stores",
+        "Branding",
+        "Digital marketing",
+        "Tijuana",
+        "San Diego",
+        "Los Angeles",
+      ],
+    },
     planes: {
       eyebrow: "Our",
       bigWord: "PLANS",
