@@ -654,7 +654,6 @@ export const caseStudies: CaseStudy[] = [
       es: "ecommetrica creo un landing page breve y atemporal para el dr arturo lopez",
       en: "Ecommetrica created a brief, timeless landing page for Dr. Arturo López",
     },
-    featured: true,
     webpage: "/arturo",
     details: {
       summary: {
@@ -849,7 +848,6 @@ export const caseStudies: CaseStudy[] = [
       es: "Ecommetrica implemento mejoras en la pagina web de bites para hacerla más atractiva y facil de navegar",
       en: "Ecommetrica implemented improvements to the Bites website to make it more appealing and easier to navigate",
     },
-    featured: true,
     webpage: "/bites",
   },
   {
@@ -887,8 +885,40 @@ export const caseStudies: CaseStudy[] = [
     image: "/projects/pamelapage.webp",
     webpage: "https://doctorapamelaperez.com",
   },
+  {
+    slug: "palmas-recovery",
+    name: "Palmas Recovery",
+    category: "Medical",
+    description: {
+      es: "Palmas Recovery es una casa de recuperación post-operatoria en Tijuana, elegida por cirujanos plásticos para el cuidado de sus pacientes. Necesitaban un sitio bilingüe con reservación de habitaciones integrada, pensado para pacientes que viajan a Tijuana a recuperarse después de una cirugía.",
+      en: "Palmas Recovery is a post-operative recovery house in Tijuana, chosen by plastic surgeons for their patients' care. They needed a bilingual site with built-in room booking, designed for patients traveling to Tijuana to recover after surgery.",
+    },
+    image: "/projects/palmas.webp",
+    imageAlt: {
+      es: "Ecommetrica diseñó el sitio bilingüe con reservaciones de Palmas Recovery, casa de recuperación post-operatoria en Tijuana",
+      en: "Ecommetrica designed the bilingual booking site for Palmas Recovery, a post-operative recovery house in Tijuana",
+    },
+    featured: true,
+    webpage: "https://palmasrecovery.com",
+  },
 
   // --- Industrial -----------------------------------------------------------
+  {
+    slug: "diaz-construction",
+    name: "Diaz Construction",
+    category: "Industrial",
+    description: {
+      es: "Diaz Construction es una constructora familiar del área de la Bahía de San Francisco, con licencia CSLB y más de 15 años de experiencia en remodelaciones, ADUs y ampliaciones. Buscaban un sitio que transmitiera la misma promesa de marca — proyectos hasta 60% más rápidos sin sacrificar calidad — con un catálogo de proyectos y una forma directa de pedir cotización.",
+      en: "Diaz Construction is a family-owned contractor in the San Francisco Bay Area, CSLB-licensed with more than 15 years of experience in remodeling, ADUs, and additions. They wanted a site carrying the same brand promise — projects completed up to 60% faster without sacrificing quality — with a project showcase and a direct way to request a quote.",
+    },
+    image: "/projects/diaz.webp",
+    imageAlt: {
+      es: "Ecommetrica creó el sitio web de Diaz Construction, contratista general en el área de la Bahía de San Francisco",
+      en: "Ecommetrica built the website for Diaz Construction, a general contractor in the San Francisco Bay Area",
+    },
+    featured: true,
+    webpage: "https://diazconstructions.com",
+  },
   {
     slug: "carbonetics",
     name: "Carbonetics Inc.",
@@ -902,7 +932,6 @@ export const caseStudies: CaseStudy[] = [
       es: "Ecommetrica mejoro la estructura de la tienda en linea de carbonetics además de implementaciones en automatización",
       en: "Ecommetrica improved the structure of Carbonetics' online store, along with automation implementations",
     },
-    featured: true,
     webpage: "https://carboneticsinc.com",
   },
   {
@@ -1004,6 +1033,22 @@ export const caseStudies: CaseStudy[] = [
 
   // --- Commerce -------------------------------------------------------------
   {
+    slug: "excellentia-foods",
+    name: "Excellentia Foods",
+    category: "Commerce",
+    description: {
+      es: "Excellentia Foods es un distribuidor mayorista de productos hispanos —quesos, embutidos y especialidades— para tiendas del sur de California, con servicio DSD (entrega directa a tienda) que incluye acomodo de anaquel y demostraciones en punto de venta. Necesitaban un sitio que comunicara ese servicio y permitiera a los minoristas solicitar catálogo y lista de precios.",
+      en: "Excellentia Foods is a wholesale distributor of Hispanic products — cheeses, cold cuts, and specialty items — for retailers across Southern California, with DSD (direct store delivery) service that includes shelf stocking and in-store demos. They needed a site that communicated that service and let retailers request a catalog and price list.",
+    },
+    image: "/projects/excellentia.webp",
+    imageAlt: {
+      es: "Ecommetrica creó el sitio web de Excellentia Foods, distribuidor mayorista de productos hispanos en el sur de California",
+      en: "Ecommetrica built the website for Excellentia Foods, a wholesale Hispanic food distributor in Southern California",
+    },
+    featured: true,
+    webpage: "https://excellentiafoods.com",
+  },
+  {
     slug: "border-grower",
     name: "Border Grower",
     category: "Commerce",
@@ -1028,7 +1073,6 @@ export const caseStudies: CaseStudy[] = [
       es: "Ecommetrica mejoro la estructura de la tienda en linea de chik ademas de crear un brandind llamativo",
       en: "Ecommetrica improved the structure of Chik's online store and created an eye-catching brand identity",
     },
-    featured: true,
     webpage: "https://chik.mx",
   },
   {
