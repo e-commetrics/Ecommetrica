@@ -1,10 +1,55 @@
 import type { Lang, Localized } from "@/lib/i18n/types";
 
+/** One long-form editorial block on the case-study page — "Briefing", "Antes y después",
+ *  "Branding", etc. Optional per project: only projects with copy for it render it. */
+export type CaseStudySection = {
+  heading: Localized;
+  paragraphs: Localized[];
+  /** Large bolded pull quote, shown between the paragraphs and the images. */
+  pullQuote?: Localized;
+  /** Closes out the section. One image renders full-bleed; two or more render as a grid
+   *  (before/after, brand elements, screens produced — same field, just more entries).
+   *  `label` is a short hover badge (e.g. "Antes"/"Después"); grid images only.
+   *  `hoverSrc` crossfades in on hover — e.g. scrolling further down one continuous page. */
+  images?: { src: string; alt?: Localized; label?: Localized; hoverSrc?: string; hoverAlt?: Localized }[];
+  /** Crop for `images` grid cells. Defaults to "4/3" — use "square" for photo/post
+   *  galleries where a landscape crop would butcher portrait-oriented sources. */
+  imagesAspect?: "4/3" | "square";
+  /** Columns for the `images` grid at `sm:` and up. Defaults to 2. */
+  imagesCols?: 2 | 3;
+  /** Two-column before/after, each side stacking its own images at their natural
+   *  aspect ratio (unlike `images`, nothing is cropped) — for mismatched-ratio assets
+   *  like an old logo next to a full brand board. `width`/`height` are the PNG's own
+   *  intrinsic pixels, so next/image can size it without distorting it. */
+  beforeAfter?: {
+    before: { src: string; width: number; height: number; alt?: Localized }[];
+    after: { src: string; width: number; height: number; alt?: Localized }[];
+  };
+  /** Full-bleed autoplaying video closing out the section — content produced for the
+   *  client (a reel, an explainer), not a testimonial. Takes priority over `images`. */
+  video?: string;
+};
+
 export type CaseStudyDetails = {
   client?: string;
   year?: string;
-  services?: string[];
+  /** Shown as pills in the hero. */
+  services?: Localized[];
+  /** Short single-paragraph summary — also the meta description. Falls back to `description`. */
   summary?: Localized;
+  /** Full briefing copy, one entry per paragraph. Falls back to `[summary]`. */
+  briefingParagraphs?: Localized[];
+  /** Big pitch headline in the hero (e.g. "TIAKI: creando una marca para..."). Falls back to `name`. */
+  headline?: Localized;
+  /** Hero background, the client's own brand color (e.g. "#f5d6d6"). Unset renders no tint. */
+  accent?: string;
+  /** Full-bleed cover photo shown after the briefing. Falls back to the card's `image`. */
+  heroImage?: string;
+  heroImageAlt?: Localized;
+  /** Skips the cover photo entirely, ignoring both `heroImage` and the card's `image`. */
+  hideCoverImage?: boolean;
+  /** Long-form editorial sections, in display order. */
+  sections?: CaseStudySection[];
   results?: Localized[];
   gallery?: string[];
 };
@@ -91,10 +136,211 @@ export const caseStudies: CaseStudy[] = [
     featured: true,
     webpage: "https://drlumban.com/",
     details: {
-      summary: {
-        es: "Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus leo eu aenean sed diam urna tempor pulvinar vivamus fringilla lacus nec metus bibendum egestas iaculis massa nisl malesuada lacinia integer nunc posuere ut hendrerit.",
-        en: "Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus leo eu aenean sed diam urna tempor pulvinar vivamus fringilla lacus nec metus bibendum egestas iaculis massa nisl malesuada lacinia integer nunc posuere ut hendrerit.",
+      hideCoverImage: true,
+      headline: {
+        es: "Dr. Jaime Lumbán: Otorrinolaringólogo con más de 33 años de experiencia buscaba renovar su presencia digital.",
+        en: "Dr. Jaime Lumbán: an ENT specialist with more than 33 years of experience looking to renew his digital presence.",
       },
+      services: [
+        { es: "Rebranding", en: "Rebranding" },
+        { es: "Diseño web", en: "Web design" },
+        { es: "Diseño y producción para redes sociales", en: "Social media design & production" },
+      ],
+      summary: {
+        es: "Especialista en rinoplastia y otorrinolaringología, el Dr. Jaime Lumbán destaca por sus más de 33 años de trayectoria y la preferencia de sus pacientes.",
+        en: "A specialist in rhinoplasty and otolaryngology, Dr. Jaime Lumbán stands out for his more than 33 years of experience and his patients' loyalty.",
+      },
+      briefingParagraphs: [
+        {
+          es: "Especialista en rinoplastia y otorrinolaringología, el Dr. Jaime Lumbán destaca por sus más de 33 años de trayectoria y la preferencia de sus pacientes.",
+          en: "A specialist in rhinoplasty and otolaryngology, Dr. Jaime Lumbán stands out for his more than 33 years of experience and his patients' loyalty.",
+        },
+        {
+          es: "Buscaba ser la mejor versión de sí mismo para competir y posicionarse con otros otorrinolaringólogos.",
+          en: "He wanted to become the best version of himself to compete and position himself among other ENT specialists.",
+        },
+        {
+          es: "Proyectar una imagen de vanguardia y trayectoria.",
+          en: "Project an image of innovation and experience.",
+        },
+        {
+          es: "Unificar su imagen, consultorio, sitio web y redes sociales para lograr armonía y situarse como un mayor referente.",
+          en: "Unify his image, practice, website, and social media to achieve harmony and position himself as a leading reference.",
+        },
+      ],
+      sections: [
+        {
+          heading: { es: "Antes y después", en: "Before and after" },
+          paragraphs: [],
+          images: [
+            {
+              src: "/projects/lumban/before.webp",
+              alt: {
+                es: "Antes: sitio web anterior del Dr. Jaime Lumbán",
+                en: "Before: Dr. Jaime Lumbán's previous website",
+              },
+              label: { es: "Antes", en: "Before" },
+            },
+            {
+              src: "/projects/lumban/after.webp",
+              alt: {
+                es: "Después: nuevo sitio web del Dr. Jaime Lumbán",
+                en: "After: Dr. Jaime Lumbán's new website",
+              },
+              label: { es: "Después", en: "After" },
+            },
+          ],
+        },
+        {
+          heading: {
+            es: "Antes y después: página de perfil",
+            en: "Before and after: profile page",
+          },
+          paragraphs: [],
+          images: [
+            {
+              src: "/projects/lumban/before-profile.webp",
+              alt: {
+                es: "Antes: página de perfil anterior del Dr. Jaime Lumbán",
+                en: "Before: Dr. Jaime Lumbán's previous profile page",
+              },
+              label: { es: "Antes", en: "Before" },
+            },
+            {
+              src: "/projects/lumban/after-profile1.webp",
+              hoverSrc: "/projects/lumban/after-profile2.webp",
+              alt: {
+                es: "Después: nueva página de perfil del Dr. Jaime Lumbán",
+                en: "After: Dr. Jaime Lumbán's new profile page",
+              },
+              hoverAlt: {
+                es: "La nueva página de perfil continúa con más contenido al hacer scroll",
+                en: "The new profile page continues with more content further down",
+              },
+              label: { es: "Después", en: "After" },
+            },
+          ],
+        },
+        {
+          heading: {
+            es: "Antes y después: branding",
+            en: "Before and after: branding",
+          },
+          paragraphs: [],
+          beforeAfter: {
+            before: [
+              {
+                src: "/projects/lumban/before-branding.webp",
+                width: 583,
+                height: 446,
+                alt: {
+                  es: "Antes: logotipo anterior del Dr. Jaime Lumbán",
+                  en: "Before: Dr. Jaime Lumbán's previous logo",
+                },
+              },
+              {
+                src: "/projects/lumban/before-branding2.webp",
+                width: 1225,
+                height: 913,
+                alt: {
+                  es: "Antes: paleta de colores anterior",
+                  en: "Before: previous color palette",
+                },
+              },
+            ],
+            after: [
+              {
+                src: "/projects/lumban/after-branding.webp",
+                width: 489,
+                height: 906,
+                alt: {
+                  es: "Después: brand board completo del Dr. Jaime Lumbán — logotipo, logo secundario, tipografías y paleta de colores",
+                  en: "After: Dr. Jaime Lumbán's full brand board — logo, secondary logo, typefaces, and color palette",
+                },
+              },
+            ],
+          },
+        },
+        {
+          heading: { es: "Sesión de fotos", en: "Photo session" },
+          paragraphs: [],
+          imagesAspect: "square",
+          imagesCols: 3,
+          images: [
+            {
+              src: "/projects/lumban/sesion-fotos/Lumb-0055.webp",
+              alt: {
+                es: "Sesión de fotos profesional del Dr. Jaime Lumbán, retrato en interiores",
+                en: "Professional photo session for Dr. Jaime Lumbán, indoor portrait",
+              },
+            },
+            {
+              src: "/projects/lumban/sesion-fotos/Lumb-0134.webp",
+              alt: {
+                es: "Sesión de fotos profesional del Dr. Jaime Lumbán",
+                en: "Professional photo session for Dr. Jaime Lumbán",
+              },
+            },
+            {
+              src: "/projects/lumban/sesion-fotos/Lumb-0202.webp",
+              alt: {
+                es: "Sesión de fotos profesional del Dr. Jaime Lumbán",
+                en: "Professional photo session for Dr. Jaime Lumbán",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Posts", en: "Posts" },
+          paragraphs: [],
+          imagesAspect: "square",
+          imagesCols: 3,
+          images: [
+            {
+              src: "/projects/lumban/POSTS/dr%20lumban%201.webp",
+              alt: {
+                es: "Post para redes sociales del Dr. Jaime Lumbán",
+                en: "Social media post for Dr. Jaime Lumbán",
+              },
+            },
+            {
+              src: "/projects/lumban/POSTS/lumban%202.webp",
+              alt: {
+                es: "Post para redes sociales del Dr. Jaime Lumbán",
+                en: "Social media post for Dr. Jaime Lumbán",
+              },
+            },
+            {
+              src: "/projects/lumban/POSTS/lumban%203.webp",
+              alt: {
+                es: "Post para redes sociales del Dr. Jaime Lumbán",
+                en: "Social media post for Dr. Jaime Lumbán",
+              },
+            },
+            {
+              src: "/projects/lumban/POSTS/lumban%204.webp",
+              alt: {
+                es: "Post para redes sociales del Dr. Jaime Lumbán",
+                en: "Social media post for Dr. Jaime Lumbán",
+              },
+            },
+            {
+              src: "/projects/lumban/POSTS/lumban%205.webp",
+              alt: {
+                es: "Post para redes sociales del Dr. Jaime Lumbán",
+                en: "Social media post for Dr. Jaime Lumbán",
+              },
+            },
+            {
+              src: "/projects/lumban/POSTS/lumban%206.webp",
+              alt: {
+                es: "Post para redes sociales del Dr. Jaime Lumbán",
+                en: "Social media post for Dr. Jaime Lumbán",
+              },
+            },
+          ],
+        },
+      ],
     },
   },
   {
@@ -121,10 +367,120 @@ export const caseStudies: CaseStudy[] = [
       role: { es: "Traumatólogo ortopedista", en: "Orthopedic traumatologist" },
     },
     details: {
+      hideCoverImage: true,
+      services: [
+        { es: "Web webapp", en: "Web webapp" },
+        { es: "Redes sociales", en: "Social media" },
+        { es: "Posicionamiento", en: "SEO positioning" },
+      ],
       summary: {
-        es: "Un traumatólogo ortopedista que buscaba un sitio web moderno y minimalista para diferenciarse de los sitios convencionales en el ámbito de la traumatología. Logramos un diseño profesional y sencillo.",
-        en: "An orthopedic traumatologist who wanted a modern, minimalist website to stand out from conventional sites in the field of traumatology. We achieved a professional, straightforward design.",
+        es: "Dr Ricardo Monge: Traumatólogo en Tijuana que buscaba elevar su marca personal y posicionamiento enfocada en la experiencia del paciente. Una página web intuitiva y accesible que facilitara la reserva directa de citas y centralizara recursos educativos como guías descargables, artículos y contenido educativo para sus redes sociales.",
+        en: "Dr. Ricardo Monge: an orthopedic traumatologist in Tijuana looking to elevate his personal brand and positioning with a focus on patient experience. An intuitive, accessible website that made booking appointments directly easy and centralized educational resources — downloadable guides, articles, and educational content for his social media.",
       },
+      sections: [
+        {
+          heading: { es: "Antes y después", en: "Before and after" },
+          paragraphs: [],
+          images: [
+            {
+              src: "/projects/monge/before.webp",
+              alt: {
+                es: "Antes: sitio web anterior del Dr. Ricardo Monge",
+                en: "Before: Dr. Ricardo Monge's previous website",
+              },
+              label: { es: "Antes", en: "Before" },
+            },
+            {
+              src: "/projects/monge/after.webp",
+              alt: {
+                es: "Después: nuevo sitio web del Dr. Ricardo Monge",
+                en: "After: Dr. Ricardo Monge's new website",
+              },
+              label: { es: "Después", en: "After" },
+            },
+          ],
+        },
+        {
+          heading: { es: "Guías para pacientes", en: "Patient guides" },
+          paragraphs: [
+            {
+              es: "El Dr. Monge nos compartió 5 guías descargables, con las que sus pacientes pueden prepararse antes de una consulta:",
+              en: "Dr. Monge shared 5 downloadable guides so his patients can prepare before a consultation:",
+            },
+            {
+              es: "Guía postoperatoria de Reemplazo total de rodilla",
+              en: "Total knee replacement post-op guide",
+            },
+            {
+              es: "Guía postoperatoria de artroscopia de rodilla",
+              en: "Knee arthroscopy post-op guide",
+            },
+            {
+              es: "Preparación para tu intervención quirúrgica",
+              en: "Preparing for your surgery",
+            },
+            {
+              es: "Guía postoperatoria de Reemplazo total de cadera",
+              en: "Total hip replacement post-op guide",
+            },
+            {
+              es: "Recomendaciones para una columna sana",
+              en: "Recommendations for a healthy spine",
+            },
+          ],
+          images: [
+            {
+              src: "/projects/monge/guias/page.webp",
+              alt: {
+                es: "Sección de guías para descargar en el sitio del Dr. Ricardo Monge",
+                en: "Downloadable guides section on Dr. Ricardo Monge's website",
+              },
+            },
+            {
+              src: "/projects/monge/guias/guia1.webp",
+              alt: {
+                es: "Guía en PDF: Recomendaciones para una columna sana",
+                en: "PDF guide: Recommendations for a healthy spine",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Contenido educativo", en: "Educational content" },
+          paragraphs: [
+            {
+              es: "Video educativo para redes sociales: dormir mal afecta huesos y músculos.",
+              en: "Educational social media video: sleeping poorly affects your bones and muscles.",
+            },
+          ],
+          video: "/videos/dormir%20mal%20afecta%20huesos%20y%20musculos_1.webm",
+        },
+        {
+          heading: { es: "Agenda tu cita", en: "Book your appointment" },
+          paragraphs: [
+            {
+              es: "Desarrollamos una webapp interna para que los pacientes agenden citas directamente en el consultorio del Dr. Monge.",
+              en: "We built an internal webapp so patients can book appointments directly at Dr. Monge's practice.",
+            },
+          ],
+          images: [
+            {
+              src: "/projects/monge/cita/agendar1.webp",
+              alt: {
+                es: "Webapp de agendado de citas del Dr. Ricardo Monge — información personal y tipo de consulta",
+                en: "Dr. Ricardo Monge's appointment-booking webapp — personal information and consultation type",
+              },
+            },
+            {
+              src: "/projects/monge/cita/agendar2.webp",
+              alt: {
+                es: "Webapp de agendado de citas del Dr. Ricardo Monge — selección de fecha",
+                en: "Dr. Ricardo Monge's appointment-booking webapp — date selection",
+              },
+            },
+          ],
+        },
+      ],
     },
   },
   {
@@ -150,10 +506,139 @@ export const caseStudies: CaseStudy[] = [
       role: { es: "Ginecóloga-obstetra", en: "OB/GYN" },
     },
     details: {
-      summary: {
-        es: "Una ginecóloga-obstetra feminista con más de 15 años de experiencia que quería crear un sitio web inclusivo y dinámico. Diseñamos una experiencia atractiva y reactiva que refleja su esencia y valores, permitiendo a sus pacientes una navegación agradable.",
-        en: "A feminist OB/GYN with more than 15 years of experience who wanted an inclusive, dynamic website. We designed an engaging, responsive experience that reflects her essence and values, giving her patients a pleasant navigation experience.",
+      hideCoverImage: true,
+      headline: {
+        es: "Dra. Cesia Borjón: Ginecóloga obstetra buscaba crear su marca personal en Tijuana.",
+        en: "Dr. Cesia Borjón: an OB/GYN looking to build her personal brand in Tijuana.",
       },
+      services: [
+        { es: "Branding", en: "Branding" },
+        { es: "Branding y diseño web", en: "Branding & web design" },
+        { es: "Logotipo", en: "Logo" },
+      ],
+      summary: {
+        es: "Originaria de Hermosillo Sonora, la Dra. Cesia Borjón buscaba dar el siguiente paso a consolidar su marca personal en Tijuana. El proyecto consistió en construir su identidad visual desde cero diseñando un logotipo único y distintivo y desarrollar una página web robusta, informativa y atractiva, pensada para ofrecer la mejor experiencia a sus pacientes.",
+        en: "Originally from Hermosillo, Sonora, Dr. Cesia Borjón wanted to take the next step in consolidating her personal brand in Tijuana. The project involved building her visual identity from scratch — designing a unique, distinctive logo — and developing a robust, informative, and appealing website designed to give her patients the best possible experience.",
+      },
+      sections: [
+        {
+          heading: { es: "Assets de marca", en: "Brand assets" },
+          paragraphs: [],
+          imagesCols: 3,
+          images: [
+            {
+              src: "/projects/cesia/assets/hoja%20membretada%202.webp",
+              alt: {
+                es: "Hoja membretada de la Dra. Cesia Borjón",
+                en: "Letterhead for Dr. Cesia Borjón",
+              },
+            },
+            {
+              src: "/projects/cesia/assets/papeleria%202.webp",
+              alt: {
+                es: "Papelería de marca de la Dra. Cesia Borjón — tarjetas de presentación",
+                en: "Dr. Cesia Borjón's brand stationery — business cards",
+              },
+            },
+            {
+              src: "/projects/cesia/assets/tarjeta%20de%20presentacion.webp",
+              alt: {
+                es: "Logotipo de la Dra. Cesia Borjón sobre fondo de marca",
+                en: "Dr. Cesia Borjón's logo on a brand-color background",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Branding", en: "Branding" },
+          paragraphs: [],
+          imagesCols: 2,
+          images: [
+            {
+              src: "/projects/cesia/branding/colores.webp",
+              alt: {
+                es: "Paleta de colores principal y secundaria de la Dra. Cesia Borjón",
+                en: "Dr. Cesia Borjón's primary and secondary color palette",
+              },
+            },
+            {
+              src: "/projects/cesia/branding/tipografia.webp",
+              alt: {
+                es: "Tipografías de marca de la Dra. Cesia Borjón",
+                en: "Dr. Cesia Borjón's brand typefaces",
+              },
+            },
+            {
+              src: "/projects/cesia/branding/feed.webp",
+              alt: {
+                es: "Plantillas de feed para redes sociales de la Dra. Cesia Borjón",
+                en: "Social media feed templates for Dr. Cesia Borjón",
+              },
+            },
+            {
+              src: "/projects/cesia/branding/historia.webp",
+              alt: {
+                es: "Plantillas de historias para redes sociales de la Dra. Cesia Borjón",
+                en: "Social media story templates for Dr. Cesia Borjón",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Consultorio", en: "Practice" },
+          paragraphs: [
+            {
+              es: "Sesión de fotos realizada desde cero en el consultorio de la Dra. Cesia Borjón.",
+              en: "A photo session shot from scratch at Dr. Cesia Borjón's practice.",
+            },
+          ],
+          imagesCols: 3,
+          images: [
+            {
+              src: "/projects/cesia/consultorio/52.webp",
+              alt: {
+                es: "Consultorio de la Dra. Cesia Borjón — pared con arte enmarcado",
+                en: "Dr. Cesia Borjón's practice — wall with framed art",
+              },
+            },
+            {
+              src: "/projects/cesia/consultorio/53.webp",
+              alt: {
+                es: "Consultorio de la Dra. Cesia Borjón",
+                en: "Dr. Cesia Borjón's practice",
+              },
+            },
+            {
+              src: "/projects/cesia/consultorio/57.webp",
+              alt: {
+                es: "Sala de exploración del consultorio de la Dra. Cesia Borjón",
+                en: "Exam room at Dr. Cesia Borjón's practice",
+              },
+            },
+            {
+              src: "/projects/cesia/consultorio/58.webp",
+              alt: {
+                es: "Consultorio de la Dra. Cesia Borjón",
+                en: "Dr. Cesia Borjón's practice",
+              },
+            },
+            {
+              src: "/projects/cesia/consultorio/59.webp",
+              alt: {
+                es: "Consultorio de la Dra. Cesia Borjón",
+                en: "Dr. Cesia Borjón's practice",
+              },
+            },
+            {
+              src: "/projects/cesia/consultorio/60.webp",
+              alt: {
+                es: "Consultorio de la Dra. Cesia Borjón",
+                en: "Dr. Cesia Borjón's practice",
+              },
+            },
+          ],
+        },
+      ],
     },
   },
   {

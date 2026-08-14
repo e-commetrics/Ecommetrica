@@ -137,14 +137,10 @@ export type Dict = {
   workPage: { metaDescription: string; keywords: string[]; headline: string };
   workDetail: {
     back: string;
+    briefing: string;
     visitSite: string;
-    watchVideo: string;
-    closeVideo: string;
     client: string;
     year: string;
-    services: string;
-    testimonial: string;
-    testimonialAria: (author: string) => string;
   };
   blogPage: {
     metaDescription: string;
@@ -459,14 +455,10 @@ export const dict: Record<Lang, Dict> = {
     },
     workDetail: {
       back: "Volver a trabajo",
+      briefing: "Briefing del proyecto",
       visitSite: "Ver sitio",
-      watchVideo: "Ver video",
-      closeVideo: "Cerrar video",
       client: "Cliente",
       year: "Año",
-      services: "Servicios",
-      testimonial: "Testimonial",
-      testimonialAria: (author) => `Video testimonial de ${author}`,
     },
     blogPage: {
       metaDescription: "Estrategia, tecnología y marketing digital desde Ecommetrica.",
@@ -851,14 +843,10 @@ export const dict: Record<Lang, Dict> = {
     },
     workDetail: {
       back: "Back to work",
+      briefing: "Project briefing",
       visitSite: "Visit site",
-      watchVideo: "Watch video",
-      closeVideo: "Close video",
       client: "Client",
       year: "Year",
-      services: "Services",
-      testimonial: "Testimonial",
-      testimonialAria: (author) => `Video testimonial from ${author}`,
     },
     blogPage: {
       metaDescription: "Strategy, technology, and digital marketing from Ecommetrica.",

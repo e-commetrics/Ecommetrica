@@ -207,7 +207,7 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
               </span>
             </h2>
 
-            <div className="mt-12 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-10">
+            <div className="mt-12 grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:gap-x-10">
               {categoryProjects.map((project) => (
                 <ProjectCard
                   key={project.slug}
