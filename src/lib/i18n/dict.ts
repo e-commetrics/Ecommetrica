@@ -141,6 +141,9 @@ export type Dict = {
     visitSite: string;
     client: string;
     year: string;
+    imageClose: string;
+    imageNext: string;
+    imagePrevious: string;
   };
   blogPage: {
     metaDescription: string;
@@ -459,6 +462,9 @@ export const dict: Record<Lang, Dict> = {
       visitSite: "Ver sitio",
       client: "Cliente",
       year: "Año",
+      imageClose: "Cerrar imagen",
+      imageNext: "Imagen siguiente",
+      imagePrevious: "Imagen anterior",
     },
     blogPage: {
       metaDescription: "Estrategia, tecnología y marketing digital desde Ecommetrica.",
@@ -847,6 +853,9 @@ export const dict: Record<Lang, Dict> = {
       visitSite: "Visit site",
       client: "Client",
       year: "Year",
+      imageClose: "Close image",
+      imageNext: "Next image",
+      imagePrevious: "Previous image",
     },
     blogPage: {
       metaDescription: "Strategy, technology, and digital marketing from Ecommetrica.",

@@ -1,8 +1,11 @@
 "use client";
 
+import { useState } from "react";
+import { AnimatePresence } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import Lightbox, { type LightboxImage } from "@/components/Lightbox";
 import { categoryLabel, getProjectVideo, type CaseStudy } from "@/lib/work";
 import { getDict } from "@/lib/i18n/dict";
 import { localizedHref } from "@/lib/i18n/localizedHref";
@@ -22,6 +25,14 @@ export default function CaseStudyDetail({
   const coverImageAlt = (details?.heroImage ? details.heroImageAlt?.[lang] : project.imageAlt?.[lang]) ?? project.name;
   const heroVideo = getProjectVideo(project);
   const heroVideoAvailable = useVideoAvailable(heroVideo);
+
+  // Click any image (cover, section grids, before/after, gallery) to open it
+  // full-screen. `images` scopes prev/next navigation to whatever group was
+  // clicked — e.g. one section's grid, not every image on the page.
+  const [lightbox, setLightbox] = useState<{ images: LightboxImage[]; index: number } | null>(null);
+  function openLightbox(images: LightboxImage[], index: number) {
+    setLightbox({ images, index });
+  }
 
   return (
     <div className="pb-20 lg:pb-28">
@@ -147,7 +158,14 @@ export default function CaseStudyDetail({
 
         {coverImage && (
           <Reveal className="relative mt-12 aspect-video w-full overflow-hidden rounded-2xl bg-ecom-ink/10 shadow-[0_30px_80px_-40px_rgba(18,18,19,0.65)] ring-1 ring-ecom-ink/10">
-            <Image src={coverImage} alt={coverImageAlt} title={coverImageAlt} fill className="object-contain" />
+            <button
+              type="button"
+              aria-label={coverImageAlt}
+              onClick={() => openLightbox([{ src: coverImage, alt: coverImageAlt }], 0)}
+              className="absolute inset-0 h-full w-full cursor-zoom-in"
+            >
+              <Image src={coverImage} alt={coverImageAlt} title={coverImageAlt} fill className="object-contain" />
+            </button>
           </Reveal>
         )}
 
@@ -200,13 +218,22 @@ export default function CaseStudyDetail({
                   delay={0.2}
                   className="relative mt-10 aspect-video w-full overflow-hidden rounded-2xl bg-ecom-ink/10 shadow-[0_30px_80px_-40px_rgba(18,18,19,0.65)] ring-1 ring-ecom-ink/10"
                 >
-                  <Image
-                    src={images[0].src}
-                    alt={images[0].alt?.[lang] ?? heading}
-                    title={images[0].alt?.[lang] ?? heading}
-                    fill
-                    className="object-contain"
-                  />
+                  <button
+                    type="button"
+                    aria-label={images[0].alt?.[lang] ?? heading}
+                    onClick={() =>
+                      openLightbox([{ src: images[0].src, alt: images[0].alt?.[lang] ?? heading }], 0)
+                    }
+                    className="absolute inset-0 h-full w-full cursor-zoom-in"
+                  >
+                    <Image
+                      src={images[0].src}
+                      alt={images[0].alt?.[lang] ?? heading}
+                      title={images[0].alt?.[lang] ?? heading}
+                      fill
+                      className="object-contain"
+                    />
+                  </button>
                 </Reveal>
               )}
               {!section.video && images.length > 1 && (
@@ -218,66 +245,88 @@ export default function CaseStudyDetail({
                       : "mt-10 grid gap-6 sm:grid-cols-2"
                   }
                 >
-                  {images.map((image, i) => (
-                    <div
-                      key={image.src}
-                      className={`group relative w-full overflow-hidden rounded-2xl bg-ecom-ink/10 shadow-[0_30px_70px_-30px_rgba(18,18,19,0.45)] ring-1 ring-ecom-ink/10 ${
-                        section.imagesAspect === "square" ? "aspect-square" : "aspect-4/3"
-                      }`}
-                    >
-                      <Image
-                        src={image.src}
-                        alt={image.alt?.[lang] ?? `${heading} ${i + 1}`}
-                        title={image.alt?.[lang] ?? `${heading} ${i + 1}`}
-                        fill
-                        className={`object-contain transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                          image.hoverSrc
-                            ? "group-hover:opacity-0"
-                            : "group-hover:scale-105"
+                  {(() => {
+                    const lightboxImages: LightboxImage[] = images.map((image, i) => ({
+                      src: image.src,
+                      alt: image.alt?.[lang] ?? `${heading} ${i + 1}`,
+                    }));
+                    return images.map((image, i) => (
+                      <button
+                        key={image.src}
+                        type="button"
+                        aria-label={lightboxImages[i].alt}
+                        onClick={() => openLightbox(lightboxImages, i)}
+                        className={`group relative w-full cursor-zoom-in overflow-hidden rounded-2xl bg-ecom-ink/10 shadow-[0_30px_70px_-30px_rgba(18,18,19,0.45)] ring-1 ring-ecom-ink/10 ${
+                          section.imagesAspect === "square" ? "aspect-square" : "aspect-4/3"
                         }`}
-                      />
-                      {image.hoverSrc && (
+                      >
                         <Image
-                          src={image.hoverSrc}
-                          alt={image.hoverAlt?.[lang] ?? image.alt?.[lang] ?? `${heading} ${i + 1}`}
-                          title={image.hoverAlt?.[lang] ?? image.alt?.[lang] ?? `${heading} ${i + 1}`}
-                          fill
-                          className="object-contain opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:opacity-100"
-                        />
-                      )}
-                      {image.label && (
-                        <div className="absolute inset-0 flex items-end bg-ecom-black/0 p-5 opacity-0 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:bg-ecom-black/40 group-hover:opacity-100">
-                          <span className="rounded-full bg-white/95 px-4 py-1.5 text-sm font-medium uppercase tracking-widest text-ecom-black">
-                            {image.label[lang]}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </Reveal>
-              )}
-              {section.beforeAfter && (
-                <Reveal delay={0.2} className="mt-10 grid gap-6 sm:grid-cols-2">
-                  {([
-                    ["before", section.beforeAfter.before],
-                    ["after", section.beforeAfter.after],
-                  ] as const).map(([side, sideImages]) => (
-                    <div key={side} className="flex flex-col gap-6">
-                      {sideImages.map((image) => (
-                        <Image
-                          key={image.src}
                           src={image.src}
-                          alt={image.alt?.[lang] ?? heading}
-                          title={image.alt?.[lang] ?? heading}
-                          width={image.width}
-                          height={image.height}
-                          className="h-auto w-full rounded-2xl shadow-[0_30px_70px_-30px_rgba(18,18,19,0.45)] ring-1 ring-ecom-ink/10"
+                          alt={lightboxImages[i].alt}
+                          title={lightboxImages[i].alt}
+                          fill
+                          className={`object-contain transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                            image.hoverSrc
+                              ? "group-hover:opacity-0"
+                              : "group-hover:scale-105"
+                          }`}
                         />
-                      ))}
-                    </div>
-                  ))}
+                        {image.hoverSrc && (
+                          <Image
+                            src={image.hoverSrc}
+                            alt={image.hoverAlt?.[lang] ?? lightboxImages[i].alt}
+                            title={image.hoverAlt?.[lang] ?? lightboxImages[i].alt}
+                            fill
+                            className="object-contain opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:opacity-100"
+                          />
+                        )}
+                        {image.label && (
+                          <div className="absolute inset-0 flex items-end bg-ecom-black/0 p-5 opacity-0 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:bg-ecom-black/40 group-hover:opacity-100">
+                            <span className="rounded-full bg-white/95 px-4 py-1.5 text-sm font-medium uppercase tracking-widest text-ecom-black">
+                              {image.label[lang]}
+                            </span>
+                          </div>
+                        )}
+                      </button>
+                    ));
+                  })()}
                 </Reveal>
               )}
+              {section.beforeAfter && (() => {
+                const beforeAfterImages: LightboxImage[] = [
+                  ...section.beforeAfter.before,
+                  ...section.beforeAfter.after,
+                ].map((image) => ({ src: image.src, alt: image.alt?.[lang] ?? heading }));
+                return (
+                  <Reveal delay={0.2} className="mt-10 grid gap-6 sm:grid-cols-2">
+                    {([
+                      ["before", section.beforeAfter.before, 0],
+                      ["after", section.beforeAfter.after, section.beforeAfter.before.length],
+                    ] as const).map(([side, sideImages, offset]) => (
+                      <div key={side} className="flex flex-col gap-6">
+                        {sideImages.map((image, i) => (
+                          <button
+                            key={image.src}
+                            type="button"
+                            aria-label={beforeAfterImages[offset + i].alt}
+                            onClick={() => openLightbox(beforeAfterImages, offset + i)}
+                            className="cursor-zoom-in"
+                          >
+                            <Image
+                              src={image.src}
+                              alt={beforeAfterImages[offset + i].alt}
+                              title={beforeAfterImages[offset + i].alt}
+                              width={image.width}
+                              height={image.height}
+                              className="h-auto w-full rounded-2xl shadow-[0_30px_70px_-30px_rgba(18,18,19,0.45)] ring-1 ring-ecom-ink/10"
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    ))}
+                  </Reveal>
+                );
+              })()}
             </div>
           );
         })}
@@ -292,19 +341,46 @@ export default function CaseStudyDetail({
           </ul>
         )}
 
-        {details?.gallery && details.gallery.length > 0 && (
-          <div className="mt-12 grid gap-6 sm:grid-cols-2">
-            {details.gallery.map((src) => (
-              <div
-                key={src}
-                className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-ecom-ink/10 shadow-[0_30px_70px_-30px_rgba(18,18,19,0.45)] ring-1 ring-ecom-ink/10"
-              >
-                <Image src={src} alt={project.name} fill className="object-contain" />
-              </div>
-            ))}
-          </div>
-        )}
+        {details?.gallery && details.gallery.length > 0 && (() => {
+          const galleryImages: LightboxImage[] = details.gallery.map((src) => ({ src, alt: project.name }));
+          return (
+            <div className="mt-12 grid gap-6 sm:grid-cols-2">
+              {details.gallery.map((src, i) => (
+                <button
+                  key={src}
+                  type="button"
+                  aria-label={project.name}
+                  onClick={() => openLightbox(galleryImages, i)}
+                  className="relative aspect-4/3 w-full cursor-zoom-in overflow-hidden rounded-2xl bg-ecom-ink/10 shadow-[0_30px_70px_-30px_rgba(18,18,19,0.45)] ring-1 ring-ecom-ink/10"
+                >
+                  <Image src={src} alt={project.name} fill className="object-contain" />
+                </button>
+              ))}
+            </div>
+          );
+        })()}
       </div>
+
+      <AnimatePresence>
+        {lightbox && (
+          <Lightbox
+            images={lightbox.images}
+            index={lightbox.index}
+            onClose={() => setLightbox(null)}
+            onNext={() =>
+              setLightbox((s) => s && { ...s, index: (s.index + 1) % s.images.length })
+            }
+            onPrev={() =>
+              setLightbox((s) => s && { ...s, index: (s.index - 1 + s.images.length) % s.images.length })
+            }
+            labels={{
+              close: t.workDetail.imageClose,
+              next: t.workDetail.imageNext,
+              previous: t.workDetail.imagePrevious,
+            }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
