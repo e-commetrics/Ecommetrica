@@ -55,7 +55,10 @@ function ProjectCard({
       aria-label={`${project.name} — ${project.external ? visitSiteLabel : viewProjectLabel}`}
       className="group flex flex-col"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-ecom-ink/10">
+      {/* 2:1 roughly matches the screenshots' native ratio, so object-cover trims a
+          few percent instead of slicing off the sides — same ratio as the homepage
+          (SelectWork.tsx), so a project's card looks the same crop on both pages. */}
+      <div className="relative aspect-2/1 w-full overflow-hidden rounded-2xl bg-ecom-ink/10">
         {project.image && (
           <Image
             src={project.image}

@@ -664,6 +664,176 @@ export const caseStudies: CaseStudy[] = [
     },
   },
 
+  {
+    slug: "enrique-ciapara",
+    name: "Enrique Ciapara",
+    category: "Other",
+    description: {
+      es: "Enrique Ciapara es un pintor tijuanense (n. 1972) con más de tres décadas de trayectoria, exhibido en el Centro Cultural Tijuana y el Museum of Contemporary Art San Diego. Buscaba un sitio que reuniera las distintas etapas de su obra —de sus archivos más antiguos a sus series recientes— en un solo espacio navegable, disponible en cuatro idiomas.",
+      en: "Enrique Ciapara is a Tijuana-based painter (b. 1972) with more than three decades of work, exhibited at the Centro Cultural Tijuana and the Museum of Contemporary Art San Diego. He wanted a site that brought the different chapters of his work — from his earliest archives to his most recent series — into one browsable space, available in four languages.",
+    },
+    image: "/projects/enrique-ciapara.webp",
+    imageAlt: {
+      es: "Ecommetrica diseñó y desarrolló el sitio web multilingüe del pintor Enrique Ciapara en Tijuana",
+      en: "Ecommetrica designed and built painter Enrique Ciapara's multilingual website in Tijuana",
+    },
+    featured: true,
+    webpage: "https://enriqueciapara.com",
+    details: {
+      hideCoverImage: true,
+      headline: {
+        es: "Enrique Ciapara: Página web y portafolio artístico",
+        en: "Enrique Ciapara: Website and Artist Portfolio",
+      },
+      services: [
+        { es: "Branding", en: "Branding" },
+        { es: "Logotipo", en: "Logo" },
+        { es: "Diseño web", en: "Web design" },
+        { es: "Portafolio", en: "Portfolio" },
+      ],
+      summary: {
+        es: "Enrique Ciapara es un artista plástico basado en Tijuana. Creamos una experiencia web tipo galería. El proyecto consistió en crear un branding de línea minimalista y sobria. La plataforma permite apreciar la totalidad de su obra en alta resolución, además de presentar su trayectoria, CV y colaboraciones destacadas.",
+        en: "Enrique Ciapara is a visual artist based in Tijuana. We created a gallery-style web experience. The project involved developing a minimalist, understated brand identity. The platform lets visitors appreciate the full body of his work in high resolution, alongside his career trajectory, CV, and notable collaborations.",
+      },
+      sections: [
+        {
+          heading: { es: "Branding", en: "Branding" },
+          paragraphs: [],
+          imagesCols: 2,
+          images: [
+            {
+              src: "/projects/ciapara/branding.png",
+              alt: {
+                es: "Logotipo de Enrique Ciapara en positivo y negativo",
+                en: "Enrique Ciapara's logo in reversed and standard color",
+              },
+            },
+            {
+              src: "/projects/ciapara/branding2.png",
+              alt: {
+                es: "Tipografías (Montserrat, Raleway, Helvetica) y paleta de colores de la marca de Enrique Ciapara",
+                en: "Typefaces (Montserrat, Raleway, Helvetica) and color palette for Enrique Ciapara's brand",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Retratos", en: "Portraits" },
+          paragraphs: [],
+          imagesAspect: "square",
+          imagesCols: 3,
+          images: [
+            {
+              src: "/projects/ciapara/retratos/enrique_ciapara_03aa.jpg",
+              alt: {
+                es: "Enrique Ciapara maniobrando un sillón en su estudio en Tijuana",
+                en: "Enrique Ciapara arranging a chair in his studio in Tijuana",
+              },
+            },
+            {
+              src: "/projects/ciapara/retratos/d8d0169e-d3e2-41b3-bf33-fb0acbf26d57.JPG",
+              alt: {
+                es: "Retrato de Enrique Ciapara junto a una de sus obras",
+                en: "Portrait of Enrique Ciapara next to one of his paintings",
+              },
+            },
+            {
+              src: "/projects/ciapara/retratos/d8d0169e-d3e2-41b3-bf33-fb0acbf26d57-bw.jpg",
+              alt: {
+                es: "Retrato de Enrique Ciapara junto a una de sus obras, en blanco y negro",
+                en: "Portrait of Enrique Ciapara next to one of his paintings, in black and white",
+              },
+            },
+            {
+              src: "/projects/ciapara/retratos/P9260255.JPG",
+              alt: {
+                es: "Enrique Ciapara observando una serie de piezas terminadas en su estudio",
+                en: "Enrique Ciapara looking at a series of finished pieces in his studio",
+              },
+            },
+            {
+              src: "/projects/ciapara/retratos/IMG_0013.jpg",
+              alt: {
+                es: "Enrique Ciapara en su estudio, junto a su perro",
+                en: "Enrique Ciapara in his studio, with his dog",
+              },
+            },
+            {
+              src: "/projects/ciapara/retratos/DSC_1043.JPG",
+              alt: {
+                es: "Enrique Ciapara en su estudio de Tijuana, 2010",
+                en: "Enrique Ciapara in his Tijuana studio, 2010",
+              },
+            },
+            {
+              src: "/projects/ciapara/retratos/DSC_1044.JPG",
+              alt: {
+                es: "Enrique Ciapara hablando por teléfono en su estudio de Tijuana, 2010",
+                en: "Enrique Ciapara on the phone in his Tijuana studio, 2010",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Fotografía", en: "Photography" },
+          paragraphs: [],
+          imagesCols: 3,
+          images: [
+            {
+              src: "/projects/ciapara/fotografia/poster.jpg",
+              alt: {
+                es: "Cartel de la exposición 'Trompe l'oeil', obra reciente de Enrique Ciapara — Centro Cultural Tijuana, El Cubo, junio 2013",
+                en: "Poster for the 'Trompe l'oeil' exhibition, recent work by Enrique Ciapara — Centro Cultural Tijuana, El Cubo, June 2013",
+              },
+            },
+            {
+              src: "/projects/ciapara/fotografia/sala.jpg",
+              alt: {
+                es: "Vista de sala de la exposición 'Trompe l'oeil' en El Cubo, Sala 3, CECUT",
+                en: "Gallery view of the 'Trompe l'oeil' exhibition at El Cubo, Sala 3, CECUT",
+              },
+            },
+            {
+              src: "/projects/ciapara/fotografia/detalle.jpg",
+              alt: {
+                es: "Detalle de la exposición 'Trompe l'oeil' — pintura y collage sobre papel",
+                en: "Detail from the 'Trompe l'oeil' exhibition — painting and paper collage",
+              },
+            },
+            {
+              src: "/projects/ciapara/fotografia/texto-sala.jpg",
+              alt: {
+                es: "Texto de agradecimientos de la exposición 'Trompe l'oeil', El Cubo, Sala 3",
+                en: "Acknowledgments text from the 'Trompe l'oeil' exhibition, El Cubo, Sala 3",
+              },
+            },
+            {
+              src: "/projects/ciapara/fotografia/mural.jpg",
+              alt: {
+                es: "Pieza mural de la exposición 'Trompe l'oeil'",
+                en: "Mural piece from the 'Trompe l'oeil' exhibition",
+              },
+            },
+            {
+              src: "/projects/ciapara/fotografia/DORMIDO.jpg",
+              alt: {
+                es: "Dormido, pieza de la exposición 'Trompe l'oeil'",
+                en: "Dormido, piece from the 'Trompe l'oeil' exhibition",
+              },
+            },
+            {
+              src: "/projects/ciapara/fotografia/edited-photo.jpg",
+              alt: {
+                es: "Estudio del artista",
+                en: "The artist's studio",
+              },
+            },
+          ],
+        },
+      ],
+    },
+  },
+
   // --- Dental ---------------------------------------------------------------
   {
     slug: "bites",
