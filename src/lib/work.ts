@@ -900,6 +900,173 @@ export const caseStudies: CaseStudy[] = [
     },
     featured: true,
     webpage: "https://palmasrecovery.com",
+    details: {
+      hideCoverImage: true,
+      headline: {
+        es: "Palmas Recovery: Rebranding y página web elegante y web app de reservas directas",
+        en: "Palmas Recovery: Rebranding, an Elegant Website, and a Direct Booking Web App",
+      },
+      services: [
+        { es: "Rebranding", en: "Rebranding" },
+        { es: "Web app", en: "Web app" },
+        { es: "Diseño web", en: "Web design" },
+        { es: "Logotipo", en: "Logo" },
+        { es: "Redes sociales", en: "Social media" },
+      ],
+      summary: {
+        es: "Transformamos la presencia digital de Palmas Recovery, referente en cuidados postoperatorios en Tijuana. Para reflejar el nivel de cuidado y confort de sus instalaciones, renovamos su imagen hacia un concepto más sofisticado y desarrollamos una plataforma web interactiva. Ahora, los pacientes pueden explorar la clínica mediante tours 360° y reservar su estancia directamente. En cuanto a las redes sociales, se realizó una línea editorial educativa enfocada en orientar al paciente durante su recuperación y atraer alianzas estratégicas con cirujanos y clínicas.",
+        en: "We transformed Palmas Recovery's digital presence, a leading name in post-operative care in Tijuana. To reflect the level of care and comfort of its facilities, we renewed its image toward a more sophisticated concept and developed an interactive web platform. Patients can now explore the clinic through 360° tours and book their stay directly. For social media, we built an educational editorial line focused on guiding patients through their recovery and attracting strategic partnerships with surgeons and clinics.",
+      },
+      sections: [
+        {
+          heading: { es: "Antes y después", en: "Before and after" },
+          paragraphs: [],
+          images: [
+            {
+              src: "/projects/palmas/oldpage.png",
+              alt: {
+                es: "Antes: sitio web anterior de Palmas Recovery",
+                en: "Before: Palmas Recovery's previous website",
+              },
+              label: { es: "Antes", en: "Before" },
+            },
+            {
+              src: "/projects/palmas/newpage.png",
+              alt: {
+                es: "Después: nuevo sitio web de Palmas Recovery",
+                en: "After: Palmas Recovery's new website",
+              },
+              label: { es: "Después", en: "After" },
+            },
+          ],
+        },
+        {
+          heading: { es: "Assets de marca", en: "Brand assets" },
+          paragraphs: [],
+          imagesCols: 3,
+          images: [
+            {
+              src: "/projects/palmas/branding/logo-principal.jpg",
+              alt: {
+                es: "Logotipo principal de Palmas Recovery",
+                en: "Palmas Recovery's primary logo",
+              },
+            },
+            {
+              src: "/projects/palmas/branding/logo-secundario.jpg",
+              alt: {
+                es: "Logotipo secundario (monograma) de Palmas Recovery",
+                en: "Palmas Recovery's secondary logo (monogram)",
+              },
+            },
+            {
+              src: "/projects/palmas/branding/isotipo.jpg",
+              alt: {
+                es: "Isotipo de Palmas Recovery",
+                en: "Palmas Recovery's icon mark",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Branding", en: "Branding" },
+          paragraphs: [],
+          imagesCols: 2,
+          images: [
+            {
+              src: "/projects/palmas/branding/colores.webp",
+              alt: {
+                es: "Paleta de colores de la marca de Palmas Recovery",
+                en: "Palmas Recovery's brand color palette",
+              },
+            },
+            {
+              src: "/projects/palmas/branding/tipografia.webp",
+              alt: {
+                es: "Tipografías de marca de Palmas Recovery",
+                en: "Palmas Recovery's brand typefaces",
+              },
+            },
+            {
+              src: "/projects/palmas/branding/uso-de-colores.webp",
+              alt: {
+                es: "Uso de colores del logotipo de Palmas Recovery",
+                en: "Color usage for Palmas Recovery's logo",
+              },
+            },
+            {
+              src: "/projects/palmas/branding/feed.webp",
+              alt: {
+                es: "Plantillas de feed para redes sociales de Palmas Recovery",
+                en: "Social media feed templates for Palmas Recovery",
+              },
+            },
+            {
+              src: "/projects/palmas/branding/historia.webp",
+              alt: {
+                es: "Plantillas de historias para redes sociales de Palmas Recovery",
+                en: "Social media story templates for Palmas Recovery",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Contenido educativo", en: "Educational content" },
+          paragraphs: [
+            {
+              es: "Carrusel para redes sociales: qué esperar semana a semana en la recuperación de un mommy makeover.",
+              en: "Social media carousel: what to expect week by week during mommy makeover recovery.",
+            },
+          ],
+          imagesAspect: "square",
+          imagesCols: 3,
+          images: [
+            {
+              src: "/projects/palmas/mommy-makeover/cover.jpg",
+              alt: {
+                es: "Portada del carrusel: ¿Cómo es el proceso de recuperación de un mommy makeover?",
+                en: "Carousel cover: What does a mommy makeover recovery process look like?",
+              },
+            },
+            {
+              src: "/projects/palmas/mommy-makeover/week-1.jpg",
+              alt: {
+                es: "Semana 1: la prioridad es sanar",
+                en: "Week 1: priority #1 is healing",
+              },
+            },
+            {
+              src: "/projects/palmas/mommy-makeover/week-2.jpg",
+              alt: {
+                es: "Semana 2: encontrando tu ritmo",
+                en: "Week 2: finding your rhythm",
+              },
+            },
+            {
+              src: "/projects/palmas/mommy-makeover/week-3.jpg",
+              alt: {
+                es: "Semana 3: el cambio de energía",
+                en: "Week 3: the energy shift",
+              },
+            },
+            {
+              src: "/projects/palmas/mommy-makeover/week-4.jpg",
+              alt: {
+                es: "Semana 4: de vuelta a la (casi) normalidad",
+                en: "Week 4: back to (almost) normal",
+              },
+            },
+            {
+              src: "/projects/palmas/mommy-makeover/final.jpg",
+              alt: {
+                es: "Cierre del carrusel: guarda este post y reserva tu estancia",
+                en: "Carousel closing slide: save this post and book your stay",
+              },
+            },
+          ],
+        },
+      ],
+    },
   },
 
   // --- Industrial -----------------------------------------------------------
@@ -1027,7 +1194,7 @@ export const caseStudies: CaseStudy[] = [
       es: "Plataforma de análisis y métricas para e-commerce que buscaba un sitio web optimizado y profesional para destacar sus servicios y capacidades.",
       en: "An e-commerce analytics and metrics platform that wanted an optimized, professional website to showcase its services and capabilities.",
     },
-    image: "/projects/eommetrica.webp",
+    image: "/projects/e-commetrics.webp",
     webpage: "https://e-commetrics.com",
   },
 
