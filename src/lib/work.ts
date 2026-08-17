@@ -1286,6 +1286,126 @@ export const caseStudies: CaseStudy[] = [
     },
     featured: true,
     webpage: "https://gpeconsultores.com.mx",
+    details: {
+      hideCoverImage: true,
+      headline: {
+        es: "GPE: Despacho de abogados buscaba crear una imagen institucional y comenzar su presencia digital.",
+        en: "GPE: a law firm wanted to build an institutional image and begin its digital presence.",
+      },
+      services: [
+        { es: "Branding", en: "Branding" },
+        { es: "Diseño web", en: "Web design" },
+        { es: "Logotipo", en: "Logo" },
+        { es: "Página web", en: "Website" },
+      ],
+      summary: {
+        es: "Grupo de Planeación Empresarial buscaba crear una identidad visual que reflejara su trayectoria, experiencia y profesionalismo con un logotipo moderno y branding minimalista. Como parte del proyecto, también se creó una página web enfocada en comunicar de manera clara y estratégica las principales áreas de especialización del despacho, incluyendo desarrollo de negocios, asuntos legales y contabilidad.",
+        en: "Grupo de Planeación Empresarial wanted to build a visual identity that reflected its track record, experience, and professionalism through a modern logo and minimalist branding. As part of the project, we also built a website focused on clearly and strategically communicating the firm's main areas of specialization, including business development, legal affairs, and accounting.",
+      },
+      briefingParagraphs: [
+        {
+          es: "Grupo de Planeación Empresarial buscaba crear una identidad visual que reflejara su trayectoria, experiencia y profesionalismo con un logotipo moderno y branding minimalista. Como parte del proyecto, también se creó una página web enfocada en comunicar de manera clara y estratégica las principales áreas de especialización del despacho, incluyendo desarrollo de negocios, asuntos legales y contabilidad.",
+          en: "Grupo de Planeación Empresarial wanted to build a visual identity that reflected its track record, experience, and professionalism through a modern logo and minimalist branding. As part of the project, we also built a website focused on clearly and strategically communicating the firm's main areas of specialization, including business development, legal affairs, and accounting.",
+        },
+      ],
+      sections: [
+        {
+          heading: { es: "Logotipo", en: "Logo" },
+          paragraphs: [],
+          imagesCols: 3,
+          images: [
+            {
+              src: "/projects/gpe/branding/logo-negro.jpg",
+              alt: {
+                es: "Logotipo de GPE en negro, para uso sobre fondos claros",
+                en: "GPE's logo in black, for use on light backgrounds",
+              },
+            },
+            {
+              src: "/projects/gpe/branding/logo-principal.jpg",
+              alt: {
+                es: "Logotipo principal de GPE — isotipo naranja y wordmark blanco, para uso sobre fondos oscuros",
+                en: "GPE's primary logo — orange icon and white wordmark, for use on dark backgrounds",
+              },
+            },
+            {
+              src: "/projects/gpe/branding/logo-blanco.jpg",
+              alt: {
+                es: "Logotipo de GPE en blanco, para uso sobre fondos de color",
+                en: "GPE's logo in white, for use on colored backgrounds",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Manual de marca", en: "Brand manual" },
+          paragraphs: [],
+          images: [
+            {
+              src: "/projects/gpe/branding/manual-1.png",
+              alt: {
+                es: "Manual de marca de GPE — logotipo original vs. editado, retícula de isotipo y descripción de ajustes",
+                en: "GPE's brand manual — original vs. edited logo, icon grid, and adjustment notes",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Manual de marca: paleta de color", en: "Brand manual: color palette" },
+          paragraphs: [],
+          images: [
+            {
+              src: "/projects/gpe/branding/manual-2.webp",
+              alt: {
+                es: "Manual de marca de GPE — slogan, paleta de color y colorimetría básica",
+                en: "GPE's brand manual — slogan, color palette, and basic color usage",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Portada para redes sociales", en: "Social media cover" },
+          paragraphs: [],
+          images: [
+            {
+              src: "/projects/gpe/branding/portada-redes.png",
+              alt: {
+                es: "Portada para redes sociales de GPE, elaborada por Ecommetrica",
+                en: "Social media cover for GPE, made by Ecommetrica",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Sitio web", en: "Website" },
+          paragraphs: [],
+          imagesCols: 3,
+          images: [
+            {
+              src: "/projects/gpe/page/home.webp",
+              alt: {
+                es: "Página de inicio del sitio web de GPE",
+                en: "Homepage of GPE's website",
+              },
+            },
+            {
+              src: "/projects/gpe/page/servicios.webp",
+              alt: {
+                es: "Sección de servicios del sitio web de GPE",
+                en: "Services section on GPE's website",
+              },
+            },
+            {
+              src: "/projects/gpe/page/experiencia.webp",
+              alt: {
+                es: "Sección de experiencia del sitio web de GPE",
+                en: "Experience section on GPE's website",
+              },
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     slug: "syl-talento",
