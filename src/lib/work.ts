@@ -1085,6 +1085,118 @@ export const caseStudies: CaseStudy[] = [
     },
     featured: true,
     webpage: "https://diazconstructions.com",
+    details: {
+      hideCoverImage: true,
+      headline: {
+        es: "Diaz Construction: Contratistas generales en San Francisco buscaban renovación de identidad visual y página web.",
+        en: "Diaz Construction: general contractors in San Francisco looking to renew their visual identity and website.",
+      },
+      services: [
+        { es: "Diseño web", en: "Web design" },
+        { es: "Rebranding", en: "Rebranding" },
+        { es: "Logotipo", en: "Logo" },
+      ],
+      summary: {
+        es: "Reconocido en San Francisco y el Área de la Bahía por optimizar tiempos de entrega en un 60% sin comprometer calidad ni innovación, Díaz Construction buscaba renovar su imagen integral. Transformamos su identidad visual mediante un logotipo moderno y corporativo, acompañado de un sitio web diseñado para exhibir la excelencia de su trabajo.",
+        en: "Recognized across San Francisco and the Bay Area for cutting delivery times by 60% without compromising quality or innovation, Diaz Construction wanted to renew its overall image. We transformed its visual identity with a modern, corporate logo, paired with a website designed to showcase the excellence of its work.",
+      },
+      sections: [
+        {
+          heading: { es: "Antes y después: logotipo", en: "Before and after: logo" },
+          paragraphs: [],
+          beforeAfter: {
+            before: [
+              {
+                src: "/projects/diaz/branding/before-logo.png",
+                width: 355,
+                height: 171,
+                alt: {
+                  es: "Antes: logotipo anterior de Diaz Construction",
+                  en: "Before: Diaz Construction's previous logo",
+                },
+              },
+            ],
+            after: [
+              {
+                src: "/projects/diaz/branding/after-logo.png",
+                width: 2698,
+                height: 847,
+                alt: {
+                  es: "Después: nuevo logotipo de Diaz Construction por Ecommetrica",
+                  en: "After: Diaz Construction's new logo by Ecommetrica",
+                },
+              },
+            ],
+          },
+        },
+        {
+          heading: { es: "Antes y después", en: "Before and after" },
+          paragraphs: [],
+          images: [
+            {
+              src: "/projects/diaz/page/before-home.png",
+              alt: {
+                es: "Antes: página de inicio anterior de Diaz Construction",
+                en: "Before: Diaz Construction's previous homepage",
+              },
+              label: { es: "Antes", en: "Before" },
+            },
+            {
+              src: "/projects/diaz/page/after-about.jpg",
+              alt: {
+                es: "Después: nueva página de Diaz Construction",
+                en: "After: Diaz Construction's new page",
+              },
+              label: { es: "Después", en: "After" },
+            },
+          ],
+        },
+        {
+          heading: { es: "Antes y después: proyectos", en: "Before and after: projects" },
+          paragraphs: [],
+          images: [
+            {
+              src: "/projects/diaz/page/before-projects.png",
+              alt: {
+                es: "Antes: sección de trabajos anterior de Diaz Construction",
+                en: "Before: Diaz Construction's previous projects section",
+              },
+              label: { es: "Antes", en: "Before" },
+            },
+            {
+              src: "/projects/diaz/page/after-projects.png",
+              alt: {
+                es: "Después: nueva página de proyectos de Diaz Construction",
+                en: "After: Diaz Construction's new projects page",
+              },
+              label: { es: "Después", en: "After" },
+            },
+          ],
+        },
+        {
+          heading: { es: "Antes y después: acerca de", en: "Before and after: about" },
+          paragraphs: [],
+          images: [
+            {
+              src: "/projects/diaz/page/before-about.png",
+              alt: {
+                es: "Antes: sección del homepage anterior de Diaz Construction",
+                en: "Before: Diaz Construction's previous homepage section",
+              },
+              label: { es: "Antes", en: "Before" },
+            },
+            {
+              src: "/projects/diaz/page/after-about-section.jpg",
+              alt: {
+                es: "Después: nueva sección acerca de Diaz Construction",
+                en: "After: Diaz Construction's new about section",
+              },
+              label: { es: "Después", en: "After" },
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     slug: "carbonetics",
