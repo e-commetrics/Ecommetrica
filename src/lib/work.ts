@@ -1326,6 +1326,135 @@ export const caseStudies: CaseStudy[] = [
     },
     featured: true,
     webpage: "https://excellentiafoods.com",
+    details: {
+      hideCoverImage: true,
+      headline: {
+        es: "Excellentia Foods: Distribuidora de quesos y embutidos hispanos en San Diego, California buscaba renovar su imagen y tener una webapp de facturación.",
+        en: "Excellentia Foods: a distributor of Hispanic cheeses and cold cuts in San Diego, California wanted to renew its image and get an invoicing web app.",
+      },
+      services: [
+        { es: "Rebranding y diseño web", en: "Rebranding & web design" },
+        { es: "Logotipo", en: "Logo" },
+        { es: "Webapp invoice", en: "Invoicing web app" },
+      ],
+      summary: {
+        es: "Excellentia Foods es una distribuidora de quesos y embutidos hispanos en San Diego y el sur de California que buscaba renovar su identidad visual hacia un branding moderno y sofisticado, al tiempo que digitalizamos su operación interna con una aplicación propia encargada de integrar la facturación, la gestión de cartera de clientes y el control sistemático de inventarios.",
+        en: "Excellentia Foods is a distributor of Hispanic cheeses and cold cuts in San Diego and Southern California that wanted to renew its visual identity toward a modern, sophisticated brand, while we digitized its internal operations with a custom app handling invoicing, customer account management, and systematic inventory control.",
+      },
+      briefingParagraphs: [
+        {
+          es: "Excellentia Foods es una distribuidora de quesos y embutidos hispanos en San Diego y el sur de California que buscaba renovar su identidad visual hacia un branding moderno y sofisticado, al tiempo que digitalizamos su operación interna con una aplicación propia encargada de integrar la facturación, la gestión de cartera de clientes y el control sistemático de inventarios.",
+          en: "Excellentia Foods is a distributor of Hispanic cheeses and cold cuts in San Diego and Southern California that wanted to renew its visual identity toward a modern, sophisticated brand, while we digitized its internal operations with a custom app handling invoicing, customer account management, and systematic inventory control.",
+        },
+      ],
+      sections: [
+        {
+          heading: { es: "Antes y después: logotipo", en: "Before and after: logo" },
+          paragraphs: [],
+          beforeAfter: {
+            before: [
+              {
+                src: "/projects/excellentia/branding/before-logo.jpg",
+                width: 461,
+                height: 174,
+                alt: {
+                  es: "Antes: logotipo anterior de Excellentia Foods",
+                  en: "Before: Excellentia Foods' previous logo",
+                },
+              },
+            ],
+            after: [
+              {
+                src: "/projects/excellentia/branding/after-logo.jpg",
+                width: 3974,
+                height: 2228,
+                alt: {
+                  es: "Después: nuevo logotipo de Excellentia Foods por Ecommetrica",
+                  en: "After: Excellentia Foods' new logo by Ecommetrica",
+                },
+              },
+            ],
+          },
+        },
+        {
+          heading: { es: "Logotipo secundario", en: "Secondary logo" },
+          paragraphs: [],
+          imagesAspect: "square",
+          imagesCols: 3,
+          images: [
+            {
+              src: "/projects/excellentia/branding/logo-secundario-azul.jpg",
+              alt: {
+                es: "Logotipo secundario de Excellentia Foods sobre fondo azul",
+                en: "Excellentia Foods' secondary logo on a blue background",
+              },
+            },
+            {
+              src: "/projects/excellentia/branding/logo-secundario-guinda.jpg",
+              alt: {
+                es: "Logotipo secundario de Excellentia Foods sobre fondo guinda",
+                en: "Excellentia Foods' secondary logo on a maroon background",
+              },
+            },
+            {
+              src: "/projects/excellentia/branding/logo-secundario-verde.jpg",
+              alt: {
+                es: "Logotipo secundario de Excellentia Foods sobre fondo verde",
+                en: "Excellentia Foods' secondary logo on a green background",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Brand board", en: "Brand board" },
+          paragraphs: [],
+          images: [
+            {
+              src: "/projects/excellentia/branding/brandboard.webp",
+              alt: {
+                es: "Brand board completo de Excellentia Foods — logotipo, logo secundario, tipografías y paleta de colores",
+                en: "Excellentia Foods' full brand board — logo, secondary logo, typefaces, and color palette",
+              },
+            },
+          ],
+        },
+        {
+          heading: { es: "Sitio web", en: "Website" },
+          paragraphs: [],
+          imagesCols: 2,
+          images: [
+            {
+              src: "/projects/excellentia/page/home.png",
+              alt: {
+                es: "Página de inicio del nuevo sitio web de Excellentia Foods",
+                en: "Homepage of Excellentia Foods' new website",
+              },
+            },
+            {
+              src: "/projects/excellentia/page/about.png",
+              alt: {
+                es: "Página \"Nosotros\" del nuevo sitio web de Excellentia Foods",
+                en: "\"About\" page on Excellentia Foods' new website",
+              },
+            },
+            {
+              src: "/projects/excellentia/page/mision-vision.png",
+              alt: {
+                es: "Sección de misión y visión del sitio web de Excellentia Foods",
+                en: "Mission and vision section on Excellentia Foods' website",
+              },
+            },
+            {
+              src: "/projects/excellentia/page/productos.png",
+              alt: {
+                es: "Sección de productos del sitio web de Excellentia Foods",
+                en: "Products section on Excellentia Foods' website",
+              },
+            },
+          ],
+        },
+      ],
+    },
   },
   {
     slug: "border-grower",
