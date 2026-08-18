@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Methodology from "@/components/Methodology";
 import Highlight from "@/components/Highlight";
-import ImageSlot from "@/components/ImageSlot";
 import { team } from "@/lib/team";
-import { imageSlots } from "@/lib/imageSlots";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
 
@@ -41,7 +39,15 @@ export default function StudioPage() {
           shape="asterisk"
           className="absolute -top-8 right-6 z-10 w-16 sm:w-20"
         />
-        <ImageSlot ratio="21 / 9" label={imageSlots.studioBanner[LANG]} />
+        <video
+          src="/videos/studio-en.webm"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="relative w-full overflow-hidden rounded-3xl object-cover ring-1 ring-ecom-ink/10"
+          style={{ aspectRatio: "21 / 9" }}
+        />
       </div>
 
       <div className="mt-16 grid gap-12 lg:grid-cols-2">

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import Highlight from "@/components/Highlight";
-import ImageSlot from "@/components/ImageSlot";
 import { serviceGroups } from "@/lib/services";
-import { imageSlots } from "@/lib/imageSlots";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
 
@@ -68,7 +66,15 @@ export default function ServicesPage() {
             // Negative inset only from sm: up, so it never hangs past the viewport below 640px.
             className="absolute -top-5 right-0 z-10 w-14 sm:-top-7 sm:-right-7 sm:w-16"
           />
-          <ImageSlot ratio="4 / 3" label={imageSlots.servicesPageIntro[LANG]} />
+          <video
+            src="/videos/services-en.webm"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="relative w-full overflow-hidden rounded-3xl object-cover ring-1 ring-ecom-ink/10"
+            style={{ aspectRatio: "4 / 3" }}
+          />
         </div>
       </div>
     </div>
