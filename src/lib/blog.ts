@@ -10,6 +10,12 @@ export type PostMeta = {
   title: string;
   date: string;
   excerpt: string;
+  coverImage?: string;
+  coverImageAlt?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  keywords?: string[];
+  order?: number;
 };
 
 /** Base (Spanish, no suffix) mdx files define the canonical set of slugs. */
@@ -41,8 +47,14 @@ export function getAllPosts(lang: Lang = "es"): PostMeta[] {
       title: data.title as string,
       date: data.date as string,
       excerpt: data.excerpt as string,
+      coverImage: data.coverImage as string | undefined,
+      coverImageAlt: data.coverImageAlt as string | undefined,
+      order: data.order as number | undefined,
     }))
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+    .sort((a, b) => {
+      if (a.order != null && b.order != null) return a.order - b.order;
+      return a.date < b.date ? 1 : -1;
+    });
 }
 
 export function getPostSource(slug: string, lang: Lang = "es") {

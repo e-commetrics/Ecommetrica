@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { getAllPosts } from "@/lib/blog";
 import { getDict } from "@/lib/i18n/dict";
@@ -58,20 +59,31 @@ export default function BlogPage() {
           <Link
             key={post.slug}
             href={localizedHref(LANG, `/blog/${post.slug}`)}
-            className="group py-8 first:pt-0"
+            className="group flex flex-col gap-6 py-8 first:pt-0 sm:flex-row sm:items-center"
           >
-            <p className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
-              {new Date(post.date).toLocaleDateString(t.blogPage.dateLocale, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                timeZone: "UTC",
-              })}
-            </p>
-            <h3 className="mt-2 font-display text-2xl font-medium text-ecom-ink transition-colors group-hover:text-ecom-orange">
-              {post.title}
-            </h3>
-            <p className="mt-3 text-ecom-ink/70">{post.excerpt}</p>
+            {post.coverImage ? (
+              <Image
+                src={post.coverImage}
+                alt={post.coverImageAlt ?? ""}
+                width={640}
+                height={360}
+                className="aspect-video w-full shrink-0 rounded-2xl border border-ecom-ink/10 object-cover sm:w-56"
+              />
+            ) : null}
+            <div>
+              <p className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
+                {new Date(post.date).toLocaleDateString(t.blogPage.dateLocale, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  timeZone: "UTC",
+                })}
+              </p>
+              <h3 className="mt-2 font-display text-2xl font-medium text-ecom-ink transition-colors group-hover:text-ecom-orange">
+                {post.title}
+              </h3>
+              <p className="mt-3 text-ecom-ink/70">{post.excerpt}</p>
+            </div>
           </Link>
         ))}
       </div>
