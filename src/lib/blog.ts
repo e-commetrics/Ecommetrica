@@ -33,13 +33,15 @@ export function getAllPosts(lang: Lang = "es"): PostMeta[] {
     .map((slug) => {
       const raw = fs.readFileSync(fileFor(slug, lang), "utf8");
       const { data } = matter(raw);
-      return {
-        slug,
-        title: data.title as string,
-        date: data.date as string,
-        excerpt: data.excerpt as string,
-      };
+      return { slug, data };
     })
+    .filter(({ data }) => !data.hidden)
+    .map(({ slug, data }) => ({
+      slug,
+      title: data.title as string,
+      date: data.date as string,
+      excerpt: data.excerpt as string,
+    }))
     .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
