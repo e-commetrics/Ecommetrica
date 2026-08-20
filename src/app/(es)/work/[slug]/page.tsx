@@ -22,9 +22,15 @@ export async function generateMetadata({
   if (!project) return { title: { absolute: "Ecommetrica" } };
 
   return {
-    title: project.name,
-    description: (project.details?.summary ?? project.description)[LANG],
-    keywords: [project.name, categoryLabel(project.category, LANG), ...t.workPage.keywords],
+    title: project.details?.metaTitle?.[LANG] ?? project.name,
+    description:
+      project.details?.metaDescription?.[LANG] ??
+      (project.details?.summary ?? project.description)[LANG],
+    keywords: project.details?.keywords?.[LANG] ?? [
+      project.name,
+      categoryLabel(project.category, LANG),
+      ...t.workPage.keywords,
+    ],
     alternates: seoAlternates(LANG, `/work/${slug}`),
   };
 }

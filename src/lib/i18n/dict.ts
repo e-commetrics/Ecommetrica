@@ -232,6 +232,12 @@ export const dict: Record<Lang, Dict> = {
         "tiendas en línea Tijuana",
         "branding y diseño web",
         "consultoría tecnológica",
+        "Paginas web",
+        "Desarrollo de WeApps",
+        "Diseño y producción",
+        "desarrolladores web",
+        "Marketing online",
+        "Negocio digital",
       ],
     },
     nav: {

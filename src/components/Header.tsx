@@ -24,7 +24,7 @@ const menuItem = {
 };
 
 /** Space-encoded: `url()` tolerates a raw space far less reliably than this. */
-const LOGO_SRC = "/Logos/LOGO%20PRINCIPAL%20ECOMMETRICA%203.png";
+const LOGO_SRC = "/Logos/Ecommetrica%20consultoria%20tecnologica%20y%20desarrollo%20web.png";
 
 /** Active if the pathname is that link or one of its sub-routes (e.g. /work/some-slug). */
 function isActiveHref(pathname: string, href: string) {

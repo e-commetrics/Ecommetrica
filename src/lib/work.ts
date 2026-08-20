@@ -52,6 +52,12 @@ export type CaseStudyDetails = {
   sections?: CaseStudySection[];
   results?: Localized[];
   gallery?: string[];
+  /** SEO `<title>` tag. Falls back to `name` when unset. */
+  metaTitle?: Localized;
+  /** SEO meta description. Falls back to `summary`/`description` when unset. */
+  metaDescription?: Localized;
+  /** SEO keywords, one list per language. Falls back to the generic work-page list when unset. */
+  keywords?: { es: string[]; en: string[] };
 };
 
 /**
@@ -137,6 +143,18 @@ export const caseStudies: CaseStudy[] = [
     webpage: "https://drlumban.com/",
     details: {
       hideCoverImage: true,
+      metaTitle: {
+        es: "Rebranding y diseño web para Dr. Lumbán por ecommetrica",
+        en: "Rebranding and Web Design for Dr. Lumbán by Ecommetrica",
+      },
+      metaDescription: {
+        es: "Compartimos el proceso de rebranding, diseño web y redes para un reconocido otorrinolaringólogo en Tijuana con más de 33 años de experiencia.",
+        en: "We share the rebranding, web design, and social media process for a well-known ENT specialist in Tijuana with more than 33 years of experience.",
+      },
+      keywords: {
+        es: ["Rebranding y diseño web", "Página web", "Diseño y producción para redes sociales"],
+        en: ["Rebranding and web design", "Website", "Social media design and production"],
+      },
       headline: {
         es: "Dr. Jaime Lumbán: Otorrinolaringólogo con más de 33 años de experiencia buscaba renovar su presencia digital.",
         en: "Dr. Jaime Lumbán: an ENT specialist with more than 33 years of experience looking to renew his digital presence.",
@@ -174,10 +192,10 @@ export const caseStudies: CaseStudy[] = [
           paragraphs: [],
           images: [
             {
-              src: "/projects/lumban/before.webp",
+              src: "/projects/lumban/Captura%20del%20homepage%20de%20la%20antigua%20pagina%20del%20dr%20lumban%20antes%20de%20cambios%20de%20ecommetrica.webp",
               alt: {
-                es: "Antes: sitio web anterior del Dr. Jaime Lumbán",
-                en: "Before: Dr. Jaime Lumbán's previous website",
+                es: "Captura del homepage anterior del Dr. Jaime Lumbán antes del diseño web y rebranding",
+                en: "Screenshot of Dr. Jaime Lumbán's previous homepage before the web design and rebranding",
               },
               label: { es: "Antes", en: "Before" },
             },
@@ -199,10 +217,10 @@ export const caseStudies: CaseStudy[] = [
           paragraphs: [],
           images: [
             {
-              src: "/projects/lumban/before-profile.webp",
+              src: "/projects/lumban/Captura%20de%20pagina%20acerca%20del%20dr%20lumban%20antes%20de%20diseno%20web%20de%20ecommetrica.webp",
               alt: {
-                es: "Antes: página de perfil anterior del Dr. Jaime Lumbán",
-                en: "Before: Dr. Jaime Lumbán's previous profile page",
+                es: "Captura de página acerca de del Dr. Jaime Lumbán previo al branding y diseño web elaborado por ecommetrica",
+                en: "Screenshot of Dr. Jaime Lumbán's about page before the branding and web design work by Ecommetrica",
               },
               label: { es: "Antes", en: "Before" },
             },
@@ -268,24 +286,24 @@ export const caseStudies: CaseStudy[] = [
           imagesCols: 3,
           images: [
             {
-              src: "/projects/lumban/sesion-fotos/Lumb-0055.webp",
+              src: "/projects/lumban/sesion-fotos/Retrato%20del%20dr%20lumb%C3%A1n%20en%20su%20oficina%20por%20el%20equipo%20ecommetrica.webp",
               alt: {
-                es: "Sesión de fotos profesional del Dr. Jaime Lumbán, retrato en interiores",
-                en: "Professional photo session for Dr. Jaime Lumbán, indoor portrait",
+                es: "Retrato del Dr. Lumbán en su oficina en Rio Medica por el equipo de ecommetrica",
+                en: "Portrait of Dr. Lumbán in his office at Rio Medica by the Ecommetrica team",
               },
             },
             {
-              src: "/projects/lumban/sesion-fotos/Lumb-0134.webp",
+              src: "/projects/lumban/sesion-fotos/Foto%20a%20detalle%20de%20endoscopio%20de%20oido%20maniobrado%20por%20el%20dr%20lumban%20por%20ecommetrica.webp",
               alt: {
-                es: "Sesión de fotos profesional del Dr. Jaime Lumbán",
-                en: "Professional photo session for Dr. Jaime Lumbán",
+                es: "Fotografia a detalle por Ecommetrica del otorrinolaringólogo Jaime Lumbán maniobrando un endoscopio de oído",
+                en: "Detail photo by Ecommetrica of ENT specialist Jaime Lumbán operating an ear endoscope",
               },
             },
             {
-              src: "/projects/lumban/sesion-fotos/Lumb-0202.webp",
+              src: "/projects/lumban/sesion-fotos/Foto%20detalle%20de%20asiento%20de%20consultorio%20del%20dr%20lumban%20por%20ecommetrica.webp",
               alt: {
-                es: "Sesión de fotos profesional del Dr. Jaime Lumbán",
-                en: "Professional photo session for Dr. Jaime Lumbán",
+                es: "Fotografia a detalle tomada por el equipo ecommetrica en el consultorio del Dr. Jaime Lumbán",
+                en: "Detail photo taken by the Ecommetrica team in Dr. Jaime Lumbán's practice",
               },
             },
           ],
@@ -297,45 +315,45 @@ export const caseStudies: CaseStudy[] = [
           imagesCols: 3,
           images: [
             {
-              src: "/projects/lumban/POSTS/dr%20lumban%201.webp",
+              src: "/projects/lumban/POSTS/Diseno%20de%20post%20para%20redes%20sociales%20por%20ecommetrica%20para%20el%20dr%20lumban.webp",
               alt: {
-                es: "Post para redes sociales del Dr. Jaime Lumbán",
-                en: "Social media post for Dr. Jaime Lumbán",
+                es: "Diseno de post para redes sociales por ecommetrica para el dr lumban con rebranding",
+                en: "Social media post design by Ecommetrica for Dr. Lumbán, featuring the rebrand",
               },
             },
             {
-              src: "/projects/lumban/POSTS/lumban%202.webp",
+              src: "/projects/lumban/POSTS/Diseno%20de%20contenido%20para%20redes%20sociales%20desarrollado%20por%20Ecommetrica%20para%20el%20dr%20lumban.webp",
               alt: {
-                es: "Post para redes sociales del Dr. Jaime Lumbán",
-                en: "Social media post for Dr. Jaime Lumbán",
+                es: "Diseño carrusel de contenido para redes sociales desarrollado por Ecommetrica para el Dr. Lumbán.",
+                en: "Social media carousel content design developed by Ecommetrica for Dr. Lumbán.",
               },
             },
             {
-              src: "/projects/lumban/POSTS/lumban%203.webp",
+              src: "/projects/lumban/POSTS/Publicacion%20para%20redes%20sociales%20creada%20por%20ecommetrica%20para%20el%20Dr%20Lumb%C3%A1n.webp",
               alt: {
-                es: "Post para redes sociales del Dr. Jaime Lumbán",
-                en: "Social media post for Dr. Jaime Lumbán",
+                es: "Diseño de publicación para redes sociales creada por Ecommetrica para el Dr. Lumbán.",
+                en: "Social media post design created by Ecommetrica for Dr. Lumbán.",
               },
             },
             {
-              src: "/projects/lumban/POSTS/lumban%204.webp",
+              src: "/projects/lumban/POSTS/propuesta%20grafica%20para%20las%20redes%20sociales%20del%20Dr.%20lumban%2C%20por%20ecommetrica.webp",
               alt: {
-                es: "Post para redes sociales del Dr. Jaime Lumbán",
-                en: "Social media post for Dr. Jaime Lumbán",
+                es: "Propuesta gráfica acerca de rinoplastias para las redes sociales del Dr. Lumbán, por Ecommetrica.",
+                en: "Graphic proposal about rhinoplasty for Dr. Lumbán's social media, by Ecommetrica.",
               },
             },
             {
-              src: "/projects/lumban/POSTS/lumban%205.webp",
+              src: "/projects/lumban/POSTS/Diseno%20de%20post%20acerca%20de%20rinoplastia%20de%20revision%20para%20redes%20sociales%20del%20dr%20lumban.webp",
               alt: {
-                es: "Post para redes sociales del Dr. Jaime Lumbán",
-                en: "Social media post for Dr. Jaime Lumbán",
+                es: "Propuesta de post acerca de rioplastia de revision para redes sociales del Dr. Jaime Lumbán",
+                en: "Proposed social media post about revision rhinoplasty for Dr. Jaime Lumbán",
               },
             },
             {
-              src: "/projects/lumban/POSTS/lumban%206.webp",
+              src: "/projects/lumban/POSTS/Publicacion%20para%20redes%20sociales%20del%20dr%20lumban%20con%20nuevo%20rebranding.webp",
               alt: {
-                es: "Post para redes sociales del Dr. Jaime Lumbán",
-                en: "Social media post for Dr. Jaime Lumbán",
+                es: "Publicacion para redes sociales diseñada por ecommetrica para el otorrinolaringólogo Jaime Lumbán",
+                en: "Social media post designed by Ecommetrica for ENT specialist Jaime Lumbán",
               },
             },
           ],
@@ -368,6 +386,18 @@ export const caseStudies: CaseStudy[] = [
     },
     details: {
       hideCoverImage: true,
+      metaTitle: {
+        es: "Diseño y desarrollo web + calendario de citas | Dr. Ricardo Monge",
+        en: "Web Design & Development + Appointment Calendar | Dr. Ricardo Monge",
+      },
+      metaDescription: {
+        es: "Te compartimos el proceso de optimización de la página web del traumatólogo Ricardo Monge y el desarrollo de una web app de citas para pacientes.",
+        en: "We share the optimization process for orthopedic traumatologist Ricardo Monge's website and the development of a patient appointment-booking web app.",
+      },
+      keywords: {
+        es: ["diseño web", "Página web", "Web App", "Redes sociales"],
+        en: ["web design", "Website", "Web App", "Social media"],
+      },
       services: [
         { es: "Web webapp", en: "Web webapp" },
         { es: "Redes sociales", en: "Social media" },
@@ -383,18 +413,18 @@ export const caseStudies: CaseStudy[] = [
           paragraphs: [],
           images: [
             {
-              src: "/projects/monge/before.webp",
+              src: "/projects/monge/Homepage%20antigua%20del%20dr%20ricardo%20monge.webp",
               alt: {
-                es: "Antes: sitio web anterior del Dr. Ricardo Monge",
-                en: "Before: Dr. Ricardo Monge's previous website",
+                es: "Antigua homepage sencilla del Dr. Ricardo Monge",
+                en: "Dr. Ricardo Monge's previous, simple homepage",
               },
               label: { es: "Antes", en: "Before" },
             },
             {
-              src: "/projects/monge/after.webp",
+              src: "/projects/monge/Nueva%20pagina%20de%20ricardo%20monge%20traumatologo%20en%20tijuana%20por%20ecommetrica.webp",
               alt: {
-                es: "Después: nuevo sitio web del Dr. Ricardo Monge",
-                en: "After: Dr. Ricardo Monge's new website",
+                es: "Nueva homepage optimizada por Ecommetrica para el Dr. Ricardo Monge traumatólogo en Tijuana",
+                en: "New homepage optimized by Ecommetrica for Dr. Ricardo Monge, orthopedic traumatologist in Tijuana",
               },
               label: { es: "Después", en: "After" },
             },
@@ -437,10 +467,10 @@ export const caseStudies: CaseStudy[] = [
               },
             },
             {
-              src: "/projects/monge/guias/guia1.webp",
+              src: "/projects/monge/guias/Recomendaciones%20para%20columna%20sana%20guia%20descargable%20acessible%20a%20la%20pagina%20web%20de%20ricardo%20monge.webp",
               alt: {
-                es: "Guía en PDF: Recomendaciones para una columna sana",
-                en: "PDF guide: Recommendations for a healthy spine",
+                es: "Documento desgargable elaborado por Ecommetrica sobre recomendaciones para una columna sana de fácil acceso y descarga en la página web del Dr. Ricardo Monge",
+                en: "Downloadable document by Ecommetrica with recommendations for a healthy spine, easy to access and download from Dr. Ricardo Monge's website",
               },
             },
           ],
@@ -465,17 +495,17 @@ export const caseStudies: CaseStudy[] = [
           ],
           images: [
             {
-              src: "/projects/monge/cita/agendar1.webp",
+              src: "/projects/monge/cita/Vista%20de%20calendario%20interno%20del%20dr%20ricardo%20monge%20por%20ecommetrica.webp",
               alt: {
-                es: "Webapp de agendado de citas del Dr. Ricardo Monge — información personal y tipo de consulta",
-                en: "Dr. Ricardo Monge's appointment-booking webapp — personal information and consultation type",
+                es: "Vista de llenado de formulario para agendar cita con el Dr. Ricardo Monge elaborado por Ecommetrica",
+                en: "Appointment-booking form view for Dr. Ricardo Monge, built by Ecommetrica",
               },
             },
             {
-              src: "/projects/monge/cita/agendar2.webp",
+              src: "/projects/monge/cita/Seleccion%20de%20horario%20y%20fecha%20en%20calendario%20para%20reservas%20con%20el%20dr%20ricardo%20monge%20por%20ecommetrica.webp",
               alt: {
-                es: "Webapp de agendado de citas del Dr. Ricardo Monge — selección de fecha",
-                en: "Dr. Ricardo Monge's appointment-booking webapp — date selection",
+                es: "Vista de selección de fecha y hora para pacientes desde la Página web de Ricardo Monge, creado por Ecommetrica",
+                en: "Date and time selection view for patients on Ricardo Monge's website, built by Ecommetrica",
               },
             },
           ],
@@ -507,6 +537,18 @@ export const caseStudies: CaseStudy[] = [
     },
     details: {
       hideCoverImage: true,
+      metaTitle: {
+        es: "Branding y diseño web único para Cesia Borjón por Ecommetrica",
+        en: "Unique Branding & Web Design for Cesia Borjón by Ecommetrica",
+      },
+      metaDescription: {
+        es: "Conoce el proceso de crear una nueva identidad visual y página web para una especialista en Tijuana como lo es Cesia Borjón ginecóloga obstetra.",
+        en: "Discover the process behind creating a new visual identity and website for a Tijuana specialist: OB/GYN Cesia Borjón.",
+      },
+      keywords: {
+        es: ["Branding y diseño web", "Página web", "Logotipo"],
+        en: ["Branding and web design", "Website", "Logo"],
+      },
       headline: {
         es: "Dra. Cesia Borjón: Ginecóloga obstetra buscaba crear su marca personal en Tijuana.",
         en: "Dr. Cesia Borjón: an OB/GYN looking to build her personal brand in Tijuana.",
@@ -527,24 +569,24 @@ export const caseStudies: CaseStudy[] = [
           imagesCols: 3,
           images: [
             {
-              src: "/projects/cesia/assets/hoja%20membretada%202.webp",
+              src: "/projects/cesia/assets/Recetario%20disenado%20para%20la%20dra%20Cesia%20Borjon%20por%20ecommetrica.webp",
               alt: {
-                es: "Hoja membretada de la Dra. Cesia Borjón",
-                en: "Letterhead for Dr. Cesia Borjón",
+                es: "Recetario con nuevo branding de la Dra. Cesia Borjón elaborado por Ecommetrica",
+                en: "Prescription pad with Dr. Cesia Borjón's new branding, designed by Ecommetrica",
               },
             },
             {
-              src: "/projects/cesia/assets/papeleria%202.webp",
+              src: "/projects/cesia/assets/Tarjeta%20de%20presentacion%20para%20la%20dra%20cesia%20borjon%20por%20ecommetrica.webp",
               alt: {
-                es: "Papelería de marca de la Dra. Cesia Borjón — tarjetas de presentación",
-                en: "Dr. Cesia Borjón's brand stationery — business cards",
+                es: "Diseño de tarjeta de presentación para la ginecóloga Cesia Borjón elaborado por Ecommetrica",
+                en: "Business card design for OB/GYN Cesia Borjón, made by Ecommetrica",
               },
             },
             {
-              src: "/projects/cesia/assets/tarjeta%20de%20presentacion.webp",
+              src: "/projects/cesia/assets/Logo%20en%20blanco%20de%20cesia%20brojon%20ginecologa%20en%20tijuana%20por%20ecommetrica.webp",
               alt: {
-                es: "Logotipo de la Dra. Cesia Borjón sobre fondo de marca",
-                en: "Dr. Cesia Borjón's logo on a brand-color background",
+                es: "Logo principal en color blanco para Cesia Borjón ginecóloga en Tijuana, elaborado por ecommetrica",
+                en: "Main logo in white for OB/GYN Cesia Borjón in Tijuana, designed by Ecommetrica",
               },
             },
           ],
@@ -555,10 +597,10 @@ export const caseStudies: CaseStudy[] = [
           imagesCols: 2,
           images: [
             {
-              src: "/projects/cesia/branding/colores.webp",
+              src: "/projects/cesia/branding/Paleta%20de%20colores%20del%20nuevo%20branding%20de%20la%20dra%20cesia%20borjon.webp",
               alt: {
-                es: "Paleta de colores principal y secundaria de la Dra. Cesia Borjón",
-                en: "Dr. Cesia Borjón's primary and secondary color palette",
+                es: "Paleta primaria y secundaria de colores del nuevo branding de la Dra. Cesia Borjón por Ecommetrica",
+                en: "Primary and secondary color palette for Dr. Cesia Borjón's new branding by Ecommetrica",
               },
             },
             {
@@ -576,10 +618,10 @@ export const caseStudies: CaseStudy[] = [
               },
             },
             {
-              src: "/projects/cesia/branding/historia.webp",
+              src: "/projects/cesia/branding/propuesta%20de%20diseno%20para%20redes%20sociales%20de%20la%20dra%20cesia%20por%20ecommetrica.webp",
               alt: {
-                es: "Plantillas de historias para redes sociales de la Dra. Cesia Borjón",
-                en: "Social media story templates for Dr. Cesia Borjón",
+                es: "Propuesta de diseño para stories en redes sociales para la Dra. Cesia Borjón por Ecommetrica",
+                en: "Social media story design proposal for Dr. Cesia Borjón by Ecommetrica",
               },
             },
           ],
@@ -609,10 +651,10 @@ export const caseStudies: CaseStudy[] = [
               },
             },
             {
-              src: "/projects/cesia/consultorio/57.webp",
+              src: "/projects/cesia/consultorio/fotografia%20de%20consultorio%20ginecologico%20de%20la%20dra%20cesia%20borjon%20por%20ecommetrica.webp",
               alt: {
-                es: "Sala de exploración del consultorio de la Dra. Cesia Borjón",
-                en: "Exam room at Dr. Cesia Borjón's practice",
+                es: "Fotografia de consultorio ginecológico en tijuana tomada por Ecommetrica",
+                en: "Photo of the OB/GYN practice in Tijuana, taken by Ecommetrica",
               },
             },
             {
@@ -623,10 +665,10 @@ export const caseStudies: CaseStudy[] = [
               },
             },
             {
-              src: "/projects/cesia/consultorio/59.webp",
+              src: "/projects/cesia/consultorio/Retrato%20de%20la%20dra%20cesia%20borjon%20junto%20con%20una%20vacuna%20gardasil%20por%20ecommetrica.webp",
               alt: {
-                es: "Consultorio de la Dra. Cesia Borjón",
-                en: "Dr. Cesia Borjón's practice",
+                es: "Retrato en consultorio con la Dra. Cesia Borjón sujetando vacuna Gardasil contra vph foto por Ecommetrica",
+                en: "In-practice portrait of Dr. Cesia Borjón holding the Gardasil HPV vaccine, photo by Ecommetrica",
               },
             },
             {
@@ -680,6 +722,18 @@ export const caseStudies: CaseStudy[] = [
     webpage: "https://enriqueciapara.com",
     details: {
       hideCoverImage: true,
+      metaTitle: {
+        es: "Portafolio web para Enrique Ciapara por Ecommetrica",
+        en: "Web Portfolio for Enrique Ciapara by Ecommetrica",
+      },
+      metaDescription: {
+        es: "Descubre el proceso de crear una página web y portafolio único. Conoce su biografía, exposiciones y las obras más destacadas de su carrera.",
+        en: "Discover the process behind a unique website and portfolio. Learn about his biography, exhibitions, and the most notable works of his career.",
+      },
+      keywords: {
+        es: ["Branding y diseño web", "Página web", "Portafolio", "Artista plástico Tijuana", "Portafolio web"],
+        en: ["Branding and web design", "Website", "Portfolio", "Visual artist Tijuana", "Web portfolio"],
+      },
       headline: {
         es: "Enrique Ciapara: Página web y portafolio artístico",
         en: "Enrique Ciapara: Website and Artist Portfolio",
@@ -902,6 +956,36 @@ export const caseStudies: CaseStudy[] = [
     webpage: "https://palmasrecovery.com",
     details: {
       hideCoverImage: true,
+      metaTitle: {
+        es: "Página web y Web app para reservas | Recovery House en Tijuana",
+        en: "Website and Booking Web App | Recovery House in Tijuana",
+      },
+      metaDescription: {
+        es: "Descubre el proceso de rebranding de Palmas Recovery House, de una página web con tour 360, reservas directas y un branding elegante.",
+        en: "Discover the rebranding process for Palmas Recovery House: a website with a 360 tour, direct bookings, and an elegant new brand.",
+      },
+      keywords: {
+        es: [
+          "Branding y diseño web",
+          "Página web",
+          "Rebranding",
+          "Diseño web",
+          "redes sociales",
+          "Palmas recovery",
+          "casa de recuperación",
+          "Cuidados postoperatorios",
+        ],
+        en: [
+          "Branding and web design",
+          "Website",
+          "Rebranding",
+          "Web design",
+          "Social media",
+          "Palmas recovery",
+          "Recovery house",
+          "Post-operative care",
+        ],
+      },
       headline: {
         es: "Palmas Recovery: Rebranding y página web elegante y web app de reservas directas",
         en: "Palmas Recovery: Rebranding, an Elegant Website, and a Direct Booking Web App",
@@ -923,18 +1007,18 @@ export const caseStudies: CaseStudy[] = [
           paragraphs: [],
           images: [
             {
-              src: "/projects/palmas/oldpage.png",
+              src: "/projects/palmas/Pagina%20de%20inicio%20antigua%20de%20palmas%20recovery.png",
               alt: {
-                es: "Antes: sitio web anterior de Palmas Recovery",
-                en: "Before: Palmas Recovery's previous website",
+                es: "Antigua página web de Palmas recovery previo a Rebranding de Ecommetrica",
+                en: "Palmas Recovery's previous website, before Ecommetrica's rebrand",
               },
               label: { es: "Antes", en: "Before" },
             },
             {
-              src: "/projects/palmas/newpage.png",
+              src: "/projects/palmas/Inicio%20de%20pagina%20actual%20de%20Palmas%20recovery.png",
               alt: {
-                es: "Después: nuevo sitio web de Palmas Recovery",
-                en: "After: Palmas Recovery's new website",
+                es: "Inicio de página actual de Palmas Recovery elaborado por Ecommetrica",
+                en: "Homepage of Palmas Recovery's current site, built by Ecommetrica",
               },
               label: { es: "Después", en: "After" },
             },
@@ -946,24 +1030,24 @@ export const caseStudies: CaseStudy[] = [
           imagesCols: 3,
           images: [
             {
-              src: "/projects/palmas/branding/logo-principal.jpg",
+              src: "/projects/palmas/branding/Logo%20principal%20con%20fondo%20verde%20disenado%20por%20ecommetrica%20para%20palmas%20recovery%20house.jpg",
               alt: {
-                es: "Logotipo principal de Palmas Recovery",
-                en: "Palmas Recovery's primary logo",
+                es: "Logo pricipal con fonde verde y letras blancas en el nuevo rebranding de Palmas por Ecommetrica",
+                en: "Main logo on a green background with white lettering, part of Palmas' new rebrand by Ecommetrica",
               },
             },
             {
-              src: "/projects/palmas/branding/logo-secundario.jpg",
+              src: "/projects/palmas/branding/Logo%20secundario%20de%20palmas%20recovery%20elaborado%20por%20ecommetrica.jpg",
               alt: {
-                es: "Logotipo secundario (monograma) de Palmas Recovery",
-                en: "Palmas Recovery's secondary logo (monogram)",
+                es: "Logo secundario en color crema con fondo guinda para Palmas Recovery por Ecommetrica",
+                en: "Secondary logo in cream on a maroon background for Palmas Recovery, by Ecommetrica",
               },
             },
             {
-              src: "/projects/palmas/branding/isotipo.jpg",
+              src: "/projects/palmas/branding/Logo%20secundario%20de%20silueta%20por%20ecommetrica%20elaborado%20para%20palmas%20recovery.jpg",
               alt: {
-                es: "Isotipo de Palmas Recovery",
-                en: "Palmas Recovery's icon mark",
+                es: "Logo secundario de silueta de mujer para Palmas recovery con fondo verde claro por Ecommetrica",
+                en: "Secondary logo of a woman's silhouette for Palmas Recovery on a light green background, by Ecommetrica",
               },
             },
           ],
@@ -974,10 +1058,10 @@ export const caseStudies: CaseStudy[] = [
           imagesCols: 2,
           images: [
             {
-              src: "/projects/palmas/branding/colores.webp",
+              src: "/projects/palmas/branding/Nueva%20paleta%20de%20colores%20para%20palmas%20recovery%20por%20ecommetrica.webp",
               alt: {
-                es: "Paleta de colores de la marca de Palmas Recovery",
-                en: "Palmas Recovery's brand color palette",
+                es: "Nueva propuesta de colores para Rebranding de Palmas Recovery por Ecommetrica",
+                en: "New color proposal for Palmas Recovery's rebrand by Ecommetrica",
               },
             },
             {
@@ -1087,6 +1171,30 @@ export const caseStudies: CaseStudy[] = [
     webpage: "https://diazconstructions.com",
     details: {
       hideCoverImage: true,
+      metaTitle: {
+        es: "Rebranding y diseño web para Diaz Construction por ecommetrica",
+        en: "Rebranding and Web Design for Diaz Construction by Ecommetrica",
+      },
+      metaDescription: {
+        es: "Proyecto enfocado en renovar su identidad visual y presencia digital de Diaz Construction empresa de contratista generales en San Francisco y la Bahía.",
+        en: "A project focused on renewing the visual identity and digital presence of Diaz Construction, a general contracting company in San Francisco and the Bay Area.",
+      },
+      keywords: {
+        es: [
+          "Rebranding y diseño web",
+          "Página web",
+          "Diseño y producción para redes sociales",
+          "Contratista",
+          "Contratista general San Francisco",
+        ],
+        en: [
+          "Rebranding and web design",
+          "Website",
+          "Social media design and production",
+          "Contractor",
+          "General contractor San Francisco",
+        ],
+      },
       headline: {
         es: "Diaz Construction: Contratistas generales en San Francisco buscaban renovación de identidad visual y página web.",
         en: "Diaz Construction: general contractors in San Francisco looking to renew their visual identity and website.",
@@ -1107,23 +1215,23 @@ export const caseStudies: CaseStudy[] = [
           beforeAfter: {
             before: [
               {
-                src: "/projects/diaz/branding/before-logo.png",
+                src: "/projects/diaz/branding/Anterior%20logo%20de%20diaz%20construction%20antes%20de%20rebranding.png",
                 width: 355,
                 height: 171,
                 alt: {
-                  es: "Antes: logotipo anterior de Diaz Construction",
-                  en: "Before: Diaz Construction's previous logo",
+                  es: "Primer logo de Diaz construction antes del rebranding hecho por Ecommetrica",
+                  en: "Diaz Construction's first logo, before the rebrand by Ecommetrica",
                 },
               },
             ],
             after: [
               {
-                src: "/projects/diaz/branding/after-logo.png",
+                src: "/projects/diaz/branding/Actual%20y%20mejorado%20logo%20de%20Diaz%20Construction%20por%20ecommetrica.png",
                 width: 2698,
                 height: 847,
                 alt: {
-                  es: "Después: nuevo logotipo de Diaz Construction por Ecommetrica",
-                  en: "After: Diaz Construction's new logo by Ecommetrica",
+                  es: "Nuevo logo de Diaz construction mas moderno y simple elaborado por Ecommetrica",
+                  en: "Diaz Construction's new, more modern and simple logo, made by Ecommetrica",
                 },
               },
             ],
@@ -1134,18 +1242,18 @@ export const caseStudies: CaseStudy[] = [
           paragraphs: [],
           images: [
             {
-              src: "/projects/diaz/page/before-home.png",
+              src: "/projects/diaz/page/Anterior%20pagina%20de%20inicio%20de%20diaz%20construction.png",
               alt: {
-                es: "Antes: página de inicio anterior de Diaz Construction",
-                en: "Before: Diaz Construction's previous homepage",
+                es: "Antigua vista de pagina de Diaz Construction antes de nuevo diseño web de Ecommetrica",
+                en: "Old view of Diaz Construction's page before Ecommetrica's new web design",
               },
               label: { es: "Antes", en: "Before" },
             },
             {
-              src: "/projects/diaz/page/after-about.jpg",
+              src: "/projects/diaz/page/Nueva%20pagina%20acerca%20de%20diaz%20construction%20elaborada%20por%20ecommetrica.jpg",
               alt: {
-                es: "Después: nueva página de Diaz Construction",
-                en: "After: Diaz Construction's new page",
+                es: "Nueva página acerca de Diaz Construction con breve historia, videos de proyectos, fotos del equipo y metodología de trabajo elaborada por Ecommetrica",
+                en: "Diaz Construction's new about page with a brief history, project videos, team photos, and work methodology, built by Ecommetrica",
               },
               label: { es: "Después", en: "After" },
             },
@@ -1156,18 +1264,18 @@ export const caseStudies: CaseStudy[] = [
           paragraphs: [],
           images: [
             {
-              src: "/projects/diaz/page/before-projects.png",
+              src: "/projects/diaz/page/Seccion%20antigua%20acerca%20de%20trabajos%20de%20diaz%20construction.png",
               alt: {
-                es: "Antes: sección de trabajos anterior de Diaz Construction",
-                en: "Before: Diaz Construction's previous projects section",
+                es: "Sección antigua acerda de trabajamos de Diaz Construction antes del Rebranding de Ecommetrica",
+                en: "Old \"our work\" section on Diaz Construction's site before Ecommetrica's rebrand",
               },
               label: { es: "Antes", en: "Before" },
             },
             {
-              src: "/projects/diaz/page/after-projects.png",
+              src: "/projects/diaz/page/Pagina%20nueva%20de%20proyectos%20para%20diaz%20construction%20por%20ecommetrica.png",
               alt: {
-                es: "Después: nueva página de proyectos de Diaz Construction",
-                en: "After: Diaz Construction's new projects page",
+                es: "Página nueva de proyectos cib galería antes y despés costo y tiempo de realización para Ecommetrica",
+                en: "New projects page with a gallery, before-and-after shots, cost, and turnaround time, by Ecommetrica",
               },
               label: { es: "Después", en: "After" },
             },
@@ -1178,18 +1286,18 @@ export const caseStudies: CaseStudy[] = [
           paragraphs: [],
           images: [
             {
-              src: "/projects/diaz/page/before-about.png",
+              src: "/projects/diaz/page/Seccion%20de%20Homepage%20antiguo%20de%20diaz%20construction.png",
               alt: {
-                es: "Antes: sección del homepage anterior de Diaz Construction",
-                en: "Before: Diaz Construction's previous homepage section",
+                es: "Seccion de homepage antiguo de Diaz Construction antes de la intervención de Ecommetrica",
+                en: "Old homepage section of Diaz Construction before Ecommetrica's redesign",
               },
               label: { es: "Antes", en: "Before" },
             },
             {
-              src: "/projects/diaz/page/after-about-section.jpg",
+              src: "/projects/diaz/page/Seccion%20acerca%20de%20para%20diaz%20construction%20por%20ecommetrica.jpg",
               alt: {
-                es: "Después: nueva sección acerca de Diaz Construction",
-                en: "After: Diaz Construction's new about section",
+                es: "Seccion acerca como inicio Diaz Construction por Ecommetrica",
+                en: "\"About\" section as it opens on Diaz Construction's site, by Ecommetrica",
               },
               label: { es: "Después", en: "After" },
             },
@@ -1288,6 +1396,18 @@ export const caseStudies: CaseStudy[] = [
     webpage: "https://gpeconsultores.com.mx",
     details: {
       hideCoverImage: true,
+      metaTitle: {
+        es: "Branding y diseño web para GPE por ecommetrica",
+        en: "Branding and Web Design for GPE by Ecommetrica",
+      },
+      metaDescription: {
+        es: "Compartimos el proceso de crear el branding, diseño web para un reconocido despacho de abogados especialistas en negocios y contabilidad en Tijuana.",
+        en: "We share the process of creating the branding and web design for a well-known law firm specializing in business and accounting in Tijuana.",
+      },
+      keywords: {
+        es: ["Branding", "Diseño web", "Logotipo", "Página web"],
+        en: ["Branding", "Web design", "Logo", "Website"],
+      },
       headline: {
         es: "GPE: Despacho de abogados buscaba crear una imagen institucional y comenzar su presencia digital.",
         en: "GPE: a law firm wanted to build an institutional image and begin its digital presence.",
@@ -1315,24 +1435,24 @@ export const caseStudies: CaseStudy[] = [
           imagesCols: 3,
           images: [
             {
-              src: "/projects/gpe/branding/logo-negro.jpg",
+              src: "/projects/gpe/branding/logo%20en%20negro%20de%20gpe%20elaborado%20por%20ecommetrica.jpg",
               alt: {
-                es: "Logotipo de GPE en negro, para uso sobre fondos claros",
-                en: "GPE's logo in black, for use on light backgrounds",
+                es: "Logo en negativo par GPE elaborado por Ecommetrica",
+                en: "GPE's negative (black) logo, made by Ecommetrica",
               },
             },
             {
-              src: "/projects/gpe/branding/logo-principal.jpg",
+              src: "/projects/gpe/branding/Logo%20principal%20de%20gpe%20disenado%20por%20ecommetrica.jpg",
               alt: {
-                es: "Logotipo principal de GPE — isotipo naranja y wordmark blanco, para uso sobre fondos oscuros",
-                en: "GPE's primary logo — orange icon and white wordmark, for use on dark backgrounds",
+                es: "Logo principal de Grupo de Planeación Empresarial elaborado por Ecommetrica",
+                en: "Main logo for Grupo de Planeación Empresarial, made by Ecommetrica",
               },
             },
             {
-              src: "/projects/gpe/branding/logo-blanco.jpg",
+              src: "/projects/gpe/branding/Logo%20en%20color%20blanco%20de%20gpe%20elaborado%20por%20ecommetrica.jpg",
               alt: {
-                es: "Logotipo de GPE en blanco, para uso sobre fondos de color",
-                en: "GPE's logo in white, for use on colored backgrounds",
+                es: "Logo en color blanco elaborado por Ecommetrica para Grupo de Planeación Empresarial",
+                en: "White logo made by Ecommetrica for Grupo de Planeación Empresarial",
               },
             },
           ],
@@ -1368,10 +1488,10 @@ export const caseStudies: CaseStudy[] = [
           paragraphs: [],
           images: [
             {
-              src: "/projects/gpe/branding/portada-redes.png",
+              src: "/projects/gpe/branding/Portada%20para%20redes%20sociales%20para%20gpe%20por%20ecommetrica.png",
               alt: {
-                es: "Portada para redes sociales de GPE, elaborada por Ecommetrica",
-                en: "Social media cover for GPE, made by Ecommetrica",
+                es: "Portada elaborada para redes sociales para GPE elaborado por Ecommetrica",
+                en: "Social media cover made for GPE by Ecommetrica",
               },
             },
           ],
@@ -1448,6 +1568,32 @@ export const caseStudies: CaseStudy[] = [
     webpage: "https://excellentiafoods.com",
     details: {
       hideCoverImage: true,
+      metaTitle: {
+        es: "Rebranding y Web App de Facturación: Excellentia Foods",
+        en: "Rebranding and Invoicing Web App: Excellentia Foods",
+      },
+      metaDescription: {
+        es: "Rediseño de marca y desarrollo de web app de facturación para Excellentia Foods, distribuidora de quesos y embutidos en San Diego.",
+        en: "Brand redesign and invoicing web app development for Excellentia Foods, a distributor of cheeses and cold cuts in San Diego.",
+      },
+      keywords: {
+        es: [
+          "Rebranding y diseño web",
+          "Página web",
+          "Logotipo",
+          "Distribuidora de quesos y embutidos",
+          "Webapp invoice",
+          "Inventario digital y cobranza",
+        ],
+        en: [
+          "Rebranding and web design",
+          "Website",
+          "Logo",
+          "Cheese and cold cuts distributor",
+          "Invoicing web app",
+          "Digital inventory and billing",
+        ],
+      },
       headline: {
         es: "Excellentia Foods: Distribuidora de quesos y embutidos hispanos en San Diego, California buscaba renovar su imagen y tener una webapp de facturación.",
         en: "Excellentia Foods: a distributor of Hispanic cheeses and cold cuts in San Diego, California wanted to renew its image and get an invoicing web app.",
@@ -1474,23 +1620,23 @@ export const caseStudies: CaseStudy[] = [
           beforeAfter: {
             before: [
               {
-                src: "/projects/excellentia/branding/before-logo.jpg",
+                src: "/projects/excellentia/branding/Antiguo%20logo%20de%20excellentia%20foods.jpg",
                 width: 461,
                 height: 174,
                 alt: {
-                  es: "Antes: logotipo anterior de Excellentia Foods",
-                  en: "Before: Excellentia Foods' previous logo",
+                  es: "Antiguo logo de Excellentia Foods previo a nuevo rebranding de Ecommetrica",
+                  en: "Excellentia Foods' old logo, before Ecommetrica's rebrand",
                 },
               },
             ],
             after: [
               {
-                src: "/projects/excellentia/branding/after-logo.jpg",
+                src: "/projects/excellentia/branding/Nuevo%20logo%20principal%20de%20excellentia%20foods%20por%20ecommetrica.jpg",
                 width: 3974,
                 height: 2228,
                 alt: {
-                  es: "Después: nuevo logotipo de Excellentia Foods por Ecommetrica",
-                  en: "After: Excellentia Foods' new logo by Ecommetrica",
+                  es: "Nuevo logo con fondo azul más moderno para Excellentia Foods elaborado por Ecommetrica",
+                  en: "New, more modern logo on a blue background for Excellentia Foods, by Ecommetrica",
                 },
               },
             ],
@@ -1503,24 +1649,24 @@ export const caseStudies: CaseStudy[] = [
           imagesCols: 3,
           images: [
             {
-              src: "/projects/excellentia/branding/logo-secundario-azul.jpg",
+              src: "/projects/excellentia/branding/Logo%20secundario%20con%20fondo%20azul%20elaborado%20por%20ecommetrica%20para%20excellentia%20foods.jpg",
               alt: {
-                es: "Logotipo secundario de Excellentia Foods sobre fondo azul",
-                en: "Excellentia Foods' secondary logo on a blue background",
+                es: "Logo secundario con fondo azul que representa espiga de trigo elemento clave para Excellentia Foods rediseñado por Ecommetrica",
+                en: "Secondary logo on a blue background featuring a wheat-spike motif, a key element for Excellentia Foods, redesigned by Ecommetrica",
               },
             },
             {
-              src: "/projects/excellentia/branding/logo-secundario-guinda.jpg",
+              src: "/projects/excellentia/branding/Logo%20secundario%20con%20fondo%20guinda%20elaborado%20por%20ecommetrica%20para%20excellentia%20foods.jpg",
               alt: {
-                es: "Logotipo secundario de Excellentia Foods sobre fondo guinda",
-                en: "Excellentia Foods' secondary logo on a maroon background",
+                es: "Logo secundario con fondo guinda que representa espiga de trigo elemento clave para Excellentia Foods rediseñado por Ecommetrica",
+                en: "Secondary logo on a maroon background featuring a wheat-spike motif, a key element for Excellentia Foods, redesigned by Ecommetrica",
               },
             },
             {
-              src: "/projects/excellentia/branding/logo-secundario-verde.jpg",
+              src: "/projects/excellentia/branding/Logo%20secundario%20con%20fondo%20verde%20elaborado%20por%20ecommetrica%20para%20excellentia%20foods.jpg",
               alt: {
-                es: "Logotipo secundario de Excellentia Foods sobre fondo verde",
-                en: "Excellentia Foods' secondary logo on a green background",
+                es: "Logo secundario con fondo verde que representa espiga de trigo elemento clave para Excellentia Foods rediseñado por Ecommetrica",
+                en: "Secondary logo on a green background featuring a wheat-spike motif, a key element for Excellentia Foods, redesigned by Ecommetrica",
               },
             },
           ],
@@ -1530,10 +1676,10 @@ export const caseStudies: CaseStudy[] = [
           paragraphs: [],
           images: [
             {
-              src: "/projects/excellentia/branding/brandboard.webp",
+              src: "/projects/excellentia/branding/Captura%20de%20brandboard%20nuevo%20disenada%20por%20ecommetrica.webp",
               alt: {
-                es: "Brand board completo de Excellentia Foods — logotipo, logo secundario, tipografías y paleta de colores",
-                en: "Excellentia Foods' full brand board — logo, secondary logo, typefaces, and color palette",
+                es: "Captura de branboard con logos tipografia y paleta de colores de la distribuidora de alimentos hispanos Excellentia Foods por Ecommetrica",
+                en: "Brand board screenshot with logos, typography, and color palette for Hispanic food distributor Excellentia Foods, by Ecommetrica",
               },
             },
           ],
@@ -1544,31 +1690,31 @@ export const caseStudies: CaseStudy[] = [
           imagesCols: 2,
           images: [
             {
-              src: "/projects/excellentia/page/home.png",
+              src: "/projects/excellentia/page/Pagina%20de%20inicio%20de%20excellentia%20foods%20por%20ecommetrica.png",
               alt: {
-                es: "Página de inicio del nuevo sitio web de Excellentia Foods",
-                en: "Homepage of Excellentia Foods' new website",
+                es: "Seccion de inicio de la página web de Excellentia Foods elaborado por Ecommetrica",
+                en: "Homepage section of Excellentia Foods' website, built by Ecommetrica",
               },
             },
             {
-              src: "/projects/excellentia/page/about.png",
+              src: "/projects/excellentia/page/Nueva%20pagina%20de%20about%20de%20excellentia%20por%20ecommetrica.png",
               alt: {
-                es: "Página \"Nosotros\" del nuevo sitio web de Excellentia Foods",
-                en: "\"About\" page on Excellentia Foods' new website",
+                es: "Nueva página about de Excellentia con videos ilustrativos e historia acerca de la compañía elaborado por Ecommetrica",
+                en: "Excellentia's new about page with illustrative videos and company history, built by Ecommetrica",
               },
             },
             {
-              src: "/projects/excellentia/page/mision-vision.png",
+              src: "/projects/excellentia/page/Seccion%20de%20mision%20y%20vision%20de%20excellencia%20por%20ecommetrica.png",
               alt: {
-                es: "Sección de misión y visión del sitio web de Excellentia Foods",
-                en: "Mission and vision section on Excellentia Foods' website",
+                es: "Apartado en About de misión, visión para Excellentia Foods diseñado por Ecommetrica",
+                en: "Mission and vision section on the About page for Excellentia Foods, designed by Ecommetrica",
               },
             },
             {
-              src: "/projects/excellentia/page/productos.png",
+              src: "/projects/excellentia/page/Seccion%20de%20productos%20que%20vende%20excellentia%20foods.png",
               alt: {
-                es: "Sección de productos del sitio web de Excellentia Foods",
-                en: "Products section on Excellentia Foods' website",
+                es: "Sección con algunos productos del catálogo de Excellentia Foods Por Ecommetrica",
+                en: "Section featuring some of Excellentia Foods' catalog products, by Ecommetrica",
               },
             },
           ],
