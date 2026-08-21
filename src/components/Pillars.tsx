@@ -59,7 +59,7 @@ export default function Pillars({ lang }: { lang: Lang }) {
               opacity={0.9}
             />
             <video
-              src="/videos/pillars-flow.webm"
+              src={lang === "en" ? "/videos/pillars-en.webm" : "/videos/pillars-flow.webm"}
               autoPlay
               muted
               loop
