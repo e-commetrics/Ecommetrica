@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import FaqAccordion from "@/components/FaqAccordion";
 import Reveal from "@/components/Reveal";
+import JsonLd from "@/components/JsonLd";
 import { getDict } from "@/lib/i18n/dict";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 import { seoAlternates } from "@/lib/i18n/seo";
+import { faqPageSchema } from "@/lib/schema";
 
 const LANG = "en" as const;
 const t = getDict(LANG);
@@ -19,6 +21,7 @@ export const metadata: Metadata = {
 export default function FaqPage() {
   return (
     <div className="shell py-20 lg:py-28">
+      <JsonLd data={faqPageSchema(LANG)} />
       {/* Intro and list side by side: the intro sticks while the answers
           expand, so the page keeps its context on a tall screen. */}
       <div className="grid gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">

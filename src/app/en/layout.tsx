@@ -9,8 +9,10 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { RegionProvider } from "@/components/RegionProvider";
 import RegionGate from "@/components/RegionGate";
 import { ContactPrefillProvider } from "@/components/ContactPrefillProvider";
+import JsonLd from "@/components/JsonLd";
 import { getDict } from "@/lib/i18n/dict";
 import { SITE_URL } from "@/lib/i18n/seo";
+import { organizationSchema, websiteSchema } from "@/lib/schema";
 
 const LANG = "en" as const;
 
@@ -49,6 +51,8 @@ export default function RootLayout({
   return (
     <html lang={LANG} className={clashDisplay.variable}>
       <body className="flex min-h-screen flex-col antialiased" suppressHydrationWarning>
+        <JsonLd data={organizationSchema(LANG)} />
+        <JsonLd data={websiteSchema(LANG)} />
         <LanguageProvider lang={LANG}>
           <RegionProvider>
             <ContactPrefillProvider>

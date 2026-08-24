@@ -6,6 +6,8 @@ import { seoAlternates } from "@/lib/i18n/seo";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 import PackagesConfigurator from "@/components/PackagesConfigurator";
 import ConfiguratorSkeleton from "@/components/ConfiguratorSkeleton";
+import JsonLd from "@/components/JsonLd";
+import { serviceCatalogSchema } from "@/lib/schema";
 
 const LANG = "en" as const;
 const t = getDict(LANG);
@@ -20,6 +22,7 @@ export const metadata: Metadata = {
 export default function PackagesPage() {
   return (
     <div className="shell py-20 lg:py-28">
+      <JsonLd data={serviceCatalogSchema(LANG)} />
       <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
         {t.packagesPage.eyebrow}
       </p>

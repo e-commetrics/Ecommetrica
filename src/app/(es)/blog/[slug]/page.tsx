@@ -4,8 +4,10 @@ import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostSource } from "@/lib/blog";
 import { mdxComponents } from "@/components/mdxComponents";
+import JsonLd from "@/components/JsonLd";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
+import { blogPostingSchema, breadcrumbSchema, homeCrumb } from "@/lib/schema";
 
 const LANG = "es" as const;
 const t = getDict(LANG);
@@ -50,6 +52,14 @@ export default async function BlogPostPage({
 
   return (
     <article className="pb-20 lg:pb-28">
+      <JsonLd data={blogPostingSchema({ ...post.meta, slug }, LANG)} />
+      <JsonLd
+        data={breadcrumbSchema(LANG, [
+          homeCrumb(LANG),
+          { name: t.nav.blog, path: "/blog" },
+          { name: post.meta.title, path: `/blog/${slug}` },
+        ])}
+      />
       {post.meta.coverImage ? (
         <div className="relative flex min-h-[60vh] items-end overflow-hidden sm:min-h-[70vh]">
           <Image

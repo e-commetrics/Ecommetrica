@@ -11,6 +11,7 @@ import { SITE_URL } from "../src/lib/i18n/seo";
 import { localizedHref, withTrailingSlash } from "../src/lib/i18n/localizedHref";
 import { getInternalCaseStudies } from "../src/lib/work";
 import { getAllPosts } from "../src/lib/blog";
+import { getDict } from "../src/lib/i18n/dict";
 import type { Lang } from "../src/lib/i18n/types";
 
 const OUT_DIR = path.join(process.cwd(), "out");
@@ -95,6 +96,84 @@ Sitemap: ${SITE_URL}/sitemap.xml
 `;
 }
 
+/** Human labels for `STATIC_ENTRIES`, keyed by the same `path` — used only for llms.txt's
+ *  link list, so it stays in lockstep with STATIC_ENTRIES rather than a separate list. */
+const STATIC_LABELS: Record<string, { es: string; en: string }> = {
+  "/": { es: "Inicio", en: "Home" },
+  "/studio": { es: "Estudio", en: "Studio" },
+  "/services": { es: "Servicios", en: "Services" },
+  "/pricing": { es: "Precios", en: "Pricing" },
+  "/work": { es: "Trabajo", en: "Work" },
+  "/blog": { es: "Blog", en: "Blog" },
+  "/contact": { es: "Contacto", en: "Contact" },
+  "/faq": { es: "Preguntas frecuentes", en: "FAQ" },
+  "/legal/privacy-policy": { es: "Aviso de privacidad", en: "Privacy policy" },
+  "/legal/terms-of-service": { es: "Términos de servicio", en: "Terms of service" },
+};
+
+/** Section headings + cross-link note for llms.txt, one set per language — each generated
+ *  file stays 100% in its own language, mirroring how every other page pair on the site
+ *  (`(es)/foo` vs `en/foo`) is a same-shape translation rather than a mixed document. */
+const LLMS_SECTION_LABELS: Record<Lang, { pages: string; work: string; blog: string; altNote: string }> = {
+  es: {
+    pages: "Páginas principales",
+    work: "Casos de estudio",
+    blog: "Blog",
+    altNote: `English version: ${SITE_URL}/en/llms.txt`,
+  },
+  en: {
+    pages: "Main pages",
+    work: "Case studies",
+    blog: "Blog",
+    altNote: `Versión en español: ${SITE_URL}/llms.txt`,
+  },
+};
+
+/**
+ * llms.txt (llmstxt.org): a plain-language index for LLM crawlers (ChatGPT, Claude,
+ * Perplexity, etc.), the same role robots.txt/sitemap.xml play for traditional crawlers.
+ * One file per language (es at the root, en under /en/, same split as every other route)
+ * rather than one mixed-language file.
+ */
+function buildLlmsTxt(lang: Lang): string {
+  const t = getDict(lang);
+  const labels = LLMS_SECTION_LABELS[lang];
+
+  const linkLine = (label: string, entryPath: string) =>
+    `- [${label}](${SITE_URL + withTrailingSlash(localizedHref(lang, entryPath))})`;
+
+  const pagesList = STATIC_ENTRIES.map((entry) =>
+    linkLine(STATIC_LABELS[entry.path]?.[lang] ?? entry.path, entry.path),
+  ).join("\n");
+
+  const workList = getInternalCaseStudies()
+    .map((project) => linkLine(project.name, `/work/${project.slug}`))
+    .join("\n");
+
+  const blogList = getAllPosts(lang)
+    .map((post) => linkLine(post.title, `/blog/${post.slug}`))
+    .join("\n");
+
+  return `# Ecommetrica
+
+> ${t.siteMeta.description}
+
+${labels.altNote}
+
+## ${labels.pages}
+
+${pagesList}
+
+## ${labels.work}
+
+${workList}
+
+## ${labels.blog}
+
+${blogList}
+`;
+}
+
 function main() {
   if (!fs.existsSync(OUT_DIR)) {
     throw new Error(`"${OUT_DIR}" does not exist — run "next build" before this script.`);
@@ -102,8 +181,13 @@ function main() {
 
   fs.writeFileSync(path.join(OUT_DIR, "sitemap.xml"), buildSitemap());
   fs.writeFileSync(path.join(OUT_DIR, "robots.txt"), buildRobots());
+  fs.writeFileSync(path.join(OUT_DIR, "llms.txt"), buildLlmsTxt("es"));
+  fs.mkdirSync(path.join(OUT_DIR, "en"), { recursive: true });
+  fs.writeFileSync(path.join(OUT_DIR, "en", "llms.txt"), buildLlmsTxt("en"));
 
-  console.log("Generated out/sitemap.xml and out/robots.txt");
+  console.log(
+    "Generated out/sitemap.xml, out/robots.txt, out/llms.txt, and out/en/llms.txt",
+  );
 }
 
 main();

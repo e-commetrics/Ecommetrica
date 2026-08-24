@@ -4,6 +4,8 @@ import { getInternalCaseStudies, getCaseStudy, categoryLabel } from "@/lib/work"
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
 import CaseStudyDetail from "@/components/CaseStudyDetail";
+import JsonLd from "@/components/JsonLd";
+import { breadcrumbSchema, caseStudyArticleSchema, homeCrumb } from "@/lib/schema";
 
 const LANG = "en" as const;
 const t = getDict(LANG);
@@ -47,5 +49,17 @@ export default async function CaseStudyPage({
     notFound();
   }
 
-  return <CaseStudyDetail project={project} lang={LANG} />;
+  return (
+    <>
+      <JsonLd data={caseStudyArticleSchema(project, LANG)} />
+      <JsonLd
+        data={breadcrumbSchema(LANG, [
+          homeCrumb(LANG),
+          { name: t.nav.work, path: "/work" },
+          { name: project.name, path: `/work/${slug}` },
+        ])}
+      />
+      <CaseStudyDetail project={project} lang={LANG} />
+    </>
+  );
 }

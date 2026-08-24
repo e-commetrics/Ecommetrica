@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
 import PricingGrid from "@/components/PricingGrid";
+import JsonLd from "@/components/JsonLd";
+import { serviceCatalogSchema } from "@/lib/schema";
 
 const LANG = "en" as const;
 const t = getDict(LANG);
@@ -14,5 +16,10 @@ export const metadata: Metadata = {
 };
 
 export default function PricingPage() {
-  return <PricingGrid />;
+  return (
+    <>
+      <JsonLd data={serviceCatalogSchema(LANG)} />
+      <PricingGrid />
+    </>
+  );
 }
