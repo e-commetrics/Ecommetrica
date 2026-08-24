@@ -27,7 +27,7 @@ export type Plan = {
 export const plans: Plan[] = [
   {
     id: "simple",
-    name: { es: "Simple", en: "Simple" },
+    name: { es: "Arranque", en: "Launch" },
     duration: { es: "3 meses", en: "3 months" },
     durationMonths: 3,
     priceValue: { mx: 675, us: 1450 },
@@ -39,7 +39,7 @@ export const plans: Plan[] = [
           en: "Custom website (React, Astro, or Shopify)",
         },
       },
-      { text: { es: "SEO y AEO inicial", en: "Foundational SEO and AEO" } },
+      { text: { es: "SEO y AEO", en: "SEO and AEO" } },
       { text: { es: "Contenido generado con IA", en: "AI-assisted content production" } },
       { text: { es: "Configuración de redes sociales", en: "Social profile setup" } },
       {
@@ -73,13 +73,13 @@ export const plans: Plan[] = [
   },
   {
     id: "advanced",
-    name: { es: "Advanced", en: "Advanced" },
+    name: { es: "Tracción", en: "Traction" },
     duration: { es: "4 meses", en: "4 months" },
     durationMonths: 4,
     priceValue: { mx: 995, us: 2450 },
     serviceCount: { mx: 13, us: 16 },
     features: [
-      { text: { es: "Todo en Simple", en: "Everything in Simple" } },
+      { text: { es: "Todo en Arranque", en: "Everything in Launch" } },
       { text: { es: "Tienda Shopify", en: "Shopify store" } },
       { text: { es: "SEO y AEO avanzado", en: "Advanced SEO and AEO" } },
       { text: { es: "Desarrollo web avanzado", en: "Advanced web development" } },
@@ -104,14 +104,14 @@ export const plans: Plan[] = [
   },
   {
     id: "grower",
-    name: { es: "Grower", en: "Grower" },
+    name: { es: "Escala", en: "Scale" },
     duration: { es: "6 meses", en: "6 months" },
     durationMonths: 6,
     priceValue: { mx: 1185, us: 3200 },
     serviceCount: { mx: 22, us: 26 },
     featured: true,
     features: [
-      { text: { es: "Todo en Advanced", en: "Everything in Advanced" } },
+      { text: { es: "Todo en Tracción", en: "Everything in Traction" } },
       { text: { es: "Desarrollo web a la medida", en: "Custom web development" } },
       {
         text: {
@@ -120,12 +120,12 @@ export const plans: Plan[] = [
         },
       },
       { text: { es: "Publicidad digital (Google/Meta)", en: "Paid media (Google/Meta)" } },
-      { text: { es: "Branding + identity", en: "Branding + identity" } },
-      { text: { es: "Producción audiovisual", en: "Video production" } },
+      { text: { es: "Branding", en: "Branding" } },
+      { text: { es: "Producción audiovisual completa", en: "Full video production" } },
       {
         text: {
-          es: "Monitoreo continuo de accesibilidad",
-          en: "Continuous accessibility monitoring",
+          es: "Monitoreo y atención en vivo",
+          en: "Live monitoring and support",
         },
       },
       { text: { es: "Integraciones de plataforma", en: "Platform integrations" } },
@@ -143,17 +143,17 @@ export const plans: Plan[] = [
   },
   {
     id: "high-profile",
-    name: { es: "High Profile", en: "High Profile" },
+    name: { es: "Cúspide", en: "Peak" },
     duration: { es: "8 meses", en: "8 months" },
     durationMonths: 8,
     priceValue: { mx: 1555, us: 4500 },
     serviceCount: { mx: 28, us: 34 },
     features: [
-      { text: { es: "Todo en Grower", en: "Everything in Grower" } },
+      { text: { es: "Todo en Escala", en: "Everything in Scale" } },
       {
         text: {
-          es: "Producción audiovisual high-end 4K",
-          en: "High-end 4K video production",
+          es: "Producción audiovisual cinematográfica (4K)",
+          en: "Cinematic 4K video production",
         },
       },
       { text: { es: "VPAT / reporte de conformidad", en: "VPAT / conformance report" } },
@@ -164,7 +164,7 @@ export const plans: Plan[] = [
           en: "System integrations (up to 2, documented API)",
         },
       },
-      { text: { es: "Dashboards y BI", en: "Dashboards and BI" } },
+      { text: { es: "Dashboard y BI", en: "Dashboard and BI" } },
       {
         text: {
           es: "SLA de soporte prioritario (24 h hábiles)",
@@ -202,7 +202,7 @@ export type CustomPlan = {
 
 export const customPlan: CustomPlan = {
   id: "custom",
-  name: { es: "Custom", en: "Custom" },
+  name: { es: "Aliado", en: "Partner" },
   minDuration: { es: "Mínimo 8 meses", en: "Minimum 8 months" },
   priceFromValue: { mx: 2500, us: 6500 },
   totalFromValue: { mx: 20000, us: 52000 },
@@ -210,22 +210,22 @@ export const customPlan: CustomPlan = {
     {
       title: { es: "Equipo embebido", en: "Embedded team" },
       description: {
-        es: "Personas asignadas a tu operación con capacidad mensual fija.",
-        en: "Named people assigned to your operation with fixed monthly capacity.",
+        es: "Capital humano asignado a tu área con operación mensual fija.",
+        en: "Dedicated people assigned to your area with fixed monthly capacity.",
       },
     },
     {
       title: { es: "Roadmap y sprints continuos", en: "Continuous roadmap and sprints" },
       description: {
-        es: "Desarrollo sin fin de proyecto: entregas quincenales contra roadmap.",
-        en: "Development with no project end date: shipped increments every two weeks.",
+        es: "Desarrollo fluido del proyecto: entregables quincenales contra roadmap.",
+        en: "Smooth, ongoing development: biweekly deliverables against the roadmap.",
       },
     },
     {
       title: { es: "Motor de contenido AEO-first", en: "AEO-first content engine" },
       description: {
-        es: "Contenido a volumen, medido por citación en IA y búsqueda.",
-        en: "Content at volume, measured by citation in AI answers and search.",
+        es: "Contenido en volumen para ser referencia en las IAs y motores de búsqueda.",
+        en: "Content at volume, built to become the reference cited by AI answers and search.",
       },
     },
     {

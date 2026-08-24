@@ -70,13 +70,23 @@ export const packagePhases: PackagePhase[] = [
     addons: [
       {
         id: "video-production",
-        name: { es: "Producción audiovisual", en: "Video production" },
+        name: { es: "Producción redes sociales", en: "Social media production" },
         description: {
           es: "2 shootings profesionales, contenido distribuido a lo largo de 3 meses.",
           en: "2 professional shoots, content distributed across 3 months.",
         },
         price: { mx: 1200, us: 2400 },
         includedInPlanIds: ["grower", "high-profile"],
+      },
+      {
+        id: "cinematic-production",
+        name: { es: "Producción cinematográfica", en: "Cinematic production" },
+        description: {
+          es: "1 video formato 2K-4K + 1 sesión de fotos profesional, incluye pre y post producción y distribución personalizada.",
+          en: "1 video shot in 2K-4K + 1 professional photoshoot, both including pre- and post-production and personalized distribution.",
+        },
+        price: { mx: 1200, us: 1200 },
+        includedInPlanIds: [],
       },
     ],
   },
@@ -147,6 +157,46 @@ export const packagePhases: PackagePhase[] = [
         },
         price: { mx: 1290, us: 2550 },
         includedInPlanIds: ["grower", "high-profile"],
+      },
+    ],
+  },
+  {
+    id: "branding",
+    title: { es: "Branding", en: "Branding" },
+    description: {
+      es: "Identidad de marca como continuación, para clientes que ya tienen sitio y necesitan renovar su imagen.",
+      en: "Brand identity as continuation work, for clients who already have a site and need to refresh their image.",
+    },
+    addons: [
+      {
+        id: "branding-identity",
+        name: { es: "Branding + identidad visual", en: "Branding + visual identity" },
+        description: {
+          es: "ADN de marca, moodboard, logos, manual de marca.",
+          en: "Brand DNA, moodboard, logos, brand manual.",
+        },
+        price: { mx: 350, us: 350 },
+        includedInPlanIds: [],
+      },
+      {
+        id: "branding-digital-design",
+        name: { es: "Branding + diseño digital", en: "Branding + digital design" },
+        description: {
+          es: "Identidad visual y manual de marca + diseño aplicado en redes y papelería offline. Se entrega con editables.",
+          en: "Visual identity and brand manual + design applied to social media and offline stationery. Delivered with editable files.",
+        },
+        price: { mx: 490, us: 490 },
+        includedInPlanIds: [],
+      },
+      {
+        id: "rebranding-kickstart",
+        name: { es: "Re-branding + kickstart", en: "Re-branding + kickstart" },
+        description: {
+          es: "Brand refresh o rebranding + diseño digital y papelería. Se entrega con editables.",
+          en: "Brand refresh or rebranding + digital design and stationery. Delivered with editable files.",
+        },
+        price: { mx: 860, us: 860 },
+        includedInPlanIds: [],
       },
     ],
   },

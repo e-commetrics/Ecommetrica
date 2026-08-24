@@ -13,7 +13,7 @@ import { localizedHref } from "@/lib/i18n/localizedHref";
 import type { Lang, Region } from "@/lib/i18n/types";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const TOTAL_STEPS = 5; // 0: plan, 1-3: addon phases, 4: summary
+const TOTAL_STEPS = 6; // 0: plan, 1-4: addon phases, 5: summary
 
 export default function PackagesConfigurator() {
   const { t, lang } = useLanguage();
@@ -114,7 +114,8 @@ export default function PackagesConfigurator() {
     return lines.join("\n");
   }
 
-  const currentPhase = step >= 1 && step <= 3 ? packagePhases[step - 1] : null;
+  const currentPhase =
+    step >= 1 && step <= packagePhases.length ? packagePhases[step - 1] : null;
 
   return (
     <div className="mt-16">
@@ -160,7 +161,7 @@ export default function PackagesConfigurator() {
               />
             )}
 
-            {step === 4 && (
+            {step === TOTAL_STEPS - 1 && (
               <SummaryStep
                 plan={selectedPlan}
                 addons={selectedAddons}
