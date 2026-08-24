@@ -7,7 +7,6 @@ import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { RegionProvider } from "@/components/RegionProvider";
-import RegionGate from "@/components/RegionGate";
 import { ContactPrefillProvider } from "@/components/ContactPrefillProvider";
 import JsonLd from "@/components/JsonLd";
 import { getDict } from "@/lib/i18n/dict";
@@ -57,7 +56,6 @@ export default function RootLayout({
           <RegionProvider>
             <ContactPrefillProvider>
               <SmoothScroll />
-              <RegionGate />
               <Header />
               <main className="flex-1">{children}</main>
               <Footer />

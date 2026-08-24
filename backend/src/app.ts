@@ -3,8 +3,14 @@ import cors from "cors";
 import { existsSync, readFileSync } from "fs";
 import { extname, join } from "path";
 import contactRoute from "./route/contact.route";
+import geoRoute from "./route/geo.route";
 
 const app = express();
+
+// Single hop: cPanel's Apache/Passenger reverse-proxies every request to this app, so
+// req.ip is the proxy's own address unless this is set — needed for both /api/geo (real
+// visitor IP for the GeoIP lookup) and the /api/contact rate limiter (keyed on req.ip).
+app.set("trust proxy", 1);
 
 const allowedOrigins = (process.env.FRONTEND_URL ?? "")
   .split(",")
@@ -23,6 +29,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/api/contact", contactRoute);
+app.use("/api/geo", geoRoute);
 
 // Same Passenger fallback as below, but for a narrower case: the frontend's
 // static export (trailingSlash: true) only has an index.html at

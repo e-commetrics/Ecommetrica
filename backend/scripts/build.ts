@@ -18,7 +18,7 @@ const result = await Bun.build({
   format: "cjs",
   // Keep npm packages external — they're installed via `npm install` on the
   // server from dist/package.json — only our own src/*.ts gets bundled in.
-  external: ["express", "cors", "dotenv", "nodemailer", "express-rate-limit"],
+  external: ["express", "cors", "dotenv", "nodemailer", "express-rate-limit", "geoip-lite"],
   naming: "index.js",
   define: {
     __LOGO_PNG_BASE64__: JSON.stringify(logoBase64),

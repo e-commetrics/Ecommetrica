@@ -23,7 +23,6 @@ export type Dict = {
   languageSwitcher: { ariaLabel: string };
   themeSwitcher: { ariaLabel: string };
   regionSwitcher: { ariaLabel: string };
-  regionGate: { headline: string; sub: string; mx: string; us: string };
   footer: {
     privacy: string;
     terms: string;
@@ -287,12 +286,6 @@ export const dict: Record<Lang, Dict> = {
     languageSwitcher: { ariaLabel: "Cambiar idioma" },
     themeSwitcher: { ariaLabel: "Tema" },
     regionSwitcher: { ariaLabel: "Cambiar región de precios" },
-    regionGate: {
-      headline: "¿Desde dónde nos visitas?",
-      sub: "Los precios y servicios varían según tu región.",
-      mx: "México y Latinoamérica",
-      us: "Estados Unidos, Europa y Asia",
-    },
     footer: {
       privacy: "Política de privacidad",
       terms: "Términos y condiciones",
@@ -719,12 +712,6 @@ export const dict: Record<Lang, Dict> = {
     languageSwitcher: { ariaLabel: "Toggle language" },
     themeSwitcher: { ariaLabel: "Theme" },
     regionSwitcher: { ariaLabel: "Toggle pricing region" },
-    regionGate: {
-      headline: "Where are you visiting from?",
-      sub: "Pricing and services vary by region.",
-      mx: "Mexico and Latin America",
-      us: "United States, Europe, and Asia",
-    },
     footer: {
       privacy: "Privacy policy",
       terms: "Terms & conditions",
