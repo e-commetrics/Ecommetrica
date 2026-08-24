@@ -6,6 +6,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import { LanguageProvider } from "@/components/LanguageProvider";
+import { RegionProvider } from "@/components/RegionProvider";
+import RegionGate from "@/components/RegionGate";
 import { ContactPrefillProvider } from "@/components/ContactPrefillProvider";
 import { getDict } from "@/lib/i18n/dict";
 import { SITE_URL } from "@/lib/i18n/seo";
@@ -48,26 +50,29 @@ export default function RootLayout({
     <html lang={LANG} className={clashDisplay.variable}>
       <body className="flex min-h-screen flex-col antialiased" suppressHydrationWarning>
         <LanguageProvider lang={LANG}>
-          <ContactPrefillProvider>
-            <SmoothScroll />
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-            <Toaster
-              position="bottom-right"
-              toastOptions={{
-                style: {
-                  background: "#25272a",
-                  color: "#f2ede9",
-                  fontSize: "17px",
-                  borderRadius: "9999px",
-                  padding: "12px 20px",
-                },
-                success: { iconTheme: { primary: "#e84a34", secondary: "#f2ede9" } },
-                error: { iconTheme: { primary: "#9c1512", secondary: "#f2ede9" } },
-              }}
-            />
-          </ContactPrefillProvider>
+          <RegionProvider>
+            <ContactPrefillProvider>
+              <SmoothScroll />
+              <RegionGate />
+              <Header />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <Toaster
+                position="bottom-right"
+                toastOptions={{
+                  style: {
+                    background: "#25272a",
+                    color: "#f2ede9",
+                    fontSize: "17px",
+                    borderRadius: "9999px",
+                    padding: "12px 20px",
+                  },
+                  success: { iconTheme: { primary: "#e84a34", secondary: "#f2ede9" } },
+                  error: { iconTheme: { primary: "#9c1512", secondary: "#f2ede9" } },
+                }}
+              />
+            </ContactPrefillProvider>
+          </RegionProvider>
         </LanguageProvider>
       </body>
     </html>

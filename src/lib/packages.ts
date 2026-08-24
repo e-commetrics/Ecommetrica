@@ -1,10 +1,10 @@
-import type { Localized } from "@/lib/i18n/types";
+import type { Localized, Region } from "@/lib/i18n/types";
 
 export type PackageAddon = {
   id: string;
   name: Localized;
   description: Localized;
-  price: number;
+  price: Record<Region, number>;
   /** Plan ids (see `Plan.id` in pricing.ts) whose feature list already covers this —
    *  configurator marks the addon "included" instead of letting it be added twice. */
   includedInPlanIds: string[];
@@ -17,154 +17,136 @@ export type PackagePhase = {
   addons: PackageAddon[];
 };
 
+/** À la carte continuation services — for clients who finished a plan and want to keep
+ *  specific pieces active, not a parallel plan. Priced per region like everything else. */
 export const packagePhases: PackagePhase[] = [
   {
-    id: "marketing",
-    title: { es: "Servicios adicionales de marketing", en: "Additional marketing services" },
+    id: "hourly",
+    title: { es: "Trabajo por horas — bloques de 10 h", en: "Work by the hour — 10-hour blocks" },
     description: {
-      es: "Agrega herramientas extra para potenciar tu estrategia.",
-      en: "Add extra tools to power up your strategy.",
+      es: "Para clientes que terminaron un plan y quieren continuar con piezas específicas.",
+      en: "For clients who finished a plan and want to continue with specific pieces.",
     },
     addons: [
       {
-        id: "seo-pro",
-        name: { es: "SEO Avanzado", en: "Advanced SEO" },
+        id: "coding",
+        name: { es: "Coding / ingeniería", en: "Coding / engineering" },
         description: {
-          es: "Optimización técnica, contenido estratégico y Google My Business.",
-          en: "Technical optimization, strategic content, and Google My Business.",
+          es: "Actualización o desarrollo de webapps.",
+          en: "Webapp updates or development. Senior nearshore engineering on Pacific time.",
         },
-        price: 500,
-        includedInPlanIds: ["pro", "empresa", "personalizado"],
-      },
-      {
-        id: "social-media",
-        name: { es: "Gestión de Redes Sociales", en: "Social Media Management" },
-        description: {
-          es: "Creación de contenido, posts y reels para redes sociales.",
-          en: "Content creation, posts, and reels for social media.",
-        },
-        price: 800,
-        includedInPlanIds: ["empresa", "personalizado"],
-      },
-      {
-        id: "email-marketing",
-        name: { es: "Email Marketing", en: "Email Marketing" },
-        description: {
-          es: "Automatización con campañas estratégicas y segmentación avanzada.",
-          en: "Automation with strategic campaigns and advanced segmentation.",
-        },
-        price: 400,
+        price: { mx: 620, us: 1100 },
         includedInPlanIds: [],
       },
       {
-        id: "ads",
-        name: { es: "Publicidad Digital", en: "Digital Advertising" },
+        id: "content-creation",
+        name: { es: "Creación de contenido", en: "Content creation" },
         description: {
-          es: "Gestión de campañas en Google Ads y Facebook Ads.",
-          en: "Campaign management on Google Ads and Facebook Ads.",
+          es: "~7 videos cortos con portada + 5 posts de diseño.",
+          en: "~7 short videos with covers + 5 design posts.",
         },
-        price: 1000,
-        includedInPlanIds: ["empresa", "personalizado"],
+        price: { mx: 480, us: 650 },
+        includedInPlanIds: [],
+      },
+      {
+        id: "webmaster",
+        name: { es: "Webmaster / mantenimiento", en: "Webmaster / maintenance" },
+        description: {
+          es: "Mantenimiento de infraestructura y sitio.",
+          en: "Infrastructure and site maintenance.",
+        },
+        price: { mx: 370, us: 550 },
+        includedInPlanIds: [],
       },
     ],
   },
   {
-    id: "integrations",
-    title: { es: "Integraciones especiales", en: "Special integrations" },
+    id: "content-production",
+    title: { es: "Producción de contenido", en: "Content production" },
     description: {
-      es: "Conecta con otras plataformas y servicios.",
-      en: "Connect with other platforms and services.",
+      es: "Producción audiovisual como continuación, facturada aparte del honorario de gestión.",
+      en: "Audiovisual production as continuation work, billed separately from the management fee.",
     },
     addons: [
       {
-        id: "crm",
-        name: { es: "Integración CRM", en: "CRM Integration" },
+        id: "video-production",
+        name: { es: "Producción audiovisual", en: "Video production" },
         description: {
-          es: "Conexión con HubSpot, Salesforce o CRM personalizado.",
-          en: "Connection with HubSpot, Salesforce, or a custom CRM.",
+          es: "2 shootings profesionales, contenido distribuido a lo largo de 3 meses.",
+          en: "2 professional shoots, content distributed across 3 months.",
         },
-        price: 300,
-        includedInPlanIds: [],
-      },
-      {
-        id: "payment",
-        name: { es: "Pasarelas de Pago", en: "Payment Gateways" },
-        description: {
-          es: "Configuración de Stripe, PayPal o MercadoPago.",
-          en: "Setup of Stripe, PayPal, or MercadoPago.",
-        },
-        price: 200,
-        includedInPlanIds: [],
-      },
-      {
-        id: "analytics",
-        name: { es: "Google Analytics & Tag Manager", en: "Google Analytics & Tag Manager" },
-        description: {
-          es: "Implementación avanzada con seguimiento de eventos.",
-          en: "Advanced implementation with event tracking.",
-        },
-        price: 350,
-        includedInPlanIds: [],
-      },
-      {
-        id: "automation",
-        name: { es: "Automatización de Procesos", en: "Process Automation" },
-        description: {
-          es: "Flujos de trabajo con IA para remarketing y gestión de clientes.",
-          en: "AI-driven workflows for remarketing and client management.",
-        },
-        price: 700,
-        includedInPlanIds: ["personalizado"],
+        price: { mx: 1200, us: 2400 },
+        includedInPlanIds: ["grower", "high-profile"],
       },
     ],
   },
   {
-    id: "customization",
-    title: { es: "Personalización final", en: "Final customization" },
+    id: "ad-management",
+    title: { es: "Gestión de anuncios — tres niveles", en: "Ad management — three tiers" },
     description: {
-      es: "Toques finales para tu proyecto perfecto.",
-      en: "Finishing touches for your perfect project.",
+      es: "El honorario de gestión y el presupuesto de pauta se facturan siempre por separado; la pauta va a nombre del cliente.",
+      en: "The management fee and the ad budget are always billed separately; ad spend is in the client's name.",
     },
     addons: [
       {
-        id: "design",
-        name: { es: "Diseño Gráfico y Branding", en: "Graphic Design & Branding" },
+        id: "mgmt-only-meta",
+        name: { es: "Solo gestión — Meta", en: "Management only — Meta" },
         description: {
-          es: "Diseño de identidad visual en Figma, Photoshop e Illustrator.",
-          en: "Visual identity design in Figma, Photoshop, and Illustrator.",
+          es: "3 campañas · sin creativos. El honorario limpio: para el cliente que ya trae su contenido.",
+          en: "3 campaigns · no creatives. The clean fee: for the client who already has content.",
         },
-        price: 1000,
-        includedInPlanIds: ["empresa", "personalizado"],
+        price: { mx: 450, us: 900 },
+        includedInPlanIds: ["grower", "high-profile"],
       },
       {
-        id: "support",
-        name: { es: "Soporte Priority 24/7", en: "24/7 Priority Support" },
+        id: "mgmt-only-google",
+        name: { es: "Solo gestión — Google", en: "Management only — Google" },
         description: {
-          es: "Atención técnica prioritaria y resolución de problemas.",
-          en: "Priority technical support and issue resolution.",
+          es: "3 campañas + keywords · sin blogs. Solo estrategia, configuración y optimización.",
+          en: "3 campaigns + keywords · no blogs. Strategy, setup, and optimization only.",
         },
-        price: 1500,
-        includedInPlanIds: [],
+        price: { mx: 550, us: 1100 },
+        includedInPlanIds: ["grower", "high-profile"],
       },
       {
-        id: "branding",
-        name: { es: "Estrategia de Branding", en: "Branding Strategy" },
+        id: "mgmt-creatives-meta",
+        name: { es: "Gestión + creativos — Meta", en: "Management + creatives — Meta" },
         description: {
-          es: "Desarrollo de imagen de marca y posicionamiento.",
-          en: "Brand image development and positioning.",
+          es: "3 campañas + creativos. Lo más cercano a lo que ya conocen; incluye el diseño de los anuncios.",
+          en: "3 campaigns + creatives. Closest to what they already know; includes ad creatives.",
         },
-        price: 900,
-        includedInPlanIds: ["empresa", "personalizado"],
+        price: { mx: 680, us: 1350 },
+        includedInPlanIds: ["grower", "high-profile"],
       },
       {
-        id: "ux-ui",
-        name: { es: "Optimización UX/UI", en: "UX/UI Optimization" },
+        id: "mgmt-creatives-google",
+        name: { es: "Gestión + creativos — Google", en: "Management + creatives — Google" },
         description: {
-          es: "Mejoras en navegación, experiencia de usuario y conversiones.",
-          en: "Improvements to navigation, user experience, and conversions.",
+          es: "3 campañas + 6 keywords + 3 blogs. El motor de contenido completo (7 blogs) vive en el nivel siguiente.",
+          en: "3 campaigns + 6 keywords + 3 blogs. The full content engine (7 blogs) lives in the next tier.",
         },
-        price: 1100,
-        includedInPlanIds: ["personalizado"],
+        price: { mx: 780, us: 1550 },
+        includedInPlanIds: ["grower", "high-profile"],
+      },
+      {
+        id: "mgmt-content-engine-meta",
+        name: { es: "Gestión + motor de contenido — Meta", en: "Management + content engine — Meta" },
+        description: {
+          es: "3 campañas + creativos + 8 piezas. Mayor ticket: aquí vive la producción de contenido completa.",
+          en: "3 campaigns + creatives + 8 pieces. Higher ticket: the full content production lives here.",
+        },
+        price: { mx: 1150, us: 2300 },
+        includedInPlanIds: ["grower", "high-profile"],
+      },
+      {
+        id: "mgmt-content-engine-google",
+        name: { es: "Gestión + motor de contenido — Google", en: "Management + content engine — Google" },
+        description: {
+          es: "3 campañas + 9 keywords + 7 blogs. 7 blogs es trabajo de redacción, se cobra como tal.",
+          en: "3 campaigns + 9 keywords + 7 blogs. 7 blogs is real writing work, priced as such.",
+        },
+        price: { mx: 1290, us: 2550 },
+        includedInPlanIds: ["grower", "high-profile"],
       },
     ],
   },

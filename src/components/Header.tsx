@@ -7,6 +7,7 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-
 import { useCallback, useEffect, useRef, useState } from "react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import RegionSwitcher from "@/components/RegionSwitcher";
 import { useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 
@@ -115,6 +116,7 @@ export default function Header() {
 
         <div className="hidden items-center gap-5 lg:flex">
           <LanguageSwitcher />
+          <RegionSwitcher />
           <ThemeSwitcher />
           <Link
             href={localizedHref(lang, "/contact")}
@@ -286,6 +288,7 @@ function MobileNav({
                   >
                     <div className="flex items-center gap-6">
                       <LanguageSwitcher />
+                      <RegionSwitcher />
                       <ThemeSwitcher />
                     </div>
                     <Link

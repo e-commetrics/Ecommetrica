@@ -22,6 +22,8 @@ export type Dict = {
   mobileMenu: { open: string; close: string };
   languageSwitcher: { ariaLabel: string };
   themeSwitcher: { ariaLabel: string };
+  regionSwitcher: { ariaLabel: string };
+  regionGate: { headline: string; sub: string; mx: string; us: string };
   footer: {
     privacy: string;
     terms: string;
@@ -50,7 +52,14 @@ export type Dict = {
   };
   bigNav: { work: string; services: string; talk: string };
   marquee: { words: string[] };
-  planes: { eyebrow: string; bigWord: string; sub: string; popular: string; select: string };
+  planes: {
+    eyebrow: string;
+    bigWord: string;
+    sub: string;
+    popular: string;
+    select: string;
+    viewAll: string;
+  };
   servicesOverview: {
     eyebrow: string;
     headline: string;
@@ -172,6 +181,29 @@ export type Dict = {
     headline: string;
     sub: string;
   };
+  pricingPage: {
+    metaDescription: string;
+    keywords: string[];
+    eyebrow: string;
+    headline: string;
+    sub: string;
+    bannerTitle: string;
+    bannerBody: string;
+    bestValueBadge: string;
+    totalLabel: string;
+    servicesLabel: string;
+    perServiceLabel: string;
+    lowestBadge: string;
+    selectCta: string;
+    customFromLabel: string;
+    customTotalLabel: string;
+    customScaleLabel: string;
+    customModuleLabel: string;
+    customChooseOne: string;
+    customCta: string;
+    footnote: string;
+    footer: string;
+  };
   packagesFlow: {
     stepLabels: [string, string, string, string, string];
     stepOf: (current: number, total: number) => string;
@@ -254,6 +286,13 @@ export const dict: Record<Lang, Dict> = {
     mobileMenu: { open: "Menú", close: "Cerrar menú" },
     languageSwitcher: { ariaLabel: "Cambiar idioma" },
     themeSwitcher: { ariaLabel: "Tema" },
+    regionSwitcher: { ariaLabel: "Cambiar región de precios" },
+    regionGate: {
+      headline: "¿Desde dónde nos visitas?",
+      sub: "Los precios y servicios varían según tu región.",
+      mx: "México y Latinoamérica",
+      us: "Estados Unidos, Europa y Asia",
+    },
     footer: {
       privacy: "Política de privacidad",
       terms: "Términos y condiciones",
@@ -316,6 +355,7 @@ export const dict: Record<Lang, Dict> = {
       sub: "Cuatro paquetes con todo incluido: sitio web, SEO, redes y publicidad. Elige el que corresponda a la etapa de tu negocio.",
       popular: "Popular",
       select: "Seleccionar",
+      viewAll: "Ver todos los planes y precios",
     },
     servicesOverview: {
       eyebrow: "Nuestros",
@@ -516,6 +556,37 @@ export const dict: Record<Lang, Dict> = {
       headline: "Elige tu plan y hazlo tuyo.",
       sub: "Empieza con un plan base y súmale los extras que tu proyecto necesita — tú decides qué lleva tu paquete.",
     },
+    pricingPage: {
+      metaDescription:
+        "Planes y paquetes de Ecommetrica: sitio web, SEO/AEO, redes, publicidad y cumplimiento de accesibilidad. Precios por región.",
+      keywords: [
+        "planes Ecommetrica",
+        "precios desarrollo web Tijuana",
+        "paquetes de marketing digital",
+        "cumplimiento ADA WCAG",
+      ],
+      eyebrow: "ECOMMETRICA",
+      headline: "Planes y paquetes",
+      sub: "Elige el plan según la etapa de tu negocio, no según la lista de servicios.",
+      bannerTitle: "Cumplimiento incluido desde el plan Advanced.",
+      bannerBody:
+        "Accesibilidad ADA / WCAG 2.1 AA y consentimiento de datos configurados desde el inicio — porque en California un sitio inaccesible es una exposición legal, no un detalle de diseño.",
+      bestValueBadge: "Mejor valor",
+      totalLabel: "Total",
+      servicesLabel: "servicios",
+      perServiceLabel: "por servicio al mes",
+      lowestBadge: "el más bajo",
+      selectCta: "Seleccionar",
+      customFromLabel: "Desde",
+      customTotalLabel: "Desde",
+      customScaleLabel: "Escala por número de personas",
+      customModuleLabel: "Módulo base",
+      customChooseOne: "Elige 1",
+      customCta: "Cotizar",
+      footnote: "★ Inclusiones exclusivas del mercado US — no disponibles en los planes de México.",
+      footer:
+        "Cada plan incluye la totalidad del plan anterior. Precios en USD por mes. El costo por servicio se calcula sobre los servicios incluidos en cada plan. Vigencia sujeta a contrato.",
+    },
     packagesFlow: {
       stepLabels: ["Plan", "Marketing", "Integraciones", "Personalización", "Resumen"],
       stepOf: (current, total) => `Paso ${current} de ${total}`,
@@ -647,6 +718,13 @@ export const dict: Record<Lang, Dict> = {
     mobileMenu: { open: "Menu", close: "Close menu" },
     languageSwitcher: { ariaLabel: "Toggle language" },
     themeSwitcher: { ariaLabel: "Theme" },
+    regionSwitcher: { ariaLabel: "Toggle pricing region" },
+    regionGate: {
+      headline: "Where are you visiting from?",
+      sub: "Pricing and services vary by region.",
+      mx: "Mexico and Latin America",
+      us: "United States, Europe, and Asia",
+    },
     footer: {
       privacy: "Privacy policy",
       terms: "Terms & conditions",
@@ -709,6 +787,7 @@ export const dict: Record<Lang, Dict> = {
       sub: "Four all-inclusive packages: website, SEO, social media, and advertising. Pick the one that matches where your business is.",
       popular: "Popular",
       select: "Select",
+      viewAll: "See all plans and pricing",
     },
     servicesOverview: {
       eyebrow: "Our",
@@ -906,6 +985,37 @@ export const dict: Record<Lang, Dict> = {
       eyebrow: "Build your package",
       headline: "Choose your plan and make it yours.",
       sub: "Start with a base plan and add the extras your project needs — you decide what goes into your package.",
+    },
+    pricingPage: {
+      metaDescription:
+        "Ecommetrica plans and packages: website, SEO/AEO, social, advertising, and accessibility compliance. Pricing by region.",
+      keywords: [
+        "Ecommetrica plans",
+        "web development pricing Tijuana",
+        "digital marketing packages",
+        "ADA WCAG compliance",
+      ],
+      eyebrow: "ECOMMETRICA STUDIO",
+      headline: "Plans and packages",
+      sub: "Pick the plan that matches your stage, not the longest feature list.",
+      bannerTitle: "Accessibility compliance included from Advanced up.",
+      bannerBody:
+        "ADA and WCAG 2.1 AA conformance plus data-consent handling, built in from day one — because in California an inaccessible site is legal exposure, not a design detail.",
+      bestValueBadge: "Best value",
+      totalLabel: "Total",
+      servicesLabel: "services",
+      perServiceLabel: "per service per month",
+      lowestBadge: "lowest",
+      selectCta: "Select",
+      customFromLabel: "From",
+      customTotalLabel: "From",
+      customScaleLabel: "Scales by headcount",
+      customModuleLabel: "Base module",
+      customChooseOne: "Choose 1",
+      customCta: "Get a quote",
+      footnote: "★ US-market inclusions — not offered on the Mexico plans.",
+      footer:
+        "Each plan includes everything in the plan before it. Prices in USD per month. Per-service cost is calculated across the services included in each plan. Terms subject to contract.",
     },
     packagesFlow: {
       stepLabels: ["Plan", "Marketing", "Integrations", "Customization", "Summary"],

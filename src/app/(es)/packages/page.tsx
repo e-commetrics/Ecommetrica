@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
+import { localizedHref } from "@/lib/i18n/localizedHref";
 import PackagesConfigurator from "@/components/PackagesConfigurator";
 import ConfiguratorSkeleton from "@/components/ConfiguratorSkeleton";
 
@@ -27,6 +29,13 @@ export default function PackagesPage() {
       <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ecom-ink/70">
         {t.packagesPage.sub}
       </p>
+      <Link
+        href={localizedHref(LANG, "/pricing")}
+        className="mt-4 inline-flex items-center gap-2 text-sm font-medium tracking-wide text-ecom-ink/60 uppercase transition-colors duration-300 hover:text-ecom-orange"
+      >
+        {t.planes.viewAll}
+        <span aria-hidden>&rarr;</span>
+      </Link>
 
       <Suspense fallback={<ConfiguratorSkeleton />}>
         <PackagesConfigurator />

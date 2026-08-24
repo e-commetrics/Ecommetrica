@@ -4,22 +4,20 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { plans, type Plan } from "@/lib/pricing";
+import { plans, formatUSD, type Plan } from "@/lib/pricing";
 import { packagePhases, type PackageAddon } from "@/lib/packages";
 import { useLanguage } from "@/components/LanguageProvider";
+import { useRegion } from "@/components/RegionProvider";
 import { useContactPrefill } from "@/components/ContactPrefillProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
-import type { Lang } from "@/lib/i18n/types";
+import type { Lang, Region } from "@/lib/i18n/types";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const TOTAL_STEPS = 5; // 0: plan, 1-3: addon phases, 4: summary
 
-function formatUSD(value: number) {
-  return `$${value.toLocaleString("en-US")}`;
-}
-
 export default function PackagesConfigurator() {
   const { t, lang } = useLanguage();
+  const { region } = useRegion();
   const { setPackageSummary } = useContactPrefill();
   const searchParams = useSearchParams();
 
@@ -57,8 +55,8 @@ export default function PackagesConfigurator() {
     return list;
   }, [selectedAddonIds]);
 
-  const addonsTotal = selectedAddons.reduce((sum, addon) => sum + addon.price, 0);
-  const total = (selectedPlan?.priceValue ?? 0) + addonsTotal;
+  const addonsTotal = selectedAddons.reduce((sum, addon) => sum + addon.price[region], 0);
+  const total = (selectedPlan?.priceValue[region] ?? 0) + addonsTotal;
 
   function isIncluded(addon: PackageAddon) {
     return Boolean(selectedPlanId && addon.includedInPlanIds.includes(selectedPlanId));
@@ -101,14 +99,14 @@ export default function PackagesConfigurator() {
     const lines: string[] = [];
     if (selectedPlan) {
       lines.push(
-        `${t.packagesFlow.messagePlanLabel}: ${selectedPlan.name[lang]} (${selectedPlan.price} / ${selectedPlan.duration[lang]})`,
+        `${t.packagesFlow.messagePlanLabel}: ${selectedPlan.name[lang]} (${formatUSD(selectedPlan.priceValue[region])} / ${selectedPlan.duration[lang]})`,
       );
     }
     if (selectedAddons.length > 0) {
       lines.push("");
       lines.push(`${t.packagesFlow.messageExtrasLabel}:`);
       for (const addon of selectedAddons) {
-        lines.push(`- ${addon.name[lang]} (+${formatUSD(addon.price)})`);
+        lines.push(`- ${addon.name[lang]} (+${formatUSD(addon.price[region])})`);
       }
     }
     lines.push("");
@@ -144,6 +142,7 @@ export default function PackagesConfigurator() {
                 selectLabel={t.packagesFlow.choosePlanCta}
                 selectedLabel={t.packagesFlow.planSelected}
                 lang={lang}
+                region={region}
               />
             )}
 
@@ -157,6 +156,7 @@ export default function PackagesConfigurator() {
                 addedLabel={t.packagesFlow.addedCta}
                 includedLabel={t.packagesFlow.includedBadge}
                 lang={lang}
+                region={region}
               />
             )}
 
@@ -166,6 +166,7 @@ export default function PackagesConfigurator() {
                 addons={selectedAddons}
                 total={total}
                 lang={lang}
+                region={region}
               />
             )}
           </motion.div>
@@ -178,6 +179,7 @@ export default function PackagesConfigurator() {
             addonsTotal={addonsTotal}
             total={total}
             lang={lang}
+            region={region}
           />
         )}
       </div>
@@ -299,12 +301,14 @@ function PlanStep({
   selectLabel,
   selectedLabel,
   lang,
+  region,
 }: {
   selectedPlanId: string | null;
   onSelect: (id: string) => void;
   selectLabel: string;
   selectedLabel: string;
   lang: Lang;
+  region: Region;
 }) {
   return (
     <div className="grid gap-6 sm:grid-cols-2">
@@ -343,18 +347,20 @@ function PlanStep({
               </span>
             </div>
             <p className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] text-ecom-ink">
-              {plan.price}
+              {formatUSD(plan.priceValue[region])}
               <span className="ml-1.5 text-sm font-normal tracking-normal text-ecom-ink/50">
                 / {plan.duration[lang]}
               </span>
             </p>
             <ul className="mt-6 flex flex-1 flex-col gap-2.5 border-t border-ecom-ink/10 pt-5 text-sm leading-relaxed text-ecom-ink/70">
-              {plan.features.map((feature) => (
-                <li key={feature.en} className="flex items-start gap-2.5">
-                  <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
-                  {feature[lang]}
-                </li>
-              ))}
+              {plan.features
+                .filter((feature) => !feature.usOnly || region === "us")
+                .map((feature) => (
+                  <li key={feature.text.en} className="flex items-start gap-2.5">
+                    <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
+                    {feature.text[lang]}
+                  </li>
+                ))}
             </ul>
             <span
               className={`mt-6 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-sm font-medium tracking-wide uppercase ${
@@ -379,6 +385,7 @@ function AddonStep({
   addedLabel,
   includedLabel,
   lang,
+  region,
 }: {
   phase: (typeof packagePhases)[number];
   selectedAddonIds: Set<string>;
@@ -388,6 +395,7 @@ function AddonStep({
   addedLabel: string;
   includedLabel: string;
   lang: Lang;
+  region: Region;
 }) {
   return (
     <div>
@@ -416,7 +424,7 @@ function AddonStep({
                   {addon.name[lang]}
                 </h3>
                 <span className="shrink-0 font-display text-lg font-medium text-ecom-ink">
-                  +{formatUSD(addon.price)}
+                  +{formatUSD(addon.price[region])}
                 </span>
               </div>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-ecom-ink/60">
@@ -450,11 +458,13 @@ function SummaryStep({
   addons,
   total,
   lang,
+  region,
 }: {
   plan: Plan | null;
   addons: PackageAddon[];
   total: number;
   lang: Lang;
+  region: Region;
 }) {
   const { t } = useLanguage();
 
@@ -472,7 +482,7 @@ function SummaryStep({
           <div className="mt-3 flex items-baseline justify-between gap-4">
             <h3 className="font-display text-xl font-medium text-ecom-ink">{plan.name[lang]}</h3>
             <p className="font-display text-xl font-medium text-ecom-ink">
-              {plan.price}
+              {formatUSD(plan.priceValue[region])}
               <span className="ml-1 text-sm font-normal text-ecom-ink/50">/ {plan.duration[lang]}</span>
             </p>
           </div>
@@ -491,7 +501,7 @@ function SummaryStep({
               <li key={addon.id} className="flex items-center justify-between gap-4 p-4">
                 <span className="text-sm text-ecom-ink">{addon.name[lang]}</span>
                 <span className="shrink-0 text-sm font-medium text-ecom-ink">
-                  +{formatUSD(addon.price)}
+                  +{formatUSD(addon.price[region])}
                 </span>
               </li>
             ))}
@@ -517,12 +527,14 @@ function OrderSummary({
   addonsTotal,
   total,
   lang,
+  region,
 }: {
   plan: Plan | null;
   addons: PackageAddon[];
   addonsTotal: number;
   total: number;
   lang: Lang;
+  region: Region;
 }) {
   const { t } = useLanguage();
 
@@ -535,7 +547,9 @@ function OrderSummary({
       {plan ? (
         <div className="mt-4 flex items-center justify-between gap-3 border-b border-ecom-ink/10 pb-4">
           <span className="font-display text-base font-medium text-ecom-ink">{plan.name[lang]}</span>
-          <span className="text-sm font-medium text-ecom-ink/70">{plan.price}</span>
+          <span className="text-sm font-medium text-ecom-ink/70">
+            {formatUSD(plan.priceValue[region])}
+          </span>
         </div>
       ) : (
         <p className="mt-4 border-b border-ecom-ink/10 pb-4 text-sm text-ecom-ink/50">
@@ -548,7 +562,7 @@ function OrderSummary({
           {addons.map((addon) => (
             <li key={addon.id} className="flex items-center justify-between gap-3 text-ecom-ink/70">
               <span className="truncate">{addon.name[lang]}</span>
-              <span className="shrink-0">+{formatUSD(addon.price)}</span>
+              <span className="shrink-0">+{formatUSD(addon.price[region])}</span>
             </li>
           ))}
         </ul>

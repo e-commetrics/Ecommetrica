@@ -22,6 +22,7 @@ const STATIC_ENTRIES: Entry[] = [
   { path: "/" },
   { path: "/studio" },
   { path: "/services" },
+  { path: "/pricing" },
   { path: "/work" },
   { path: "/blog" },
   { path: "/contact" },
