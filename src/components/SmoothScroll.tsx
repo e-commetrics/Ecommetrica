@@ -4,6 +4,24 @@ import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
+// Module-level, not a ref: other components (e.g. ContactHero's in-page CTA)
+// need to trigger a scroll outside React's tree, and there's only ever one
+// Lenis instance for the whole app.
+let sharedLenis: Lenis | null = null;
+
+/** Smoothly scrolls to an anchor via the app's shared Lenis instance, matching the
+ *  Header's sticky height like the CSS `scroll-mt-24` used for native anchor jumps
+ *  elsewhere. Falls back to an instant native jump when Lenis never started (reduced
+ *  motion) — see the `scroll-behavior` note in globals.css for why CSS smooth-scroll
+ *  can't be used here instead. */
+export function smoothScrollTo(target: string, offset = -96) {
+  if (sharedLenis) {
+    sharedLenis.scrollTo(target, { offset });
+    return;
+  }
+  document.querySelector(target)?.scrollIntoView();
+}
+
 export default function SmoothScroll() {
   const lenisRef = useRef<Lenis | null>(null);
   const pathname = usePathname();
@@ -24,9 +42,11 @@ export default function SmoothScroll() {
       smoothWheel: true,
     });
     lenisRef.current = lenis;
+    sharedLenis = lenis;
 
     return () => {
       lenisRef.current = null;
+      sharedLenis = null;
       lenis.destroy();
     };
   }, []);

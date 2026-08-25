@@ -144,17 +144,22 @@ export default function ContactForm() {
       </div>
 
       {packageSummary && (
-        <label className="flex flex-col gap-2 text-sm font-medium tracking-widest text-white/50 uppercase">
-          {t.contactForm.packageSummaryLabel}
-          <textarea
-            readOnly
-            aria-readonly="true"
-            value={packageSummary}
-            rows={4}
-            tabIndex={-1}
-            className="cursor-not-allowed resize-none border-b border-white/15 bg-white/[0.03] py-2 text-sm font-normal text-white/60 normal-case outline-none"
-          />
-        </label>
+        <>
+          <p className="text-sm font-medium text-ecom-orange">
+            {t.contactForm.packagePrefilledNotice}
+          </p>
+          <label className="flex flex-col gap-2 text-sm font-medium tracking-widest text-white/50 uppercase">
+            {t.contactForm.packageSummaryLabel}
+            <textarea
+              readOnly
+              aria-readonly="true"
+              value={packageSummary}
+              rows={4}
+              tabIndex={-1}
+              className="cursor-not-allowed resize-none border-b border-white/15 bg-white/[0.03] py-2 text-sm font-normal text-white/60 normal-case outline-none"
+            />
+          </label>
+        </>
       )}
 
       <label className="flex flex-col gap-2 text-sm font-medium tracking-widest text-white/50 uppercase">

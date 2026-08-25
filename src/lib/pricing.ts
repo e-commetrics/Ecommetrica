@@ -1,4 +1,4 @@
-import type { Localized, Region } from "@/lib/i18n/types";
+import type { Lang, Localized, Region } from "@/lib/i18n/types";
 
 export function formatUSD(value: number) {
   return `$${value.toLocaleString("en-US")}`;
@@ -244,6 +244,12 @@ export const customPlan: CustomPlan = {
     },
   ],
 };
+
+/** Mirrors PackagesConfigurator.buildSummaryMessage()'s style, but for the Aliado/custom
+ *  plan, which has no addon steps — just the plan name, starting price, and minimum term. */
+export function customPlanSummaryMessage(lang: Lang, region: Region, messagePlanLabel: string) {
+  return `${messagePlanLabel}: ${customPlan.name[lang]} (${formatUSD(customPlan.priceFromValue[region])}/mo · ${customPlan.minDuration[lang]})`;
+}
 
 export function planTotal(plan: Plan, region: Region) {
   return plan.priceValue[region] * plan.durationMonths;

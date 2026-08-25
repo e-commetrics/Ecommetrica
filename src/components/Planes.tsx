@@ -3,15 +3,18 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { plans, formatUSD } from "@/lib/pricing";
+import { plans, customPlan, customPlanSummaryMessage, formatUSD } from "@/lib/pricing";
 import Reveal from "@/components/Reveal";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useRegion } from "@/components/RegionProvider";
+import { useContactPrefill } from "@/components/ContactPrefillProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 
 export default function Planes() {
   const { t, lang } = useLanguage();
+  const p = t.pricingPage;
   const { region } = useRegion();
+  const { setPackageSummary } = useContactPrefill();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -115,6 +118,55 @@ export default function Planes() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal delay={plans.length * 0.1}>
+          <div className="mt-6 flex flex-col gap-8 rounded-3xl border border-white/12 bg-linear-to-r from-white/[0.04] to-ecom-red/10 p-8 backdrop-blur-sm lg:flex-row lg:items-center lg:gap-12 lg:p-10">
+            <div className="lg:w-1/3 lg:shrink-0">
+              <h3 className="font-display text-lg font-medium tracking-wide text-white">
+                {customPlan.name[lang]}
+              </h3>
+              <p className="mt-1 text-xs tracking-wide text-white/50 uppercase">
+                {customPlan.minDuration[lang]}
+              </p>
+              <p className="mt-5 font-display text-4xl font-medium tracking-[-0.02em] text-white">
+                {p.customFromLabel} {formatUSD(customPlan.priceFromValue[region])}
+                <span className="ml-1.5 text-sm font-normal tracking-normal text-white/50">
+                  /mo
+                </span>
+              </p>
+              <Link
+                href={`${localizedHref(lang, "/contact")}#contact-form`}
+                onClick={() =>
+                  setPackageSummary(
+                    customPlanSummaryMessage(lang, region, t.packagesFlow.messagePlanLabel),
+                  )
+                }
+                className="group/cta mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3.5 text-sm font-medium tracking-wide text-ecom-black transition-colors duration-300 hover:bg-ecom-orange hover:text-white"
+              >
+                {p.customCta}
+                <span
+                  aria-hidden
+                  className="transition-transform duration-300 group-hover/cta:translate-x-1"
+                >
+                  &rarr;
+                </span>
+              </Link>
+            </div>
+
+            <div className="grid flex-1 grid-cols-1 gap-6 border-t border-white/10 pt-8 sm:grid-cols-2 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-12 xl:grid-cols-3">
+              {customPlan.modules.map((module) => (
+                <div key={module.title.en}>
+                  <p className="font-display text-sm font-medium text-white">
+                    {module.title[lang]}
+                  </p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-white/60">
+                    {module.description[lang]}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

@@ -1,14 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { plans, customPlan, formatUSD, planTotal, planPerService } from "@/lib/pricing";
+import {
+  plans,
+  customPlan,
+  customPlanSummaryMessage,
+  formatUSD,
+  planTotal,
+  planPerService,
+} from "@/lib/pricing";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useRegion } from "@/components/RegionProvider";
+import { useContactPrefill } from "@/components/ContactPrefillProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 
 export default function PricingGrid() {
   const { t, lang } = useLanguage();
   const { region } = useRegion();
+  const { setPackageSummary } = useContactPrefill();
   const p = t.pricingPage;
 
   return (
@@ -136,6 +145,11 @@ export default function PricingGrid() {
 
           <Link
             href={`${localizedHref(lang, "/contact")}#contact-form`}
+            onClick={() =>
+              setPackageSummary(
+                customPlanSummaryMessage(lang, region, t.packagesFlow.messagePlanLabel),
+              )
+            }
             className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-ecom-ink/5 px-5 py-3 text-sm font-medium tracking-wide text-ecom-ink uppercase transition-colors duration-300 hover:bg-ecom-orange hover:text-white"
           >
             {p.customCta}

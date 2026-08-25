@@ -99,6 +99,7 @@ export type Dict = {
     phoneLabel: string;
     companyLabel: string;
     packageSummaryLabel: string;
+    packagePrefilledNotice: string;
     messageLabel: string;
     sendingToast: string;
     successToast: string;
@@ -121,6 +122,7 @@ export type Dict = {
     eyebrow: string;
     headline: string;
     sub: string;
+    scrollToFormCta: string;
   };
   servicesPage: {
     metaDescription: string;
@@ -404,6 +406,7 @@ export const dict: Record<Lang, Dict> = {
       phoneLabel: "Teléfono",
       companyLabel: "Empresa",
       packageSummaryLabel: "Paquete seleccionado",
+      packagePrefilledNotice: "Agregamos tu paquete — completa tus datos para recibir tu cotización.",
       messageLabel: "Mensaje",
       sendingToast: "Enviando tu mensaje...",
       successToast: "Mensaje enviado — nos pondremos en contacto pronto.",
@@ -426,6 +429,7 @@ export const dict: Record<Lang, Dict> = {
       eyebrow: "Contáctanos",
       headline: "Construyamos algo que perdure.",
       sub: "Cuéntanos sobre tu proyecto — nuestro equipo responde cada solicitud personalmente.",
+      scrollToFormCta: "Tu cotización está lista — completa el formulario aquí abajo para enviarla.",
     },
     servicesPage: {
       metaDescription:
@@ -829,6 +833,7 @@ export const dict: Record<Lang, Dict> = {
       phoneLabel: "Phone number",
       companyLabel: "Company",
       packageSummaryLabel: "Selected package",
+      packagePrefilledNotice: "We added your package — fill in your info below to get your quote.",
       messageLabel: "Message",
       sendingToast: "Sending your message...",
       successToast: "Message sent — we'll be in touch soon.",
@@ -851,6 +856,7 @@ export const dict: Record<Lang, Dict> = {
       eyebrow: "Contact us",
       headline: "Let's build something that lasts.",
       sub: "Tell us about your project below — our team gets back to every request personally.",
+      scrollToFormCta: "Your quote is ready — fill out the form below to send it.",
     },
     servicesPage: {
       metaDescription:
