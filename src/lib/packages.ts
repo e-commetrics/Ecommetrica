@@ -5,6 +5,9 @@ export type PackageAddon = {
   name: Localized;
   description: Localized;
   price: Record<Region, number>;
+  /** No fixed price in the source proposal — configurator shows "quote on request"
+   *  instead of a dollar figure and excludes it from the running total. */
+  priceTBD?: boolean;
   /** Plan ids (see `Plan.id` in pricing.ts) whose feature list already covers this —
    *  configurator marks the addon "included" instead of letting it be added twice. */
   includedInPlanIds: string[];
@@ -30,10 +33,10 @@ export const packagePhases: PackagePhase[] = [
     addons: [
       {
         id: "coding",
-        name: { es: "Coding / ingeniería", en: "Coding / engineering" },
+        name: { es: "Coding / Ingeniería", en: "Coding / Engineering" },
         description: {
-          es: "Actualización o desarrollo de webapps.",
-          en: "Webapp updates or development. Senior nearshore engineering on Pacific time.",
+          es: "Actualización / desarrollo de webapps.",
+          en: "Update / development of webapps.",
         },
         price: { mx: 620, us: 1100 },
         includedInPlanIds: [],
@@ -42,15 +45,15 @@ export const packagePhases: PackagePhase[] = [
         id: "content-creation",
         name: { es: "Creación de contenido", en: "Content creation" },
         description: {
-          es: "~7 videos cortos con portada + 5 posts de diseño.",
-          en: "~7 short videos with covers + 5 design posts.",
+          es: "7 videos cortos para redes sociales + 5 piezas visuales con diseño.",
+          en: "7 short videos for social media + 5 designed visual pieces.",
         },
         price: { mx: 480, us: 650 },
         includedInPlanIds: [],
       },
       {
         id: "webmaster",
-        name: { es: "Webmaster / mantenimiento", en: "Webmaster / maintenance" },
+        name: { es: "Webmaster / Mantenimiento", en: "Webmaster / Maintenance" },
         description: {
           es: "Mantenimiento de infraestructura y sitio.",
           en: "Infrastructure and site maintenance.",
@@ -72,18 +75,29 @@ export const packagePhases: PackagePhase[] = [
         id: "video-production",
         name: { es: "Producción redes sociales", en: "Social media production" },
         description: {
-          es: "2 shootings profesionales, contenido distribuido a lo largo de 3 meses.",
-          en: "2 professional shoots, content distributed across 3 months.",
+          es: "Contenido para 3 meses en 2 shootings con pre/post producción.",
+          en: "3 months of content across 2 shoots, with pre- and post-production.",
         },
         price: { mx: 1200, us: 2400 },
         includedInPlanIds: ["grower", "high-profile"],
       },
       {
+        id: "video-production-1mo",
+        name: { es: "Video producción", en: "Video production" },
+        description: {
+          es: "Contenido para 1 mes en 1 Shooting con pre y post producción.",
+          en: "1 month of content in a single shoot, with pre- and post-production.",
+        },
+        price: { mx: 0, us: 0 },
+        priceTBD: true,
+        includedInPlanIds: [],
+      },
+      {
         id: "cinematic-production",
         name: { es: "Producción cinematográfica", en: "Cinematic production" },
         description: {
-          es: "1 video formato 2K-4K + 1 sesión de fotos profesional, incluye pre y post producción y distribución personalizada.",
-          en: "1 video shot in 2K-4K + 1 professional photoshoot, both including pre- and post-production and personalized distribution.",
+          es: "1 video formato 2K a 4K + 1 photoshoot profesional: Ambos incluyen pre y post producción compleja y distribución personalizada.",
+          en: "1 video shot in 2K to 4K + 1 professional photoshoot: both include complex pre- and post-production and personalized distribution.",
         },
         price: { mx: 1200, us: 1200 },
         includedInPlanIds: [],
@@ -92,68 +106,96 @@ export const packagePhases: PackagePhase[] = [
   },
   {
     id: "ad-management",
-    title: { es: "Gestión de anuncios — tres niveles", en: "Ad management — three tiers" },
+    title: { es: "Gestión de anuncios — cuatro niveles", en: "Ad management — four tiers" },
     description: {
       es: "El honorario de gestión y el presupuesto de pauta se facturan siempre por separado; la pauta va a nombre del cliente.",
       en: "The management fee and the ad budget are always billed separately; ad spend is in the client's name.",
     },
     addons: [
       {
-        id: "mgmt-only-meta",
-        name: { es: "Solo gestión — Meta", en: "Management only — Meta" },
+        id: "mgmt-pure-meta",
+        name: { es: "Gestión pura — Meta", en: "Pure management — Meta" },
         description: {
-          es: "3 campañas · sin creativos. El honorario limpio: para el cliente que ya trae su contenido.",
-          en: "3 campaigns · no creatives. The clean fee: for the client who already has content.",
+          es: "Estrategia, configuración y gestión de pauta con piezas visuales del cliente. Ideal si cuentan con diseñador y solo buscan optimizar la estrategia y ejecución técnica.",
+          en: "Strategy, setup, and ad management using the client's own visuals. Ideal if they already have a designer and just need the strategy and technical execution optimized.",
         },
         price: { mx: 450, us: 900 },
         includedInPlanIds: ["grower", "high-profile"],
       },
       {
-        id: "mgmt-only-google",
-        name: { es: "Solo gestión — Google", en: "Management only — Google" },
+        id: "mgmt-pure-google",
+        name: { es: "Gestión pura — Google", en: "Pure management — Google" },
         description: {
-          es: "3 campañas + keywords · sin blogs. Solo estrategia, configuración y optimización.",
-          en: "3 campaigns + keywords · no blogs. Strategy, setup, and optimization only.",
+          es: "Gestión de pauta y optimización de keywords en actual sitio. Ideal si cuentan con diseñador y solo buscan optimizar la estrategia y ejecución técnica.",
+          en: "Ad management and keyword optimization on the client's current site. Ideal if they already have a designer and just need the strategy and technical execution optimized.",
         },
         price: { mx: 550, us: 1100 },
         includedInPlanIds: ["grower", "high-profile"],
       },
       {
-        id: "mgmt-creatives-meta",
-        name: { es: "Gestión + creativos — Meta", en: "Management + creatives — Meta" },
+        id: "mgmt-essential-meta",
+        name: {
+          es: "Gestión y producción esencial — Meta",
+          en: "Essential management and production — Meta",
+        },
         description: {
-          es: "3 campañas + creativos. Lo más cercano a lo que ya conocen; incluye el diseño de los anuncios.",
-          en: "3 campaigns + creatives. Closest to what they already know; includes ad creatives.",
+          es: "1 campaña + 4 piezas visuales. Ideal para campañas específicas para un servicio o rendimiento de una campaña de temporada alcance directo.",
+          en: "1 campaign + 4 visual pieces. Ideal for a specific service launch or a direct-reach seasonal campaign.",
+        },
+        price: { mx: 0, us: 0 },
+        priceTBD: true,
+        includedInPlanIds: ["grower", "high-profile"],
+      },
+      {
+        id: "mgmt-essential-google",
+        name: {
+          es: "Gestión y producción esencial — Google",
+          en: "Essential management and production — Google",
+        },
+        description: {
+          es: "1 campaña + 3 keywords + 2 blogs con SEO. Ideal para campañas específicas para un servicio o rendimiento de una campaña de temporada alcance directo.",
+          en: "1 campaign + 3 keywords + 2 SEO blog posts. Ideal for a specific service launch or a direct-reach seasonal campaign.",
+        },
+        price: { mx: 0, us: 0 },
+        priceTBD: true,
+        includedInPlanIds: ["grower", "high-profile"],
+      },
+      {
+        id: "mgmt-creatives-meta",
+        name: { es: "Gestión + dirección creativa — Meta", en: "Management + creative direction — Meta" },
+        description: {
+          es: "3 campañas + 8 piezas visuales. Ideal para escalar, posicionar y mantener tu sitio y redes sociales unificadas.",
+          en: "3 campaigns + 8 visual pieces. Ideal to scale, position, and keep your site and social channels unified.",
         },
         price: { mx: 680, us: 1350 },
         includedInPlanIds: ["grower", "high-profile"],
       },
       {
         id: "mgmt-creatives-google",
-        name: { es: "Gestión + creativos — Google", en: "Management + creatives — Google" },
+        name: { es: "Gestión + dirección creativa — Google", en: "Management + creative direction — Google" },
         description: {
-          es: "3 campañas + 6 keywords + 3 blogs. El motor de contenido completo (7 blogs) vive en el nivel siguiente.",
-          en: "3 campaigns + 6 keywords + 3 blogs. The full content engine (7 blogs) lives in the next tier.",
+          es: "3 campañas + 6 keywords + 5 blogs con SEO. Ideal para escalar, posicionar y mantener tu sitio y redes sociales unificadas.",
+          en: "3 campaigns + 6 keywords + 5 SEO blog posts. Ideal to scale, position, and keep your site and social channels unified.",
         },
         price: { mx: 780, us: 1550 },
         includedInPlanIds: ["grower", "high-profile"],
       },
       {
         id: "mgmt-content-engine-meta",
-        name: { es: "Gestión + motor de contenido — Meta", en: "Management + content engine — Meta" },
+        name: { es: "Motor de contenido — Meta", en: "Content engine — Meta" },
         description: {
-          es: "3 campañas + creativos + 8 piezas. Mayor ticket: aquí vive la producción de contenido completa.",
-          en: "3 campaigns + creatives + 8 pieces. Higher ticket: the full content production lives here.",
+          es: "4 campañas + 12 piezas visuales + 1 video publicitario. Ideal para quienes buscan ampliar su alcance con volumen constante de contenido curado y pauta agresiva.",
+          en: "4 campaigns + 12 visual pieces + 1 ad video. Ideal for expanding reach with a steady volume of curated content and aggressive ad spend.",
         },
         price: { mx: 1150, us: 2300 },
         includedInPlanIds: ["grower", "high-profile"],
       },
       {
         id: "mgmt-content-engine-google",
-        name: { es: "Gestión + motor de contenido — Google", en: "Management + content engine — Google" },
+        name: { es: "Motor de contenido — Google", en: "Content engine — Google" },
         description: {
-          es: "3 campañas + 9 keywords + 7 blogs. 7 blogs es trabajo de redacción, se cobra como tal.",
-          en: "3 campaigns + 9 keywords + 7 blogs. 7 blogs is real writing work, priced as such.",
+          es: "4 campañas + 9 keywords + 9 blogs con SEO. Ideal para quienes buscan ampliar su alcance con volumen constante de contenido curado y pauta agresiva.",
+          en: "4 campaigns + 9 keywords + 9 SEO blog posts. Ideal for expanding reach with a steady volume of curated content and aggressive ad spend.",
         },
         price: { mx: 1290, us: 2550 },
         includedInPlanIds: ["grower", "high-profile"],

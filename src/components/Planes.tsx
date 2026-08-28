@@ -82,6 +82,7 @@ export default function Planes() {
                 <h3 className="font-display text-lg font-medium tracking-wide">
                   {plan.name[lang]}
                 </h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/60">{plan.tagline[lang]}</p>
                 <p className="mt-5 font-display text-4xl font-medium tracking-[-0.02em]">
                   {formatUSD(plan.priceValue[region])}
                   <span className="ml-1.5 text-sm font-normal tracking-normal text-white/50">
@@ -94,7 +95,14 @@ export default function Planes() {
                     .map((feature) => (
                       <li key={feature.text.en} className="flex items-start gap-2.5">
                         <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
-                        {feature.text[lang]}
+                        <span>
+                          {feature.text[lang]}
+                          {feature.description && (
+                            <span className="block text-white/40 italic">
+                              {feature.description[lang]}
+                            </span>
+                          )}
+                        </span>
                       </li>
                     ))}
                 </ul>
@@ -127,6 +135,9 @@ export default function Planes() {
               </h3>
               <p className="mt-1 text-xs tracking-wide text-white/50 uppercase">
                 {customPlan.minDuration[lang]}
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-white/60">
+                {customPlan.tagline[lang]}
               </p>
               <p className="mt-5 font-display text-4xl font-medium tracking-[-0.02em] text-white">
                 {p.customFromLabel} {formatUSD(customPlan.priceFromValue[region])}

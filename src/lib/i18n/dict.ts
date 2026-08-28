@@ -213,6 +213,7 @@ export type Dict = {
     addCta: string;
     addedCta: string;
     includedBadge: string;
+    quoteOnRequestLabel: string;
     backCta: string;
     continueCta: string;
     reviewCta: string;
@@ -591,6 +592,7 @@ export const dict: Record<Lang, Dict> = {
       addCta: "Agregar",
       addedCta: "Agregado",
       includedBadge: "Incluido en tu plan",
+      quoteOnRequestLabel: "Cotización a solicitud",
       backCta: "Atrás",
       continueCta: "Continuar",
       reviewCta: "Ver resumen",
@@ -1016,6 +1018,7 @@ export const dict: Record<Lang, Dict> = {
       addCta: "Add",
       addedCta: "Added",
       includedBadge: "Included in your plan",
+      quoteOnRequestLabel: "Quote on request",
       backCta: "Back",
       continueCta: "Continue",
       reviewCta: "View summary",

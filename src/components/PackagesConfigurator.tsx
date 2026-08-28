@@ -55,7 +55,10 @@ export default function PackagesConfigurator() {
     return list;
   }, [selectedAddonIds]);
 
-  const addonsTotal = selectedAddons.reduce((sum, addon) => sum + addon.price[region], 0);
+  const addonsTotal = selectedAddons.reduce(
+    (sum, addon) => sum + (addon.priceTBD ? 0 : addon.price[region]),
+    0,
+  );
   const total = (selectedPlan?.priceValue[region] ?? 0) + addonsTotal;
 
   function isIncluded(addon: PackageAddon) {
@@ -106,7 +109,10 @@ export default function PackagesConfigurator() {
       lines.push("");
       lines.push(`${t.packagesFlow.messageExtrasLabel}:`);
       for (const addon of selectedAddons) {
-        lines.push(`- ${addon.name[lang]} (+${formatUSD(addon.price[region])})`);
+        const priceLabel = addon.priceTBD
+          ? t.packagesFlow.quoteOnRequestLabel
+          : `+${formatUSD(addon.price[region])}`;
+        lines.push(`- ${addon.name[lang]} (${priceLabel})`);
       }
     }
     lines.push("");
@@ -333,9 +339,14 @@ function PlanStep({
               </span>
             )}
             <div className="flex items-start justify-between gap-3">
-              <h3 className="font-display text-lg font-medium tracking-wide text-ecom-ink">
-                {plan.name[lang]}
-              </h3>
+              <div>
+                <h3 className="font-display text-lg font-medium tracking-wide text-ecom-ink">
+                  {plan.name[lang]}
+                </h3>
+                <p className="mt-1 text-sm leading-relaxed text-ecom-ink/60">
+                  {plan.tagline[lang]}
+                </p>
+              </div>
               <span
                 aria-hidden
                 className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-sm transition-colors duration-300 ${
@@ -359,7 +370,14 @@ function PlanStep({
                 .map((feature) => (
                   <li key={feature.text.en} className="flex items-start gap-2.5">
                     <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
-                    {feature.text[lang]}
+                    <span>
+                      {feature.text[lang]}
+                      {feature.description && (
+                        <span className="block text-ecom-ink/50 italic">
+                          {feature.description[lang]}
+                        </span>
+                      )}
+                    </span>
                   </li>
                 ))}
             </ul>
@@ -398,6 +416,7 @@ function AddonStep({
   lang: Lang;
   region: Region;
 }) {
+  const { t } = useLanguage();
   return (
     <div>
       <h2 className="font-display text-2xl font-medium tracking-tight text-ecom-ink sm:text-3xl">
@@ -425,7 +444,9 @@ function AddonStep({
                   {addon.name[lang]}
                 </h3>
                 <span className="shrink-0 font-display text-lg font-medium text-ecom-ink">
-                  +{formatUSD(addon.price[region])}
+                  {addon.priceTBD
+                    ? t.packagesFlow.quoteOnRequestLabel
+                    : `+${formatUSD(addon.price[region])}`}
                 </span>
               </div>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-ecom-ink/60">
@@ -502,7 +523,9 @@ function SummaryStep({
               <li key={addon.id} className="flex items-center justify-between gap-4 p-4">
                 <span className="text-sm text-ecom-ink">{addon.name[lang]}</span>
                 <span className="shrink-0 text-sm font-medium text-ecom-ink">
-                  +{formatUSD(addon.price[region])}
+                  {addon.priceTBD
+                    ? t.packagesFlow.quoteOnRequestLabel
+                    : `+${formatUSD(addon.price[region])}`}
                 </span>
               </li>
             ))}
@@ -563,7 +586,11 @@ function OrderSummary({
           {addons.map((addon) => (
             <li key={addon.id} className="flex items-center justify-between gap-3 text-ecom-ink/70">
               <span className="truncate">{addon.name[lang]}</span>
-              <span className="shrink-0">+{formatUSD(addon.price[region])}</span>
+              <span className="shrink-0">
+                {addon.priceTBD
+                  ? t.packagesFlow.quoteOnRequestLabel
+                  : `+${formatUSD(addon.price[region])}`}
+              </span>
             </li>
           ))}
         </ul>

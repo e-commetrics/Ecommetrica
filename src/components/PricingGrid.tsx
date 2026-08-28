@@ -60,6 +60,7 @@ export default function PricingGrid() {
               <p className="mt-1 text-xs tracking-wide text-ecom-ink/50 uppercase">
                 {plan.duration[lang]}
               </p>
+              <p className="mt-3 text-sm leading-relaxed text-ecom-ink/70">{plan.tagline[lang]}</p>
 
               <p className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] text-ecom-ink">
                 {formatUSD(plan.priceValue[region])}
@@ -88,6 +89,11 @@ export default function PricingGrid() {
                       <span>
                         {feature.text[lang]}
                         {feature.usOnly && " ★"}
+                        {feature.description && (
+                          <span className="block text-ecom-ink/50 italic">
+                            {feature.description[lang]}
+                          </span>
+                        )}
                       </span>
                     </li>
                   ))}
@@ -113,6 +119,9 @@ export default function PricingGrid() {
           </h3>
           <p className="mt-1 text-xs tracking-wide text-ecom-ink/50 uppercase">
             {customPlan.minDuration[lang]}
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-ecom-ink/70">
+            {customPlan.tagline[lang]}
           </p>
 
           <p className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] text-ecom-ink">
