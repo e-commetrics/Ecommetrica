@@ -9,6 +9,7 @@ import {
   planTotal,
   planPerService,
 } from "@/lib/pricing";
+import PlanFeatures from "@/components/PlanFeatures";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useRegion } from "@/components/RegionProvider";
 import { useContactPrefill } from "@/components/ContactPrefillProvider";
@@ -64,7 +65,7 @@ export default function PricingGrid() {
 
               <p className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] text-ecom-ink">
                 {formatUSD(plan.priceValue[region])}
-                <span className="ml-1 text-sm font-normal text-ecom-ink/50">/mo</span>
+                <span className="ml-1 text-sm font-normal text-ecom-ink/50">{p.perMonth}</span>
               </p>
               <p className="mt-1 text-xs text-ecom-ink/50">
                 {p.totalLabel} {formatUSD(total)} · {plan.serviceCount[region]} {p.servicesLabel}
@@ -80,24 +81,9 @@ export default function PricingGrid() {
                 {plan.featured ? ` — ${p.lowestBadge}` : ""}
               </p>
 
-              <ul className="mt-6 flex flex-1 flex-col gap-2.5 border-t border-ecom-ink/10 pt-5 text-sm leading-relaxed text-ecom-ink/70">
-                {plan.features
-                  .filter((feature) => !feature.usOnly || region === "us")
-                  .map((feature) => (
-                    <li key={feature.text.en} className="flex items-start gap-2.5">
-                      <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
-                      <span>
-                        {feature.text[lang]}
-                        {feature.usOnly && " ★"}
-                        {feature.description && (
-                          <span className="block text-ecom-ink/50 italic">
-                            {feature.description[lang]}
-                          </span>
-                        )}
-                      </span>
-                    </li>
-                  ))}
-              </ul>
+              <div className="flex-1">
+                <PlanFeatures plan={plan} lang={lang} region={region} variant="light" />
+              </div>
 
               <Link
                 href={`${localizedHref(lang, "/packages")}?plan=${plan.id}`}
@@ -126,7 +112,7 @@ export default function PricingGrid() {
 
           <p className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] text-ecom-ink">
             {p.customFromLabel} {formatUSD(customPlan.priceFromValue[region])}
-            <span className="ml-1 text-sm font-normal text-ecom-ink/50">/mo</span>
+            <span className="ml-1 text-sm font-normal text-ecom-ink/50">{p.perMonth}</span>
           </p>
           <p className="mt-1 text-xs text-ecom-ink/50">
             {p.customTotalLabel} {formatUSD(customPlan.totalFromValue[region])}
@@ -156,7 +142,7 @@ export default function PricingGrid() {
             href={`${localizedHref(lang, "/contact")}#contact-form`}
             onClick={() =>
               setPackageSummary(
-                customPlanSummaryMessage(lang, region, t.packagesFlow.messagePlanLabel),
+                customPlanSummaryMessage(lang, region, t.packagesFlow.messagePlanLabel, p.perMonth),
               )
             }
             className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-ecom-ink/5 px-5 py-3 text-sm font-medium tracking-wide text-ecom-ink uppercase transition-colors duration-300 hover:bg-ecom-orange hover:text-white"

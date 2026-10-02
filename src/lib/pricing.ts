@@ -10,6 +10,12 @@ export type PlanFeature = {
   description?: Localized;
   /** Only shown when region === "us" — inclusions the Mexico/LatAm tier doesn't carry. */
   usOnly?: boolean;
+  /** Compact version for the headline tag row (PlanFeatures.tsx) — falls back to `text`
+   *  when a feature's own name is already short enough to use as-is. */
+  shortLabel?: Localized;
+  /** Slug (no locale prefix) for a feature with its own explainer page, e.g. "vpat" ->
+   *  /vpat or /en/vpat via localizedHref. Rendered as a "Learn more" link. */
+  learnMoreSlug?: string;
 };
 
 export type Plan = {
@@ -25,6 +31,9 @@ export type Plan = {
   serviceCount: Record<Region, number>;
   features: PlanFeature[];
   featured?: boolean;
+  /** Id of the plan this one fully includes — rendered as a single "Everything in X" line
+   *  (PlanFeatures.tsx) instead of repeating X's features in this array. */
+  inheritsFromPlanId?: string;
 };
 
 export const plans: Plan[] = [
@@ -45,44 +54,48 @@ export const plans: Plan[] = [
           es: "Sitio web (React/Astro o Shopify)",
           en: "Custom website (React, Astro, or Shopify)",
         },
+        shortLabel: { es: "Sitio web", en: "Website" },
       },
       {
         text: { es: "SEO y AEO", en: "SEO and AEO" },
         description: {
-          es: "Que en los motores de búsqueda y las IAs hablen de ti desde que inicias.",
-          en: "So search engines and AI answers are already talking about you from day one.",
-        },
-      },
-      { text: { es: "Contenido generado con IA", en: "AI-assisted content production" } },
-      {
-        text: { es: "Configuración de redes sociales", en: "Social profile setup" },
-        description: {
-          es: "Accesos en orden, todo listo para que pautes sin problema o tengas a tu equipo listo y tu información brindada.",
-          en: "Access set up in order, everything ready for you to run ads without friction or to hand your team a fully briefed setup.",
+          es: "Incluye configuración de Search Console, para que en los motores de búsqueda y las IAs hablen de ti desde que inicias.",
+          en: "Includes Search Console setup, so search engines and AI answers are already talking about you from day one.",
         },
       },
       {
-        text: {
-          es: "Google Analytics 4 y Meta Pixel",
-          en: "Google Analytics 4 and Meta Pixel",
-        },
+        text: { es: "Contenido generado con IA", en: "AI-assisted content production" },
+        shortLabel: { es: "Contenido IA", en: "AI content" },
+      },
+      {
+        text: { es: "Google Analytics 4", en: "Google Analytics 4" },
         description: {
           es: "Más que estadísticas, una interpretación para tomar acción y aumentar el retorno de inversión.",
           en: "More than stats — an interpretation you can act on to increase return on investment.",
         },
+        shortLabel: { es: "GA4", en: "GA4" },
+        learnMoreSlug: "ga4",
+      },
+      {
+        text: { es: "Meta Pixel", en: "Meta Pixel" },
       },
       {
         text: {
           es: "Banner de consentimiento y aviso de privacidad",
           en: "Consent banner and privacy notice",
         },
+        shortLabel: { es: "Consentimiento", en: "Consent banner" },
       },
-      { text: { es: "Soporte de hosting y dominios", en: "Hosting and domain support" } },
+      {
+        text: { es: "Soporte de hosting y dominios", en: "Hosting and domain support" },
+        shortLabel: { es: "Hosting y dominios", en: "Hosting & domains" },
+      },
       {
         text: {
           es: "Soporte en horario hábil de EUA",
           en: "US business-hours support",
         },
+        shortLabel: { es: "Soporte EUA", en: "US support" },
         usOnly: true,
       },
       {
@@ -90,6 +103,7 @@ export const plans: Plan[] = [
           es: "Gestión de cuenta en inglés",
           en: "English-language account management",
         },
+        shortLabel: { es: "Cuenta en inglés", en: "English account" },
         usOnly: true,
       },
     ],
@@ -105,12 +119,15 @@ export const plans: Plan[] = [
     durationMonths: 4,
     priceValue: { mx: 995, us: 2450 },
     serviceCount: { mx: 13, us: 16 },
+    inheritsFromPlanId: "simple",
     features: [
       {
-        text: {
-          es: "Obtén todos los servicios y bases del paquete Arranque",
-          en: "Get every service and foundation from the Launch package",
+        text: { es: "Configuración de redes sociales", en: "Social profile setup" },
+        description: {
+          es: "Accesos en orden, todo listo para que pautes sin problema o tengas a tu equipo listo y tu información brindada.",
+          en: "Access set up in order, everything ready for you to run ads without friction or to hand your team a fully briefed setup.",
         },
+        shortLabel: { es: "Redes sociales", en: "Social setup" },
       },
       {
         text: { es: "Tienda Shopify", en: "Shopify store" },
@@ -125,6 +142,7 @@ export const plans: Plan[] = [
           es: "Más palabras clave, backlinks, contenido más profundo con estructura que impulsa la visibilidad y citado en las últimas IAs.",
           en: "More keywords, backlinks, and deeper content with a structure that drives visibility and citation in the latest AI models.",
         },
+        shortLabel: { es: "SEO avanzado", en: "Advanced SEO" },
       },
       {
         text: { es: "Branding", en: "Branding" },
@@ -139,20 +157,34 @@ export const plans: Plan[] = [
           es: "Sincronizado con branding y página web.",
           en: "Synced with your branding and website.",
         },
+        shortLabel: { es: "Contenido redes", en: "Social content" },
+      },
+      {
+        text: { es: "Google Business Profile API", en: "Google Business Profile API" },
+        shortLabel: { es: "Google Business", en: "Google Business" },
+        learnMoreSlug: "google-business-profile",
       },
       {
         text: {
           es: "Sitio web accesible para las personas con discapacidad (Cumplimiento de ADA/WCAG 2.1 AA)",
           en: "Website accessible for people with disabilities (ADA/WCAG 2.1 AA conformance)",
         },
+        shortLabel: { es: "Accesibilidad ADA", en: "ADA accessibility" },
       },
-      { text: { es: "Auditoría y remediación", en: "Audit and remediation" } },
-      { text: { es: "Declaración de accesibilidad", en: "Accessibility statement" } },
+      {
+        text: { es: "Auditoría y remediación", en: "Audit and remediation" },
+        shortLabel: { es: "Auditoría", en: "Audit" },
+      },
+      {
+        text: { es: "Declaración de accesibilidad", en: "Accessibility statement" },
+        shortLabel: { es: "Declaración a11y", en: "A11y statement" },
+      },
       {
         text: {
           es: "Configuración de consentimiento CCPA/CPRA",
           en: "CCPA/CPRA consent configuration",
         },
+        shortLabel: { es: "CCPA/CPRA", en: "CCPA/CPRA" },
         usOnly: true,
       },
     ],
@@ -169,27 +201,31 @@ export const plans: Plan[] = [
     priceValue: { mx: 1185, us: 3200 },
     serviceCount: { mx: 22, us: 26 },
     featured: true,
+    inheritsFromPlanId: "advanced",
     features: [
       {
-        text: {
-          es: "Obtén todos los servicios y bases del paquete Tracción",
-          en: "Get every service and foundation from the Traction package",
-        },
+        text: { es: "Monitoreo y atención en vivo", en: "Live monitoring and support" },
+        shortLabel: { es: "Monitoreo en vivo", en: "Live monitoring" },
       },
       {
-        text: {
-          es: "Monitoreo y atención en vivo",
-          en: "Live monitoring and support",
-        },
+        text: { es: "Desarrollo web a la medida", en: "Custom web development" },
+        shortLabel: { es: "Desarrollo a medida", en: "Custom dev" },
       },
-      { text: { es: "Desarrollo web a la medida", en: "Custom web development" } },
       {
         text: {
           es: "Estrategia de redes con planeación mensual",
           en: "Monthly social strategy and planning",
         },
+        shortLabel: { es: "Estrategia mensual", en: "Monthly strategy" },
       },
-      { text: { es: "Publicidad digital (Google/Meta)", en: "Paid media (Google/Meta)" } },
+      {
+        text: { es: "Publicidad digital — Google", en: "Paid media — Google" },
+        shortLabel: { es: "Publicidad Google", en: "Google ads" },
+      },
+      {
+        text: { es: "Publicidad digital — Meta", en: "Paid media — Meta" },
+        shortLabel: { es: "Publicidad Meta", en: "Meta ads" },
+      },
       { text: { es: "Branding", en: "Branding" } },
       {
         text: { es: "Producción audiovisual completa", en: "Full video production" },
@@ -197,6 +233,7 @@ export const plans: Plan[] = [
           es: "Planeación, producción y postproducción.",
           en: "Planning, production, and post-production.",
         },
+        shortLabel: { es: "Producción audiovisual", en: "Video production" },
       },
       {
         text: { es: "Integraciones de plataforma", en: "Platform integrations" },
@@ -204,15 +241,18 @@ export const plans: Plan[] = [
           es: "Gestión masiva de datos, cliente, reseñas, automatizaciones y métricas de rendimiento y rutas.",
           en: "Bulk management of data, clients, reviews, automations, and performance and routing metrics.",
         },
+        shortLabel: { es: "Integraciones", en: "Integrations" },
       },
-      { text: { es: "Meta Graph API", en: "Meta Graph API" } },
-      { text: { es: "Google Business Profile API", en: "Google Business Profile API" } },
-      { text: { es: "Search Console y GA4", en: "Search Console and GA4" } },
+      {
+        text: { es: "Meta Graph API", en: "Meta Graph API" },
+        learnMoreSlug: "meta-graph-api",
+      },
       {
         text: {
           es: "Sitio bilingüe — inglés y español",
           en: "Bilingual site — English and Spanish",
         },
+        shortLabel: { es: "Sitio bilingüe", en: "Bilingual site" },
         usOnly: true,
       },
     ],
@@ -228,18 +268,14 @@ export const plans: Plan[] = [
     durationMonths: 8,
     priceValue: { mx: 1555, us: 4500 },
     serviceCount: { mx: 28, us: 34 },
+    inheritsFromPlanId: "grower",
     features: [
-      {
-        text: {
-          es: "Obtén todos los servicios y bases del paquete Escala",
-          en: "Get every service and foundation from the Scale package",
-        },
-      },
       {
         text: {
           es: "Producción audiovisual cinematográfica (4K)",
           en: "Cinematic 4K video production",
         },
+        shortLabel: { es: "Video 4K", en: "4K video" },
       },
       {
         text: { es: "Automatización de marketing", en: "Marketing automation" },
@@ -247,6 +283,7 @@ export const plans: Plan[] = [
           es: "Correos masivos, respuestas, calendarización sin esfuerzo manual.",
           en: "Bulk email, replies, and scheduling — no manual effort.",
         },
+        shortLabel: { es: "Automatización", en: "Automation" },
       },
       {
         text: { es: "Dashboard y BI", en: "Dashboard and BI" },
@@ -260,19 +297,31 @@ export const plans: Plan[] = [
           es: "Integraciones con tus sistemas (Hasta 2, API documentada)",
           en: "System integrations (up to 2, documented API)",
         },
+        shortLabel: { es: "Integraciones API", en: "API integrations" },
       },
       {
+        // Fixed from a prior "24 h hábiles" response-time framing, which read like a
+        // round-the-clock SLA — this states actual coverage hours instead.
         text: {
-          es: "SLA de soporte prioritario (24 h hábiles)",
-          en: "Priority support SLA (24 business hours)",
+          es: "Soporte prioritario en horario de oficina",
+          en: "Priority support during office hours",
         },
+        description: {
+          es: "Lunes a viernes, 9 a.m. – 5 p.m.",
+          en: "Monday to Friday, 9am–5pm.",
+        },
+        shortLabel: { es: "Soporte prioritario", en: "Priority support" },
       },
-      { text: { es: "VPAT / Reporte de conformidad", en: "VPAT / Conformance report" } },
+      {
+        text: { es: "VPAT / Reporte de conformidad", en: "VPAT / Conformance report" },
+        learnMoreSlug: "vpat",
+      },
       {
         text: {
           es: "Entidad contratante en EUA y W-9",
           en: "US contracting entity and W-9",
         },
+        shortLabel: { es: "Entidad EUA", en: "US entity" },
         usOnly: true,
       },
       {
@@ -280,11 +329,16 @@ export const plans: Plan[] = [
           es: "Sesión presencial trimestral en San Diego",
           en: "Quarterly on-site in San Diego",
         },
+        shortLabel: { es: "Sesión presencial", en: "On-site visit" },
         usOnly: true,
       },
     ],
   },
 ];
+
+export function getPlan(id: string) {
+  return plans.find((plan) => plan.id === id);
+}
 
 export type CustomPlanModule = { title: Localized; description: Localized };
 
@@ -349,8 +403,13 @@ export const customPlan: CustomPlan = {
 
 /** Mirrors PackagesConfigurator.buildSummaryMessage()'s style, but for the Aliado/custom
  *  plan, which has no addon steps — just the plan name, starting price, and minimum term. */
-export function customPlanSummaryMessage(lang: Lang, region: Region, messagePlanLabel: string) {
-  return `${messagePlanLabel}: ${customPlan.name[lang]} (${formatUSD(customPlan.priceFromValue[region])}/mo · ${customPlan.minDuration[lang]})`;
+export function customPlanSummaryMessage(
+  lang: Lang,
+  region: Region,
+  messagePlanLabel: string,
+  perMonthLabel: string,
+) {
+  return `${messagePlanLabel}: ${customPlan.name[lang]} (${formatUSD(customPlan.priceFromValue[region])}${perMonthLabel} · ${customPlan.minDuration[lang]})`;
 }
 
 export function planTotal(plan: Plan, region: Region) {

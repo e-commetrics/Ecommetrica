@@ -4,8 +4,9 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { plans, formatUSD, type Plan } from "@/lib/pricing";
+import { plans, formatUSD, planTotal, type Plan } from "@/lib/pricing";
 import { packagePhases, type PackageAddon } from "@/lib/packages";
+import PlanFeatures from "@/components/PlanFeatures";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useRegion } from "@/components/RegionProvider";
 import { useContactPrefill } from "@/components/ContactPrefillProvider";
@@ -102,7 +103,7 @@ export default function PackagesConfigurator() {
     const lines: string[] = [];
     if (selectedPlan) {
       lines.push(
-        `${t.packagesFlow.messagePlanLabel}: ${selectedPlan.name[lang]} (${formatUSD(selectedPlan.priceValue[region])} / ${selectedPlan.duration[lang]})`,
+        `${t.packagesFlow.messagePlanLabel}: ${selectedPlan.name[lang]} (${formatUSD(selectedPlan.priceValue[region])}${t.pricingPage.perMonth} · ${selectedPlan.duration[lang]}, ${t.pricingPage.totalLabel.toLowerCase()} ${formatUSD(planTotal(selectedPlan, region))})`,
       );
     }
     if (selectedAddons.length > 0) {
@@ -317,17 +318,27 @@ function PlanStep({
   lang: Lang;
   region: Region;
 }) {
+  const { t } = useLanguage();
   return (
     <div className="grid gap-6 sm:grid-cols-2">
       {plans.map((plan: Plan) => {
         const isSelected = plan.id === selectedPlanId;
         return (
-          <button
+          // A <div>, not a <button>: PlanFeatures below renders its own "view all
+          // included" toggle button, and a button can't contain another button.
+          <div
             key={plan.id}
-            type="button"
+            role="button"
+            tabIndex={0}
             onClick={() => onSelect(plan.id)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                onSelect(plan.id);
+              }
+            }}
             aria-pressed={isSelected}
-            className={`relative flex h-full flex-col rounded-3xl border p-7 text-left transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 ${
+            className={`relative flex h-full cursor-pointer flex-col rounded-3xl border p-7 text-left transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 ${
               isSelected
                 ? "border-ecom-orange bg-ecom-orange/[0.06] shadow-[0_20px_50px_-30px_var(--color-ecom-orange)]"
                 : "border-ecom-ink/12 hover:border-ecom-orange/40"
@@ -335,7 +346,7 @@ function PlanStep({
           >
             {plan.featured && (
               <span className="absolute -top-3 left-7 rounded-full bg-ecom-orange px-3 py-1 text-xs font-medium tracking-widest text-white uppercase">
-                Popular
+                {t.pricingPage.bestValueBadge}
               </span>
             )}
             <div className="flex items-start justify-between gap-3">
@@ -361,26 +372,16 @@ function PlanStep({
             <p className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] text-ecom-ink">
               {formatUSD(plan.priceValue[region])}
               <span className="ml-1.5 text-sm font-normal tracking-normal text-ecom-ink/50">
-                / {plan.duration[lang]}
+                {t.pricingPage.perMonth}
               </span>
             </p>
-            <ul className="mt-6 flex flex-1 flex-col gap-2.5 border-t border-ecom-ink/10 pt-5 text-sm leading-relaxed text-ecom-ink/70">
-              {plan.features
-                .filter((feature) => !feature.usOnly || region === "us")
-                .map((feature) => (
-                  <li key={feature.text.en} className="flex items-start gap-2.5">
-                    <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
-                    <span>
-                      {feature.text[lang]}
-                      {feature.description && (
-                        <span className="block text-ecom-ink/50 italic">
-                          {feature.description[lang]}
-                        </span>
-                      )}
-                    </span>
-                  </li>
-                ))}
-            </ul>
+            <p className="mt-1 text-xs text-ecom-ink/50">
+              {t.pricingPage.totalLabel} {formatUSD(planTotal(plan, region))} ·{" "}
+              {plan.duration[lang]}
+            </p>
+            <div className="flex-1">
+              <PlanFeatures plan={plan} lang={lang} region={region} variant="light" />
+            </div>
             <span
               className={`mt-6 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-sm font-medium tracking-wide uppercase ${
                 isSelected ? "bg-ecom-orange text-white" : "bg-ecom-ink/5 text-ecom-ink/70"
@@ -388,7 +389,7 @@ function PlanStep({
             >
               {isSelected ? selectedLabel : selectLabel}
             </span>
-          </button>
+          </div>
         );
       })}
     </div>
@@ -505,9 +506,14 @@ function SummaryStep({
             <h3 className="font-display text-xl font-medium text-ecom-ink">{plan.name[lang]}</h3>
             <p className="font-display text-xl font-medium text-ecom-ink">
               {formatUSD(plan.priceValue[region])}
-              <span className="ml-1 text-sm font-normal text-ecom-ink/50">/ {plan.duration[lang]}</span>
+              <span className="ml-1 text-sm font-normal text-ecom-ink/50">
+                {t.pricingPage.perMonth}
+              </span>
             </p>
           </div>
+          <p className="mt-1 text-right text-xs text-ecom-ink/50">
+            {t.pricingPage.totalLabel} {formatUSD(planTotal(plan, region))} · {plan.duration[lang]}
+          </p>
         </div>
       )}
 
@@ -573,6 +579,7 @@ function OrderSummary({
           <span className="font-display text-base font-medium text-ecom-ink">{plan.name[lang]}</span>
           <span className="text-sm font-medium text-ecom-ink/70">
             {formatUSD(plan.priceValue[region])}
+            {t.pricingPage.perMonth}
           </span>
         </div>
       ) : (

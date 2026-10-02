@@ -7,6 +7,24 @@ export type LegalSection = {
   bullets?: string[];
 };
 
+/** Shared shape for standalone "what is X, why does it matter at this tier, what do we
+ *  deliver" pages linked from a plan feature's "Learn more" (vpatPage, ga4Page, etc.) —
+ *  see FeatureExplainerPage.tsx for the one layout that renders all of them. */
+export type FeatureExplainerContent = {
+  metaDescription: string;
+  keywords: string[];
+  eyebrow: string;
+  headline: string;
+  intro: string;
+  whatTitle: string;
+  whatBody: string;
+  whyTitle: string;
+  whyBody: string;
+  deliverableTitle: string;
+  deliverableBody: string;
+  backCta: string;
+};
+
 export type Dict = {
   siteMeta: { title: string; description: string; keywords: string[] };
   nav: {
@@ -54,7 +72,6 @@ export type Dict = {
     eyebrow: string;
     bigWord: string;
     sub: string;
-    popular: string;
     select: string;
     viewAll: string;
   };
@@ -190,6 +207,7 @@ export type Dict = {
     bannerTitle: string;
     bannerBody: string;
     bestValueBadge: string;
+    perMonth: string;
     totalLabel: string;
     servicesLabel: string;
     perServiceLabel: string;
@@ -203,7 +221,15 @@ export type Dict = {
     customCta: string;
     footnote: string;
     footer: string;
+    includesAllFrom: (planName: string) => string;
+    viewAllIncluded: string;
+    viewLess: string;
+    learnMore: string;
   };
+  vpatPage: FeatureExplainerContent;
+  ga4Page: FeatureExplainerContent;
+  metaGraphApiPage: FeatureExplainerContent;
+  googleBusinessProfilePage: FeatureExplainerContent;
   packagesFlow: {
     stepLabels: [string, string, string, string, string, string];
     stepOf: (current: number, total: number) => string;
@@ -347,7 +373,6 @@ export const dict: Record<Lang, Dict> = {
       eyebrow: "Nuestros",
       bigWord: "PLANES",
       sub: "Cuatro paquetes con todo incluido: sitio web, SEO, redes y publicidad. Elige el que corresponda a la etapa de tu negocio.",
-      popular: "Popular",
       select: "Seleccionar",
       viewAll: "Ver todos los planes y precios",
     },
@@ -568,6 +593,7 @@ export const dict: Record<Lang, Dict> = {
       bannerBody:
         "Accesibilidad ADA / WCAG 2.1 AA y consentimiento de datos configurados desde el inicio — porque en California un sitio inaccesible es una exposición legal, no un detalle de diseño.",
       bestValueBadge: "Mejor valor",
+      perMonth: "/mes",
       totalLabel: "Total",
       servicesLabel: "servicios",
       perServiceLabel: "por servicio al mes",
@@ -582,6 +608,90 @@ export const dict: Record<Lang, Dict> = {
       footnote: "★ Inclusiones exclusivas del mercado US — no disponibles en los planes de México.",
       footer:
         "Cada plan incluye la totalidad del plan anterior. Precios en USD por mes. El costo por servicio se calcula sobre los servicios incluidos en cada plan. Vigencia sujeta a contrato.",
+      includesAllFrom: (planName) => `Incluye todo lo de ${planName}`,
+      viewAllIncluded: "Ver todo lo incluido",
+      viewLess: "Ver menos",
+      learnMore: "Saber más",
+    },
+    vpatPage: {
+      metaDescription:
+        "Qué es un VPAT y por qué el plan Cúspide de Ecommetrica lo incluye como reporte de conformidad de accesibilidad.",
+      keywords: ["VPAT", "reporte de conformidad", "accesibilidad web", "ADA WCAG Ecommetrica"],
+      eyebrow: "ACCESIBILIDAD",
+      headline: "VPAT / Reporte de conformidad",
+      intro:
+        "Un documento que dice, con detalle verificable, qué tan accesible es tu sitio — no una promesa de marketing.",
+      whatTitle: "¿Qué es un VPAT?",
+      whatBody:
+        "Un VPAT (Voluntary Product Accessibility Template) es un documento estandarizado que evalúa un producto digital contra los criterios de accesibilidad de WCAG 2.1 AA y Section 508, criterio por criterio. El resultado es un reporte de conformidad: qué cumple tu sitio, qué cumple parcialmente y qué no aplica, con evidencia — no una casilla de \"sitio accesible\" sin respaldo.",
+      whyTitle: "¿Por qué importa en el plan Cúspide?",
+      whyBody:
+        "A esta escala, tu sitio suele ser parte de procesos de compra o cumplimiento de otras empresas — grandes clientes, licitaciones o contratos en EUA piden evidencia de accesibilidad antes de firmar, no solo una declaración. El plan Tracción ya incluye cumplimiento ADA/WCAG 2.1 AA; Cúspide añade el reporte formal que convierte ese trabajo técnico en un documento que tu equipo legal o de compras puede exigir y verificar.",
+      deliverableTitle: "¿Qué entrega Ecommetrica?",
+      deliverableBody:
+        "Una auditoría completa de tu sitio contra WCAG 2.1 AA, documentada en el formato VPAT estándar (modelo del International Committee for Information Technology Standards), más la remediación de los hallazgos encontrados dentro del alcance del plan. El reporte queda listo para compartirse con clientes, aliados o equipos de cumplimiento que lo soliciten.",
+      backCta: "Ver planes y precios",
+    },
+    ga4Page: {
+      metaDescription:
+        "Qué es Google Analytics 4 y por qué Ecommetrica lo configura desde el plan Arranque.",
+      keywords: ["Google Analytics 4", "GA4", "analítica web Ecommetrica"],
+      eyebrow: "ANALÍTICA",
+      headline: "Google Analytics 4",
+      intro:
+        "La base de cualquier decisión de marketing: saber qué está pasando en tu sitio antes de decidir qué cambiar.",
+      whatTitle: "¿Qué es GA4?",
+      whatBody:
+        "Google Analytics 4 es la plataforma de analítica web de Google: registra qué páginas visitan tus usuarios, de dónde vienen, qué los hace convertir (comprar, llenar un formulario, llamar) y en qué punto abandonan. A diferencia de su versión anterior (Universal Analytics), GA4 está construido alrededor de eventos, no de sesiones, lo que lo hace más preciso para medir conversiones reales.",
+      whyTitle: "¿Por qué importa desde el plan Arranque?",
+      whyBody:
+        "No puedes mejorar lo que no mides. Configurar GA4 desde el primer día — no meses después, cuando ya perdiste esos datos — es lo que te permite tomar decisiones de marketing basadas en comportamiento real de tus visitantes, no en suposiciones. Es la base sobre la que se apoyan las campañas de pauta y la optimización de conversión en los planes superiores.",
+      deliverableTitle: "¿Qué entrega Ecommetrica?",
+      deliverableBody:
+        "Configuración de tu propiedad GA4, definición de eventos de conversión relevantes para tu negocio (compras, formularios, llamadas, WhatsApp, etc.), vinculación con Google Ads/Meta cuando aplique, y acceso a tu panel para que veas tus propios datos en cualquier momento.",
+      backCta: "Ver planes y precios",
+    },
+    metaGraphApiPage: {
+      metaDescription:
+        "Qué es Meta Graph API y por qué Ecommetrica la integra desde el plan Escala.",
+      keywords: ["Meta Graph API", "integración Facebook Instagram", "automatización Ecommetrica"],
+      eyebrow: "INTEGRACIONES",
+      headline: "Meta Graph API",
+      intro:
+        "La conexión técnica que permite que tu sitio y tus procesos de negocio hablen directamente con Facebook e Instagram, no solo que publiques en ellos.",
+      whatTitle: "¿Qué es Meta Graph API?",
+      whatBody:
+        "Es la interfaz que Meta (Facebook/Instagram) ofrece para que una aplicación externa —como tu sitio o tu panel interno— lea y escriba datos directamente en sus plataformas: mensajes, reseñas, catálogos de producto, leads de formularios de anuncios, publicaciones automatizadas, entre otros. Sin esta integración, cada una de esas tareas se hace manualmente, plataforma por plataforma.",
+      whyTitle: "¿Por qué importa en el plan Escala?",
+      whyBody:
+        "A esta escala ya gestionas publicidad digital, redes sociales y potencialmente un catálogo de productos — hacerlo manualmente entre pestañas deja de ser sostenible. La integración por API es lo que permite que tu dashboard centralice reseñas, leads y mensajes de Meta en un solo lugar y que las automatizaciones (correos, respuestas, reportes) funcionen sin intervención manual.",
+      deliverableTitle: "¿Qué entrega Ecommetrica?",
+      deliverableBody:
+        "Configuración de la aplicación y permisos en Meta for Developers, conexión autenticada entre tu negocio y la API, y el mapeo específico de datos que tu plan incluye (leads, mensajes, catálogo o reseñas, según tu caso) hacia tu sitio o dashboard.",
+      backCta: "Ver planes y precios",
+    },
+    googleBusinessProfilePage: {
+      metaDescription:
+        "Qué es Google Business Profile API y por qué Ecommetrica la integra desde el plan Tracción.",
+      keywords: [
+        "Google Business Profile API",
+        "ficha de Google",
+        "reseñas Google Ecommetrica",
+      ],
+      eyebrow: "INTEGRACIONES",
+      headline: "Google Business Profile API",
+      intro:
+        "Tu ficha de Google (la que aparece en Maps y en la búsqueda local) conectada directamente a tu sitio, no administrada a mano desde otra pestaña.",
+      whatTitle: "¿Qué es Google Business Profile API?",
+      whatBody:
+        "Es la interfaz que permite gestionar tu perfil de negocio en Google (horarios, publicaciones, preguntas y respuestas, y reseñas) de forma programática, en lugar de entrar manualmente a Google Business Profile Manager cada vez que necesitas actualizar algo o responder a un cliente.",
+      whyTitle: "¿Por qué importa en el plan Tracción?",
+      whyBody:
+        "En este nivel ya estás convirtiendo tráfico en clientes, y la mayoría de esos clientes locales te encuentran — y te califican — a través de tu ficha de Google antes de llegar a tu sitio. Conectar esa ficha por API permite mantener reseñas, horarios y publicaciones sincronizados con el resto de tu operación, sin depender de que alguien entre a actualizarlo manualmente.",
+      deliverableTitle: "¿Qué entrega Ecommetrica?",
+      deliverableBody:
+        "Verificación y conexión de tu perfil de Google Business a la API, configuración de sincronización de reseñas y preguntas frecuentes, y la automatización de publicaciones o alertas que tu plan incluya.",
+      backCta: "Ver planes y precios",
     },
     packagesFlow: {
       stepLabels: ["Plan", "Marketing", "Integraciones", "Personalización", "Branding", "Resumen"],
@@ -775,7 +885,6 @@ export const dict: Record<Lang, Dict> = {
       eyebrow: "Our",
       bigWord: "PLANS",
       sub: "Four all-inclusive packages: website, SEO, social media, and advertising. Pick the one that matches where your business is.",
-      popular: "Popular",
       select: "Select",
       viewAll: "See all plans and pricing",
     },
@@ -994,6 +1103,7 @@ export const dict: Record<Lang, Dict> = {
       bannerBody:
         "ADA and WCAG 2.1 AA conformance plus data-consent handling, built in from day one — because in California an inaccessible site is legal exposure, not a design detail.",
       bestValueBadge: "Best value",
+      perMonth: "/mo",
       totalLabel: "Total",
       servicesLabel: "services",
       perServiceLabel: "per service per month",
@@ -1008,6 +1118,86 @@ export const dict: Record<Lang, Dict> = {
       footnote: "★ US-market inclusions — not offered on the Mexico plans.",
       footer:
         "Each plan includes everything in the plan before it. Prices in USD per month. Per-service cost is calculated across the services included in each plan. Terms subject to contract.",
+      includesAllFrom: (planName) => `Includes everything in ${planName}`,
+      viewAllIncluded: "See everything included",
+      viewLess: "See less",
+      learnMore: "Learn more",
+    },
+    vpatPage: {
+      metaDescription:
+        "What a VPAT is and why Ecommetrica's Peak plan includes it as an accessibility conformance report.",
+      keywords: ["VPAT", "conformance report", "web accessibility", "ADA WCAG Ecommetrica"],
+      eyebrow: "ACCESSIBILITY",
+      headline: "VPAT / Conformance Report",
+      intro:
+        "A document that states, with verifiable detail, how accessible your site actually is — not a marketing promise.",
+      whatTitle: "What is a VPAT?",
+      whatBody:
+        "A VPAT (Voluntary Product Accessibility Template) is a standardized document that evaluates a digital product against WCAG 2.1 AA and Section 508 accessibility criteria, one criterion at a time. The output is a conformance report: what your site meets, what it partially meets, and what doesn't apply — with evidence, not an unsupported \"accessible site\" checkbox.",
+      whyTitle: "Why does it matter at the Peak tier?",
+      whyBody:
+        "At this scale, your site is often part of another company's procurement or compliance process — large clients, RFPs, or US contracts ask for accessibility evidence before signing, not just a statement. The Traction plan already includes ADA/WCAG 2.1 AA conformance work; Peak adds the formal report that turns that technical work into a document your legal or procurement counterparts can request and verify.",
+      deliverableTitle: "What does Ecommetrica deliver?",
+      deliverableBody:
+        "A full audit of your site against WCAG 2.1 AA, documented in the standard VPAT format (the International Committee for Information Technology Standards' template), plus remediation of findings within the plan's scope. The report is ready to share with clients, partners, or compliance teams who request it.",
+      backCta: "See plans and pricing",
+    },
+    ga4Page: {
+      metaDescription:
+        "What Google Analytics 4 is and why Ecommetrica sets it up starting at the Launch plan.",
+      keywords: ["Google Analytics 4", "GA4", "Ecommetrica web analytics"],
+      eyebrow: "ANALYTICS",
+      headline: "Google Analytics 4",
+      intro:
+        "The foundation of any marketing decision: knowing what's actually happening on your site before deciding what to change.",
+      whatTitle: "What is GA4?",
+      whatBody:
+        "Google Analytics 4 is Google's web analytics platform: it tracks which pages your visitors view, where they came from, what makes them convert (buy, fill out a form, call), and where they drop off. Unlike its predecessor (Universal Analytics), GA4 is built around events rather than sessions, making it more accurate for measuring real conversions.",
+      whyTitle: "Why does it matter from the Launch plan?",
+      whyBody:
+        "You can't improve what you don't measure. Setting up GA4 from day one — not months later, once that data is already lost — is what lets you make marketing decisions based on real visitor behavior instead of guesswork. It's the foundation that paid campaigns and conversion optimization in higher tiers build on.",
+      deliverableTitle: "What does Ecommetrica deliver?",
+      deliverableBody:
+        "Your GA4 property set up, conversion events defined for your business (purchases, forms, calls, WhatsApp, etc.), linking to Google Ads/Meta where applicable, and access to your own dashboard so you can see your data anytime.",
+      backCta: "See plans and pricing",
+    },
+    metaGraphApiPage: {
+      metaDescription:
+        "What the Meta Graph API is and why Ecommetrica integrates it starting at the Scale plan.",
+      keywords: ["Meta Graph API", "Facebook Instagram integration", "Ecommetrica automation"],
+      eyebrow: "INTEGRATIONS",
+      headline: "Meta Graph API",
+      intro:
+        "The technical connection that lets your site and business processes talk directly to Facebook and Instagram — not just post to them.",
+      whatTitle: "What is the Meta Graph API?",
+      whatBody:
+        "It's the interface Meta (Facebook/Instagram) provides for an external application — like your site or internal dashboard — to read and write data directly on its platforms: messages, reviews, product catalogs, ad form leads, automated posts, and more. Without this integration, each of those tasks happens manually, platform by platform.",
+      whyTitle: "Why does it matter at the Scale tier?",
+      whyBody:
+        "At this scale you're already running paid ads, social media, and potentially a product catalog — doing it manually across tabs stops being sustainable. The API integration is what lets your dashboard centralize Meta reviews, leads, and messages in one place, and what makes automations (emails, replies, reports) run without manual intervention.",
+      deliverableTitle: "What does Ecommetrica deliver?",
+      deliverableBody:
+        "App and permissions setup in Meta for Developers, an authenticated connection between your business and the API, and the specific data mapping your plan includes (leads, messages, catalog, or reviews, depending on your case) into your site or dashboard.",
+      backCta: "See plans and pricing",
+    },
+    googleBusinessProfilePage: {
+      metaDescription:
+        "What the Google Business Profile API is and why Ecommetrica integrates it starting at the Traction plan.",
+      keywords: ["Google Business Profile API", "Google listing", "Ecommetrica reviews"],
+      eyebrow: "INTEGRATIONS",
+      headline: "Google Business Profile API",
+      intro:
+        "Your Google listing — the one that shows up on Maps and local search — connected directly to your site, not managed by hand from another tab.",
+      whatTitle: "What is the Google Business Profile API?",
+      whatBody:
+        "It's the interface that lets you manage your Google Business listing (hours, posts, Q&A, and reviews) programmatically, instead of logging into Google Business Profile Manager by hand every time something needs updating or a customer review needs a response.",
+      whyTitle: "Why does it matter at the Traction tier?",
+      whyBody:
+        "At this stage you're already converting traffic into customers, and most local customers find — and judge — you through your Google listing before they ever reach your site. Connecting that listing via API keeps reviews, hours, and posts in sync with the rest of your operation, instead of depending on someone logging in to update it manually.",
+      deliverableTitle: "What does Ecommetrica deliver?",
+      deliverableBody:
+        "Verification and API connection of your Google Business profile, review and FAQ sync setup, and whatever post or alert automation your plan includes.",
+      backCta: "See plans and pricing",
     },
     packagesFlow: {
       stepLabels: ["Plan", "Marketing", "Integrations", "Customization", "Branding", "Summary"],

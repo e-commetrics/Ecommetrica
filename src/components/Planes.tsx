@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { plans, customPlan, customPlanSummaryMessage, formatUSD } from "@/lib/pricing";
+import { plans, customPlan, customPlanSummaryMessage, formatUSD, planTotal } from "@/lib/pricing";
 import Reveal from "@/components/Reveal";
+import PlanFeatures from "@/components/PlanFeatures";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useRegion } from "@/components/RegionProvider";
 import { useContactPrefill } from "@/components/ContactPrefillProvider";
@@ -76,7 +77,7 @@ export default function Planes() {
               >
                 {plan.featured && (
                   <span className="absolute -top-3 left-8 rounded-full bg-ecom-orange px-3 py-1 text-xs font-medium tracking-widest text-white uppercase">
-                    {t.planes.popular}
+                    {p.bestValueBadge}
                   </span>
                 )}
                 <h3 className="font-display text-lg font-medium tracking-wide">
@@ -86,26 +87,15 @@ export default function Planes() {
                 <p className="mt-5 font-display text-4xl font-medium tracking-[-0.02em]">
                   {formatUSD(plan.priceValue[region])}
                   <span className="ml-1.5 text-sm font-normal tracking-normal text-white/50">
-                    / {plan.duration[lang]}
+                    {p.perMonth}
                   </span>
                 </p>
-                <ul className="mt-8 flex flex-1 flex-col gap-3.5 border-t border-white/10 pt-7 text-sm leading-relaxed text-white/70">
-                  {plan.features
-                    .filter((feature) => !feature.usOnly || region === "us")
-                    .map((feature) => (
-                      <li key={feature.text.en} className="flex items-start gap-2.5">
-                        <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
-                        <span>
-                          {feature.text[lang]}
-                          {feature.description && (
-                            <span className="block text-white/40 italic">
-                              {feature.description[lang]}
-                            </span>
-                          )}
-                        </span>
-                      </li>
-                    ))}
-                </ul>
+                <p className="mt-1 text-xs text-white/40">
+                  {p.totalLabel} {formatUSD(planTotal(plan, region))} · {plan.duration[lang]}
+                </p>
+                <div className="flex-1">
+                  <PlanFeatures plan={plan} lang={lang} region={region} variant="dark" />
+                </div>
                 <Link
                   href={`${localizedHref(lang, "/packages")}?plan=${plan.id}`}
                   className={`group/cta mt-9 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-medium tracking-wide transition-colors duration-300 ${
@@ -142,14 +132,19 @@ export default function Planes() {
               <p className="mt-5 font-display text-4xl font-medium tracking-[-0.02em] text-white">
                 {p.customFromLabel} {formatUSD(customPlan.priceFromValue[region])}
                 <span className="ml-1.5 text-sm font-normal tracking-normal text-white/50">
-                  /mo
+                  {p.perMonth}
                 </span>
               </p>
               <Link
                 href={`${localizedHref(lang, "/contact")}#contact-form`}
                 onClick={() =>
                   setPackageSummary(
-                    customPlanSummaryMessage(lang, region, t.packagesFlow.messagePlanLabel),
+                    customPlanSummaryMessage(
+                      lang,
+                      region,
+                      t.packagesFlow.messagePlanLabel,
+                      p.perMonth,
+                    ),
                   )
                 }
                 className="group/cta mt-7 inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3.5 text-sm font-medium tracking-wide text-ecom-black transition-colors duration-300 hover:bg-ecom-orange hover:text-white"
