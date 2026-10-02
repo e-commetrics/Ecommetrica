@@ -320,24 +320,14 @@ function PlanStep({
 }) {
   const { t } = useLanguage();
   return (
+    <>
     <div className="grid gap-6 sm:grid-cols-2">
       {plans.map((plan: Plan) => {
         const isSelected = plan.id === selectedPlanId;
         return (
-          // A <div>, not a <button>: PlanFeatures below renders its own "view all
-          // included" toggle button, and a button can't contain another button.
           <div
             key={plan.id}
-            role="button"
-            tabIndex={0}
             onClick={() => onSelect(plan.id)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                onSelect(plan.id);
-              }
-            }}
-            aria-pressed={isSelected}
             className={`relative flex h-full cursor-pointer flex-col rounded-3xl border p-7 text-left transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 ${
               isSelected
                 ? "border-ecom-orange bg-ecom-orange/[0.06] shadow-[0_20px_50px_-30px_var(--color-ecom-orange)]"
@@ -382,17 +372,21 @@ function PlanStep({
             <div className="flex-1">
               <PlanFeatures plan={plan} lang={lang} region={region} variant="light" />
             </div>
-            <span
-              className={`mt-6 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-sm font-medium tracking-wide uppercase ${
+            <button
+              type="button"
+              aria-pressed={isSelected}
+              className={`mt-6 inline-flex w-fit cursor-pointer items-center gap-2 rounded-full px-4 py-2 text-sm font-medium tracking-wide uppercase focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ecom-orange ${
                 isSelected ? "bg-ecom-orange text-white" : "bg-ecom-ink/5 text-ecom-ink/70"
               }`}
             >
               {isSelected ? selectedLabel : selectLabel}
-            </span>
+            </button>
           </div>
         );
       })}
     </div>
+    {region === "us" && <p className="mt-6 text-sm text-ecom-ink/50">{t.pricingPage.footnote}</p>}
+    </>
   );
 }
 

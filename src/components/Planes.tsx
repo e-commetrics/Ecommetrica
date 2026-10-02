@@ -116,6 +116,7 @@ export default function Planes() {
             </Reveal>
           ))}
         </div>
+        {region === "us" && <p className="mt-6 text-sm text-white/50">{p.footnote}</p>}
 
         <Reveal delay={plans.length * 0.1}>
           <div className="mt-6 flex flex-col gap-8 rounded-3xl border border-white/12 bg-linear-to-r from-white/[0.04] to-ecom-red/10 p-8 backdrop-blur-sm lg:flex-row lg:items-center lg:gap-12 lg:p-10">
