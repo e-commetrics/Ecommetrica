@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "motion/react";
 import Reveal from "@/components/Reveal";
@@ -18,9 +18,11 @@ const TOTAL = PROJECTS.length;
 // 2-3 sit in frame at once — reads as a scatter, not a list.
 const SLIDE_VH = 36;
 
+const SLIDE_HEIGHT = `max(${SLIDE_VH}vh, calc(min(48rem, 100vw - 12rem) / 2 + 8rem))`;
+
 // Scroll budget beyond the slide track itself: head hold for the title, tail
 // room for the last card to clear the top.
-const SECTION_VH = TOTAL * SLIDE_VH + 150;
+const SECTION_HEIGHT = `calc(${TOTAL} * var(--slide-h) + 150vh)`;
 
 // Cards are wide (2:1) and run up to max-w-3xl (768px), which 50vw only covers
 // past a 1536px viewport — hence 55vw rather than something narrower.
@@ -78,7 +80,7 @@ function ProjectSlide({
   return (
     <div
       className="flex w-full shrink-0 items-center px-6 sm:px-14 lg:px-24"
-      style={{ height: `${SLIDE_VH}vh` }}
+      style={{ height: "var(--slide-h)" }}
     >
       <motion.a
         {...projectLink(project, lang)}
@@ -250,8 +252,7 @@ export default function Projects() {
   // top edge", reached as the section releases — every pixel of pinned scroll moves the track.
   const trackY = useTransform(
     scrollYProgress,
-    [0, 1],
-    ["100vh", `-${TOTAL * SLIDE_VH}vh`],
+    (progress) => `calc(100vh - ${progress} * (100vh + ${TOTAL} * var(--slide-h)))`,
   );
 
   return (
@@ -284,7 +285,7 @@ export default function Projects() {
       <section
         ref={containerRef}
         className="relative hidden bg-ecom-surface lg:block"
-        style={{ height: `${SECTION_VH}vh` }}
+        style={{ "--slide-h": SLIDE_HEIGHT, height: SECTION_HEIGHT } as CSSProperties}
       >
         <div className="sticky top-0 h-screen overflow-hidden">
           {/* Ambient wash: blurred copy of the hovered card's artwork, tinting the pinned

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
-import Highlight from "@/components/Highlight";
+import AnimatedCoil from "@/components/AnimatedCoil";
 import { serviceCategories } from "@/lib/services";
 import type { Lang } from "@/lib/i18n/types";
 import { getDict } from "@/lib/i18n/dict";
@@ -45,11 +45,7 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
           delay={0.2}
           className="lg:[-webkit-mask-image:linear-gradient(to_right,black_75%,transparent_100%)] lg:[mask-image:linear-gradient(to_right,black_75%,transparent_100%)]"
         >
-          <Highlight
-            shape="rings"
-            className="w-full lg:w-[160%] lg:max-w-none"
-            opacity={0.4}
-          />
+          <AnimatedCoil className="w-full lg:w-[160%] lg:max-w-none" opacity={0.4} />
         </Reveal>
       </div>
 

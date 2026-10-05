@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/components/LanguageProvider";
 import { swapLangInPath } from "@/lib/i18n/localizedHref";
+import { saveScrollForLangSwitch } from "@/lib/i18n/langSwitchScroll";
 
 export default function LanguageSwitcher() {
   const { lang, t } = useLanguage();
@@ -20,6 +21,8 @@ export default function LanguageSwitcher() {
     >
       <Link
         href={esHref}
+        scroll={false}
+        onClick={() => saveScrollForLangSwitch(esHref)}
         className={`transition-colors hover:text-white ${lang === "es" ? "text-white" : ""}`}
       >
         Es
@@ -27,6 +30,8 @@ export default function LanguageSwitcher() {
       <span aria-hidden>/</span>
       <Link
         href={enHref}
+        scroll={false}
+        onClick={() => saveScrollForLangSwitch(enHref)}
         className={`transition-colors hover:text-white ${lang === "en" ? "text-white" : ""}`}
       >
         En

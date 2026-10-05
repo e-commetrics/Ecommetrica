@@ -57,6 +57,10 @@ export const plans: Plan[] = [
         shortLabel: { es: "Sitio web", en: "Website" },
       },
       {
+        text: { es: "Tienda Shopify — 15 productos", en: "Shopify store — 15 products" },
+        shortLabel: { es: "Shopify · 15 productos", en: "Shopify · 15 products" },
+      },
+      {
         text: { es: "SEO y AEO", en: "SEO and AEO" },
         description: {
           es: "Incluye configuración de Search Console, para que en los motores de búsqueda y las IAs hablen de ti desde que inicias.",
@@ -130,7 +134,8 @@ export const plans: Plan[] = [
         shortLabel: { es: "Redes sociales", en: "Social setup" },
       },
       {
-        text: { es: "Tienda Shopify", en: "Shopify store" },
+        text: { es: "Tienda Shopify — 50 productos", en: "Shopify store — 50 products" },
+        shortLabel: { es: "Shopify · 50 productos", en: "Shopify · 50 products" },
         description: {
           es: "Pendiente datos de productos.",
           en: "Pending product data from you.",
@@ -204,6 +209,10 @@ export const plans: Plan[] = [
     inheritsFromPlanId: "advanced",
     features: [
       {
+        text: { es: "Tienda Shopify — 150 productos", en: "Shopify store — 150 products" },
+        shortLabel: { es: "Shopify · 150 productos", en: "Shopify · 150 products" },
+      },
+      {
         text: { es: "Monitoreo y atención en vivo", en: "Live monitoring and support" },
         shortLabel: { es: "Monitoreo en vivo", en: "Live monitoring" },
       },
@@ -270,6 +279,10 @@ export const plans: Plan[] = [
     serviceCount: { mx: 28, us: 34 },
     inheritsFromPlanId: "grower",
     features: [
+      {
+        text: { es: "Tienda Shopify — 500 productos", en: "Shopify store — 500 products" },
+        shortLabel: { es: "Shopify · 500 productos", en: "Shopify · 500 products" },
+      },
       {
         text: {
           es: "Producción audiovisual cinematográfica (4K)",
@@ -363,6 +376,13 @@ export const customPlan: CustomPlan = {
   priceFromValue: { mx: 2500, us: 6500 },
   totalFromValue: { mx: 20000, us: 52000 },
   modules: [
+    {
+      title: { es: "Tienda Shopify", en: "Shopify store" },
+      description: {
+        es: "Más de 500 productos.",
+        en: "500+ products.",
+      },
+    },
     {
       title: { es: "Equipo embebido", en: "Embedded team" },
       description: {

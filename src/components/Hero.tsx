@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
+import RotatingWord from "@/components/RotatingWord";
 
 const container = {
   hidden: {},
@@ -20,6 +21,11 @@ const item = {
     y: 0,
     transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const },
   },
+};
+
+const ROTATING_WORDS = {
+  es: ["sitios web", "tiendas en línea", "webapps", "experiencias digitales"],
+  en: ["websites", "online stores", "web apps", "digital experiences"],
 };
 
 export default function Hero() {
@@ -80,7 +86,10 @@ export default function Hero() {
           className="mt-14 text-balance font-display text-[clamp(2.75rem,7.5vw,8.5rem)] leading-[0.95] font-medium tracking-[-0.035em] lg:mt-20"
         >
           {t.hero.headlinePre}{" "}
-          <span className="text-ecom-orange">{t.hero.headlineAccent}</span>{" "}
+          <RotatingWord
+            words={[t.hero.headlineAccent, ...ROTATING_WORDS[lang]]}
+            className="text-ecom-orange"
+          />{" "}
           {t.hero.headlinePost}
         </motion.h1>
 

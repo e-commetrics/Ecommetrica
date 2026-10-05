@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import Lenis from "lenis";
+import { takeSavedLangSwitchScroll } from "@/lib/i18n/langSwitchScroll";
 
 // Module-level, not a ref: other components (e.g. ContactHero's in-page CTA)
 // need to trigger a scroll outside React's tree, and there's only ever one
@@ -55,7 +56,21 @@ export default function SmoothScroll() {
   // client-side navigations — Lenis has no idea a route change happened and
   // keeps whatever scroll offset the previous page was at. Reset it here.
   useEffect(() => {
-    lenisRef.current?.scrollTo(0, { immediate: true });
+    const ratio = takeSavedLangSwitchScroll(pathname);
+    if (ratio === null) {
+      lenisRef.current?.scrollTo(0, { immediate: true });
+      return;
+    }
+
+    const restore = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const y = Math.round(ratio * Math.max(max, 0));
+      if (lenisRef.current) lenisRef.current.scrollTo(y, { immediate: true, force: true });
+      else window.scrollTo(0, y);
+    };
+    restore();
+    const timers = [150, 400, 800].map((ms) => window.setTimeout(restore, ms));
+    return () => timers.forEach(window.clearTimeout);
   }, [pathname]);
 
   return null;
