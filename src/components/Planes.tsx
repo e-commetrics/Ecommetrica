@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { plans, customPlan, customPlanSummaryMessage, formatUSD, planTotal } from "@/lib/pricing";
 import Reveal from "@/components/Reveal";
 import PlanFeatures from "@/components/PlanFeatures";
+import ExpressPlanCard from "@/components/ExpressPlanCard";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useRegion } from "@/components/RegionProvider";
 import { useContactPrefill } from "@/components/ContactPrefillProvider";
@@ -65,8 +66,14 @@ export default function Planes() {
           </Link>
         </Reveal>
 
-        <div className="mt-16 grid gap-6 lg:mt-24 lg:grid-cols-4">
-          {plans.map((plan, i) => (
+        <Reveal>
+          <div className="mt-16 lg:mt-24">
+            <ExpressPlanCard variant="dark" ctaLabel={t.planes.select} />
+          </div>
+        </Reveal>
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-4">
+          {plans.filter((plan) => !plan.oneTime).map((plan, i) => (
             <Reveal key={plan.name.en} delay={i * 0.1}>
               <div
                 className={`relative flex h-full flex-col rounded-3xl border p-8 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1.5 ${
@@ -80,6 +87,9 @@ export default function Planes() {
                     {p.bestValueBadge}
                   </span>
                 )}
+                <p className="mb-3 text-xs font-medium tracking-[0.15em] text-ecom-orange uppercase">
+                  {plan.stage[lang]}
+                </p>
                 <h3 className="font-display text-lg font-medium tracking-wide">
                   {plan.name[lang]}
                 </h3>
@@ -130,6 +140,16 @@ export default function Planes() {
               <p className="mt-3 text-sm leading-relaxed text-white/60">
                 {customPlan.tagline[lang]}
               </p>
+              <ul className="mt-4 flex flex-col gap-1.5 text-sm leading-relaxed text-white/60">
+                {customPlan.highlights
+                  .filter((highlight) => !highlight.usOnly || region === "us")
+                  .map((highlight) => (
+                    <li key={highlight.text.en}>
+                      {highlight.text[lang]}
+                      {highlight.usOnly && " ★"}
+                    </li>
+                  ))}
+              </ul>
               <p className="mt-5 font-display text-4xl font-medium tracking-[-0.02em] text-white">
                 {p.customFromLabel} {formatUSD(customPlan.priceFromValue[region])}
                 <span className="ml-1.5 text-sm font-normal tracking-normal text-white/50">

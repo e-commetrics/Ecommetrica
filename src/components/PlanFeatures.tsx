@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { getPlan, type Plan } from "@/lib/pricing";
+import { getPlan, isUsOnlyCell, planNewRows, type Plan } from "@/lib/pricing";
 import type { Lang, Region } from "@/lib/i18n/types";
 import { useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
@@ -31,12 +31,36 @@ export default function PlanFeatures({
   const p = t.pricingPage;
   const [expanded, setExpanded] = useState(false);
 
-  const visibleFeatures = plan.features.filter((feature) => !feature.usOnly || region === "us");
+  const visibleFeatures = planNewRows(plan, region);
+  const specs = [
+    [p.specsLabels.size, plan.specs.size],
+    [p.specsLabels.pages, plan.specs.pages[lang]],
+    [p.specsLabels.products, plan.specs.products[lang]],
+    [p.specsLabels.blog, plan.specs.blog[lang]],
+    [p.specsLabels.social, plan.specs.social[lang]],
+  ];
   const inheritedPlan = plan.inheritsFromPlanId ? getPlan(plan.inheritsFromPlanId) : undefined;
   const dark = variant === "dark";
 
   return (
     <div>
+      <dl
+        className={`mt-6 flex flex-col gap-2 border-t pt-6 ${
+          dark ? "border-white/10" : "border-ecom-ink/10"
+        }`}
+      >
+        {specs.map(([label, value]) => (
+          <div key={label} className="flex items-baseline justify-between gap-3">
+            <dt className={`text-xs tracking-wide uppercase ${dark ? "text-white/40" : "text-ecom-ink/50"}`}>
+              {label}
+            </dt>
+            <dd className={`text-right text-sm font-medium ${dark ? "text-white/90" : "text-ecom-ink"}`}>
+              {value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+
       <div
         className={`mt-6 flex flex-wrap gap-2 border-t pt-6 ${
           dark ? "border-white/10" : "border-ecom-ink/10"
@@ -44,7 +68,7 @@ export default function PlanFeatures({
       >
         {visibleFeatures.map((feature) => (
           <span
-            key={feature.text.en}
+            key={feature.id}
             className={`rounded-full border px-3 py-1 text-xs font-medium tracking-wide ${
               dark
                 ? "border-white/15 bg-white/[0.04] text-white/80"
@@ -52,7 +76,7 @@ export default function PlanFeatures({
             }`}
           >
             {(feature.shortLabel ?? feature.text)[lang]}
-            {feature.usOnly && " ★"}
+            {isUsOnlyCell(feature, plan.id, region) && " ★"}
           </span>
         ))}
       </div>
@@ -96,11 +120,11 @@ export default function PlanFeatures({
             </li>
           )}
           {visibleFeatures.map((feature) => (
-            <li key={feature.text.en} className="flex items-start gap-2.5">
+            <li key={feature.id} className="flex items-start gap-2.5">
               <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
               <span>
                 {feature.text[lang]}
-                {feature.usOnly && " ★"}
+                {isUsOnlyCell(feature, plan.id, region) && " ★"}
                 {feature.description && (
                   <span className={`block italic ${dark ? "text-white/40" : "text-ecom-ink/50"}`}>
                     {feature.description[lang]}

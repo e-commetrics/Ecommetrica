@@ -205,8 +205,10 @@ export type Dict = {
     headline: string;
     sub: string;
     bannerTitle: string;
+    bannerTitleUs: string;
     bannerBody: string;
     bestValueBadge: string;
+    oneTimeLabel: string;
     perMonth: string;
     totalLabel: string;
     servicesLabel: string;
@@ -225,6 +227,28 @@ export type Dict = {
     viewAllIncluded: string;
     viewLess: string;
     learnMore: string;
+    specsLabels: { size: string; pages: string; products: string; blog: string; social: string };
+    compareTitle: string;
+    compareSub: string;
+    colService: string;
+    rowPrice: string;
+    rowDuration: string;
+    rowTotal: string;
+    summaryTitle: string;
+    rowServices: string;
+    rowPerService: string;
+    rowSaving: string;
+    rowStage: string;
+    rowRenewal: string;
+    comparedWithMarket: string;
+    includedAria: string;
+    notIncludedAria: string;
+    stageLabel: string;
+    notes: {
+      inheritance: string;
+      hosting: (price: string) => string;
+      coding: (rate: string | null) => string;
+    };
   };
   vpatPage: FeatureExplainerContent;
   ga4Page: FeatureExplainerContent;
@@ -372,7 +396,7 @@ export const dict: Record<Lang, Dict> = {
     planes: {
       eyebrow: "Nuestros",
       bigWord: "PLANES",
-      sub: "Cuatro paquetes con todo incluido: sitio web, SEO, redes y publicidad. Elige el que corresponda a la etapa de tu negocio.",
+      sub: "Cinco paquetes con todo incluido: sitio web, SEO, redes y publicidad. Elige el que corresponda a la etapa de tu negocio.",
       select: "Seleccionar",
       viewAll: "Ver todos los planes y precios",
     },
@@ -590,9 +614,11 @@ export const dict: Record<Lang, Dict> = {
       headline: "Planes y paquetes",
       sub: "Elige el plan según la etapa de tu negocio, no según la lista de servicios.",
       bannerTitle: "Cumplimiento incluido desde el plan Tracción.",
+      bannerTitleUs: "Cumplimiento incluido desde el plan Arranque.",
       bannerBody:
         "Accesibilidad ADA / WCAG 2.1 AA y consentimiento de datos configurados desde el inicio — porque en California un sitio inaccesible es una exposición legal, no un detalle de diseño.",
       bestValueBadge: "Mejor valor",
+      oneTimeLabel: "Pago único",
       perMonth: "/mes",
       totalLabel: "Total",
       servicesLabel: "servicios",
@@ -607,11 +633,43 @@ export const dict: Record<Lang, Dict> = {
       customCta: "Cotizar",
       footnote: "★ Inclusiones exclusivas del mercado US — no disponibles en los planes de México.",
       footer:
-        "Cada plan incluye la totalidad del plan anterior. Precios en USD por mes. El costo por servicio se calcula sobre los servicios incluidos en cada plan. Vigencia sujeta a contrato.",
+        "Cada plan incluye la totalidad del plan anterior. Precios en USD; en los planes de varios meses el precio es mensual e IA Exprés es pago único. El costo por servicio se calcula sobre los servicios incluidos en cada plan. Vigencia sujeta a contrato.",
       includesAllFrom: (planName) => `Incluye todo lo de ${planName}`,
       viewAllIncluded: "Ver todo lo incluido",
       viewLess: "Ver menos",
       learnMore: "Saber más",
+      specsLabels: {
+        size: "Talla",
+        pages: "Páginas",
+        products: "Productos en tienda",
+        blog: "Posts de blog al mes",
+        social: "Piezas para redes",
+      },
+      compareTitle: "Compara todos los planes",
+      compareSub:
+        "Precios en USD · ✓ incluido · Cada plan incluye todo lo del plan anterior · Escalera v1.2",
+      colService: "Servicio",
+      rowPrice: "Precio (USD)",
+      rowDuration: "Duración",
+      rowTotal: "Total del contrato (USD)",
+      summaryTitle: "Resumen",
+      rowServices: "Servicios incluidos",
+      rowPerService: "Costo mensual por servicio (USD)",
+      rowSaving: "Ahorro vs. comprar cada servicio por separado",
+      rowStage: "Etapa del negocio",
+      rowRenewal: "Renovación à la carte (al terminar el plan)",
+      comparedWithMarket: "Se compara con el mercado",
+      includedAria: "Incluido",
+      notIncludedAria: "No incluido",
+      stageLabel: "Ideal si",
+      notes: {
+        inheritance:
+          "Cada plan incluye todo lo del plan anterior; desde Arranque, lo que IA Exprés genera con IA lo hacen personas asistidas con IA. El total del contrato siempre se muestra junto al precio mensual. Mejor valor = el plan con el mayor ahorro frente a comprar cada servicio por separado.",
+        hosting: (price) =>
+          `Hosting y mantenimiento: los primeros 12 meses van incluidos en todos los paquetes. Después se renueva cada año en la fecha de inicio: ${price} al año.`,
+        coding: (rate) =>
+          `Las horas de código por encima de lo incluido se venden en bloques de código${rate ? ` (${rate}/h)` : ""}. Soporte 24/7 solo en Aliado. La inversión en pauta, el dominio y la suscripción de Shopify los paga el cliente directamente.`,
+      },
     },
     vpatPage: {
       metaDescription:
@@ -634,7 +692,7 @@ export const dict: Record<Lang, Dict> = {
     },
     ga4Page: {
       metaDescription:
-        "Qué es Google Analytics 4 y por qué Ecommetrica lo configura desde el plan Arranque.",
+        "Qué es Google Analytics 4 y por qué Ecommetrica lo configura desde el plan IA Exprés.",
       keywords: ["Google Analytics 4", "GA4", "analítica web Ecommetrica"],
       eyebrow: "ANALÍTICA",
       headline: "Google Analytics 4",
@@ -643,7 +701,7 @@ export const dict: Record<Lang, Dict> = {
       whatTitle: "¿Qué es GA4?",
       whatBody:
         "Google Analytics 4 es la plataforma de analítica web de Google: registra qué páginas visitan tus usuarios, de dónde vienen, qué los hace convertir (comprar, llenar un formulario, llamar) y en qué punto abandonan. A diferencia de su versión anterior (Universal Analytics), GA4 está construido alrededor de eventos, no de sesiones, lo que lo hace más preciso para medir conversiones reales.",
-      whyTitle: "¿Por qué importa desde el plan Arranque?",
+      whyTitle: "¿Por qué importa desde el plan IA Exprés?",
       whyBody:
         "No puedes mejorar lo que no mides. Configurar GA4 desde el primer día — no meses después, cuando ya perdiste esos datos — es lo que te permite tomar decisiones de marketing basadas en comportamiento real de tus visitantes, no en suposiciones. Es la base sobre la que se apoyan las campañas de pauta y la optimización de conversión en los planes superiores.",
       deliverableTitle: "¿Qué entrega Ecommetrica?",
@@ -672,7 +730,7 @@ export const dict: Record<Lang, Dict> = {
     },
     googleBusinessProfilePage: {
       metaDescription:
-        "Qué es Google Business Profile API y por qué Ecommetrica la integra desde el plan Tracción.",
+        "Qué es Google Business Profile API y por qué Ecommetrica la integra desde el plan Arranque.",
       keywords: [
         "Google Business Profile API",
         "ficha de Google",
@@ -685,7 +743,7 @@ export const dict: Record<Lang, Dict> = {
       whatTitle: "¿Qué es Google Business Profile API?",
       whatBody:
         "Es la interfaz que permite gestionar tu perfil de negocio en Google (horarios, publicaciones, preguntas y respuestas, y reseñas) de forma programática, en lugar de entrar manualmente a Google Business Profile Manager cada vez que necesitas actualizar algo o responder a un cliente.",
-      whyTitle: "¿Por qué importa en el plan Tracción?",
+      whyTitle: "¿Por qué importa en el plan Arranque?",
       whyBody:
         "En este nivel ya estás convirtiendo tráfico en clientes, y la mayoría de esos clientes locales te encuentran — y te califican — a través de tu ficha de Google antes de llegar a tu sitio. Conectar esa ficha por API permite mantener reseñas, horarios y publicaciones sincronizados con el resto de tu operación, sin depender de que alguien entre a actualizarlo manualmente.",
       deliverableTitle: "¿Qué entrega Ecommetrica?",
@@ -884,7 +942,7 @@ export const dict: Record<Lang, Dict> = {
     planes: {
       eyebrow: "Our",
       bigWord: "PLANS",
-      sub: "Four all-inclusive packages: website, SEO, social media, and advertising. Pick the one that matches where your business is.",
+      sub: "Five all-inclusive packages: website, SEO, social media, and advertising. Pick the one that matches where your business is.",
       select: "Select",
       viewAll: "See all plans and pricing",
     },
@@ -1100,9 +1158,11 @@ export const dict: Record<Lang, Dict> = {
       headline: "Plans and packages",
       sub: "Pick the plan that matches your stage, not the longest feature list.",
       bannerTitle: "Accessibility compliance included from Traction up.",
+      bannerTitleUs: "Accessibility compliance included from Launch up.",
       bannerBody:
         "ADA and WCAG 2.1 AA conformance plus data-consent handling, built in from day one — because in California an inaccessible site is legal exposure, not a design detail.",
       bestValueBadge: "Best value",
+      oneTimeLabel: "One-time",
       perMonth: "/mo",
       totalLabel: "Total",
       servicesLabel: "services",
@@ -1117,11 +1177,43 @@ export const dict: Record<Lang, Dict> = {
       customCta: "Get a quote",
       footnote: "★ US-market inclusions — not offered on the Mexico plans.",
       footer:
-        "Each plan includes everything in the plan before it. Prices in USD per month. Per-service cost is calculated across the services included in each plan. Terms subject to contract.",
+        "Each plan includes everything in the plan before it. Prices in USD; multi-month plans are priced per month and AI Express is a one-time payment. Per-service cost is calculated across the services included in each plan. Terms subject to contract.",
       includesAllFrom: (planName) => `Includes everything in ${planName}`,
       viewAllIncluded: "See everything included",
       viewLess: "See less",
       learnMore: "Learn more",
+      specsLabels: {
+        size: "Size",
+        pages: "Pages",
+        products: "Store products",
+        blog: "Blog posts a month",
+        social: "Social pieces",
+      },
+      compareTitle: "Compare every plan",
+      compareSub:
+        "Prices in USD · ✓ included · Each plan includes everything in the plan before it · Ladder v1.2",
+      colService: "Service",
+      rowPrice: "Price (USD)",
+      rowDuration: "Term",
+      rowTotal: "Contract total (USD)",
+      summaryTitle: "Summary",
+      rowServices: "Services included",
+      rowPerService: "Monthly cost per service (USD)",
+      rowSaving: "Saving vs. buying each service separately",
+      rowStage: "Business stage",
+      rowRenewal: "À la carte renewal (after the plan ends)",
+      comparedWithMarket: "Compared with the market",
+      includedAria: "Included",
+      notIncludedAria: "Not included",
+      stageLabel: "Best if",
+      notes: {
+        inheritance:
+          "Each plan includes everything in the plan before it; from Launch, what AI Express generates with AI is made by people with AI assistance. The contract total is always shown next to the monthly price. Best value = the plan with the biggest saving against buying each service separately.",
+        hosting: (price) =>
+          `Hosting and maintenance: the first 12 months are included in every package. After that it renews yearly on the start date at ${price} a year.`,
+        coding: (rate) =>
+          `Coding beyond the included hours is sold in coding blocks${rate ? ` (${rate}/h)` : ""}. 24/7 support is only in Partner. Ad spend, the domain and the Shopify subscription are paid by the client directly.`,
+      },
     },
     vpatPage: {
       metaDescription:
@@ -1144,7 +1236,7 @@ export const dict: Record<Lang, Dict> = {
     },
     ga4Page: {
       metaDescription:
-        "What Google Analytics 4 is and why Ecommetrica sets it up starting at the Launch plan.",
+        "What Google Analytics 4 is and why Ecommetrica sets it up starting at the AI Express plan.",
       keywords: ["Google Analytics 4", "GA4", "Ecommetrica web analytics"],
       eyebrow: "ANALYTICS",
       headline: "Google Analytics 4",
@@ -1153,7 +1245,7 @@ export const dict: Record<Lang, Dict> = {
       whatTitle: "What is GA4?",
       whatBody:
         "Google Analytics 4 is Google's web analytics platform: it tracks which pages your visitors view, where they came from, what makes them convert (buy, fill out a form, call), and where they drop off. Unlike its predecessor (Universal Analytics), GA4 is built around events rather than sessions, making it more accurate for measuring real conversions.",
-      whyTitle: "Why does it matter from the Launch plan?",
+      whyTitle: "Why does it matter from the AI Express plan?",
       whyBody:
         "You can't improve what you don't measure. Setting up GA4 from day one — not months later, once that data is already lost — is what lets you make marketing decisions based on real visitor behavior instead of guesswork. It's the foundation that paid campaigns and conversion optimization in higher tiers build on.",
       deliverableTitle: "What does Ecommetrica deliver?",
@@ -1182,7 +1274,7 @@ export const dict: Record<Lang, Dict> = {
     },
     googleBusinessProfilePage: {
       metaDescription:
-        "What the Google Business Profile API is and why Ecommetrica integrates it starting at the Traction plan.",
+        "What the Google Business Profile API is and why Ecommetrica integrates it starting at the Launch plan.",
       keywords: ["Google Business Profile API", "Google listing", "Ecommetrica reviews"],
       eyebrow: "INTEGRATIONS",
       headline: "Google Business Profile API",
@@ -1191,7 +1283,7 @@ export const dict: Record<Lang, Dict> = {
       whatTitle: "What is the Google Business Profile API?",
       whatBody:
         "It's the interface that lets you manage your Google Business listing (hours, posts, Q&A, and reviews) programmatically, instead of logging into Google Business Profile Manager by hand every time something needs updating or a customer review needs a response.",
-      whyTitle: "Why does it matter at the Traction tier?",
+      whyTitle: "Why does it matter at the Launch tier?",
       whyBody:
         "At this stage you're already converting traffic into customers, and most local customers find — and judge — you through your Google listing before they ever reach your site. Connecting that listing via API keeps reviews, hours, and posts in sync with the rest of your operation, instead of depending on someone logging in to update it manually.",
       deliverableTitle: "What does Ecommetrica deliver?",

@@ -102,8 +102,11 @@ export default function PackagesConfigurator() {
   function buildSummaryMessage() {
     const lines: string[] = [];
     if (selectedPlan) {
+      const planPrice = formatUSD(selectedPlan.priceValue[region]);
       lines.push(
-        `${t.packagesFlow.messagePlanLabel}: ${selectedPlan.name[lang]} (${formatUSD(selectedPlan.priceValue[region])}${t.pricingPage.perMonth} · ${selectedPlan.duration[lang]}, ${t.pricingPage.totalLabel.toLowerCase()} ${formatUSD(planTotal(selectedPlan, region))})`,
+        selectedPlan.oneTime
+          ? `${t.packagesFlow.messagePlanLabel}: ${selectedPlan.name[lang]} (${planPrice} · ${selectedPlan.duration[lang]})`
+          : `${t.packagesFlow.messagePlanLabel}: ${selectedPlan.name[lang]} (${planPrice}${t.pricingPage.perMonth} · ${selectedPlan.duration[lang]}, ${t.pricingPage.totalLabel.toLowerCase()} ${formatUSD(planTotal(selectedPlan, region))})`,
       );
     }
     if (selectedAddons.length > 0) {
@@ -361,13 +364,16 @@ function PlanStep({
             </div>
             <p className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] text-ecom-ink">
               {formatUSD(plan.priceValue[region])}
-              <span className="ml-1.5 text-sm font-normal tracking-normal text-ecom-ink/50">
-                {t.pricingPage.perMonth}
-              </span>
+              {!plan.oneTime && (
+                <span className="ml-1.5 text-sm font-normal tracking-normal text-ecom-ink/50">
+                  {t.pricingPage.perMonth}
+                </span>
+              )}
             </p>
             <p className="mt-1 text-xs text-ecom-ink/50">
-              {t.pricingPage.totalLabel} {formatUSD(planTotal(plan, region))} ·{" "}
-              {plan.duration[lang]}
+              {plan.oneTime
+                ? plan.duration[lang]
+                : `${t.pricingPage.totalLabel} ${formatUSD(planTotal(plan, region))} · ${plan.duration[lang]}`}
             </p>
             <div className="flex-1">
               <PlanFeatures plan={plan} lang={lang} region={region} variant="light" />
@@ -500,13 +506,17 @@ function SummaryStep({
             <h3 className="font-display text-xl font-medium text-ecom-ink">{plan.name[lang]}</h3>
             <p className="font-display text-xl font-medium text-ecom-ink">
               {formatUSD(plan.priceValue[region])}
-              <span className="ml-1 text-sm font-normal text-ecom-ink/50">
-                {t.pricingPage.perMonth}
-              </span>
+              {!plan.oneTime && (
+                <span className="ml-1 text-sm font-normal text-ecom-ink/50">
+                  {t.pricingPage.perMonth}
+                </span>
+              )}
             </p>
           </div>
           <p className="mt-1 text-right text-xs text-ecom-ink/50">
-            {t.pricingPage.totalLabel} {formatUSD(planTotal(plan, region))} · {plan.duration[lang]}
+            {plan.oneTime
+              ? plan.duration[lang]
+              : `${t.pricingPage.totalLabel} ${formatUSD(planTotal(plan, region))} · ${plan.duration[lang]}`}
           </p>
         </div>
       )}
@@ -573,7 +583,7 @@ function OrderSummary({
           <span className="font-display text-base font-medium text-ecom-ink">{plan.name[lang]}</span>
           <span className="text-sm font-medium text-ecom-ink/70">
             {formatUSD(plan.priceValue[region])}
-            {t.pricingPage.perMonth}
+            {!plan.oneTime && t.pricingPage.perMonth}
           </span>
         </div>
       ) : (

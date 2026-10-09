@@ -8,8 +8,11 @@ import {
   formatUSD,
   planTotal,
   planPerService,
+  planServiceCount,
 } from "@/lib/pricing";
 import PlanFeatures from "@/components/PlanFeatures";
+import ExpressPlanCard from "@/components/ExpressPlanCard";
+import PlanMatrix from "@/components/PlanMatrix";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useRegion } from "@/components/RegionProvider";
 import { useContactPrefill } from "@/components/ContactPrefillProvider";
@@ -33,12 +36,19 @@ export default function PricingGrid() {
 
       <div className="mt-10 rounded-2xl border-l-4 border-ecom-orange bg-ecom-ink/[0.03] p-6">
         <p className="text-ecom-ink">
-          <span className="font-medium">{p.bannerTitle}</span> {p.bannerBody}
+          <span className="font-medium">{region === "us" ? p.bannerTitleUs : p.bannerTitle}</span>{" "}
+          {p.bannerBody}
         </p>
       </div>
 
-      <div className="mt-14 grid gap-6 lg:grid-cols-5">
-        {plans.map((plan) => {
+      <div className="mt-14">
+        <ExpressPlanCard ctaLabel={p.selectCta} />
+      </div>
+
+      <div className="mt-6 grid gap-6 lg:grid-cols-5">
+        {plans
+          .filter((plan) => !plan.oneTime)
+          .map((plan) => {
           const total = planTotal(plan, region);
           const perService = planPerService(plan, region);
           return (
@@ -55,6 +65,9 @@ export default function PricingGrid() {
                   {p.bestValueBadge}
                 </span>
               )}
+              <p className="mb-3 text-xs font-medium tracking-[0.15em] text-ecom-orange uppercase">
+                {plan.stage[lang]}
+              </p>
               <h3 className="font-display text-lg font-medium tracking-wide text-ecom-ink">
                 {plan.name[lang]}
               </h3>
@@ -68,7 +81,7 @@ export default function PricingGrid() {
                 <span className="ml-1 text-sm font-normal text-ecom-ink/50">{p.perMonth}</span>
               </p>
               <p className="mt-1 text-xs text-ecom-ink/50">
-                {p.totalLabel} {formatUSD(total)} · {plan.serviceCount[region]} {p.servicesLabel}
+                {p.totalLabel} {formatUSD(total)} · {planServiceCount(plan, region)} {p.servicesLabel}
               </p>
               <p
                 className={`mt-3 rounded-lg px-3 py-2 text-xs font-medium ${
@@ -121,7 +134,21 @@ export default function PricingGrid() {
             {p.customScaleLabel}
           </p>
 
-          <div className="mt-6 flex-1 border-t border-ecom-ink/10 pt-5">
+          <ul className="mt-6 flex flex-col gap-2 border-t border-ecom-ink/10 pt-5 text-sm leading-relaxed text-ecom-ink/70">
+            {customPlan.highlights
+              .filter((highlight) => !highlight.usOnly || region === "us")
+              .map((highlight) => (
+                <li key={highlight.text.en} className="flex items-start gap-2.5">
+                  <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
+                  <span>
+                    {highlight.text[lang]}
+                    {highlight.usOnly && " ★"}
+                  </span>
+                </li>
+              ))}
+          </ul>
+
+          <div className="mt-5 flex-1 border-t border-ecom-ink/10 pt-5">
             <p className="text-xs font-medium tracking-[0.15em] text-ecom-ink/50 uppercase">
               {p.customModuleLabel}
             </p>
@@ -153,6 +180,8 @@ export default function PricingGrid() {
       </div>
 
       {region === "us" && <p className="mt-6 text-sm text-ecom-ink/50">{p.footnote}</p>}
+
+      <PlanMatrix />
 
       <p className="mt-10 border-t border-ecom-ink/10 pt-6 text-sm text-ecom-ink/50">{p.footer}</p>
     </div>

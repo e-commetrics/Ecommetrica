@@ -218,7 +218,7 @@ export const packagePhases: PackagePhase[] = [
           en: "Brand DNA, moodboard, logos, brand manual.",
         },
         price: { mx: 350, us: 350 },
-        includedInPlanIds: [],
+        includedInPlanIds: ["advanced", "grower", "high-profile"],
       },
       {
         id: "branding-digital-design",
@@ -228,7 +228,7 @@ export const packagePhases: PackagePhase[] = [
           en: "Visual identity and brand manual + design applied to social media and offline stationery. Delivered with editable files.",
         },
         price: { mx: 490, us: 490 },
-        includedInPlanIds: [],
+        includedInPlanIds: ["grower", "high-profile"],
       },
       {
         id: "rebranding-kickstart",
@@ -238,7 +238,7 @@ export const packagePhases: PackagePhase[] = [
           en: "Brand refresh or rebranding + digital design and stationery. Delivered with editable files.",
         },
         price: { mx: 860, us: 860 },
-        includedInPlanIds: [],
+        includedInPlanIds: ["high-profile"],
       },
     ],
   },
