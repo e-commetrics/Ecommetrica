@@ -44,23 +44,6 @@ export default function PlanFeatures({
 
   return (
     <div>
-      <dl
-        className={`mt-6 flex flex-col gap-2 border-t pt-6 ${
-          dark ? "border-white/10" : "border-ecom-ink/10"
-        }`}
-      >
-        {specs.map(([label, value]) => (
-          <div key={label} className="flex items-baseline justify-between gap-3">
-            <dt className={`text-xs tracking-wide uppercase ${dark ? "text-white/40" : "text-ecom-ink/50"}`}>
-              {label}
-            </dt>
-            <dd className={`text-right text-sm font-medium ${dark ? "text-white/90" : "text-ecom-ink"}`}>
-              {value}
-            </dd>
-          </div>
-        ))}
-      </dl>
-
       <div
         className={`mt-6 flex flex-wrap gap-2 border-t pt-6 ${
           dark ? "border-white/10" : "border-ecom-ink/10"
@@ -144,6 +127,25 @@ export default function PlanFeatures({
             </li>
           ))}
         </ul>
+      )}
+
+      {expanded && (
+        <dl
+          className={`mt-4 flex flex-col gap-2 border-t pt-4 ${
+            dark ? "border-white/10" : "border-ecom-ink/10"
+          }`}
+        >
+          {specs.map(([label, value]) => (
+            <div key={label} className="flex items-baseline justify-between gap-3">
+              <dt className={`text-xs tracking-wide uppercase ${dark ? "text-white/40" : "text-ecom-ink/50"}`}>
+                {label}
+              </dt>
+              <dd className={`text-right text-sm font-medium ${dark ? "text-white/90" : "text-ecom-ink"}`}>
+                {value}
+              </dd>
+            </div>
+          ))}
+        </dl>
       )}
     </div>
   );

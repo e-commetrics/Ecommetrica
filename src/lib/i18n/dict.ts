@@ -243,6 +243,9 @@ export type Dict = {
     comparedWithMarket: string;
     includedAria: string;
     notIncludedAria: string;
+    compareHint: string;
+    compareClear: string;
+    compareOnlyDiff: string;
     stageLabel: string;
     notes: {
       inheritance: string;
@@ -661,6 +664,9 @@ export const dict: Record<Lang, Dict> = {
       comparedWithMarket: "Se compara con el mercado",
       includedAria: "Incluido",
       notIncludedAria: "No incluido",
+      compareHint: "Elige dos planes para compararlos lado a lado.",
+      compareClear: "Quitar comparación",
+      compareOnlyDiff: "Solo diferencias",
       stageLabel: "Ideal si",
       notes: {
         inheritance:
@@ -1205,6 +1211,9 @@ export const dict: Record<Lang, Dict> = {
       comparedWithMarket: "Compared with the market",
       includedAria: "Included",
       notIncludedAria: "Not included",
+      compareHint: "Pick two plans to compare them side by side.",
+      compareClear: "Clear comparison",
+      compareOnlyDiff: "Differences only",
       stageLabel: "Best if",
       notes: {
         inheritance:
