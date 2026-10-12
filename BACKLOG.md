@@ -10,6 +10,13 @@ Pendientes y puntos por revisar.
   - Columna lateral fija con los planes que incluyen la característica (usando `learnMoreSlug` en las filas de `matrix` de `src/lib/pricing.ts`) y un CTA a planes o contacto.
   - Centrar el contenido.
 
+- [ ] **Cumplimiento de privacidad en México (LFPDPPP 2025), a partir del doc "Compliance Remediation Plan" (2026-10-12).** El sitio no carga ningún script de tracking (sin GA, Pixel, Clarity ni `next/script`), así que el capítulo de CCPA/CIPA (CMP, Consent Mode, GPC) no aplica a este repo. Brechas reales:
+  - `ContactForm.tsx`: agregar casilla de consentimiento sin marcar y obligatoria, con aviso simplificado que enlace a la política (validada como los demás campos, textos es/en en `dict.ts`).
+  - Política de privacidad (`dict.ts`, `privacySections` y `privacyIntro`, es y en): no tiene fecha ni correo de privacidad, no nombra al responsable, no dice retención ni cómo ejercer derechos ARCO, no menciona que los datos del formulario viajan por correo (SMTP), y habla de "registrarse en una Cuenta" cuando el sitio no tiene cuentas.
+  - Decisiones previas: correo de privacidad (el doc sugiere `privacidad@ecommetrica.com`), cómo identificar al responsable (DBA) sin exponer de más el nombre personal, y revisión de un abogado antes de publicar el texto legal. `dict.ts` es copy aceptado: solo se toca con visto bueno explícito.
+  - Fuera de este repo: sitios de clientes (Lumbán, Monge, Cesia, Palmas), auditoría de accesibilidad con axe, NVDA y VoiceOver, y la política de retención y borrado del backend (proceso, no código). `/arturo` y `/bites` tienen su propio layout y texto de privacidad; se dejan aparte.
+  - Subtítulos y transcripciones de los videos de testimonial (el doc los pide para todo video); no se sabe cuáles ya los llevan.
+
 ## Por revisar
 
 - [ ] **Escalera v1.2 (2026-10-09): puntos abiertos** (matriz Tijuana-ES / San Diego-EN ya aplicada en `src/lib/pricing.ts`).
