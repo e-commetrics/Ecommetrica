@@ -75,6 +75,8 @@ export type Testimonial = {
   author: string;
   role?: Localized;
   quote?: Localized;
+  /** Accessible description of the video, used for its `title` and `aria-label`. */
+  alt?: Localized;
 };
 
 export type CaseStudy = {
@@ -141,6 +143,16 @@ export const caseStudies: CaseStudy[] = [
     },
     featured: true,
     webpage: "https://drlumban.com/",
+    testimonial: {
+      video: "/videos/dr-lumban-testimonial.webm",
+      aspect: 16 / 9,
+      author: "Dr. Jaime Lumbán",
+      role: { es: "Otorrinolaringólogo", en: "ENT specialist" },
+      alt: {
+        es: "El reconocido Dr. Jaime Lumbán otorrinolaringólogo con 33 años de experiencia comparte brevemente su experiencia trabajando de la mano con Ecommetrica para modernizar su sitio web e imagen para nuevo público",
+        en: "The renowned Dr. Jaime Lumbán, an ENT specialist with 33 years of experience, briefly shares his experience working hand in hand with Ecommetrica to modernize his website and image for a new audience",
+      },
+    },
     details: {
       hideCoverImage: true,
       metaTitle: {
@@ -383,6 +395,10 @@ export const caseStudies: CaseStudy[] = [
       aspect: 9 / 16,
       author: "Dr. Ricardo Monge",
       role: { es: "Traumatólogo ortopedista", en: "Orthopedic traumatologist" },
+      alt: {
+        es: "Video testimonial de la experiencia del Dr. Ricardo Monge traumatólogo en Tijuana desde la creación de su página web, webapp de reservas para pacientes y redes sociales",
+        en: "Video testimonial of orthopedic traumatologist Dr. Ricardo Monge's experience in Tijuana, from the creation of his website and patient booking web app to his social media",
+      },
     },
     details: {
       hideCoverImage: true,
@@ -534,6 +550,10 @@ export const caseStudies: CaseStudy[] = [
       aspect: 9 / 16,
       author: "Dra. Cesia Borjon",
       role: { es: "Ginecóloga-obstetra", en: "OB/GYN" },
+      alt: {
+        es: "Video testimonial de la experiencia de la Dra. Cesia Borjón ginecóloga en Tijuana trabajando con Ecommetrica quienes crearon su página web",
+        en: "Video testimonial: OB/GYN Dr. Cesia Borjón shares her experience in Tijuana working with Ecommetrica, the team that created her website",
+      },
     },
     details: {
       hideCoverImage: true,
@@ -954,6 +974,16 @@ export const caseStudies: CaseStudy[] = [
     },
     featured: true,
     webpage: "https://palmasrecovery.com",
+    testimonial: {
+      video: "/videos/palmas-recovery-testimonial.webm",
+      aspect: 16 / 9,
+      author: "Dra. Cecilia Cárdenas y Dr. Raúl Muñoz",
+      role: { es: "Fundadores de Palmas Recovery", en: "Founders of Palmas Recovery" },
+      alt: {
+        es: "Los doctores Cecilia Cárdenas y Raúl Muñoz comparten su experiencia trabajando con Ecommetrica para crear una página web de primer nivel con tours 360, videos, imágenes y calendario para reservas para pacientes que buscan recuperarse en una de las mejores casas de recuperación en Tijuana",
+        en: "Doctors Cecilia Cárdenas and Raúl Muñoz share their experience working with Ecommetrica to create a first-class website with 360 tours, videos, images, and a booking calendar for patients looking to recover at one of the best recovery houses in Tijuana",
+      },
+    },
     details: {
       hideCoverImage: true,
       metaTitle: {

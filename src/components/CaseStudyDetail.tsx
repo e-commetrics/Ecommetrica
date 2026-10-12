@@ -25,6 +25,13 @@ export default function CaseStudyDetail({
   const coverImageAlt = (details?.heroImage ? details.heroImageAlt?.[lang] : project.imageAlt?.[lang]) ?? project.name;
   const heroVideo = getProjectVideo(project);
   const heroVideoAvailable = useVideoAvailable(heroVideo);
+  const videoLabel = project.testimonial?.alt?.[lang] ?? (project.testimonial
+    ? lang === "es"
+      ? `Testimonial de ${project.testimonial.author} sobre su experiencia con Ecommetrica`
+      : `Testimonial from ${project.testimonial.author} about working with Ecommetrica`
+    : lang === "es"
+      ? `Video del proyecto ${project.name}`
+      : `${project.name} project video`);
 
   // Click any image (cover, section grids, before/after, gallery) to open it
   // full-screen. `images` scopes prev/next navigation to whatever group was
@@ -86,6 +93,8 @@ export default function CaseStudyDetail({
               <video
                 src={heroVideo}
                 poster={project.testimonial?.poster}
+                title={videoLabel}
+                aria-label={videoLabel}
                 autoPlay
                 muted
                 loop

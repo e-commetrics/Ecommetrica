@@ -22,6 +22,17 @@ Pendientes y puntos por revisar.
   - Decidir si se agrega un selector visible de mercado (Tijuana / San Diego); hoy la región sale solo de la geolocalización (`RegionProvider`) y por defecto es MX.
   - Probar en navegador la versión US (precios $790 y ★); solo se verificó la lógica con un script.
 
+- [ ] **Cambios sin commit (2026-10-09), sin probar en navegador**:
+  - `PlanFeatures.tsx`: Talla, Páginas, Productos, Posts de blog y Piezas para redes pasaron al final de "Ver todo lo incluido" (afecta home, `/pricing`, Express y configurador; en Express también quedan ocultos tras el botón).
+  - Nuevo `CustomPlanBanner.tsx` (Aliado) usado en `Planes.tsx` y `PricingGrid.tsx`; en `/pricing` el grid pasó a 4 columnas y Aliado quedó como franja debajo. Se quitaron de `/pricing` el total, la etiqueta de escala y el "elige uno" para igualar el home.
+  - `PlanMatrix.tsx`: comparador de dos planes (A vs B) con resaltado de diferencias y opción "Solo diferencias" (activa por defecto). Textos nuevos en `dict.ts` (`compareHint`, `compareClear`, `compareOnlyDiff`). Falta decidir si se permiten 3 o más planes y si "Solo diferencias" debe arrancar desactivada.
+  - Verificar en claro y `noir`, en MX y US, y con teclado el selector del comparador.
+- [ ] **Hallazgos de la revisión de `41c0666` sin resolver**:
+  - `PackagesConfigurator.tsx:63`: el "Total" suma el precio mensual del plan con add-ons de pago único; solo es correcto en AI Express. El mensaje precargado a contacto tiene la misma ambigüedad.
+  - `PackagesConfigurator.tsx:105`: el crédito de AI Express al pasar a Launch en 30 días solo está en la nota de la tarjeta, no en el configurador ni en el mensaje a ventas.
+  - `schema.ts:131`: `serviceCatalogSchema` publica AI Express (370 / 790 USD) como un Offer igual a los planes mensuales; falta marcar que es pago único (`priceSpecification` o `unitText`).
+  - `pricing.ts:819`: `planPerService` devuelve Infinity o NaN si un plan queda sin filas en una región; solo lo protegen los callers.
+  - `dict.ts` (~1178): el copy "cada plan incluye todo lo del anterior" puede contradecirse con las filas solo-US (★).
 - [ ] **ESLint roto**: `npm run lint` falla con "Converting circular structure to JSON" (plugin `react`, desajuste entre `eslint-config-next` y `eslint`). Sin lint, los cambios solo se validan con `tsc` y `next build`.
 - [ ] **Probar con teclado** la tarjeta de plan del configurador (`PackagesConfigurator.tsx`, `PlanStep`): Tab, Enter y Espacio sobre "Ver todo lo incluido", "Saber más" y "Seleccionar". Se corrigió leyendo el código, no en un navegador.
 - [ ] **Mensaje del commit `62449a1`** dice que VPAT se "refactorizó" sobre `FeatureExplainerPage`, pero `/vpat` y `vpatPage` no existían antes; es una página nueva. El commit ya está en `production` y `qa`, así que solo queda como nota.
