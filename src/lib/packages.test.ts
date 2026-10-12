@@ -5,7 +5,7 @@ describe("findAddon", () => {
   test("finds an addon regardless of which phase it lives in", () => {
     expect(findAddon("coding")?.id).toBe("coding");
     expect(findAddon("video-production")?.id).toBe("video-production");
-    expect(findAddon("mgmt-only-meta")?.id).toBe("mgmt-only-meta");
+    expect(findAddon("mgmt-pure-meta")?.id).toBe("mgmt-pure-meta");
   });
 
   test("returns undefined for an unknown id", () => {

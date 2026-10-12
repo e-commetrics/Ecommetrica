@@ -144,7 +144,7 @@ export const caseStudies: CaseStudy[] = [
     featured: true,
     webpage: "https://drlumban.com/",
     testimonial: {
-      video: "/videos/dr-lumban-testimonial.webm",
+      video: "/videos/Video%20testimonial%20del%20dr%20jaime%20lumban%20contando%20su%20experiencia%20trabajando%20con%20ecommetrica%20en%20su%20pagina%20web.webm",
       aspect: 16 / 9,
       author: "Dr. Jaime Lumbán",
       role: { es: "Otorrinolaringólogo", en: "ENT specialist" },
@@ -391,7 +391,7 @@ export const caseStudies: CaseStudy[] = [
     featured: true,
     webpage: "https://mongeortopedia.com/",
     testimonial: {
-      video: "/videos/monge-ortopedia-testimonial.webm",
+      video: "/videos/Video%20testimonial%20del%20dr%20ricardo%20monge%20quien%20trabajo%20con%20ecommetrica%20para%20su%20pagina%20web%2C%20redes%20sociales%20y%20webapp.webm",
       aspect: 9 / 16,
       author: "Dr. Ricardo Monge",
       role: { es: "Traumatólogo ortopedista", en: "Orthopedic traumatologist" },
@@ -546,7 +546,7 @@ export const caseStudies: CaseStudy[] = [
     featured: true,
     webpage: "https://cesiaborjon.com/",
     testimonial: {
-      video: "/videos/cesia-borjon-testimonial.webm",
+      video: "/videos/Video%20testimonial%20de%20la%20dra%20cesia%20borjon%20trabajando%20con%20Ecommetrica.webm",
       aspect: 9 / 16,
       author: "Dra. Cesia Borjon",
       role: { es: "Ginecóloga-obstetra", en: "OB/GYN" },
@@ -975,7 +975,7 @@ export const caseStudies: CaseStudy[] = [
     featured: true,
     webpage: "https://palmasrecovery.com",
     testimonial: {
-      video: "/videos/palmas-recovery-testimonial.webm",
+      video: "/videos/Video%20testimonial%20de%20los%20doctores%20raul%20y%20cecilia%20fundadores%20de%20palmas%20recovery%20house%20trabajando%20con%20ecommetrica%20para%20crear%20una%20pagina%20web%20con%20tour%20virtuales%20y%20calendario%20interno.webm",
       aspect: 16 / 9,
       author: "Dra. Cecilia Cárdenas y Dr. Raúl Muñoz",
       role: { es: "Fundadores de Palmas Recovery", en: "Founders of Palmas Recovery" },
