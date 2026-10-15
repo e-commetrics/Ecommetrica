@@ -68,6 +68,9 @@ export default function Footer() {
             <Link href={localizedHref(lang, "/legal/terms-of-service")} className="hover:text-white">
               {t.footer.terms}
             </Link>
+            <Link href={localizedHref(lang, "/accessibility")} className="hover:text-white">
+              {t.footer.accessibility}
+            </Link>
             <Link href={localizedHref(lang, "/faq")} className="hover:text-white">
               {t.footer.faq}
             </Link>

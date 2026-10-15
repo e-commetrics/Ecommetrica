@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type FormEvent, type RefObject, type SyntheticEvent } from "react";
+import { useCallback, useRef, useState, type FormEvent, type SyntheticEvent } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
@@ -25,6 +25,9 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
   const fieldRefs = useRef<Partial<Record<FieldName, FieldElement>>>({});
+  const registerRef = useCallback((name: FieldName, el: FieldElement | null) => {
+    fieldRefs.current[name] = el ?? undefined;
+  }, []);
 
   function runValidation(form: HTMLFormElement) {
     const raw = Object.fromEntries(new FormData(form).entries());
@@ -113,7 +116,7 @@ export default function ContactForm() {
           type="text"
           autoComplete="name"
           error={touched.name ? errors.name : undefined}
-          fieldRefs={fieldRefs}
+          registerRef={registerRef}
           onBlur={handleBlur}
           onChange={handleChange}
         />
@@ -123,7 +126,7 @@ export default function ContactForm() {
           type="email"
           autoComplete="email"
           error={touched.email ? errors.email : undefined}
-          fieldRefs={fieldRefs}
+          registerRef={registerRef}
           onBlur={handleBlur}
           onChange={handleChange}
         />
@@ -133,7 +136,7 @@ export default function ContactForm() {
           type="tel"
           autoComplete="tel"
           error={touched.phone ? errors.phone : undefined}
-          fieldRefs={fieldRefs}
+          registerRef={registerRef}
           onBlur={handleBlur}
           onChange={handleChange}
         />
@@ -142,7 +145,7 @@ export default function ContactForm() {
           name="company"
           type="text"
           error={touched.company ? errors.company : undefined}
-          fieldRefs={fieldRefs}
+          registerRef={registerRef}
           onBlur={handleBlur}
           onChange={handleChange}
         />
@@ -238,7 +241,7 @@ function Field({
   type,
   autoComplete,
   error,
-  fieldRefs,
+  registerRef,
   onBlur,
   onChange,
 }: {
@@ -247,7 +250,7 @@ function Field({
   type: string;
   autoComplete?: string;
   error?: string;
-  fieldRefs: RefObject<Partial<Record<FieldName, FieldElement>>>;
+  registerRef: (name: FieldName, el: FieldElement | null) => void;
   onBlur: (name: FieldName, event: SyntheticEvent<FieldElement>) => void;
   onChange: (name: FieldName, event: SyntheticEvent<FieldElement>) => void;
 }) {
@@ -257,9 +260,7 @@ function Field({
     <label className="flex flex-col gap-2 text-sm font-medium tracking-widest text-white/50 uppercase">
       {label}
       <input
-        ref={(el) => {
-          fieldRefs.current[name] = el ?? undefined;
-        }}
+        ref={(el) => registerRef(name, el)}
         name={name}
         type={type}
         autoComplete={autoComplete}

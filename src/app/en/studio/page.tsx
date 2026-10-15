@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Methodology from "@/components/Methodology";
+import BackgroundVideo from "@/components/BackgroundVideo";
 import Highlight from "@/components/Highlight";
 import { team } from "@/lib/team";
 import { getDict } from "@/lib/i18n/dict";
@@ -39,12 +40,8 @@ export default function StudioPage() {
           shape="asterisk"
           className="absolute -top-8 right-6 z-10 w-16 sm:w-20"
         />
-        <video
+        <BackgroundVideo
           src="/videos/studio-en.webm"
-          autoPlay
-          muted
-          loop
-          playsInline
           className="relative w-full overflow-hidden rounded-3xl object-cover ring-1 ring-ecom-ink/10"
           style={{ aspectRatio: "21 / 9" }}
         />

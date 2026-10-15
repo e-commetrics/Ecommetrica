@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -38,26 +38,19 @@ export default function PackagesConfigurator() {
   const { setPackageSummary } = useContactPrefill();
   const searchParams = useSearchParams();
 
-  const [step, setStep] = useState(0);
-  const [maxStepReached, setMaxStepReached] = useState(0);
-  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
-  const [selectedAddonIds, setSelectedAddonIds] = useState<Set<string>>(new Set());
-  const [showPlanNotice, setShowPlanNotice] = useState(false);
-
   // A plan card on the home page can deep-link here with ?plan=<id> — land the
   // visitor straight on the extras step with that plan already selected (or on the
-  // summary for AI Express, which takes no extras).
-  useEffect(() => {
-    const requestedPlan = plans.find((plan) => plan.id === searchParams.get("plan"));
-    if (requestedPlan) {
-      const landing = requestedPlan.oneTime ? SUMMARY_STEP : 1;
-      setSelectedPlanId(requestedPlan.id);
-      setStep(landing);
-      setMaxStepReached(landing);
-    }
-    // Only ever consulted on first render — later step changes are user-driven.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // summary for AI Express, which takes no extras). Only read on first render;
+  // later step changes are user-driven.
+  const [requestedPlan] = useState<Plan | null>(
+    () => plans.find((plan) => plan.id === searchParams.get("plan")) ?? null,
+  );
+  const landingStep = requestedPlan ? (requestedPlan.oneTime ? SUMMARY_STEP : 1) : 0;
+  const [step, setStep] = useState(landingStep);
+  const [maxStepReached, setMaxStepReached] = useState(landingStep);
+  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(requestedPlan?.id ?? null);
+  const [selectedAddonIds, setSelectedAddonIds] = useState<Set<string>>(new Set());
+  const [showPlanNotice, setShowPlanNotice] = useState(false);
 
   const selectedPlan = useMemo(
     () => plans.find((plan) => plan.id === selectedPlanId) ?? null,

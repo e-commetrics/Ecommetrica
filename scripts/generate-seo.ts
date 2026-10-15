@@ -35,6 +35,7 @@ const STATIC_ENTRIES: Entry[] = [
   { path: "/faq" },
   { path: "/legal/privacy-policy" },
   { path: "/legal/terms-of-service" },
+  { path: "/accessibility" },
 ];
 
 function buildEntries(): Entry[] {
@@ -119,6 +120,7 @@ const STATIC_LABELS: Record<string, { es: string; en: string }> = {
   "/faq": { es: "Preguntas frecuentes", en: "FAQ" },
   "/legal/privacy-policy": { es: "Aviso de privacidad", en: "Privacy policy" },
   "/legal/terms-of-service": { es: "Términos de servicio", en: "Terms of service" },
+  "/accessibility": { es: "Declaración de accesibilidad", en: "Accessibility statement" },
 };
 
 /** Section headings + cross-link note for llms.txt, one set per language — each generated

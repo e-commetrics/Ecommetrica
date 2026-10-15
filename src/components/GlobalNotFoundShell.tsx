@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { LanguageProvider, useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
@@ -9,14 +9,16 @@ import type { Lang } from "@/lib/i18n/types";
 // The static out/404.html is always server-rendered in Spanish; this detects the real
 // language from the URL post-mount to avoid a hydration mismatch (briefly flashes Spanish
 // on /en/* 404s). No Header/Footer here — the Footer carries the ContactForm.
+const subscribeNoop = () => () => {};
+const getClientLang = (): Lang => (window.location.pathname.startsWith("/en") ? "en" : "es");
+const getServerLang = (): Lang => "es";
+
 export default function GlobalNotFoundShell() {
-  const [lang, setLang] = useState<Lang>("es");
+  const lang = useSyncExternalStore(subscribeNoop, getClientLang, getServerLang);
 
   useEffect(() => {
-    const detected: Lang = window.location.pathname.startsWith("/en") ? "en" : "es";
-    document.documentElement.lang = detected;
-    setLang(detected);
-  }, []);
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   return (
     <LanguageProvider lang={lang}>

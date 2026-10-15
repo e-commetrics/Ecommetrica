@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -30,6 +30,10 @@ const LOGO_SRC = "/Logos/Ecommetrica%20consultoria%20tecnologica%20y%20desarroll
 function isActiveHref(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
+
+const subscribeNoop = () => () => {};
+
+const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
 export default function Header() {
   const { scrollY } = useScroll();
@@ -161,16 +165,42 @@ function MobileNav({
   // `filter` — creates a containing block for fixed descendants, so a `fixed
   // inset-0` panel left inside it is confined to the header's own box instead of
   // covering the viewport.
-  const [portalReady, setPortalReady] = useState(false);
-  useEffect(() => setPortalReady(true), []);
+  const portalReady = useSyncExternalStore(subscribeNoop, () => true, () => false);
+
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   // No "outside" to tap once the panel covers the viewport, so only Escape
   // closes it — page scroll is locked for as long as it's open.
   useEffect(() => {
     if (!open) return;
 
+    const trigger = triggerRef.current;
+    closeButtonRef.current?.focus();
+
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "Escape") close();
+      if (event.key === "Escape") {
+        close();
+        return;
+      }
+      if (event.key !== "Tab" || !dialogRef.current) return;
+
+      const focusable = Array.from(dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE));
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      const outside = !dialogRef.current.contains(active);
+
+      if (event.shiftKey && (active === first || outside)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (active === last || outside)) {
+        event.preventDefault();
+        first.focus();
+      }
     }
     document.addEventListener("keydown", onKeyDown);
 
@@ -180,12 +210,14 @@ function MobileNav({
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = previousOverflow;
+      trigger?.focus();
     };
   }, [open, close]);
 
   return (
     <div className="xl:hidden">
       <button
+        ref={triggerRef}
         type="button"
         onClick={() => setOpen(true)}
         aria-label={menuLabel}
@@ -200,6 +232,7 @@ function MobileNav({
           <AnimatePresence>
             {open && (
               <div
+                ref={dialogRef}
                 className="fixed inset-0 z-[60] overflow-hidden"
                 role="dialog"
                 aria-modal="true"
@@ -248,6 +281,7 @@ function MobileNav({
                       }}
                     />
                     <button
+                      ref={closeButtonRef}
                       type="button"
                       onClick={close}
                       aria-label={closeLabel}
