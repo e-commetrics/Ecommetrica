@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { plans, formatUSD, planTotal, type Plan } from "@/lib/pricing";
+import { plans, formatUSD, getPlan, planTotal, type Plan } from "@/lib/pricing";
 import { packagePhases, type PackageAddon } from "@/lib/packages";
 import PlanFeatures from "@/components/PlanFeatures";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -12,9 +12,25 @@ import { useRegion } from "@/components/RegionProvider";
 import { useContactPrefill } from "@/components/ContactPrefillProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
 import type { Lang, Region } from "@/lib/i18n/types";
+import type { Dict } from "@/lib/i18n/dict";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const TOTAL_STEPS = 6; // 0: plan, 1-4: addon phases, 5: summary
+// 0: plan, 1..n: one per addon phase, last: summary
+const TOTAL_STEPS = packagePhases.length + 2;
+const SUMMARY_STEP = TOTAL_STEPS - 1;
+const isPhaseStep = (index: number) => index >= 1 && index < SUMMARY_STEP;
+
+/** The AI Express → Launch upgrade credit concerns exactly these two plans, so the note
+ *  shows when either is picked. Returns null for every other plan. */
+function expressCreditNote(
+  plan: Plan | null,
+  region: Region,
+  expressCredit: (amount: string) => string,
+) {
+  if (!plan || (plan.id !== "express" && plan.id !== "simple")) return null;
+  const express = getPlan("express");
+  return express ? expressCredit(formatUSD(express.priceValue[region])) : null;
+}
 
 export default function PackagesConfigurator() {
   const { t, lang } = useLanguage();
@@ -29,13 +45,15 @@ export default function PackagesConfigurator() {
   const [showPlanNotice, setShowPlanNotice] = useState(false);
 
   // A plan card on the home page can deep-link here with ?plan=<id> — land the
-  // visitor straight on the extras step with that plan already selected.
+  // visitor straight on the extras step with that plan already selected (or on the
+  // summary for AI Express, which takes no extras).
   useEffect(() => {
-    const requestedPlan = searchParams.get("plan");
-    if (requestedPlan && plans.some((plan) => plan.id === requestedPlan)) {
-      setSelectedPlanId(requestedPlan);
-      setStep(1);
-      setMaxStepReached(1);
+    const requestedPlan = plans.find((plan) => plan.id === searchParams.get("plan"));
+    if (requestedPlan) {
+      const landing = requestedPlan.oneTime ? SUMMARY_STEP : 1;
+      setSelectedPlanId(requestedPlan.id);
+      setStep(landing);
+      setMaxStepReached(landing);
     }
     // Only ever consulted on first render — later step changes are user-driven.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,11 +74,24 @@ export default function PackagesConfigurator() {
     return list;
   }, [selectedAddonIds]);
 
-  const addonsTotal = selectedAddons.reduce(
-    (sum, addon) => sum + (addon.priceTBD ? 0 : addon.price[region]),
+  // AI Express is sold alone, as a single one-time payment — it never carries extras,
+  // even ones picked before switching to it.
+  const isExpress = Boolean(selectedPlan?.oneTime);
+  const activeAddons = isExpress ? [] : selectedAddons;
+
+  // Everything else is priced per month: extras are monthly too, so the plan's monthly
+  // fee and the extras add up to one monthly figure, run for the plan's whole term.
+  const addonsMonthly = activeAddons.reduce(
+    (sum, addon) => sum + (addon.price[region] ?? 0),
     0,
   );
-  const total = (selectedPlan?.priceValue[region] ?? 0) + addonsTotal;
+  const monthlyTotal = (selectedPlan?.priceValue[region] ?? 0) + addonsMonthly;
+  const packageTotal = !selectedPlan
+    ? 0
+    : isExpress
+      ? planTotal(selectedPlan, region)
+      : monthlyTotal * selectedPlan.durationMonths;
+  const creditNote = expressCreditNote(selectedPlan, region, t.packagesFlow.expressCredit);
 
   function isIncluded(addon: PackageAddon) {
     return Boolean(selectedPlanId && addon.includedInPlanIds.includes(selectedPlanId));
@@ -82,6 +113,7 @@ export default function PackagesConfigurator() {
   }
 
   function goToStep(index: number) {
+    if (isExpress && isPhaseStep(index)) return;
     if (index <= maxStepReached) setStep(index);
   }
 
@@ -90,37 +122,43 @@ export default function PackagesConfigurator() {
       setShowPlanNotice(true);
       return;
     }
-    const next = Math.min(step + 1, TOTAL_STEPS - 1);
+    const next = isExpress ? SUMMARY_STEP : Math.min(step + 1, SUMMARY_STEP);
     setStep(next);
     setMaxStepReached((m) => Math.max(m, next));
   }
 
   function handleBack() {
-    setStep((s) => Math.max(s - 1, 0));
+    setStep((s) => (isExpress ? 0 : Math.max(s - 1, 0)));
   }
 
   function buildSummaryMessage() {
     const lines: string[] = [];
+    const perMonth = t.pricingPage.perMonth;
     if (selectedPlan) {
       const planPrice = formatUSD(selectedPlan.priceValue[region]);
       lines.push(
-        selectedPlan.oneTime
+        isExpress
           ? `${t.packagesFlow.messagePlanLabel}: ${selectedPlan.name[lang]} (${planPrice} · ${selectedPlan.duration[lang]})`
-          : `${t.packagesFlow.messagePlanLabel}: ${selectedPlan.name[lang]} (${planPrice}${t.pricingPage.perMonth} · ${selectedPlan.duration[lang]}, ${t.pricingPage.totalLabel.toLowerCase()} ${formatUSD(planTotal(selectedPlan, region))})`,
+          : `${t.packagesFlow.messagePlanLabel}: ${selectedPlan.name[lang]} (${planPrice}${perMonth} · ${selectedPlan.duration[lang]})`,
       );
     }
-    if (selectedAddons.length > 0) {
+    if (activeAddons.length > 0) {
       lines.push("");
       lines.push(`${t.packagesFlow.messageExtrasLabel}:`);
-      for (const addon of selectedAddons) {
-        const priceLabel = addon.priceTBD
-          ? t.packagesFlow.quoteOnRequestLabel
-          : `+${formatUSD(addon.price[region])}`;
-        lines.push(`- ${addon.name[lang]} (${priceLabel})`);
+      for (const addon of activeAddons) {
+        lines.push(`- ${addon.name[lang]} (${addonPriceLabel(addon, region, t)})`);
       }
     }
     lines.push("");
-    lines.push(`${t.packagesFlow.messageTotalLabel}: ${formatUSD(total)}`);
+    lines.push(
+      !selectedPlan || isExpress
+        ? `${t.packagesFlow.messageTotalLabel}: ${formatUSD(packageTotal)}`
+        : `${t.packagesFlow.messageTotalLabel}: ${formatUSD(monthlyTotal)}${perMonth} (${t.packagesFlow.summaryPlanTotal.toLowerCase()} ${formatUSD(packageTotal)} · ${selectedPlan.duration[lang]})`,
+    );
+    if (creditNote) {
+      lines.push("");
+      lines.push(`${t.packagesFlow.messageNoteLabel}: ${creditNote}`);
+    }
     return lines.join("\n");
   }
 
@@ -135,6 +173,7 @@ export default function PackagesConfigurator() {
         labels={t.packagesFlow.stepLabels}
         stepOfLabel={t.packagesFlow.stepOf(step + 1, TOTAL_STEPS)}
         onStepClick={goToStep}
+        isSkipped={(index) => isExpress && isPhaseStep(index)}
       />
 
       <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_320px] lg:items-start">
@@ -171,11 +210,13 @@ export default function PackagesConfigurator() {
               />
             )}
 
-            {step === TOTAL_STEPS - 1 && (
+            {step === SUMMARY_STEP && (
               <SummaryStep
                 plan={selectedPlan}
-                addons={selectedAddons}
-                total={total}
+                addons={activeAddons}
+                monthlyTotal={monthlyTotal}
+                packageTotal={packageTotal}
+                creditNote={creditNote}
                 lang={lang}
                 region={region}
               />
@@ -186,9 +227,11 @@ export default function PackagesConfigurator() {
         {step > 0 && (
           <OrderSummary
             plan={selectedPlan}
-            addons={selectedAddons}
-            addonsTotal={addonsTotal}
-            total={total}
+            addons={activeAddons}
+            addonsMonthly={addonsMonthly}
+            monthlyTotal={monthlyTotal}
+            packageTotal={packageTotal}
+            creditNote={creditNote}
             lang={lang}
             region={region}
           />
@@ -219,7 +262,7 @@ export default function PackagesConfigurator() {
           {t.packagesFlow.backCta}
         </button>
 
-        {step < TOTAL_STEPS - 1 ? (
+        {step < SUMMARY_STEP ? (
           <button
             type="button"
             onClick={handleContinue}
@@ -249,12 +292,15 @@ function Stepper({
   labels,
   stepOfLabel,
   onStepClick,
+  isSkipped,
 }: {
   step: number;
   maxStepReached: number;
   labels: readonly string[];
   stepOfLabel: string;
   onStepClick: (index: number) => void;
+  /** Steps that don't apply to the chosen plan (the extras, for AI Express). */
+  isSkipped: (index: number) => boolean;
 }) {
   return (
     <div>
@@ -263,16 +309,17 @@ function Stepper({
       </p>
       <ol className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-3 lg:mt-0">
         {labels.map((label, index) => {
+          const skipped = isSkipped(index);
           const isActive = index === step;
-          const isDone = index < step;
-          const reachable = index <= maxStepReached;
+          const isDone = index < step && !skipped;
+          const reachable = index <= maxStepReached && !skipped;
           return (
             <li key={label} className="flex items-center">
               {index > 0 && (
                 <span
                   aria-hidden
                   className={`mx-2 h-px w-6 sm:w-10 ${
-                    index <= maxStepReached ? "bg-ecom-orange/50" : "bg-ecom-ink/10"
+                    reachable ? "bg-ecom-orange/50" : "bg-ecom-ink/10"
                   }`}
                 />
               )}
@@ -445,9 +492,7 @@ function AddonStep({
                   {addon.name[lang]}
                 </h3>
                 <span className="shrink-0 font-display text-lg font-medium text-ecom-ink">
-                  {addon.priceTBD
-                    ? t.packagesFlow.quoteOnRequestLabel
-                    : `+${formatUSD(addon.price[region])}`}
+                  {addonPriceLabel(addon, region, t)}
                 </span>
               </div>
               <p className="mt-2 flex-1 text-sm leading-relaxed text-ecom-ink/60">
@@ -476,16 +521,82 @@ function AddonStep({
   );
 }
 
+/** Extras are monthly, like the plans: "+$450/mes", or "quote on request". */
+function addonPriceLabel(addon: PackageAddon, region: Region, t: Dict) {
+  const price = addon.price[region];
+  return price == null
+    ? t.packagesFlow.quoteOnRequestLabel
+    : `+${formatUSD(price)}${t.pricingPage.perMonth}`;
+}
+
+/** The headline total — monthly for every plan except one-time AI Express — plus the
+ *  whole-term figure underneath. Shared by the summary step and the side panel. */
+function TotalBlock({
+  plan,
+  monthlyTotal,
+  packageTotal,
+  size,
+  lang,
+}: {
+  plan: Plan | null;
+  monthlyTotal: number;
+  packageTotal: number;
+  size: "lg" | "md";
+  lang: Lang;
+}) {
+  const { t } = useLanguage();
+  const oneTime = !plan || plan.oneTime;
+  const amountClass =
+    size === "lg"
+      ? "font-display text-3xl font-medium tracking-[-0.02em] text-ecom-orange"
+      : "font-display text-2xl font-medium tracking-[-0.02em] text-ecom-orange";
+
+  return (
+    <div>
+      <div className="flex items-baseline justify-between gap-4">
+        <span
+          className={
+            size === "lg"
+              ? "font-display text-lg font-medium text-ecom-ink"
+              : "text-sm font-medium text-ecom-ink"
+          }
+        >
+          {t.packagesFlow.summaryTotal}
+        </span>
+        <span className={amountClass}>
+          {formatUSD(oneTime ? packageTotal : monthlyTotal)}
+          {!oneTime && (
+            <span className="ml-1 text-sm font-normal tracking-normal text-ecom-ink/50">
+              {t.pricingPage.perMonth}
+            </span>
+          )}
+        </span>
+      </div>
+      {plan && (
+        <p className="mt-1 text-right text-xs text-ecom-ink/50">
+          {oneTime
+            ? plan.duration[lang]
+            : `${t.packagesFlow.summaryPlanTotal} ${formatUSD(packageTotal)} · ${plan.duration[lang]}`}
+        </p>
+      )}
+    </div>
+  );
+}
+
 function SummaryStep({
   plan,
   addons,
-  total,
+  monthlyTotal,
+  packageTotal,
+  creditNote,
   lang,
   region,
 }: {
   plan: Plan | null;
   addons: PackageAddon[];
-  total: number;
+  monthlyTotal: number;
+  packageTotal: number;
+  creditNote: string | null;
   lang: Lang;
   region: Region;
 }) {
@@ -513,11 +624,9 @@ function SummaryStep({
               )}
             </p>
           </div>
-          <p className="mt-1 text-right text-xs text-ecom-ink/50">
-            {plan.oneTime
-              ? plan.duration[lang]
-              : `${t.pricingPage.totalLabel} ${formatUSD(planTotal(plan, region))} · ${plan.duration[lang]}`}
-          </p>
+          {plan.oneTime && (
+            <p className="mt-1 text-right text-xs text-ecom-ink/50">{plan.duration[lang]}</p>
+          )}
         </div>
       )}
 
@@ -525,7 +634,9 @@ function SummaryStep({
         <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
           {t.packagesFlow.summaryExtras}
         </p>
-        {addons.length === 0 ? (
+        {plan?.oneTime ? (
+          <p className="mt-3 text-ecom-ink/60">{t.packagesFlow.expressAloneNotice}</p>
+        ) : addons.length === 0 ? (
           <p className="mt-3 text-ecom-ink/60">{t.packagesFlow.summaryNoExtras}</p>
         ) : (
           <ul className="mt-3 flex flex-col divide-y divide-ecom-ink/10 rounded-2xl border border-ecom-ink/10">
@@ -533,9 +644,7 @@ function SummaryStep({
               <li key={addon.id} className="flex items-center justify-between gap-4 p-4">
                 <span className="text-sm text-ecom-ink">{addon.name[lang]}</span>
                 <span className="shrink-0 text-sm font-medium text-ecom-ink">
-                  {addon.priceTBD
-                    ? t.packagesFlow.quoteOnRequestLabel
-                    : `+${formatUSD(addon.price[region])}`}
+                  {addonPriceLabel(addon, region, t)}
                 </span>
               </li>
             ))}
@@ -543,14 +652,17 @@ function SummaryStep({
         )}
       </div>
 
-      <div className="mt-8 flex items-center justify-between border-t border-ecom-ink/10 pt-6">
-        <span className="font-display text-lg font-medium text-ecom-ink">
-          {t.packagesFlow.summaryTotal}
-        </span>
-        <span className="font-display text-3xl font-medium tracking-[-0.02em] text-ecom-orange">
-          {formatUSD(total)}
-        </span>
+      <div className="mt-8 border-t border-ecom-ink/10 pt-6">
+        <TotalBlock
+          plan={plan}
+          monthlyTotal={monthlyTotal}
+          packageTotal={packageTotal}
+          size="lg"
+          lang={lang}
+        />
       </div>
+
+      {creditNote && <p className="mt-4 text-sm leading-relaxed text-ecom-ink/60">{creditNote}</p>}
     </div>
   );
 }
@@ -558,15 +670,19 @@ function SummaryStep({
 function OrderSummary({
   plan,
   addons,
-  addonsTotal,
-  total,
+  addonsMonthly,
+  monthlyTotal,
+  packageTotal,
+  creditNote,
   lang,
   region,
 }: {
   plan: Plan | null;
   addons: PackageAddon[];
-  addonsTotal: number;
-  total: number;
+  addonsMonthly: number;
+  monthlyTotal: number;
+  packageTotal: number;
+  creditNote: string | null;
   lang: Lang;
   region: Region;
 }) {
@@ -597,29 +713,33 @@ function OrderSummary({
           {addons.map((addon) => (
             <li key={addon.id} className="flex items-center justify-between gap-3 text-ecom-ink/70">
               <span className="truncate">{addon.name[lang]}</span>
-              <span className="shrink-0">
-                {addon.priceTBD
-                  ? t.packagesFlow.quoteOnRequestLabel
-                  : `+${formatUSD(addon.price[region])}`}
-              </span>
+              <span className="shrink-0">{addonPriceLabel(addon, region, t)}</span>
             </li>
           ))}
         </ul>
       )}
 
-      {addonsTotal > 0 && (
+      {addonsMonthly > 0 && (
         <div className="mt-4 flex items-center justify-between text-sm text-ecom-ink/60">
           <span>{t.packagesFlow.summaryExtras}</span>
-          <span>+{formatUSD(addonsTotal)}</span>
+          <span>
+            +{formatUSD(addonsMonthly)}
+            {t.pricingPage.perMonth}
+          </span>
         </div>
       )}
 
-      <div className="mt-4 flex items-center justify-between">
-        <span className="text-sm font-medium text-ecom-ink">{t.packagesFlow.summaryTotal}</span>
-        <span className="font-display text-2xl font-medium tracking-[-0.02em] text-ecom-orange">
-          {formatUSD(total)}
-        </span>
+      <div className="mt-4">
+        <TotalBlock
+          plan={plan}
+          monthlyTotal={monthlyTotal}
+          packageTotal={packageTotal}
+          size="md"
+          lang={lang}
+        />
       </div>
+
+      {creditNote && <p className="mt-4 text-xs leading-relaxed text-ecom-ink/55">{creditNote}</p>}
     </aside>
   );
 }

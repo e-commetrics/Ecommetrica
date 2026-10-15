@@ -80,8 +80,12 @@ export type Dict = {
     headline: string;
     headlineAccent: string;
     sub: string;
+    /** Group label for the layer buttons. */
+    layersAria: string;
+    /** Under a layer's services: the earliest plan carrying that layer. */
+    includedFrom: (plan: string) => string;
     cta: string;
-    viewAria: (name: string) => string;
+    ctaPlans: string;
   };
   selectWork: {
     headline: string;
@@ -125,12 +129,18 @@ export type Dict = {
     successSub: string;
     submitting: string;
     submit: string;
+    /** Simplified privacy notice (LFPDPPP) shown above the consent checkbox. */
+    consentNotice: string;
+    /** Checkbox label; `consentLinkLabel` is appended as a link to the privacy policy. */
+    consentLabel: string;
+    consentLinkLabel: string;
     errors: {
       nameRequired: string;
       emailRequired: string;
       emailInvalid: string;
       phoneInvalid: string;
       messageTooShort: string;
+      consentRequired: string;
     };
   };
   contactPage: {
@@ -146,6 +156,17 @@ export type Dict = {
     keywords: string[];
     eyebrow: string;
     headline: string;
+    sub: string;
+    goalsTitle: string;
+    /** Goal buttons read "{goalPrefix} {goal}" — "Quiero vender en línea". */
+    goalPrefix: string;
+    bundleKicker: string;
+    bundleFrom: string;
+    bundleCta: (plan: string) => string;
+    compareCta: string;
+    allTitle: string;
+    allSub: string;
+    includedFrom: (plan: string) => string;
   };
   studioPage: {
     metaDescription: string;
@@ -227,6 +248,8 @@ export type Dict = {
     viewAllIncluded: string;
     viewLess: string;
     learnMore: string;
+    /** Side-column heading on the feature explainer pages: the plans carrying the feature. */
+    includedInLabel: string;
     specsLabels: { size: string; pages: string; products: string; blog: string; social: string };
     compareTitle: string;
     compareSub: string;
@@ -250,7 +273,8 @@ export type Dict = {
     notes: {
       inheritance: string;
       hosting: (price: string) => string;
-      coding: (rate: string | null) => string;
+      /** Who pays what outside the plan (24/7 support, ad spend, domain, Shopify). */
+      clientCosts: string;
     };
   };
   vpatPage: FeatureExplainerContent;
@@ -258,7 +282,8 @@ export type Dict = {
   metaGraphApiPage: FeatureExplainerContent;
   googleBusinessProfilePage: FeatureExplainerContent;
   packagesFlow: {
-    stepLabels: [string, string, string, string, string, string];
+    /** Plan, one per `packagePhases` entry (packages.ts), then the summary. */
+    stepLabels: [string, string, string, string, string];
     stepOf: (current: number, total: number) => string;
     choosePlanCta: string;
     planSelected: string;
@@ -281,6 +306,13 @@ export type Dict = {
     messagePlanLabel: string;
     messageExtrasLabel: string;
     messageTotalLabel: string;
+    /** Whole-term total of the package: (plan + extras per month) × the plan's months. */
+    summaryPlanTotal: string;
+    /** Why AI Express skips the extras steps — it's sold alone, as a single piece. */
+    expressAloneNotice: string;
+    /** AI Express → Launch upgrade credit; `amount` is the formatted AI Express price. */
+    expressCredit: (amount: string) => string;
+    messageNoteLabel: string;
   };
   legal: {
     privacyTitle: string;
@@ -404,12 +436,14 @@ export const dict: Record<Lang, Dict> = {
       viewAll: "Ver todos los planes y precios",
     },
     servicesOverview: {
-      eyebrow: "Nuestros",
-      headline: "Servicios",
-      headlineAccent: "a la medida",
-      sub: "Estrategia, diseño y desarrollo trabajando para que tu marca o empresa funcione tan bien como se ve.",
+      eyebrow: "Servicios",
+      headline: "Todo tu ecosistema digital,",
+      headlineAccent: "en un solo plan.",
+      sub: "Cinco capas, un solo equipo. Elige una para ver todo lo que hacemos en ella.",
+      layersAria: "Capas de servicio",
+      includedFrom: (plan) => `Incluido en los planes desde ${plan}.`,
       cta: "Ver todos los servicios",
-      viewAria: (name) => `Ver ${name}`,
+      ctaPlans: "Ver planes",
     },
     selectWork: {
       headline: "Nuestros",
@@ -468,12 +502,17 @@ export const dict: Record<Lang, Dict> = {
       successSub: "Tu solicitud fue enviada al equipo de Ecommetrica.",
       submitting: "Enviando...",
       submit: "Enviar formulario",
+      consentNotice:
+        "Ecommetrica usará tu nombre, correo, teléfono, empresa y mensaje solo para responder tu solicitud y enviarte una cotización. No vendemos ni compartimos tus datos con terceros para fines propios.",
+      consentLabel: "He leído y acepto el ",
+      consentLinkLabel: "aviso de privacidad",
       errors: {
         nameRequired: "Ingresa tu nombre.",
         emailRequired: "Ingresa tu correo.",
         emailInvalid: "Ingresa un correo válido.",
         phoneInvalid: "Ingresa un teléfono válido.",
         messageTooShort: "Escribe un mensaje de al menos 10 caracteres.",
+        consentRequired: "Necesitamos tu consentimiento para responder tu solicitud.",
       },
     },
     contactPage: {
@@ -497,6 +536,16 @@ export const dict: Record<Lang, Dict> = {
       ],
       eyebrow: "Servicios",
       headline: "Convierte tu sitio web obsoleto en tu principal activo de crecimiento.",
+      sub: "Marca, sitio, visibilidad, contenido y operación: lo hacemos todo, y lo entregamos dentro de un plan.",
+      goalsTitle: "¿Qué quieres lograr?",
+      goalPrefix: "Quiero",
+      bundleKicker: "Todo junto",
+      bundleFrom: "Desde",
+      bundleCta: (plan) => `Ver ${plan}`,
+      compareCta: "Comparar planes",
+      allTitle: "Todo lo que hacemos",
+      allSub: "Cada servicio viene incluido en nuestros planes: elige el plan y todo trabaja junto.",
+      includedFrom: (plan) => `Incluido desde ${plan}`,
     },
     studioPage: {
       metaDescription:
@@ -641,6 +690,7 @@ export const dict: Record<Lang, Dict> = {
       viewAllIncluded: "Ver todo lo incluido",
       viewLess: "Ver menos",
       learnMore: "Saber más",
+      includedInLabel: "Incluido en",
       specsLabels: {
         size: "Talla",
         pages: "Páginas",
@@ -673,8 +723,8 @@ export const dict: Record<Lang, Dict> = {
           "Cada plan incluye todo lo del plan anterior; desde Arranque, lo que IA Exprés genera con IA lo hacen personas asistidas con IA. El total del contrato siempre se muestra junto al precio mensual. Mejor valor = el plan con el mayor ahorro frente a comprar cada servicio por separado.",
         hosting: (price) =>
           `Hosting y mantenimiento: los primeros 12 meses van incluidos en todos los paquetes. Después se renueva cada año en la fecha de inicio: ${price} al año.`,
-        coding: (rate) =>
-          `Las horas de código por encima de lo incluido se venden en bloques de código${rate ? ` (${rate}/h)` : ""}. Soporte 24/7 solo en Aliado. La inversión en pauta, el dominio y la suscripción de Shopify los paga el cliente directamente.`,
+        clientCosts:
+          "Soporte 24/7 solo en Aliado. La inversión en pauta, el dominio y la suscripción de Shopify los paga el cliente directamente.",
       },
     },
     vpatPage: {
@@ -751,14 +801,14 @@ export const dict: Record<Lang, Dict> = {
         "Es la interfaz que permite gestionar tu perfil de negocio en Google (horarios, publicaciones, preguntas y respuestas, y reseñas) de forma programática, en lugar de entrar manualmente a Google Business Profile Manager cada vez que necesitas actualizar algo o responder a un cliente.",
       whyTitle: "¿Por qué importa en el plan Arranque?",
       whyBody:
-        "En este nivel ya estás convirtiendo tráfico en clientes, y la mayoría de esos clientes locales te encuentran — y te califican — a través de tu ficha de Google antes de llegar a tu sitio. Conectar esa ficha por API permite mantener reseñas, horarios y publicaciones sincronizados con el resto de tu operación, sin depender de que alguien entre a actualizarlo manualmente.",
+        "Cuando apenas abres, la mayoría de tus primeros clientes locales te encuentran — y te califican — en tu ficha de Google antes de llegar a tu sitio. Dejarla bien conectada desde el inicio hace que reseñas, horarios y publicaciones estén sincronizados con tu sitio desde el primer día, sin depender de que alguien entre a actualizarlos manualmente.",
       deliverableTitle: "¿Qué entrega Ecommetrica?",
       deliverableBody:
         "Verificación y conexión de tu perfil de Google Business a la API, configuración de sincronización de reseñas y preguntas frecuentes, y la automatización de publicaciones o alertas que tu plan incluya.",
       backCta: "Ver planes y precios",
     },
     packagesFlow: {
-      stepLabels: ["Plan", "Marketing", "Integraciones", "Personalización", "Branding", "Resumen"],
+      stepLabels: ["Plan", "Producción", "Anuncios", "Branding", "Resumen"],
       stepOf: (current, total) => `Paso ${current} de ${total}`,
       choosePlanCta: "Seleccionar",
       planSelected: "Plan seleccionado",
@@ -781,6 +831,11 @@ export const dict: Record<Lang, Dict> = {
       messagePlanLabel: "Plan elegido",
       messageExtrasLabel: "Extras seleccionados",
       messageTotalLabel: "Total estimado",
+      summaryPlanTotal: "Total del paquete",
+      expressAloneNotice: "IA Exprés se contrata solo, como pago único: no admite extras.",
+      expressCredit: (amount) =>
+        `Si pasas de IA Exprés a Arranque dentro de los primeros 30 días, se abona tu pago de IA Exprés (${amount}).`,
+      messageNoteLabel: "Nota",
     },
     legal: {
       privacyTitle: "Política de privacidad",
@@ -788,43 +843,76 @@ export const dict: Record<Lang, Dict> = {
         "Política de privacidad de Ecommetrica: qué datos recopilamos, cómo los usamos y cómo puedes solicitar su eliminación.",
       privacyKeywords: ["política de privacidad", "aviso de privacidad Ecommetrica"],
       privacyIntro: [
-        "En ecommetrica.com, accesible desde https://ecommetrica.com, una de nuestras principales prioridades es la privacidad de nuestros visitantes. Este documento de Política de Privacidad contiene los tipos de información que son recopilados y registrados por Ecommetrica y cómo los usamos.",
-        "Si tiene preguntas adicionales o requiere más información sobre nuestra Política de Privacidad, no dude en contactarnos.",
-        "Esta Política de Privacidad se aplica únicamente a nuestras actividades en línea y es válida para los visitantes de nuestro sitio web en lo que respecta a la información que comparten y/o recopilan en ecommetrica.com. Esta política no es aplicable a ninguna información recolectada fuera de línea o a través de otros canales que no sean este sitio web.",
+        "Última actualización: 14 de octubre de 2026.",
+        "Este Aviso de Privacidad explica qué datos personales recaba Ecommetrica a través de https://ecommetrica.com, para qué los usa y cómo puedes ejercer tus derechos, conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP) de México.",
+        "Para cualquier tema relacionado con tus datos personales, escríbenos a privacidad@ecommetrica.com.",
       ],
       privacySections: [
         {
+          heading: "Responsable de tus datos",
+          paragraphs: [
+            "Ecommetrica (nombre comercial), con domicilio en Calle Ignacio Zaragoza 8169-306, Gustavo Madero, Tijuana, Baja California, México, es responsable del tratamiento de los datos personales que nos proporcionas en este sitio.",
+          ],
+        },
+        {
+          heading: "Datos que recabamos",
+          paragraphs: [
+            "Este sitio no tiene cuentas de usuario ni tienda. Solo recabamos los datos que tú escribes en el formulario de contacto o en el configurador de paquetes:",
+          ],
+          bullets: [
+            "Nombre.",
+            "Correo electrónico.",
+            "Teléfono (opcional).",
+            "Empresa (opcional).",
+            "Tu mensaje y, si usaste el configurador, el paquete que elegiste.",
+          ],
+        },
+        {
+          heading: "Para qué usamos tus datos",
+          paragraphs: ["Usamos tus datos únicamente para:"],
+          bullets: [
+            "Responder tu solicitud y darte seguimiento.",
+            "Prepararte y enviarte una cotización.",
+            "Enviarte un correo de confirmación de que recibimos tu mensaje.",
+          ],
+        },
+        {
           heading: "Consentimiento",
           paragraphs: [
-            "Al utilizar nuestro sitio web, usted acepta nuestra Política de Privacidad y está de acuerdo con sus términos.",
+            "Antes de enviar el formulario te pedimos que marques una casilla aceptando este Aviso de Privacidad. Sin ese consentimiento no podemos recibir tu solicitud. Puedes revocarlo en cualquier momento escribiendo a privacidad@ecommetrica.com.",
           ],
         },
         {
-          heading: "La información que recogemos",
+          heading: "Cómo viajan y dónde se guardan tus datos",
           paragraphs: [
-            "La información personal que se le pide que proporcione, y las razones por las que se le pide que la proporcione, se le aclarará en el momento en que le pidamos que proporcione su información personal.",
-            "Si se pone en contacto con nosotros directamente, es posible que recibamos información adicional sobre usted, como su nombre, dirección de correo electrónico, número de teléfono, el contenido del mensaje y/o los archivos adjuntos que nos envíe, y cualquier otra información que decida proporcionar.",
-            "Cuando se registra en una Cuenta, podemos pedirle su información de contacto, incluyendo elementos como el nombre, el nombre de la empresa, la dirección, la dirección de correo electrónico y el número de teléfono.",
+            "Al enviar el formulario, tus datos viajan cifrados (HTTPS) a nuestro servidor, que los envía por correo electrónico (SMTP) al equipo de Ecommetrica y te manda a ti una confirmación. No guardamos tus datos en una base de datos del sitio; quedan en los buzones de correo del equipo.",
+            "No vendemos ni rentamos tus datos. Solo los comparten con terceros los proveedores que necesitamos para operar: el hosting del sitio y el servicio de correo electrónico.",
           ],
         },
         {
-          heading: "Cómo utilizamos su información",
-          paragraphs: ["Utilizamos la información que recogemos de varias maneras, incluyendo:"],
-          bullets: [
-            "Proporcionar, operar y mantener nuestra web.",
-            "Mejorar, personalizar y ampliar nuestra web.",
-            "Comprender y analizar cómo se utiliza nuestra web.",
-            "Desarrollar nuevos productos, servicios, características y funcionalidades.",
-            "Comunicarse con usted, ya sea directamente o a través de uno de nuestros socios, incluyendo el servicio de atención al cliente, para proporcionarle actualizaciones y otra información relacionada con la web, y para fines de marketing y promoción.",
-            "Enviarle correos electrónicos.",
-            "Encontrar y prevenir el fraude.",
-          ],
-        },
-        {
-          heading: "Archivos de registro",
+          heading: "Cuánto tiempo los conservamos",
           paragraphs: [
-            "ecommetrica.com sigue un procedimiento estándar de uso de archivos de registro. Estos archivos registran a los visitantes cuando visitan los sitios web. Todas las empresas de hosting hacen esto y una parte de los análisis de los servicios de hosting. La información recogida por los archivos de registro incluye las direcciones del protocolo de Internet (IP), el tipo de navegador, el proveedor de servicios de Internet (ISP), la fecha y la hora, las páginas de referencia/salida y posiblemente el número de clics. Éstas no están vinculadas a ninguna información que permita la identificación personal.",
-            "El propósito de la información es analizar las tendencias, administrar el sitio, rastrear el movimiento de los usuarios en el sitio web y reunir información demográfica.",
+            "Conservamos tus datos mientras damos seguimiento a tu solicitud y, si no llegamos a trabajar juntos, hasta 12 meses después del último contacto. Después los eliminamos.",
+          ],
+        },
+        {
+          heading: "Tus derechos ARCO",
+          paragraphs: [
+            "Tienes derecho a Acceder a tus datos, Rectificarlos, Cancelarlos (pedir que los borremos) u Oponerte a su uso. Para ejercerlos, escribe a privacidad@ecommetrica.com indicando tu nombre, el derecho que quieres ejercer y un medio para responderte. Te responderemos en un plazo máximo de 7 días hábiles.",
+          ],
+        },
+        {
+          heading: "Cookies y registros técnicos",
+          paragraphs: [
+            "Este sitio no usa cookies de publicidad ni de analítica. Solo guarda en tu navegador el tema de color que elijas, que no te identifica.",
+            "Para mostrarte los precios de tu mercado (México o Estados Unidos), nuestro servidor consulta de qué país viene tu dirección IP. Solo usamos el país, no lo guardamos ni lo vinculamos contigo.",
+            "Como cualquier sitio web, nuestro proveedor de hosting registra datos técnicos de cada visita (dirección IP, navegador, fecha y hora) para operar y proteger el sitio. Estos registros no se vinculan con tus datos de contacto.",
+          ],
+        },
+        {
+          heading: "Cambios a este aviso",
+          paragraphs: [
+            "Si cambiamos este Aviso de Privacidad, publicaremos la nueva versión en esta misma página con su fecha de actualización.",
           ],
         },
       ],
@@ -953,12 +1041,14 @@ export const dict: Record<Lang, Dict> = {
       viewAll: "See all plans and pricing",
     },
     servicesOverview: {
-      eyebrow: "Our",
-      headline: "Services",
-      headlineAccent: "made to measure",
-      sub: "Strategy, design, and development working together so your brand or company works as well as it looks.",
+      eyebrow: "Services",
+      headline: "Your whole digital ecosystem,",
+      headlineAccent: "in one plan.",
+      sub: "Five layers, one team. Pick one to see everything we do in it.",
+      layersAria: "Service layers",
+      includedFrom: (plan) => `Included in plans from ${plan}.`,
       cta: "See all services",
-      viewAria: (name) => `View ${name}`,
+      ctaPlans: "See plans",
     },
     selectWork: {
       headline: "Our",
@@ -1017,12 +1107,17 @@ export const dict: Record<Lang, Dict> = {
       successSub: "Your request has been sent to the Ecommetrica team.",
       submitting: "Sending...",
       submit: "Send form",
+      consentNotice:
+        "Ecommetrica will use your name, email, phone, company, and message only to answer your request and send you a quote. We don't sell your data or share it with third parties for their own purposes.",
+      consentLabel: "I have read and accept the ",
+      consentLinkLabel: "privacy notice",
       errors: {
         nameRequired: "Enter your name.",
         emailRequired: "Enter your email.",
         emailInvalid: "Enter a valid email address.",
         phoneInvalid: "Enter a valid phone number.",
         messageTooShort: "Write a message of at least 10 characters.",
+        consentRequired: "We need your consent to answer your request.",
       },
     },
     contactPage: {
@@ -1046,6 +1141,16 @@ export const dict: Record<Lang, Dict> = {
       ],
       eyebrow: "Services",
       headline: "Turn your outdated website into your biggest growth asset.",
+      sub: "Brand, site, visibility, content, and operations: we do it all, and deliver it inside a plan.",
+      goalsTitle: "What do you want to achieve?",
+      goalPrefix: "I want to",
+      bundleKicker: "All together",
+      bundleFrom: "From",
+      bundleCta: (plan) => `See ${plan}`,
+      compareCta: "Compare plans",
+      allTitle: "Everything we do",
+      allSub: "Every service comes included in our plans: pick the plan and everything works together.",
+      includedFrom: (plan) => `Included from ${plan}`,
     },
     studioPage: {
       metaDescription: "We build secure digital ecosystems for sustainable business growth.",
@@ -1188,6 +1293,7 @@ export const dict: Record<Lang, Dict> = {
       viewAllIncluded: "See everything included",
       viewLess: "See less",
       learnMore: "Learn more",
+      includedInLabel: "Included in",
       specsLabels: {
         size: "Size",
         pages: "Pages",
@@ -1220,8 +1326,8 @@ export const dict: Record<Lang, Dict> = {
           "Each plan includes everything in the plan before it; from Launch, what AI Express generates with AI is made by people with AI assistance. The contract total is always shown next to the monthly price. Best value = the plan with the biggest saving against buying each service separately.",
         hosting: (price) =>
           `Hosting and maintenance: the first 12 months are included in every package. After that it renews yearly on the start date at ${price} a year.`,
-        coding: (rate) =>
-          `Coding beyond the included hours is sold in coding blocks${rate ? ` (${rate}/h)` : ""}. 24/7 support is only in Partner. Ad spend, the domain and the Shopify subscription are paid by the client directly.`,
+        clientCosts:
+          "24/7 support is only in Partner. Ad spend, the domain and the Shopify subscription are paid by the client directly.",
       },
     },
     vpatPage: {
@@ -1294,14 +1400,14 @@ export const dict: Record<Lang, Dict> = {
         "It's the interface that lets you manage your Google Business listing (hours, posts, Q&A, and reviews) programmatically, instead of logging into Google Business Profile Manager by hand every time something needs updating or a customer review needs a response.",
       whyTitle: "Why does it matter at the Launch tier?",
       whyBody:
-        "At this stage you're already converting traffic into customers, and most local customers find — and judge — you through your Google listing before they ever reach your site. Connecting that listing via API keeps reviews, hours, and posts in sync with the rest of your operation, instead of depending on someone logging in to update it manually.",
+        "When you're just opening, most of your first local customers find — and judge — you through your Google listing before they ever reach your site. Getting it properly connected from the start keeps reviews, hours, and posts in sync with your site from day one, instead of depending on someone logging in to update them manually.",
       deliverableTitle: "What does Ecommetrica deliver?",
       deliverableBody:
         "Verification and API connection of your Google Business profile, review and FAQ sync setup, and whatever post or alert automation your plan includes.",
       backCta: "See plans and pricing",
     },
     packagesFlow: {
-      stepLabels: ["Plan", "Marketing", "Integrations", "Customization", "Branding", "Summary"],
+      stepLabels: ["Plan", "Production", "Ads", "Branding", "Summary"],
       stepOf: (current, total) => `Step ${current} of ${total}`,
       choosePlanCta: "Select",
       planSelected: "Plan selected",
@@ -1324,6 +1430,11 @@ export const dict: Record<Lang, Dict> = {
       messagePlanLabel: "Chosen plan",
       messageExtrasLabel: "Selected extras",
       messageTotalLabel: "Estimated total",
+      summaryPlanTotal: "Package total",
+      expressAloneNotice: "AI Express is sold on its own, as a one-time payment: it doesn't take extras.",
+      expressCredit: (amount) =>
+        `Upgrade from AI Express to Launch within 30 days and your AI Express payment (${amount}) is credited.`,
+      messageNoteLabel: "Note",
     },
     legal: {
       privacyTitle: "Privacy policy",
@@ -1331,43 +1442,76 @@ export const dict: Record<Lang, Dict> = {
         "Ecommetrica's privacy policy: what data we collect, how we use it, and how you can request its deletion.",
       privacyKeywords: ["privacy policy", "Ecommetrica privacy notice"],
       privacyIntro: [
-        "At ecommetrica.com, accessible from https://ecommetrica.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document describes the types of information that are collected and recorded by Ecommetrica and how we use them.",
-        "If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.",
-        "This Privacy Policy applies only to our online activities and is valid for visitors to our website with regard to the information they share and/or collect on ecommetrica.com. This policy does not apply to any information collected offline or through channels other than this website.",
+        "Last updated: October 14, 2026.",
+        "This Privacy Notice explains what personal data Ecommetrica collects through https://ecommetrica.com, what we use it for, and how you can exercise your rights, under Mexico's Federal Law on the Protection of Personal Data Held by Private Parties (LFPDPPP).",
+        "For anything related to your personal data, write to privacidad@ecommetrica.com.",
       ],
       privacySections: [
         {
+          heading: "Who is responsible for your data",
+          paragraphs: [
+            "Ecommetrica (trade name), located at Calle Ignacio Zaragoza 8169-306, Gustavo Madero, Tijuana, Baja California, Mexico, is responsible for the personal data you give us on this site.",
+          ],
+        },
+        {
+          heading: "Data we collect",
+          paragraphs: [
+            "This site has no user accounts or store. We only collect what you type into the contact form or the package configurator:",
+          ],
+          bullets: [
+            "Name.",
+            "Email address.",
+            "Phone (optional).",
+            "Company (optional).",
+            "Your message and, if you used the configurator, the package you chose.",
+          ],
+        },
+        {
+          heading: "What we use your data for",
+          paragraphs: ["We use your data only to:"],
+          bullets: [
+            "Answer your request and follow up.",
+            "Prepare and send you a quote.",
+            "Send you an email confirming we received your message.",
+          ],
+        },
+        {
           heading: "Consent",
           paragraphs: [
-            "By using our website, you accept our Privacy Policy and agree to its terms.",
+            "Before you send the form, we ask you to tick a box accepting this Privacy Notice. Without that consent we can't receive your request. You can withdraw it at any time by writing to privacidad@ecommetrica.com.",
           ],
         },
         {
-          heading: "Information we collect",
+          heading: "How your data travels and where it's kept",
           paragraphs: [
-            "The personal information you are asked to provide, and the reasons you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information.",
-            "If you contact us directly, we may receive additional information about you, such as your name, email address, phone number, the contents of the message and/or attachments you send us, and any other information you choose to provide.",
-            "When you register for an Account, we may ask for your contact information, including items such as name, company name, address, email address, and phone number.",
+            "When you send the form, your data travels encrypted (HTTPS) to our server, which emails it (SMTP) to the Ecommetrica team and sends you a confirmation. We don't store your data in a site database; it stays in the team's mailboxes.",
+            "We don't sell or rent your data. The only third parties that handle it are the providers we need to operate: the site's hosting and the email service.",
           ],
         },
         {
-          heading: "How we use your information",
-          paragraphs: ["We use the information we collect in various ways, including to:"],
-          bullets: [
-            "Provide, operate, and maintain our website.",
-            "Improve, personalize, and expand our website.",
-            "Understand and analyze how our website is used.",
-            "Develop new products, services, features, and functionality.",
-            "Communicate with you, either directly or through one of our partners, including for customer service, to provide you with updates and other information relating to the website, and for marketing and promotional purposes.",
-            "Send you emails.",
-            "Find and prevent fraud.",
-          ],
-        },
-        {
-          heading: "Log files",
+          heading: "How long we keep it",
           paragraphs: [
-            "ecommetrica.com follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this, and it is part of hosting services' analytics. The information collected by log files includes internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable.",
-            "The purpose of the information is to analyze trends, administer the site, track users' movement on the website, and gather demographic information.",
+            "We keep your data while we follow up on your request and, if we don't end up working together, for up to 12 months after our last contact. After that we delete it.",
+          ],
+        },
+        {
+          heading: "Your ARCO rights",
+          paragraphs: [
+            "You have the right to Access your data, Rectify it, Cancel it (ask us to delete it), or Object to its use. To exercise them, write to privacidad@ecommetrica.com with your name, the right you want to exercise, and a way to reply to you. We'll answer within 7 business days at most.",
+          ],
+        },
+        {
+          heading: "Cookies and technical logs",
+          paragraphs: [
+            "This site doesn't use advertising or analytics cookies. It only stores the color theme you choose in your browser, which doesn't identify you.",
+            "To show you the prices for your market (Mexico or the United States), our server looks up which country your IP address comes from. We only use the country; we don't store it or link it to you.",
+            "Like any website, our hosting provider logs technical data for each visit (IP address, browser, date and time) to run and protect the site. These logs aren't linked to your contact details.",
+          ],
+        },
+        {
+          heading: "Changes to this notice",
+          paragraphs: [
+            "If we change this Privacy Notice, we'll publish the new version on this same page with its update date.",
           ],
         },
       ],

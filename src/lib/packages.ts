@@ -4,10 +4,9 @@ export type PackageAddon = {
   id: string;
   name: Localized;
   description: Localized;
-  price: Record<Region, number>;
-  /** No fixed price in the source proposal — configurator shows "quote on request"
-   *  instead of a dollar figure and excludes it from the running total. */
-  priceTBD?: boolean;
+  /** Monthly price per market. `null` = no price set yet in that market: the configurator
+   *  shows "quote on request" instead and leaves it out of the running total. */
+  price: Record<Region, number | null>;
   /** Plan ids (see `Plan.id` in pricing.ts) whose feature list already covers this —
    *  configurator marks the addon "included" instead of letting it be added twice. */
   includedInPlanIds: string[];
@@ -23,46 +22,6 @@ export type PackagePhase = {
 /** À la carte continuation services — for clients who finished a plan and want to keep
  *  specific pieces active, not a parallel plan. Priced per region like everything else. */
 export const packagePhases: PackagePhase[] = [
-  {
-    id: "hourly",
-    title: { es: "Trabajo por horas — bloques de 10 h", en: "Work by the hour — 10-hour blocks" },
-    description: {
-      es: "Para clientes que terminaron un plan y quieren continuar con piezas específicas.",
-      en: "For clients who finished a plan and want to continue with specific pieces.",
-    },
-    addons: [
-      {
-        id: "coding",
-        name: { es: "Coding / Ingeniería", en: "Coding / Engineering" },
-        description: {
-          es: "Actualización / desarrollo de webapps.",
-          en: "Update / development of webapps.",
-        },
-        price: { mx: 620, us: 1100 },
-        includedInPlanIds: [],
-      },
-      {
-        id: "content-creation",
-        name: { es: "Creación de contenido", en: "Content creation" },
-        description: {
-          es: "7 videos cortos para redes sociales + 5 piezas visuales con diseño.",
-          en: "7 short videos for social media + 5 designed visual pieces.",
-        },
-        price: { mx: 480, us: 650 },
-        includedInPlanIds: [],
-      },
-      {
-        id: "webmaster",
-        name: { es: "Webmaster / Mantenimiento", en: "Webmaster / Maintenance" },
-        description: {
-          es: "Mantenimiento de infraestructura y sitio.",
-          en: "Infrastructure and site maintenance.",
-        },
-        price: { mx: 370, us: 550 },
-        includedInPlanIds: [],
-      },
-    ],
-  },
   {
     id: "content-production",
     title: { es: "Producción de contenido", en: "Content production" },
@@ -88,8 +47,8 @@ export const packagePhases: PackagePhase[] = [
           es: "Contenido para 1 mes en 1 Shooting con pre y post producción.",
           en: "1 month of content in a single shoot, with pre- and post-production.",
         },
-        price: { mx: 0, us: 0 },
-        priceTBD: true,
+        // US pending confirmation from the pricing project.
+        price: { mx: 750, us: null },
         includedInPlanIds: [],
       },
       {
@@ -142,8 +101,8 @@ export const packagePhases: PackagePhase[] = [
           es: "1 campaña + 4 piezas visuales. Ideal para campañas específicas para un servicio o rendimiento de una campaña de temporada alcance directo.",
           en: "1 campaign + 4 visual pieces. Ideal for a specific service launch or a direct-reach seasonal campaign.",
         },
-        price: { mx: 0, us: 0 },
-        priceTBD: true,
+        // US pending confirmation from the pricing project.
+        price: { mx: 570, us: null },
         includedInPlanIds: ["grower", "high-profile"],
       },
       {
@@ -156,8 +115,8 @@ export const packagePhases: PackagePhase[] = [
           es: "1 campaña + 3 keywords + 2 blogs con SEO. Ideal para campañas específicas para un servicio o rendimiento de una campaña de temporada alcance directo.",
           en: "1 campaign + 3 keywords + 2 SEO blog posts. Ideal for a specific service launch or a direct-reach seasonal campaign.",
         },
-        price: { mx: 0, us: 0 },
-        priceTBD: true,
+        // US pending confirmation from the pricing project.
+        price: { mx: 670, us: null },
         includedInPlanIds: ["grower", "high-profile"],
       },
       {

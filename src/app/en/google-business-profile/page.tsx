@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 };
 
 export default function GoogleBusinessProfilePage() {
-  return <FeatureExplainerPage content={t.googleBusinessProfilePage} lang={LANG} />;
+  return <FeatureExplainerPage content={t.googleBusinessProfilePage} lang={LANG} slug="google-business-profile" />;
 }

@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 };
 
 export default function MetaGraphApiPage() {
-  return <FeatureExplainerPage content={t.metaGraphApiPage} lang={LANG} />;
+  return <FeatureExplainerPage content={t.metaGraphApiPage} lang={LANG} slug="meta-graph-api" />;
 }

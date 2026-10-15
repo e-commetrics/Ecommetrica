@@ -1,19 +1,21 @@
 "use client";
 
 import { useRef, useState, type FormEvent, type RefObject, type SyntheticEvent } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { submitContactForm } from "@/services/contact.service";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useContactPrefill } from "@/components/ContactPrefillProvider";
 import { createContactFormSchema, type ContactFormValues } from "@/lib/validation/contactForm";
+import { localizedHref } from "@/lib/i18n/localizedHref";
 
 type Status = "idle" | "submitting" | "success";
-type FieldName = "name" | "email" | "phone" | "company" | "message";
+type FieldName = "name" | "email" | "phone" | "company" | "message" | "consent";
 type FieldErrors = Partial<Record<FieldName, string>>;
 type FieldElement = HTMLInputElement | HTMLTextAreaElement;
 
-const FIELD_ORDER: FieldName[] = ["name", "email", "phone", "company", "message"];
+const FIELD_ORDER: FieldName[] = ["name", "email", "phone", "company", "message", "consent"];
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function ContactForm() {
@@ -40,6 +42,7 @@ export default function ContactForm() {
       phone: flat.phone?.[0],
       company: flat.company?.[0],
       message: flat.message?.[0],
+      consent: flat.consent?.[0],
     };
     setErrors(fieldErrors);
     return { data: null as ContactFormValues | null, fieldErrors };
@@ -60,7 +63,7 @@ export default function ContactForm() {
     event.preventDefault();
     const form = event.currentTarget;
 
-    setTouched({ name: true, email: true, phone: true, company: true, message: true });
+    setTouched({ name: true, email: true, phone: true, company: true, message: true, consent: true });
     const { data, fieldErrors } = runValidation(form);
 
     if (!data) {
@@ -73,10 +76,12 @@ export default function ContactForm() {
     const toastId = toast.loading(t.contactForm.sendingToast);
 
     // Stitched back in here so the team's email gets the full picture in one "message".
-    const message = packageSummary ? `${packageSummary}\n\n${data.message}` : data.message;
+    // Consent gates the submit client-side only; the backend payload stays unchanged.
+    const { consent: _consent, ...fields } = data;
+    const message = packageSummary ? `${packageSummary}\n\n${fields.message}` : fields.message;
 
     try {
-      await submitContactForm({ ...data, message, lang });
+      await submitContactForm({ ...fields, message, lang });
       toast.success(t.contactForm.successToast, { id: toastId });
       setStatus("success");
       form.reset();
@@ -180,6 +185,40 @@ export default function ContactForm() {
         />
         <FieldError id="contact-message-error" message={touched.message ? errors.message : undefined} />
       </label>
+
+      <div className="flex flex-col gap-3">
+        <p className="text-sm leading-relaxed text-white/50">{t.contactForm.consentNotice}</p>
+        <label className="flex cursor-pointer items-start gap-3 text-sm text-white/80">
+          <input
+            ref={(el) => {
+              fieldRefs.current.consent = el ?? undefined;
+            }}
+            type="checkbox"
+            name="consent"
+            aria-invalid={Boolean(touched.consent && errors.consent)}
+            aria-describedby={errors.consent ? "contact-consent-error" : undefined}
+            onBlur={(event) => handleBlur("consent", event)}
+            onChange={(event) => {
+              // A click is a deliberate answer, so validate right away instead of waiting for blur.
+              setTouched((prev) => ({ ...prev, consent: true }));
+              if (event.currentTarget.form) runValidation(event.currentTarget.form);
+            }}
+            className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-ecom-orange"
+          />
+          <span>
+            {t.contactForm.consentLabel}
+            <Link
+              href={localizedHref(lang, "/legal/privacy-policy")}
+              target="_blank"
+              className="text-white underline decoration-white/50 underline-offset-4 hover:decoration-white"
+            >
+              {t.contactForm.consentLinkLabel}
+            </Link>
+            .
+          </span>
+        </label>
+        <FieldError id="contact-consent-error" message={touched.consent ? errors.consent : undefined} />
+      </div>
 
       <button
         type="submit"

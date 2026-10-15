@@ -14,6 +14,9 @@ export function createContactFormSchema(t: Dict["contactForm"]) {
       .refine((value) => !value || PHONE_REGEX.test(value), t.errors.phoneInvalid),
     company: z.string().trim().optional(),
     message: z.string().trim().min(10, t.errors.messageTooShort),
+    // An unchecked checkbox is simply absent from FormData; a checked one submits "on".
+    // Not .optional().refine(): Zod 4 skips refinements on a missing optional value.
+    consent: z.literal("on", { error: t.errors.consentRequired }),
   });
 }
 

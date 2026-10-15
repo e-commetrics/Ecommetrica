@@ -97,8 +97,9 @@ export default function Header() {
           />
         </Link>
 
-        {/* Breakpoint is lg, not md: six links + switchers + CTA need ~880px, the bar only has ~700px at 768px. */}
-        <nav className="hidden items-center gap-5 text-sm font-medium tracking-wide uppercase lg:flex xl:gap-8">
+        {/* Breakpoint is xl, not lg: with the Spanish labels, logo + six links + switchers + CTA
+            need ~1040px, which overflowed a 1024px laptop (and more once a scrollbar takes ~15px). */}
+        <nav className="hidden items-center gap-8 text-sm font-medium tracking-wide uppercase xl:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
@@ -113,7 +114,7 @@ export default function Header() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-5 lg:flex">
+        <div className="hidden items-center gap-5 xl:flex">
           <LanguageSwitcher />
           <ThemeSwitcher />
           <Link
@@ -183,7 +184,7 @@ function MobileNav({
   }, [open, close]);
 
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <button
         type="button"
         onClick={() => setOpen(true)}

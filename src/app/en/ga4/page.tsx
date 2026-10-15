@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 };
 
 export default function Ga4Page() {
-  return <FeatureExplainerPage content={t.ga4Page} lang={LANG} />;
+  return <FeatureExplainerPage content={t.ga4Page} lang={LANG} slug="ga4" />;
 }

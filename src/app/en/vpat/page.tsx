@@ -14,5 +14,5 @@ export const metadata: Metadata = {
 };
 
 export default function VpatPage() {
-  return <FeatureExplainerPage content={t.vpatPage} lang={LANG} />;
+  return <FeatureExplainerPage content={t.vpatPage} lang={LANG} slug="vpat" />;
 }

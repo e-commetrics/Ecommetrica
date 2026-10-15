@@ -710,8 +710,6 @@ export function planNewRows(plan: Plan, region: Region): MatrixRow[] {
 
 export const hostingRenewalValue: Record<Region, number> = { mx: 370, us: 790 };
 
-export const codingHourRate: Partial<Record<Region, number>> = { mx: 62 };
-
 export type CustomPlanModule = { title: Localized; description: Localized };
 
 export type CustomPlanHighlight = { text: Localized; usOnly?: boolean };

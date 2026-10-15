@@ -11,7 +11,6 @@ import {
   planHasRow,
   isUsOnlyCell,
   hostingRenewalValue,
-  codingHourRate,
 } from "@/lib/pricing";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useRegion } from "@/components/RegionProvider";
@@ -23,7 +22,6 @@ export default function PlanMatrix() {
   const { t, lang } = useLanguage();
   const { region } = useRegion();
   const p = t.pricingPage;
-  const codingRate = codingHourRate[region];
   const [selected, setSelected] = useState<string[]>([]);
   const [onlyDiff, setOnlyDiff] = useState(true);
 
@@ -147,7 +145,9 @@ export default function PlanMatrix() {
         )}
       </div>
 
-      <div className="mt-4 overflow-x-auto rounded-2xl border border-ecom-ink/10">
+      {/* relative: the cells' sr-only labels are absolutely positioned, and without a
+          positioned ancestor inside the scroller they escape its clipping and widen the page. */}
+      <div className="relative mt-4 overflow-x-auto rounded-2xl border border-ecom-ink/10">
         <table className={`w-full border-collapse text-left ${comparing ? "min-w-[480px]" : "min-w-[820px]"}`}>
           <thead>
             <tr className="bg-ecom-black text-white">
@@ -267,7 +267,7 @@ export default function PlanMatrix() {
       <div className="mt-6 flex flex-col gap-3 text-sm leading-relaxed text-ecom-ink/50">
         <p>{p.notes.inheritance}</p>
         <p>{p.notes.hosting(formatUSD(hostingRenewalValue[region]))}</p>
-        <p>{p.notes.coding(codingRate ? formatUSD(codingRate) : null)}</p>
+        <p>{p.notes.clientCosts}</p>
       </div>
     </section>
   );

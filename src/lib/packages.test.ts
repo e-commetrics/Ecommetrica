@@ -3,7 +3,7 @@ import { findAddon } from "@/lib/packages";
 
 describe("findAddon", () => {
   test("finds an addon regardless of which phase it lives in", () => {
-    expect(findAddon("coding")?.id).toBe("coding");
+    expect(findAddon("branding-identity")?.id).toBe("branding-identity");
     expect(findAddon("video-production")?.id).toBe("video-production");
     expect(findAddon("mgmt-pure-meta")?.id).toBe("mgmt-pure-meta");
   });

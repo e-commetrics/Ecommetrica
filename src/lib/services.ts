@@ -1,178 +1,245 @@
 import type { Localized } from "@/lib/i18n/types";
+import { plans, type PlanId } from "@/lib/pricing";
 
 /**
- * Service taxonomy: seven groups feed /services, four categories (each mapped
- * via `groupId`) feed the home ServicesOverview. Optional fields render nothing when absent — don't add placeholder copy to close a gap.
+ * Service taxonomy for the home ServicesOverview and /services. The business is told as
+ * five layers (one per brand ring); each service sits in one layer, and each goal on
+ * /services spans one or more layers. Services are sold through the plans only — every
+ * entry points at the first plan that includes it, never at a standalone price.
  */
 
-/** Anchor id on /services. Home cards deep-link to `/services#<id>`. */
-export type ServiceGroupId =
-  | "mantenimiento-web"
-  | "desarrollo-web"
-  | "seo-aeo"
-  | "campanas-google"
-  | "video"
-  | "social-ads"
-  | "diseno";
+export type ServiceLayerId = "marca" | "sitio" | "visibilidad" | "contenido" | "operacion";
 
-export type ServiceGroup = {
-  id: ServiceGroupId;
+export type ServiceLayer = {
+  id: ServiceLayerId;
   name: Localized;
-  /** One-line summary. Some groups came with a tagline, others with `items`. */
-  tagline?: Localized;
-  /** Bullet sub-services. Length varies by group on purpose. */
-  items?: Localized[];
+  /** Short "what it's about" line under the layer name. */
+  line: Localized;
 };
 
-export type ServiceCategory = {
-  /** Primary group this card summarizes — also its `/services#<id>` target. */
-  groupId: ServiceGroupId;
+export type Service = {
+  id: string;
+  layer: ServiceLayerId;
   name: Localized;
-  /** One array entry renders as one paragraph. */
-  body?: Localized[];
-  /** Three reads best in the card grid, but the count is not enforced. */
-  highlights?: Localized[];
+  description: Localized;
+  items: Localized[];
+  /** First plan (in PLAN_ORDER) that includes it — keep in sync with `matrix` in pricing.ts. */
+  includedFrom: PlanId;
 };
 
-/** The full catalogue, in the order it appears on /services. */
-export const serviceGroups: ServiceGroup[] = [
+export type ServiceGoal = {
+  id: string;
+  /** Completes "Quiero …" / "I want to …" on the goal button. */
+  name: Localized;
+  layers: ServiceLayerId[];
+  /** The plan that bundles what this goal needs. */
+  planId: PlanId;
+  pitch: Localized;
+};
+
+/** Order matters: it's the ring order, top to bottom. */
+export const serviceLayers: ServiceLayer[] = [
+  { id: "marca", name: { es: "Marca", en: "Brand" }, line: { es: "Cómo te ven", en: "How you're seen" } },
+  { id: "sitio", name: { es: "Sitio", en: "Site" }, line: { es: "Dónde te compran", en: "Where you sell" } },
   {
-    id: "desarrollo-web",
-    name: { es: "Desarrollo web", en: "Web development" },
-    tagline: {
-      es: "Páginas web a la medida, rápidas, que no solo atraen sino que venden.",
-      en: "Custom websites, fast, that don't just attract — they sell.",
-    },
+    id: "visibilidad",
+    name: { es: "Visibilidad", en: "Visibility" },
+    line: { es: "Cómo te encuentran", en: "How you're found" },
   },
   {
-    id: "mantenimiento-web",
-    name: { es: "Mantenimiento web", en: "Web maintenance" },
+    id: "contenido",
+    name: { es: "Contenido", en: "Content" },
+    line: { es: "Qué cuentas", en: "What you say" },
+  },
+  {
+    id: "operacion",
+    name: { es: "Operación", en: "Operations" },
+    line: { es: "Cómo trabajas", en: "How you work" },
+  },
+];
+
+export const services: Service[] = [
+  {
+    id: "diseno",
+    layer: "marca",
+    name: { es: "Diseño y marca", en: "Design and brand" },
+    description: {
+      es: "Identidad visual, branding, rebranding y diseño para web, redes y papelería.",
+      en: "Visual identity, branding, rebranding, and design for web, social, and print.",
+    },
     items: [
-      { es: "Cambios a tu tienda o página web", en: "Changes to your store or website" },
-      { es: "Nuevas modalidades", en: "New features" },
-      { es: "Correos", en: "Email accounts" },
-      { es: "Certificados SSL", en: "SSL certificates" },
+      { es: "Identidad visual y manual de marca", en: "Visual identity and brand manual" },
+      { es: "Branding y rebranding", en: "Branding and rebranding" },
+      { es: "Diseño digital, para redes y offline", en: "Digital, social, and offline design" },
     ],
+    includedFrom: "simple",
   },
   {
-    id: "seo-aeo",
-    name: { es: "Posicionamiento SEO y AEO", en: "SEO & AEO positioning" },
-    tagline: {
-      es: "Que te referencien las principales IAs en sus respuestas y los motores de búsqueda en sus resultados.",
-      en: "Get referenced by the leading AI assistants in their answers and by search engines in their results.",
+    id: "web",
+    layer: "sitio",
+    name: { es: "Desarrollo web", en: "Web development" },
+    description: {
+      es: "Sitios y tiendas Shopify a la medida: rápidos, bilingües y accesibles.",
+      en: "Custom websites and Shopify stores: fast, bilingual, and accessible.",
     },
+    items: [
+      { es: "Sitio o tienda Shopify", en: "Website or Shopify store" },
+      { es: "Reservas y pagos en línea", en: "Online booking and payments" },
+      { es: "Landing pages y asistente IA", en: "Landing pages and AI assistant" },
+    ],
+    includedFrom: "express",
   },
   {
-    id: "campanas-google",
-    name: { es: "Campañas Google", en: "Google campaigns" },
-    tagline: {
-      es: "Estratégicamente ejecutadas para generar el mejor rendimiento.",
-      en: "Strategically executed to generate the best return.",
+    id: "mantenimiento",
+    layer: "sitio",
+    name: { es: "Hosting y mantenimiento", en: "Hosting and maintenance" },
+    description: {
+      es: "Tu sitio en línea, seguro y al día: cambios, certificados SSL y monitoreo.",
+      en: "Your site online, secure, and up to date: changes, SSL certificates, and monitoring.",
     },
+    items: [
+      { es: "Hosting y mantenimiento", en: "Hosting and maintenance" },
+      { es: "Accesibilidad ADA / WCAG", en: "ADA / WCAG accessibility" },
+      { es: "Monitoreo en vivo", en: "Live monitoring" },
+    ],
+    includedFrom: "express",
   },
   {
-    id: "social-ads",
-    name: { es: "Anuncios para redes sociales", en: "Social media ads" },
-    tagline: {
-      es: "Atrae a los clientes que quieres e incrementa tus seguidores.",
-      en: "Attract the clients you want and grow your following.",
+    id: "seo",
+    layer: "visibilidad",
+    name: { es: "SEO y AEO", en: "SEO & AEO" },
+    description: {
+      es: "Que te encuentren en Google y que las IAs te citen en sus respuestas.",
+      en: "Get found on Google and cited by AI assistants in their answers.",
     },
+    items: [
+      { es: "SEO y AEO con Search Console", en: "SEO & AEO with Search Console" },
+      { es: "Blog SEO/AEO", en: "SEO/AEO blog" },
+      { es: "Google Business Profile", en: "Google Business Profile" },
+    ],
+    includedFrom: "express",
+  },
+  {
+    id: "publicidad",
+    layer: "visibilidad",
+    name: { es: "Publicidad digital", en: "Digital advertising" },
+    description: {
+      es: "Campañas en Meta y Google con estrategia, piezas y optimización mensual.",
+      en: "Meta and Google campaigns with strategy, creatives, and monthly optimization.",
+    },
+    items: [
+      { es: "Pauta en Meta", en: "Meta ads" },
+      { es: "Pauta en Google", en: "Google ads" },
+      { es: "Reseñas y reputación", en: "Reviews and reputation" },
+    ],
+    includedFrom: "advanced",
   },
   {
     id: "video",
-    name: { es: "Video producción", en: "Video production" },
+    layer: "contenido",
+    name: { es: "Video y contenido", en: "Video and content" },
+    description: {
+      es: "Contenido para redes, producción de video y piezas originales hechas por personas.",
+      en: "Social content, video production, and original pieces made by people.",
+    },
     items: [
-      {
-        es: "Planeación y grabación mensual para redes",
-        en: "Monthly planning and filming for social media",
-      },
-      { es: "Videos corporativos", en: "Corporate videos" },
+      { es: "Contenido para redes", en: "Social media content" },
+      { es: "Producción de video", en: "Video production" },
+      { es: "Video cinematográfico 4K", en: "Cinematic 4K video" },
     ],
+    includedFrom: "simple",
   },
   {
-    id: "diseno",
-    name: { es: "Diseño", en: "Design" },
+    id: "automatizacion",
+    layer: "operacion",
+    name: { es: "Automatización e integraciones", en: "Automation and integrations" },
+    description: {
+      es: "Menos tareas manuales: correos, WhatsApp, CRM, dashboards y tus sistemas conectados.",
+      en: "Fewer manual tasks: email, WhatsApp, CRM, dashboards, and your systems connected.",
+    },
     items: [
-      { es: "Identidad de marca", en: "Brand identity" },
-      { es: "Rebranding", en: "Rebranding" },
-      {
-        es: "Diseño web para profesionales y empresas",
-        en: "Web design for professionals and companies",
-      },
-      { es: "Diseño offline", en: "Offline design" },
-      { es: "Diseño para redes", en: "Social media design" },
+      { es: "Automatización de correo y WhatsApp", en: "Email and WhatsApp automation" },
+      { es: "Dashboard con CRM y BI", en: "Dashboard with CRM and BI" },
+      { es: "Integraciones con tus sistemas", en: "Integrations with your systems" },
     ],
+    includedFrom: "grower",
+  },
+  {
+    id: "consultoria",
+    layer: "operacion",
+    name: { es: "Consultoría y estrategia digital", en: "Digital consulting and strategy" },
+    description: {
+      es: "Dirección digital: estrategia mensual, roadmap trimestral y decisiones de arquitectura y presupuesto.",
+      en: "Digital direction: monthly strategy, a quarterly roadmap, and architecture and budget decisions.",
+    },
+    items: [
+      { es: "Estrategia mensual de redes", en: "Monthly social strategy" },
+      { es: "Estrategia y roadmap trimestrales", en: "Quarterly strategy and roadmap" },
+      { es: "Consultoría estratégica (Aliado)", en: "Strategic consulting (Partner)" },
+    ],
+    includedFrom: "grower",
   },
 ];
 
-/** The four-card summary on the home page. */
-export const serviceCategories: ServiceCategory[] = [
+export const serviceGoals: ServiceGoal[] = [
   {
-    groupId: "diseno",
-    name: { es: "Diseño", en: "Design" },
-    body: [
-      {
-        es: "Diseñamos y ejecutamos todos los procesos clave para transformar la visión de nuestros clientes en realidad, adaptándonos al formato que se requiera.",
-        en: "We design and run every key process that turns our clients' vision into reality, adapting to whatever format the work calls for.",
-      },
-      {
-        es: "Más allá de un logo, unificamos nombre, colores y estrategia de marketing para lograr una coherencia visual poderosa que tenga presencia para los consumidores.",
-        en: "Beyond a logo, we unify name, color, and marketing strategy into a visual coherence strong enough to hold presence with consumers.",
-      },
-    ],
-    highlights: [
-      { es: "Dirección de arte", en: "Art direction" },
-      { es: "Identidad visual", en: "Visual identity" },
-      { es: "Diseño web", en: "Web design" },
-    ],
+    id: "empezar",
+    name: { es: "empezar en línea", en: "get online" },
+    layers: ["marca", "sitio"],
+    planId: "simple",
+    pitch: {
+      es: "Sitio, marca, SEO básico y redes, listos en 90 días.",
+      en: "Site, brand, basic SEO, and social, ready in 90 days.",
+    },
   },
   {
-    groupId: "desarrollo-web",
-    name: { es: "Desarrollo", en: "Development" },
-    body: [
-      {
-        es: "Desarrollamos páginas y tiendas en línea impactantes y adaptables que crecen contigo. Hechas a tu gusto, necesidad y flujo de trabajo.",
-        en: "We build striking, adaptable websites and online stores that grow with you — made to your taste, your needs, and your workflow.",
-      },
-      {
-        es: "Además, cada cliente obtiene una aplicación web personalizada que simplifica la gestión de su negocio: toda su información, calendarios de citas, reseñas, envíos de correos masivos y mucho más en un clic.",
-        en: "Every client also gets a custom web app that simplifies running the business: all their information, appointment calendars, reviews, bulk email campaigns, and much more in one click.",
-      },
-    ],
-    // TODO(copy): needs `highlights` — three bullets, same shape as the "diseno" entry above.
+    id: "vender",
+    name: { es: "vender en línea", en: "sell online" },
+    layers: ["sitio", "visibilidad"],
+    planId: "advanced",
+    pitch: {
+      es: "Tienda, reservas y pagos, SEO avanzado y tu primera campaña en Meta.",
+      en: "Store, booking and payments, advanced SEO, and your first Meta campaign.",
+    },
   },
   {
-    groupId: "seo-aeo",
-    name: { es: "SEO y AEO", en: "SEO & AEO" },
-    body: [
-      {
-        es: "Impulsamos tu negocio en motores de búsqueda. Diseñamos estrategias integrales que maximizan la retención de leads y la conversión.",
-        en: "We drive your business up the search engines. We design end-to-end strategies that maximize lead retention and conversion.",
-      },
-      {
-        es: "Creamos ecosistemas digitales conectando tu página web con redes sociales, producimos y distribuimos contenido de alto valor, y ejecutamos campañas de email marketing altamente efectivas.",
-        en: "We build digital ecosystems connecting your website to social media, we produce and distribute high-value content, and we run highly effective email marketing campaigns.",
-      },
-    ],
-    // TODO(copy): source copy opened with a brand-storytelling paragraph (content/copywriting,
-    // not search) — parked; decide if it becomes its own category or gets dropped.
-    highlights: [
-      { es: "Posicionamiento SEO y AEO", en: "SEO & AEO positioning" },
-      { es: "Campañas Google", en: "Google campaigns" },
-      { es: "Anuncios para redes sociales", en: "Social media ads" },
-    ],
+    id: "encontrar",
+    name: { es: "que me encuentren", en: "be found" },
+    layers: ["visibilidad"],
+    planId: "advanced",
+    pitch: {
+      es: "SEO y AEO avanzados, reseñas, Google Business y pauta en Meta.",
+      en: "Advanced SEO and AEO, reviews, Google Business, and Meta ads.",
+    },
   },
   {
-    groupId: "video",
-    name: { es: "Video", en: "Video" },
-    // TODO(copy): needs `body` paragraph(s), like the other three categories — source copy only had this bullet list.
-    highlights: [
-      { es: "Publicidad", en: "Advertising" },
-      { es: "Videos para empresas", en: "Corporate videos" },
-      { es: "Videos de producto", en: "Product videos" },
-      { es: "Testimoniales", en: "Testimonials" },
-      { es: "Videos para eventos", en: "Event videos" },
-      { es: "Videos para páginas web", en: "Website videos" },
-    ],
+    id: "contenido",
+    name: { es: "contenido constante", en: "post consistently" },
+    layers: ["contenido", "marca"],
+    planId: "grower",
+    pitch: {
+      es: "Contenido original, producción de video y estrategia mensual de redes.",
+      en: "Original content, video production, and a monthly social strategy.",
+    },
+  },
+  {
+    id: "automatizar",
+    name: { es: "automatizar", en: "automate" },
+    layers: ["operacion"],
+    planId: "high-profile",
+    pitch: {
+      es: "Automatización de marketing, dashboard con BI e integraciones con tus sistemas.",
+      en: "Marketing automation, a BI dashboard, and integrations with your systems.",
+    },
   },
 ];
+
+const planRank = (id: PlanId) => plans.findIndex((plan) => plan.id === id);
+
+/** The earliest plan carrying any service of the layer — "in plans from X". */
+export function layerIncludedFrom(layerId: ServiceLayerId): PlanId {
+  return services
+    .filter((service) => service.layer === layerId)
+    .map((service) => service.includedFrom)
+    .sort((a, b) => planRank(a) - planRank(b))[0];
+}

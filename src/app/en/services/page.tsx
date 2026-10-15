@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Highlight from "@/components/Highlight";
-import { serviceGroups } from "@/lib/services";
+import ServicesExplorer from "@/components/ServicesExplorer";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
 
@@ -23,60 +22,9 @@ export default function ServicesPage() {
       <h1 className="mt-6 max-w-5xl text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
         {t.servicesPage.headline}
       </h1>
+      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ecom-ink/70">{t.servicesPage.sub}</p>
 
-      {/* Two columns: a single stack of seven would run body copy the full
-          width of the shell, well past a readable line length. */}
-      <div className="mt-20 grid gap-x-16 gap-y-14 md:grid-cols-2 lg:gap-x-24">
-        {serviceGroups.map((group) => (
-          // scroll-mt clears the sticky header for the /services#<id> deep
-          // links the home page's service cards point at.
-          <section
-            key={group.id}
-            id={group.id}
-            className="scroll-mt-24 border-t border-ecom-ink/10 pt-8"
-          >
-            <h2 className="font-display text-2xl font-medium tracking-tight text-ecom-ink sm:text-3xl">
-              {group.name[LANG]}
-            </h2>
-            {group.tagline && (
-              <p className="mt-4 text-lg leading-relaxed text-ecom-ink/70">
-                {group.tagline[LANG]}
-              </p>
-            )}
-            {group.items && (
-              <ul className="mt-5 flex flex-col gap-2.5 text-ecom-ink/70">
-                {group.items.map((item) => (
-                  <li key={item.en} className="flex items-start gap-3">
-                    <span
-                      aria-hidden
-                      className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange"
-                    />
-                    {item[LANG]}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-        ))}
-
-        {/* Seven groups across two columns leave the eighth cell empty — image fills that hole. */}
-        <div className="relative border-t border-ecom-ink/10 pt-8">
-          <Highlight
-            shape="asterisk"
-            // Negative inset only from sm: up, so it never hangs past the viewport below 640px.
-            className="absolute -top-5 right-0 z-10 w-14 sm:-top-7 sm:-right-7 sm:w-16"
-          />
-          <video
-            src="/videos/services-en.webm"
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="relative w-full overflow-hidden rounded-3xl object-cover ring-1 ring-ecom-ink/10"
-            style={{ aspectRatio: "4 / 3" }}
-          />
-        </div>
-      </div>
+      <ServicesExplorer lang={LANG} />
     </div>
   );
 }

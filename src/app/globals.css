@@ -75,6 +75,17 @@ body {
   font-family: var(--font-body);
 }
 
+/* Display headings are sized in vw-clamps, so on a phone one long word
+   ("Otorrinolaringólogo") can be wider than the screen. Hyphenate there only —
+   wider screens keep whole words. Uses <html lang> for the hyphenation rules. */
+@media (width < 40rem) {
+  h1,
+  h2 {
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+}
+
 /* Film grain, applied once over the whole viewport rather than per section.
    Per-section grain used to end exactly at each section boundary, which drew
    a visible texture seam between components as soon as two neighbouring
