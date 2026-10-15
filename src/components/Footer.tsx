@@ -35,7 +35,32 @@ export default function Footer() {
           </Reveal>
         </div>
 
-        <div className="mt-20 flex flex-col gap-4 border-t border-white/15 py-8 text-sm tracking-wide text-white/60 uppercase sm:flex-row sm:items-center sm:justify-between">
+        {/* Contact block: the same four columns as the printed letterhead footer. */}
+        <dl className="mt-20 grid grid-cols-1 gap-8 border-t border-white/15 py-10 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { label: lang === "es" ? "Correo" : "Email", lines: [["juanmanuel@ecommetrica.com", "mailto:juanmanuel@ecommetrica.com"]] },
+            { label: lang === "es" ? "Teléfono MX" : "Phone MX", lines: [["+52 664 642 9633", "tel:+526646429633"]] },
+            { label: lang === "es" ? "Teléfono US" : "Phone US", lines: [["+1 619 632 1264", "tel:+16196321264"]] },
+            { label: lang === "es" ? "Estudios" : "Studios", lines: [["Tijuana, B.C."], ["San Diego, CA"]] },
+          ].map(({ label, lines }) => (
+            <div key={label}>
+              <dt className="text-sm font-medium tracking-[0.2em] text-white/50 uppercase">{label}</dt>
+              {lines.map(([text, href]) => (
+                <dd key={text} className="mt-2 text-white/80">
+                  {href ? (
+                    <a href={href} className="hover:text-white">
+                      {text}
+                    </a>
+                  ) : (
+                    text
+                  )}
+                </dd>
+              ))}
+            </div>
+          ))}
+        </dl>
+
+        <div className="flex flex-col gap-4 border-t border-white/15 py-8 text-sm tracking-wide text-white/60 uppercase sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             <Link href={localizedHref(lang, "/legal/privacy-policy")} className="hover:text-white">
               {t.footer.privacy}
