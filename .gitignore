@@ -36,3 +36,5 @@ next-env.d.ts
 # without them simply doesn't render the player.
 /public/videos
 /public/testimonials
+
+price-bundle-summary.md
