@@ -30,7 +30,7 @@ export default function NotFound() {
       />
 
       <div className="relative mx-auto max-w-2xl px-6 py-32 text-center lg:px-10">
-        <p className="eyebrow-rule text-center text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
+        <p className="eyebrow-rule text-center text-sm font-medium tracking-[0.2em] text-white uppercase">
           {t.notFound.eyebrow}
         </p>
         <h1 className="mt-8 text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em]">
@@ -42,7 +42,7 @@ export default function NotFound() {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
           <Link
             href={localizedHref(LANG, "/")}
-            className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
+            className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-base font-semibold text-ecom-black uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
           >
             {t.notFound.cta}
             <span

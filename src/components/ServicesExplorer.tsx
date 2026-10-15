@@ -87,14 +87,14 @@ export default function ServicesExplorer({ lang }: { lang: Lang }) {
                 <div className="mt-6 flex flex-col gap-3">
                   <Link
                     href={`${localizedHref(lang, "/packages")}?plan=${plan.id}`}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-ecom-orange px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:bg-ecom-red"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-ecom-orange px-6 py-3 text-base font-semibold tracking-wide text-ecom-black uppercase transition-colors duration-300 hover:bg-ecom-ink hover:text-ecom-surface"
                   >
                     {p.bundleCta(plan.name[lang])}
                     <span aria-hidden>&rarr;</span>
                   </Link>
                   <Link
                     href={localizedHref(lang, "/pricing")}
-                    className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:border-white/50"
+                    className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-base font-semibold tracking-wide text-white uppercase transition-colors duration-300 hover:border-white/50"
                   >
                     {p.compareCta}
                   </Link>

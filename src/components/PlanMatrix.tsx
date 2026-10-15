@@ -113,7 +113,7 @@ export default function PlanMatrix() {
               onClick={() => togglePlan(plan.id)}
               className={`rounded-full border px-4 py-1.5 text-xs font-medium tracking-wide uppercase transition-colors duration-300 ${
                 active
-                  ? "border-ecom-orange bg-ecom-orange text-white"
+                  ? "border-ecom-orange bg-ecom-orange text-ecom-black"
                   : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-ink/40 hover:text-ecom-ink"
               }`}
             >
@@ -141,7 +141,7 @@ export default function PlanMatrix() {
             </button>
           </>
         ) : (
-          <span className="ml-2 text-xs text-ecom-ink/50">{p.compareHint}</span>
+          <span className="ml-2 text-xs text-ecom-ink/70">{p.compareHint}</span>
         )}
       </div>
 
@@ -264,7 +264,7 @@ export default function PlanMatrix() {
         </table>
       </div>
 
-      <div className="mt-6 flex flex-col gap-3 text-sm leading-relaxed text-ecom-ink/50">
+      <div className="mt-6 flex flex-col gap-3 text-sm leading-relaxed text-ecom-ink/70">
         <p>{p.notes.inheritance}</p>
         <p>{p.notes.hosting(formatUSD(hostingRenewalValue[region]))}</p>
         <p>{p.notes.clientCosts}</p>

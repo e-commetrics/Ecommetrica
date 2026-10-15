@@ -11,7 +11,7 @@ export default function ContactHero() {
 
   return (
     <div className="shell py-20 lg:py-28">
-      <p className="text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
+      <p className="text-sm font-medium tracking-[0.2em] text-ecom-eyebrow uppercase">
         {t.contactPage.eyebrow}
       </p>
       <h1 className="mt-6 font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
@@ -26,7 +26,7 @@ export default function ContactHero() {
             event.preventDefault();
             smoothScrollTo("#contact-form");
           }}
-          className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-ecom-orange/30 bg-ecom-orange/[0.06] px-5 py-3 text-sm font-medium text-ecom-orange transition-colors duration-300 hover:bg-ecom-orange/10"
+          className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-ecom-orange/30 bg-ecom-orange/[0.06] px-5 py-3 text-base font-semibold text-ecom-orange transition-colors duration-300 hover:bg-ecom-orange/10"
         >
           {t.contactPage.scrollToFormCta}
           <motion.span

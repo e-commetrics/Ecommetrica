@@ -71,7 +71,7 @@ export default function Hero() {
           variants={item}
           className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between lg:gap-16"
         >
-          <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
+          <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-white uppercase">
             {t.hero.eyebrow}
           </p>
           <p className="max-w-md text-lg leading-relaxed text-white/60 lg:text-right">
@@ -99,7 +99,7 @@ export default function Hero() {
         >
           <Link
             href={localizedHref(lang, "/#services")}
-            className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
+            className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-base font-semibold text-ecom-black uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
           >
             {t.hero.ctaServices}
             <span

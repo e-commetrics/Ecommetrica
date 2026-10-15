@@ -155,7 +155,7 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
                 aria-pressed={selected}
                 className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium tracking-widest uppercase transition-colors duration-300 ${
                   selected
-                    ? "border-ecom-orange bg-ecom-orange text-white"
+                    ? "border-ecom-orange bg-ecom-orange text-ecom-black"
                     : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/40 hover:text-ecom-ink"
                 }`}
               >

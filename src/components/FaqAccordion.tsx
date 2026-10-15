@@ -32,7 +32,7 @@ export default function FaqAccordion({ lang }: { lang: Lang }) {
               >
                 <span
                   aria-hidden
-                  className="mt-1 font-display text-sm font-medium tabular-nums text-ecom-orange"
+                  className="mt-1 font-display text-sm font-medium tabular-nums text-ecom-eyebrow"
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -48,7 +48,7 @@ export default function FaqAccordion({ lang }: { lang: Lang }) {
                 <span
                   className={`grid size-9 shrink-0 place-items-center rounded-full border transition-colors duration-300 ${
                     isOpen
-                      ? "border-ecom-orange bg-ecom-orange text-white"
+                      ? "border-ecom-orange bg-ecom-orange text-ecom-black"
                       : "border-ecom-ink/15 text-ecom-ink/60 group-hover:border-ecom-orange group-hover:text-ecom-orange"
                   }`}
                 >

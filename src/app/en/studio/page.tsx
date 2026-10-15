@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 export default function StudioPage() {
   return (
     <div className="shell py-20 lg:py-28">
-      <p className="text-sm font-medium uppercase tracking-[0.2em] text-ecom-orange">
+      <p className="text-sm font-medium uppercase tracking-[0.2em] text-ecom-eyebrow">
         Studio
       </p>
       <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
@@ -117,7 +117,7 @@ export default function StudioPage() {
               <h3 className="mt-5 font-display text-lg font-medium text-ecom-ink">
                 {member.name}
               </h3>
-              <p className="text-sm font-medium uppercase tracking-wide text-ecom-orange">
+              <p className="text-sm font-medium uppercase tracking-wide text-ecom-eyebrow">
                 {member.role[LANG]}
               </p>
               <p className="mt-3 text-ecom-ink/70">{member.description[LANG]}</p>

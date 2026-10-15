@@ -119,7 +119,7 @@ export default function Header() {
           <ThemeSwitcher />
           <Link
             href={localizedHref(lang, "/contact")}
-            className="rounded-full bg-ecom-orange px-5 py-2.5 text-sm font-medium tracking-wide text-white shadow-lg shadow-ecom-orange/20 transition-all duration-300 hover:bg-ecom-red hover:shadow-ecom-red/25"
+            className="rounded-full bg-ecom-orange px-5 py-2.5 text-sm font-semibold tracking-wide text-ecom-black shadow-lg shadow-ecom-orange/20 transition-all duration-300 hover:bg-ecom-ink hover:text-ecom-surface hover:shadow-ecom-red/25"
           >
             {t.nav.talk}
           </Link>
@@ -292,7 +292,7 @@ function MobileNav({
                     <Link
                       href={contactHref}
                       onClick={close}
-                      className="rounded-full bg-ecom-orange px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:bg-ecom-red"
+                      className="rounded-full bg-ecom-orange px-6 py-3 text-base font-semibold tracking-wide text-ecom-black uppercase transition-colors duration-300 hover:bg-ecom-ink hover:text-ecom-surface"
                     >
                       {talk}
                     </Link>
