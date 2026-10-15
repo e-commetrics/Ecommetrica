@@ -172,7 +172,7 @@ function ServiceCard({
       </ul>
       {showIncluded && plan && (
         <p className="mt-auto pt-6">
-          <span className="inline-flex rounded-full bg-ecom-orange/10 px-3 py-1 text-xs font-medium tracking-wide text-ecom-orange">
+          <span className="inline-flex rounded-full bg-ecom-orange/10 px-3 py-1 text-xs font-medium tracking-wide text-ecom-eyebrow">
             {t.servicesPage.includedFrom(plan.name[lang])}
           </span>
         </p>

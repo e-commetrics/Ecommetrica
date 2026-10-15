@@ -187,7 +187,7 @@ html.theming *::after {
   --tw-prose-headings: var(--color-ecom-ink);
   --tw-prose-lead: color-mix(in srgb, var(--color-ecom-ink) 70%, transparent);
   --tw-prose-bold: var(--color-ecom-ink);
-  --tw-prose-links: var(--color-ecom-orange);
+  --tw-prose-links: var(--color-ecom-eyebrow);
   --tw-prose-counters: color-mix(in srgb, var(--color-ecom-ink) 60%, transparent);
   --tw-prose-bullets: color-mix(in srgb, var(--color-ecom-ink) 35%, transparent);
   --tw-prose-hr: color-mix(in srgb, var(--color-ecom-ink) 15%, transparent);

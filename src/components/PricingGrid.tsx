@@ -83,7 +83,7 @@ export default function PricingGrid() {
               <p
                 className={`mt-3 rounded-lg px-3 py-2 text-xs font-medium ${
                   plan.featured
-                    ? "bg-ecom-orange/10 text-ecom-orange"
+                    ? "bg-ecom-orange/10 text-ecom-eyebrow"
                     : "bg-ecom-ink/5 text-ecom-ink/70"
                 }`}
               >

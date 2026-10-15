@@ -244,7 +244,7 @@ export default function PackagesConfigurator() {
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
-            className="mt-6 text-sm font-medium text-ecom-orange"
+            className="mt-6 text-sm font-medium text-ecom-eyebrow"
           >
             {t.packagesFlow.requirePlanNotice}
           </motion.p>
@@ -338,7 +338,7 @@ function Stepper({
               >
                 <span
                   className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs ${
-                    isActive ? "bg-white/25" : isDone ? "bg-ecom-orange/15 text-ecom-orange" : "bg-ecom-ink/10"
+                    isActive ? "bg-white/25" : isDone ? "bg-ecom-orange/15 text-ecom-eyebrow" : "bg-ecom-ink/10"
                   }`}
                 >
                   {isDone ? "✓" : index + 1}

@@ -270,7 +270,7 @@ export default function AboutStudio() {
                   aria-current={i === index}
                   className={`shrink-0 whitespace-nowrap font-display transition-all duration-300 ${
                     i === index
-                      ? "text-base text-ecom-orange sm:text-lg"
+                      ? "text-base text-ecom-eyebrow sm:text-lg"
                       : "text-sm text-ecom-ink/35 hover:text-ecom-ink/60"
                   }`}
                 >

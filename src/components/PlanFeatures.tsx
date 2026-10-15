@@ -117,7 +117,7 @@ export default function PlanFeatures({
                   <Link
                     href={localizedHref(lang, `/${feature.learnMoreSlug}`)}
                     onClick={(event) => event.stopPropagation()}
-                    className="ml-1.5 inline-flex items-center gap-1 text-ecom-orange hover:underline"
+                    className={`ml-1.5 inline-flex items-center gap-1 ${dark ? "text-ecom-orange" : "text-ecom-eyebrow"} hover:underline`}
                   >
                     {p.learnMore}
                     <span aria-hidden>&rarr;</span>

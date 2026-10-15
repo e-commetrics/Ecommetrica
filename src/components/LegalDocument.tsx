@@ -4,7 +4,9 @@ import type { LegalSection } from "@/lib/i18n/dict";
 /* Emails and bare URLs are written inline in the dictionary copy rather than as
    separate fields, so the renderer pulls them back out and makes them clickable.
    Keeping them in the sentence is what lets a translator move them freely. */
-const LINK = /(https?:\/\/[^\s,)]+[^\s.,)]|[\w.+-]+@[\w-]+\.[\w.-]+)/g;
+// Email domains end on a label, never a dot, so a sentence's closing period
+// stays outside the link ("…a privacidad@ecommetrica.com.").
+const LINK = /(https?:\/\/[^\s,)]+[^\s.,)]|[\w.+-]+@[\w-]+(?:\.[\w-]+)+)/g;
 
 function linkify(text: string): ReactNode[] {
   return text.split(LINK).map((part, i) => {
@@ -16,7 +18,7 @@ function linkify(text: string): ReactNode[] {
       <a
         key={i}
         href={href}
-        className="text-ecom-orange underline decoration-ecom-orange/40 underline-offset-4 transition-colors hover:decoration-ecom-orange"
+        className="text-ecom-eyebrow underline decoration-ecom-orange/40 underline-offset-4 transition-colors hover:decoration-ecom-orange"
       >
         {part}
       </a>

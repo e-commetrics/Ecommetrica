@@ -39,7 +39,7 @@ export default function FaqAccordion({ lang }: { lang: Lang }) {
 
                 <span
                   className={`flex-1 font-display text-lg font-medium tracking-[-0.01em] transition-colors duration-300 sm:text-xl ${
-                    isOpen ? "text-ecom-orange" : "text-ecom-ink group-hover:text-ecom-orange"
+                    isOpen ? "text-ecom-eyebrow" : "text-ecom-ink group-hover:text-ecom-orange"
                   }`}
                 >
                   {faq.question[lang]}

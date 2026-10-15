@@ -208,7 +208,7 @@ export default function PlanMatrix() {
                                 <span
                                   role="img"
                                   aria-label={p.includedAria}
-                                  className={star ? "text-ecom-orange" : "text-ecom-ink"}
+                                  className={star ? "text-ecom-eyebrow" : "text-ecom-ink"}
                                 >
                                   {star ? "★" : "✓"}
                                 </span>
@@ -251,7 +251,7 @@ export default function PlanMatrix() {
               (plan) => {
                 const saving = plan.savingPercent[region];
                 return (
-                  <span className={plan.featured ? "font-medium text-ecom-orange" : "text-ecom-ink"}>
+                  <span className={plan.featured ? "font-medium text-ecom-eyebrow" : "text-ecom-ink"}>
                     {saving === null ? p.comparedWithMarket : `${saving.toFixed(1)}%`}
                   </span>
                 );

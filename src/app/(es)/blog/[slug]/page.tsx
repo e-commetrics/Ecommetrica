@@ -91,7 +91,7 @@ export default async function BlogPostPage({
       )}
 
       <div className="mx-auto max-w-4xl px-6 pt-10 lg:px-10 lg:pt-14">
-        <div className="prose prose-neutral max-w-none lg:prose-lg prose-headings:font-display prose-headings:text-ecom-ink prose-a:text-ecom-orange">
+        <div className="prose prose-neutral max-w-none lg:prose-lg prose-headings:font-display prose-headings:text-ecom-ink prose-a:text-ecom-eyebrow">
           <MDXRemote source={post.content} components={mdxComponents} />
         </div>
       </div>
