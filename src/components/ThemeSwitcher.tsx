@@ -13,6 +13,9 @@ const THEMES = [
     label: "Ember",
     accent: "#e84a34", // ecom-orange, the logo mark
     accentDeep: "#9c1512", // ecom-red
+    accentText: "#b83a29",
+    accentSolid: "#d3432f",
+    accentOnDark: "#ea4d37",
     logo: "#e84a34", // tracks the accent here
     surface: "#f2ede9", // warm beige paper
     ink: "#25272a",
@@ -25,6 +28,9 @@ const THEMES = [
     label: "Crimson",
     accent: "#e02e42",
     accentDeep: "#6e0f1c",
+    accentText: "#e65464",
+    accentSolid: "#e02e42",
+    accentOnDark: "#e65464",
     logo: "#e02e42", // tracks the accent here too
     surface: "#1a1013",
     ink: "#f2e6e4",
@@ -38,6 +44,9 @@ const THEMES = [
     label: "Noir",
     accent: "#7c8085",
     accentDeep: "#4a4d51",
+    accentText: "#8d9095",
+    accentSolid: "#73777c",
+    accentOnDark: "#8d9095",
     // The one theme where the logo parts company with the accent: this accent
     // is a mid grey, and the lockup is meant to read white on the dark bar.
     logo: "#ffffff",
@@ -81,6 +90,9 @@ export default function ThemeSwitcher() {
 
     root.style.setProperty("--color-ecom-orange", theme.accent);
     root.style.setProperty("--color-ecom-red", theme.accentDeep);
+    root.style.setProperty("--color-ecom-orange-text", theme.accentText);
+    root.style.setProperty("--color-ecom-orange-solid", theme.accentSolid);
+    root.style.setProperty("--color-ecom-orange-on-dark", theme.accentOnDark);
     root.style.setProperty("--color-ecom-surface", theme.surface);
     root.style.setProperty("--color-ecom-ink", theme.ink);
     root.style.setProperty("--color-ecom-dark", theme.dark);

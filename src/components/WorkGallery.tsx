@@ -70,7 +70,7 @@ function ProjectCard({
         )}
       </div>
 
-      <h3 className="mt-6 flex items-center gap-2.5 font-display text-2xl font-medium tracking-[-0.01em] text-ecom-ink transition-colors duration-300 group-hover:text-ecom-orange sm:text-3xl">
+      <h3 className="mt-6 flex items-center gap-2.5 font-display text-2xl font-medium tracking-[-0.01em] text-ecom-ink transition-colors duration-300 group-hover:text-ecom-orange-text sm:text-3xl">
         <span className="relative">
           {project.name}
           {/* Underline grows from the left on hover — the rule is drawn here
@@ -92,7 +92,7 @@ function ProjectCard({
         </span>
       </h3>
 
-      <p className="mt-4 max-w-prose text-sm leading-relaxed text-ecom-ink/60">
+      <p className="mt-4 max-w-prose text-sm leading-relaxed text-ecom-ink/70">
         {project.description[lang]}
       </p>
     </Link>
@@ -155,12 +155,12 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
                 aria-pressed={selected}
                 className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium tracking-widest uppercase transition-colors duration-300 ${
                   selected
-                    ? "border-ecom-orange bg-ecom-orange text-white"
+                    ? "border-ecom-orange bg-ecom-orange-solid text-white"
                     : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/40 hover:text-ecom-ink"
                 }`}
               >
                 {label}
-                <span className={selected ? "text-white/70" : "text-ecom-ink/40"}>
+                <span className={selected ? "text-white" : "text-ecom-ink/70"}>
                   {String(count).padStart(2, "0")}
                 </span>
               </button>
@@ -179,13 +179,13 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
               aria-label={t.workGallery.withTestimonialAriaLabel}
               className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium tracking-widest uppercase transition-colors duration-300 ${
                 testimonialsOnly
-                  ? "border-ecom-orange bg-ecom-orange/10 text-ecom-orange"
+                  ? "border-ecom-orange bg-ecom-orange/[0.06] text-ecom-orange-text"
                   : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/40 hover:text-ecom-ink"
               }`}
             >
               <PlayIcon className="h-2.5 w-2.5" />
               {t.workGallery.withTestimonial}
-              <span className={testimonialsOnly ? "text-ecom-orange/60" : "text-ecom-ink/40"}>
+              <span className={testimonialsOnly ? "text-ecom-orange-text" : "text-ecom-ink/70"}>
                 {String(testimonials.length).padStart(2, "0")}
               </span>
             </button>
@@ -203,9 +203,9 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
       >
         {groups.map(([category, categoryProjects]) => (
           <section key={category} className="mt-16">
-            <h2 className="flex items-baseline gap-4 border-b border-ecom-ink/10 pb-5 font-display text-sm font-medium tracking-[0.2em] text-ecom-ink/60 uppercase">
+            <h2 className="flex items-baseline gap-4 border-b border-ecom-ink/10 pb-5 font-display text-sm font-medium tracking-[0.2em] text-ecom-ink/70 uppercase">
               {categoryLabel(category, lang)}
-              <span className="text-sm text-ecom-ink/45">
+              <span className="text-sm text-ecom-ink/70">
                 {String(categoryProjects.length).padStart(2, "0")}
               </span>
             </h2>

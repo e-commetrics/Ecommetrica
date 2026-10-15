@@ -30,7 +30,7 @@ export default function ExpressPlanCard({
       }`}
     >
       <div className="lg:w-2/5 lg:shrink-0">
-        <p className="text-xs font-medium tracking-[0.15em] text-ecom-orange uppercase">
+        <p className="text-xs font-medium tracking-[0.15em] text-ecom-orange-text uppercase">
           {p.stageLabel} · {plan.stage[lang]}
         </p>
         <h3
@@ -40,7 +40,7 @@ export default function ExpressPlanCard({
         >
           {plan.name[lang]}
         </h3>
-        <p className={`mt-1 text-xs tracking-wide uppercase ${dark ? "text-white/50" : "text-ecom-ink/50"}`}>
+        <p className={`mt-1 text-xs tracking-wide uppercase ${dark ? "text-white/50" : "text-ecom-ink/70"}`}>
           {plan.duration[lang]}
         </p>
         <p className={`mt-3 text-sm leading-relaxed ${dark ? "text-white/60" : "text-ecom-ink/70"}`}>
@@ -53,7 +53,7 @@ export default function ExpressPlanCard({
         >
           {formatUSD(plan.priceValue[region])}
         </p>
-        <p className={`mt-1 text-xs ${dark ? "text-white/40" : "text-ecom-ink/50"}`}>
+        <p className={`mt-1 text-xs ${dark ? "text-white/50" : "text-ecom-ink/70"}`}>
           {p.oneTimeLabel} · {planServiceCount(plan, region)} {p.servicesLabel}
         </p>
         {plan.note && (
@@ -69,8 +69,8 @@ export default function ExpressPlanCard({
           href={`${localizedHref(lang, "/packages")}?plan=${plan.id}`}
           className={`mt-7 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-medium tracking-wide uppercase transition-colors duration-300 ${
             dark
-              ? "bg-white text-ecom-black hover:bg-ecom-orange hover:text-white"
-              : "bg-ecom-ink/5 text-ecom-ink hover:bg-ecom-orange hover:text-white"
+              ? "bg-white text-ecom-black hover:bg-ecom-orange-solid hover:text-white"
+              : "bg-ecom-ink/5 text-ecom-ink hover:bg-ecom-orange-solid hover:text-white"
           }`}
         >
           {ctaLabel}

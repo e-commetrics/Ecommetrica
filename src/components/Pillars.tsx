@@ -1,5 +1,6 @@
 import Reveal from "@/components/Reveal";
 import Counter from "@/components/Counter";
+import BackgroundVideo from "@/components/BackgroundVideo";
 import Highlight from "@/components/Highlight";
 import type { Lang } from "@/lib/i18n/types";
 import { getDict } from "@/lib/i18n/dict";
@@ -38,7 +39,7 @@ export default function Pillars({ lang }: { lang: Lang }) {
             <p className="text-balance font-display text-2xl leading-[1.25] font-medium tracking-[-0.01em] sm:text-4xl 2xl:text-5xl">
               {t.pillars.headlinePre}{" "}
               <span className="text-white">{t.pillars.headlineStrong}</span>{" "}
-              <span className="text-white/40">{t.pillars.headlineTail}</span>
+              <span className="text-white/50">{t.pillars.headlineTail}</span>
             </p>
           </Reveal>
 
@@ -58,12 +59,8 @@ export default function Pillars({ lang }: { lang: Lang }) {
               className="absolute -top-8 right-0 z-10 w-24 [filter:drop-shadow(0_2px_14px_rgba(18,18,19,0.55))] sm:-top-10 sm:-right-6 sm:w-32"
               opacity={0.9}
             />
-            <video
+            <BackgroundVideo
               src={lang === "en" ? "/videos/pillars-en.webm" : "/videos/pillars-flow.webm"}
-              autoPlay
-              muted
-              loop
-              playsInline
               className="relative w-full rounded-3xl object-cover ring-1 ring-white/10"
               style={{ aspectRatio: "4 / 3" }}
             />

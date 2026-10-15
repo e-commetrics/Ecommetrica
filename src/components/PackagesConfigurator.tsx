@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -22,24 +22,18 @@ export default function PackagesConfigurator() {
   const { setPackageSummary } = useContactPrefill();
   const searchParams = useSearchParams();
 
-  const [step, setStep] = useState(0);
-  const [maxStepReached, setMaxStepReached] = useState(0);
-  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(null);
+  // A plan card on the home page can deep-link here with ?plan=<id> — land the
+  // visitor straight on the extras step with that plan already selected. Only
+  // read on first render; later step changes are user-driven.
+  const [requestedPlanId] = useState<string | null>(() => {
+    const requested = searchParams.get("plan");
+    return requested && plans.some((plan) => plan.id === requested) ? requested : null;
+  });
+  const [step, setStep] = useState(requestedPlanId ? 1 : 0);
+  const [maxStepReached, setMaxStepReached] = useState(requestedPlanId ? 1 : 0);
+  const [selectedPlanId, setSelectedPlanId] = useState<string | null>(requestedPlanId);
   const [selectedAddonIds, setSelectedAddonIds] = useState<Set<string>>(new Set());
   const [showPlanNotice, setShowPlanNotice] = useState(false);
-
-  // A plan card on the home page can deep-link here with ?plan=<id> — land the
-  // visitor straight on the extras step with that plan already selected.
-  useEffect(() => {
-    const requestedPlan = searchParams.get("plan");
-    if (requestedPlan && plans.some((plan) => plan.id === requestedPlan)) {
-      setSelectedPlanId(requestedPlan);
-      setStep(1);
-      setMaxStepReached(1);
-    }
-    // Only ever consulted on first render — later step changes are user-driven.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const selectedPlan = useMemo(
     () => plans.find((plan) => plan.id === selectedPlanId) ?? null,
@@ -201,7 +195,7 @@ export default function PackagesConfigurator() {
             initial={{ opacity: 0, y: -6 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
-            className="mt-6 text-sm font-medium text-ecom-orange"
+            className="mt-6 text-sm font-medium text-ecom-orange-text"
           >
             {t.packagesFlow.requirePlanNotice}
           </motion.p>
@@ -223,7 +217,7 @@ export default function PackagesConfigurator() {
           <button
             type="button"
             onClick={handleContinue}
-            className="inline-flex items-center gap-2 rounded-full bg-ecom-ink px-8 py-3.5 text-sm font-medium text-ecom-surface transition-colors duration-300 hover:bg-ecom-orange hover:text-white"
+            className="inline-flex items-center gap-2 rounded-full bg-ecom-ink px-8 py-3.5 text-sm font-medium text-ecom-surface transition-colors duration-300 hover:bg-ecom-orange-solid hover:text-white"
           >
             {t.packagesFlow.continueCta}
             <span aria-hidden>&rarr;</span>
@@ -232,7 +226,7 @@ export default function PackagesConfigurator() {
           <Link
             href={`${localizedHref(lang, "/contact")}#contact-form`}
             onClick={() => setPackageSummary(buildSummaryMessage())}
-            className="inline-flex items-center gap-2 rounded-full bg-ecom-orange px-8 py-3.5 text-sm font-medium text-white transition-colors duration-300 hover:bg-ecom-ink"
+            className="inline-flex items-center gap-2 rounded-full bg-ecom-orange-solid px-8 py-3.5 text-sm font-medium text-white transition-colors duration-300 hover:bg-ecom-ink"
           >
             {t.packagesFlow.summarySendCta}
             <span aria-hidden>&rarr;</span>
@@ -258,7 +252,7 @@ function Stepper({
 }) {
   return (
     <div>
-      <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase lg:hidden">
+      <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/70 uppercase lg:hidden">
         {stepOfLabel}
       </p>
       <ol className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-3 lg:mt-0">
@@ -283,15 +277,15 @@ function Stepper({
                 aria-current={isActive ? "step" : undefined}
                 className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-medium tracking-wide transition-colors duration-300 sm:px-4 ${
                   isActive
-                    ? "border-ecom-orange bg-ecom-orange text-white"
+                    ? "border-ecom-orange bg-ecom-orange-solid text-white"
                     : isDone
                       ? "border-ecom-orange/40 text-ecom-ink hover:border-ecom-orange"
-                      : "border-ecom-ink/15 text-ecom-ink/40"
+                      : "border-ecom-ink/15 text-ecom-ink/70"
                 } ${reachable ? "cursor-pointer" : "cursor-not-allowed"}`}
               >
                 <span
                   className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-xs ${
-                    isActive ? "bg-white/25" : isDone ? "bg-ecom-orange/15 text-ecom-orange" : "bg-ecom-ink/10"
+                    isActive ? "bg-white/25" : isDone ? "bg-ecom-orange/15 text-ecom-orange-text" : "bg-ecom-ink/10"
                   }`}
                 >
                   {isDone ? "✓" : index + 1}
@@ -338,7 +332,7 @@ function PlanStep({
             }`}
           >
             {plan.featured && (
-              <span className="absolute -top-3 left-7 rounded-full bg-ecom-orange px-3 py-1 text-xs font-medium tracking-widest text-white uppercase">
+              <span className="absolute -top-3 left-7 rounded-full bg-ecom-orange-solid px-3 py-1 text-xs font-medium tracking-widest text-white uppercase">
                 {t.pricingPage.bestValueBadge}
               </span>
             )}
@@ -347,7 +341,7 @@ function PlanStep({
                 <h3 className="font-display text-lg font-medium tracking-wide text-ecom-ink">
                   {plan.name[lang]}
                 </h3>
-                <p className="mt-1 text-sm leading-relaxed text-ecom-ink/60">
+                <p className="mt-1 text-sm leading-relaxed text-ecom-ink/70">
                   {plan.tagline[lang]}
                 </p>
               </div>
@@ -355,7 +349,7 @@ function PlanStep({
                 aria-hidden
                 className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-sm transition-colors duration-300 ${
                   isSelected
-                    ? "border-ecom-orange bg-ecom-orange text-white"
+                    ? "border-ecom-orange bg-ecom-orange-solid text-white"
                     : "border-ecom-ink/20 text-transparent"
                 }`}
               >
@@ -365,12 +359,12 @@ function PlanStep({
             <p className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] text-ecom-ink">
               {formatUSD(plan.priceValue[region])}
               {!plan.oneTime && (
-                <span className="ml-1.5 text-sm font-normal tracking-normal text-ecom-ink/50">
+                <span className="ml-1.5 text-sm font-normal tracking-normal text-ecom-ink/70">
                   {t.pricingPage.perMonth}
                 </span>
               )}
             </p>
-            <p className="mt-1 text-xs text-ecom-ink/50">
+            <p className="mt-1 text-xs text-ecom-ink/70">
               {plan.oneTime
                 ? plan.duration[lang]
                 : `${t.pricingPage.totalLabel} ${formatUSD(planTotal(plan, region))} · ${plan.duration[lang]}`}
@@ -382,7 +376,7 @@ function PlanStep({
               type="button"
               aria-pressed={isSelected}
               className={`mt-6 inline-flex w-fit cursor-pointer items-center gap-2 rounded-full px-4 py-2 text-sm font-medium tracking-wide uppercase focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ecom-orange ${
-                isSelected ? "bg-ecom-orange text-white" : "bg-ecom-ink/5 text-ecom-ink/70"
+                isSelected ? "bg-ecom-orange-solid text-white" : "bg-ecom-ink/5 text-ecom-ink/70"
               }`}
             >
               {isSelected ? selectedLabel : selectLabel}
@@ -391,7 +385,7 @@ function PlanStep({
         );
       })}
     </div>
-    {region === "us" && <p className="mt-6 text-sm text-ecom-ink/50">{t.pricingPage.footnote}</p>}
+    {region === "us" && <p className="mt-6 text-sm text-ecom-ink/70">{t.pricingPage.footnote}</p>}
     </>
   );
 }
@@ -450,7 +444,7 @@ function AddonStep({
                     : `+${formatUSD(addon.price[region])}`}
                 </span>
               </div>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-ecom-ink/60">
+              <p className="mt-2 flex-1 text-sm leading-relaxed text-ecom-ink/70">
                 {addon.description[lang]}
               </p>
               <button
@@ -460,9 +454,9 @@ function AddonStep({
                 aria-pressed={selected}
                 className={`mt-5 inline-flex w-fit items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium tracking-wide uppercase transition-colors duration-300 ${
                   included
-                    ? "cursor-not-allowed border-ecom-ink/10 text-ecom-ink/40"
+                    ? "cursor-not-allowed border-ecom-ink/10 text-ecom-ink/70"
                     : selected
-                      ? "border-ecom-orange bg-ecom-orange text-white"
+                      ? "border-ecom-orange bg-ecom-orange-solid text-white"
                       : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/50 hover:text-ecom-ink"
                 }`}
               >
@@ -499,7 +493,7 @@ function SummaryStep({
 
       {plan && (
         <div className="mt-8 rounded-2xl border border-ecom-orange/40 bg-ecom-orange/[0.06] p-6">
-          <p className="text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
+          <p className="text-sm font-medium tracking-[0.2em] text-ecom-orange-text uppercase">
             {t.packagesFlow.summaryBasePlan}
           </p>
           <div className="mt-3 flex items-baseline justify-between gap-4">
@@ -507,13 +501,13 @@ function SummaryStep({
             <p className="font-display text-xl font-medium text-ecom-ink">
               {formatUSD(plan.priceValue[region])}
               {!plan.oneTime && (
-                <span className="ml-1 text-sm font-normal text-ecom-ink/50">
+                <span className="ml-1 text-sm font-normal text-ecom-ink/70">
                   {t.pricingPage.perMonth}
                 </span>
               )}
             </p>
           </div>
-          <p className="mt-1 text-right text-xs text-ecom-ink/50">
+          <p className="mt-1 text-right text-xs text-ecom-ink/70">
             {plan.oneTime
               ? plan.duration[lang]
               : `${t.pricingPage.totalLabel} ${formatUSD(planTotal(plan, region))} · ${plan.duration[lang]}`}
@@ -522,11 +516,11 @@ function SummaryStep({
       )}
 
       <div className="mt-6">
-        <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
+        <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/70 uppercase">
           {t.packagesFlow.summaryExtras}
         </p>
         {addons.length === 0 ? (
-          <p className="mt-3 text-ecom-ink/60">{t.packagesFlow.summaryNoExtras}</p>
+          <p className="mt-3 text-ecom-ink/70">{t.packagesFlow.summaryNoExtras}</p>
         ) : (
           <ul className="mt-3 flex flex-col divide-y divide-ecom-ink/10 rounded-2xl border border-ecom-ink/10">
             {addons.map((addon) => (
@@ -574,7 +568,7 @@ function OrderSummary({
 
   return (
     <aside className="rounded-2xl border border-ecom-ink/10 bg-ecom-ink/[0.02] p-6 lg:sticky lg:top-28">
-      <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
+      <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/70 uppercase">
         {t.packagesFlow.orderSummaryLabel}
       </p>
 
@@ -587,7 +581,7 @@ function OrderSummary({
           </span>
         </div>
       ) : (
-        <p className="mt-4 border-b border-ecom-ink/10 pb-4 text-sm text-ecom-ink/50">
+        <p className="mt-4 border-b border-ecom-ink/10 pb-4 text-sm text-ecom-ink/70">
           {t.packagesFlow.requirePlanNotice}
         </p>
       )}
@@ -608,7 +602,7 @@ function OrderSummary({
       )}
 
       {addonsTotal > 0 && (
-        <div className="mt-4 flex items-center justify-between text-sm text-ecom-ink/60">
+        <div className="mt-4 flex items-center justify-between text-sm text-ecom-ink/70">
           <span>{t.packagesFlow.summaryExtras}</span>
           <span>+{formatUSD(addonsTotal)}</span>
         </div>

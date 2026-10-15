@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Methodology from "@/components/Methodology";
+import BackgroundVideo from "@/components/BackgroundVideo";
 import Highlight from "@/components/Highlight";
 import { team } from "@/lib/team";
 import { getDict } from "@/lib/i18n/dict";
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 export default function StudioPage() {
   return (
     <div className="shell py-20 lg:py-28">
-      <p className="text-sm font-medium uppercase tracking-[0.2em] text-ecom-orange">
+      <p className="text-sm font-medium uppercase tracking-[0.2em] text-ecom-orange-text">
         Studio
       </p>
       <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
@@ -39,12 +40,8 @@ export default function StudioPage() {
           shape="asterisk"
           className="absolute -top-8 right-6 z-10 w-16 sm:w-20"
         />
-        <video
+        <BackgroundVideo
           src="/videos/studio-en.webm"
-          autoPlay
-          muted
-          loop
-          playsInline
           className="relative w-full overflow-hidden rounded-3xl object-cover ring-1 ring-ecom-ink/10"
           style={{ aspectRatio: "21 / 9" }}
         />
@@ -76,7 +73,7 @@ export default function StudioPage() {
           className="absolute -top-4 -right-24 w-[26rem] lg:w-[34rem]"
           opacity={0.06}
         />
-        <h2 className="relative font-display text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/60">
+        <h2 className="relative font-display text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/70">
           {t.studioPage.howWeWorkTitle}
         </h2>
         <div className="relative mt-8 grid gap-10 sm:grid-cols-2">
@@ -89,7 +86,7 @@ export default function StudioPage() {
       <Methodology lang={LANG} />
 
       <div className="mt-20 border-t border-ecom-ink/10 pt-16">
-        <h2 className="font-display text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/60">
+        <h2 className="font-display text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/70">
           {t.studioPage.teamTitle}
         </h2>
         <div className="mt-10 grid gap-10 sm:grid-cols-3">
@@ -117,7 +114,7 @@ export default function StudioPage() {
               <h3 className="mt-5 font-display text-lg font-medium text-ecom-ink">
                 {member.name}
               </h3>
-              <p className="text-sm font-medium uppercase tracking-wide text-ecom-orange">
+              <p className="text-sm font-medium uppercase tracking-wide text-ecom-orange-text">
                 {member.role[LANG]}
               </p>
               <p className="mt-3 text-ecom-ink/70">{member.description[LANG]}</p>

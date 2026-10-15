@@ -99,7 +99,7 @@ export default function Hero() {
         >
           <Link
             href={localizedHref(lang, "/#services")}
-            className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
+            className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange-solid px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
           >
             {t.hero.ctaServices}
             <span

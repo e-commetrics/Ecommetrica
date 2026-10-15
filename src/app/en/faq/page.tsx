@@ -27,7 +27,7 @@ export default function FaqPage() {
       <div className="grid gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <Reveal>
-            <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
+            <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange-text uppercase">
               {t.faqPage.eyebrow}
             </p>
             <h1 className="mt-6 text-balance font-display text-[clamp(2.25rem,4.5vw,4.25rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
@@ -40,7 +40,7 @@ export default function FaqPage() {
               <p className="mt-2 text-sm text-ecom-ink/70">{t.faqPage.stillCopy}</p>
               <Link
                 href={localizedHref(LANG, "/contact")}
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-ecom-orange px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:bg-ecom-red"
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-ecom-orange-solid px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:bg-ecom-red"
               >
                 {t.faqPage.cta}
                 <span aria-hidden>&rarr;</span>

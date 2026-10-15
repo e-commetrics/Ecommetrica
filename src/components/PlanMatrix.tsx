@@ -70,7 +70,7 @@ export default function PlanMatrix() {
         {visible.map((plan) => (
           <td
             key={plan.id}
-            className={`${cellBase} ${cellClass} ${diff ? "bg-ecom-orange/[0.09]" : featuredCell(plan.featured)}`}
+            className={`${cellBase} ${cellClass} ${diff ? "bg-ecom-orange/[0.06]" : featuredCell(plan.featured)}`}
           >
             {render(plan)}
           </td>
@@ -99,7 +99,7 @@ export default function PlanMatrix() {
       <h2 className="font-display text-2xl font-medium tracking-tight text-ecom-ink sm:text-3xl">
         {p.compareTitle}
       </h2>
-      <p className="mt-3 text-sm text-ecom-ink/60">
+      <p className="mt-3 text-sm text-ecom-ink/70">
         {p.compareSub}
         {region === "us" && ` · ${p.footnote}`}
       </p>
@@ -115,7 +115,7 @@ export default function PlanMatrix() {
               onClick={() => togglePlan(plan.id)}
               className={`rounded-full border px-4 py-1.5 text-xs font-medium tracking-wide uppercase transition-colors duration-300 ${
                 active
-                  ? "border-ecom-orange bg-ecom-orange text-white"
+                  ? "border-ecom-orange bg-ecom-orange-solid text-white"
                   : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-ink/40 hover:text-ecom-ink"
               }`}
             >
@@ -137,13 +137,13 @@ export default function PlanMatrix() {
             <button
               type="button"
               onClick={() => setSelected([])}
-              className="text-xs font-medium tracking-wide text-ecom-ink/60 uppercase underline-offset-4 hover:text-ecom-ink hover:underline"
+              className="text-xs font-medium tracking-wide text-ecom-ink/70 uppercase underline-offset-4 hover:text-ecom-ink hover:underline"
             >
               {p.compareClear}
             </button>
           </>
         ) : (
-          <span className="ml-2 text-xs text-ecom-ink/50">{p.compareHint}</span>
+          <span className="ml-2 text-xs text-ecom-ink/70">{p.compareHint}</span>
         )}
       </div>
 
@@ -162,7 +162,7 @@ export default function PlanMatrix() {
                 >
                   {plan.name[lang]}
                   {plan.featured && (
-                    <span className="mt-1 block text-[0.65rem] tracking-widest text-ecom-orange">
+                    <span className="mt-1 block text-[0.65rem] tracking-widest text-ecom-orange-on-dark">
                       {p.bestValueBadge}
                     </span>
                   )}
@@ -184,7 +184,7 @@ export default function PlanMatrix() {
                     <th
                       scope="colgroup"
                       colSpan={columns + 1}
-                      className="sticky left-0 px-4 py-2 text-left text-[0.7rem] font-medium tracking-[0.15em] text-ecom-ink/60 uppercase"
+                      className="sticky left-0 px-4 py-2 text-left text-[0.7rem] font-medium tracking-[0.15em] text-ecom-ink/70 uppercase"
                     >
                       {category.title[lang]}
                     </th>
@@ -202,13 +202,13 @@ export default function PlanMatrix() {
                           return (
                             <td
                               key={plan.id}
-                              className={`${cellBase} ${diff ? "bg-ecom-orange/[0.09]" : featuredCell(plan.featured)}`}
+                              className={`${cellBase} ${diff ? "bg-ecom-orange/[0.06]" : featuredCell(plan.featured)}`}
                             >
                               {has ? (
                                 <span
                                   role="img"
                                   aria-label={p.includedAria}
-                                  className={star ? "text-ecom-orange" : "text-ecom-ink"}
+                                  className={star ? "text-ecom-orange-text" : "text-ecom-ink"}
                                 >
                                   {star ? "★" : "✓"}
                                 </span>
@@ -251,7 +251,7 @@ export default function PlanMatrix() {
               (plan) => {
                 const saving = plan.savingPercent[region];
                 return (
-                  <span className={plan.featured ? "font-medium text-ecom-orange" : "text-ecom-ink"}>
+                  <span className={plan.featured ? "font-medium text-ecom-orange-text" : "text-ecom-ink"}>
                     {saving === null ? p.comparedWithMarket : `${saving.toFixed(1)}%`}
                   </span>
                 );
@@ -264,7 +264,7 @@ export default function PlanMatrix() {
         </table>
       </div>
 
-      <div className="mt-6 flex flex-col gap-3 text-sm leading-relaxed text-ecom-ink/50">
+      <div className="mt-6 flex flex-col gap-3 text-sm leading-relaxed text-ecom-ink/70">
         <p>{p.notes.inheritance}</p>
         <p>{p.notes.hosting(formatUSD(hostingRenewalValue[region]))}</p>
         <p>{p.notes.coding(codingRate ? formatUSD(codingRate) : null)}</p>

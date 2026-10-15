@@ -43,6 +43,9 @@ export default function Footer() {
             <Link href={localizedHref(lang, "/legal/terms-of-service")} className="hover:text-white">
               {t.footer.terms}
             </Link>
+            <Link href={localizedHref(lang, "/accessibility")} className="hover:text-white">
+              {t.footer.accessibility}
+            </Link>
             <Link href={localizedHref(lang, "/faq")} className="hover:text-white">
               {t.footer.faq}
             </Link>
@@ -60,7 +63,7 @@ export default function Footer() {
               viewport. 13vw leaves a small margin on either side. */}
           <p
             aria-hidden
-            className="translate-y-[0.15em] text-center font-display text-[13vw] leading-none font-medium tracking-[-0.03em] whitespace-nowrap text-white/40 select-none"
+            className="translate-y-[0.15em] text-center font-display text-[13vw] leading-none font-medium tracking-[-0.03em] whitespace-nowrap text-white/50 select-none"
           >
             ECO<span className="text-white">MM</span>ETRICA
           </p>

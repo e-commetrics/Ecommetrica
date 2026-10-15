@@ -18,6 +18,9 @@
      not the grey its accent resolves to. Default is ember's, so the mark is
      right on the server render before ThemeSwitcher repoints it. */
   --color-ecom-logo: #e84a34;
+  --color-ecom-orange-text: #b83a29;
+  --color-ecom-orange-solid: #d3432f;
+  --color-ecom-orange-on-dark: #ea4d37;
   --color-ecom-red: #9c1512; /* deep red, BrandBook 2026 */
   --color-ecom-gray: #585a5c;
   --color-ecom-cream: #f2ede9;

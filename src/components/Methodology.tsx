@@ -9,7 +9,7 @@ export default function Methodology({ lang }: { lang: Lang }) {
 
   return (
     <div className="mt-20 border-t border-ecom-ink/10 pt-16">
-      <h2 className="font-display text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/60">
+      <h2 className="font-display text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/70">
         {t.methodology.eyebrow}
       </h2>
 

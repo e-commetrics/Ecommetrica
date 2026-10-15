@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { LanguageProvider, useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
@@ -9,14 +9,16 @@ import type { Lang } from "@/lib/i18n/types";
 // The static out/404.html is always server-rendered in Spanish; this detects the real
 // language from the URL post-mount to avoid a hydration mismatch (briefly flashes Spanish
 // on /en/* 404s). No Header/Footer here — the Footer carries the ContactForm.
+const subscribeNoop = () => () => {};
+const getClientLang = (): Lang => (window.location.pathname.startsWith("/en") ? "en" : "es");
+const getServerLang = (): Lang => "es";
+
 export default function GlobalNotFoundShell() {
-  const [lang, setLang] = useState<Lang>("es");
+  const lang = useSyncExternalStore(subscribeNoop, getClientLang, getServerLang);
 
   useEffect(() => {
-    const detected: Lang = window.location.pathname.startsWith("/en") ? "en" : "es";
-    document.documentElement.lang = detected;
-    setLang(detected);
-  }, []);
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   return (
     <LanguageProvider lang={lang}>
@@ -57,7 +59,7 @@ function NotFoundContent() {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6">
           <Link
             href={localizedHref(lang, "/")}
-            className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
+            className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange-solid px-7 py-3.5 text-sm font-medium text-white uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
           >
             {t.notFound.cta}
             <span

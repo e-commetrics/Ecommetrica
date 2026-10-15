@@ -94,7 +94,7 @@ export default function AboutStudio() {
         transition={{ duration: 0.6 }}
         className="text-right"
       >
-        <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
+        <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/70 uppercase">
           {t.aboutStudio.eyebrow}
         </p>
         {/* The asterisk was a &#10038; glyph, whose weight and proportions are
@@ -145,7 +145,7 @@ export default function AboutStudio() {
 
           <div
             aria-hidden
-            className="absolute inset-0 translate-x-4 translate-y-4 scale-95 rounded-3xl bg-ecom-ink/5 transition-colors duration-300 group-hover:bg-ecom-orange"
+            className="absolute inset-0 translate-x-4 translate-y-4 scale-95 rounded-3xl bg-ecom-ink/5 transition-colors duration-300 group-hover:bg-ecom-orange-solid"
           />
 
           <div className="relative aspect-square w-full overflow-hidden rounded-3xl shadow-[0_30px_70px_-30px_rgba(18,18,19,0.45)] ring-1 ring-ecom-dark/5">
@@ -206,7 +206,7 @@ export default function AboutStudio() {
               >
                 <motion.span
                   variants={textItemVariants}
-                  className="block text-sm font-medium tracking-widest text-ecom-ink/50 uppercase"
+                  className="block text-sm font-medium tracking-widest text-ecom-ink/70 uppercase"
                 >
                   {String(index + 1).padStart(2, "0")} /{" "}
                   {String(TOTAL).padStart(2, "0")}
@@ -219,7 +219,7 @@ export default function AboutStudio() {
                 </motion.h3>
                 <motion.p
                   variants={textItemVariants}
-                  className="mt-1 text-sm font-medium tracking-wide text-ecom-ink/50 uppercase"
+                  className="mt-1 text-sm font-medium tracking-wide text-ecom-ink/70 uppercase"
                 >
                   {member.role[lang]}
                 </motion.p>
@@ -242,7 +242,7 @@ export default function AboutStudio() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label={t.aboutStudio.prevAria}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-ecom-ink/15 text-ecom-ink transition-colors hover:border-ecom-orange hover:text-ecom-orange"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-ecom-ink/15 text-ecom-ink transition-colors hover:border-ecom-orange hover:text-ecom-orange-text"
               >
                 &#8592;
               </motion.button>
@@ -252,7 +252,7 @@ export default function AboutStudio() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 aria-label={t.aboutStudio.nextAria}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-ecom-ink/15 text-ecom-ink transition-colors hover:border-ecom-orange hover:text-ecom-orange"
+                className="flex h-11 w-11 items-center justify-center rounded-full border border-ecom-ink/15 text-ecom-ink transition-colors hover:border-ecom-orange hover:text-ecom-orange-text"
               >
                 &#8594;
               </motion.button>
@@ -270,8 +270,8 @@ export default function AboutStudio() {
                   aria-current={i === index}
                   className={`shrink-0 whitespace-nowrap font-display transition-all duration-300 ${
                     i === index
-                      ? "text-base text-ecom-orange sm:text-lg"
-                      : "text-sm text-ecom-ink/35 hover:text-ecom-ink/60"
+                      ? "text-base text-ecom-orange-text sm:text-lg"
+                      : "text-sm text-ecom-ink/70 hover:text-ecom-ink/70"
                   }`}
                 >
                   {person.name}

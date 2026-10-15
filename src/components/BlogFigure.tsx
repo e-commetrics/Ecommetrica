@@ -16,7 +16,7 @@ export function BlogFigure({
     <figure className="not-prose my-10 flex flex-col gap-4">
       {children}
       {caption ? (
-        <figcaption className="text-sm leading-relaxed text-ecom-ink/60">
+        <figcaption className="text-sm leading-relaxed text-ecom-ink/70">
           {caption}
         </figcaption>
       ) : null}

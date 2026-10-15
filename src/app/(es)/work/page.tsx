@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function WorkPage() {
   return (
     <div className="shell py-24 lg:py-32">
-      <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
+      <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange-text uppercase">
         Work
       </p>
       <h1 className="mt-6 max-w-5xl text-balance font-display text-[clamp(2.5rem,5.5vw,5.5rem)] font-medium leading-[1.0] tracking-[-0.035em] text-ecom-ink">

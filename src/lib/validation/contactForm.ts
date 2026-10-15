@@ -14,6 +14,7 @@ export function createContactFormSchema(t: Dict["contactForm"]) {
       .refine((value) => !value || PHONE_REGEX.test(value), t.errors.phoneInvalid),
     company: z.string().trim().optional(),
     message: z.string().trim().min(10, t.errors.messageTooShort),
+    consent: z.literal("on", { message: t.errors.consentRequired }),
   });
 }
 

@@ -74,7 +74,7 @@ export default function PlanFeatures({
         }}
         aria-expanded={expanded}
         className={`mt-4 inline-flex items-center gap-1.5 text-xs font-medium tracking-wide uppercase transition-colors duration-300 ${
-          dark ? "text-white/60 hover:text-white" : "text-ecom-ink/60 hover:text-ecom-ink"
+          dark ? "text-white/60 hover:text-white" : "text-ecom-ink/70 hover:text-ecom-ink"
         }`}
       >
         {expanded ? p.viewLess : p.viewAllIncluded}
@@ -95,7 +95,7 @@ export default function PlanFeatures({
           {inheritedPlan && (
             <li
               className={`flex items-start gap-2.5 font-medium ${
-                dark ? "text-white/50" : "text-ecom-ink/60"
+                dark ? "text-white/50" : "text-ecom-ink/70"
               }`}
             >
               <span aria-hidden>&#10003;</span>
@@ -109,7 +109,7 @@ export default function PlanFeatures({
                 {feature.text[lang]}
                 {isUsOnlyCell(feature, plan.id, region) && " ★"}
                 {feature.description && (
-                  <span className={`block italic ${dark ? "text-white/40" : "text-ecom-ink/50"}`}>
+                  <span className={`block italic ${dark ? "text-white/50" : "text-ecom-ink/70"}`}>
                     {feature.description[lang]}
                   </span>
                 )}
@@ -117,7 +117,7 @@ export default function PlanFeatures({
                   <Link
                     href={localizedHref(lang, `/${feature.learnMoreSlug}`)}
                     onClick={(event) => event.stopPropagation()}
-                    className="ml-1.5 inline-flex items-center gap-1 text-ecom-orange hover:underline"
+                    className="ml-1.5 inline-flex items-center gap-1 text-ecom-orange-text hover:underline"
                   >
                     {p.learnMore}
                     <span aria-hidden>&rarr;</span>
@@ -137,7 +137,7 @@ export default function PlanFeatures({
         >
           {specs.map(([label, value]) => (
             <div key={label} className="flex items-baseline justify-between gap-3">
-              <dt className={`text-xs tracking-wide uppercase ${dark ? "text-white/40" : "text-ecom-ink/50"}`}>
+              <dt className={`text-xs tracking-wide uppercase ${dark ? "text-white/50" : "text-ecom-ink/70"}`}>
                 {label}
               </dt>
               <dd className={`text-right text-sm font-medium ${dark ? "text-white/90" : "text-ecom-ink"}`}>

@@ -21,7 +21,7 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
       <div className="grid gap-10 lg:grid-cols-[1fr_minmax(0,34rem)] lg:items-center lg:gap-16">
         <div>
           <Reveal>
-            <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
+            <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/70 uppercase">
               {t.servicesOverview.eyebrow}
             </p>
             <h2 className="mt-6 font-display text-[clamp(2.5rem,6vw,7rem)] font-medium leading-[0.98] tracking-[-0.03em] text-ecom-ink ">
@@ -67,7 +67,7 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
                 aria-hidden
                 className="block h-0.5 w-10 rounded-full bg-ecom-orange transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:h-1 group-hover:w-full"
               />
-              <h3 className="mt-5 flex items-center gap-2 font-display text-lg font-medium tracking-wide text-ecom-ink uppercase transition-colors duration-300 group-hover:text-ecom-orange">
+              <h3 className="mt-5 flex items-center gap-2 font-display text-lg font-medium tracking-wide text-ecom-ink uppercase transition-colors duration-300 group-hover:text-ecom-orange-text">
                 {category.name[lang]}
                 {/* Only appears on hover: the card is a link, and nothing else
                     in the resting state says so. */}
@@ -87,7 +87,7 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
                 </p>
               ))}
               {category.highlights && (
-                <ul className="mt-5 flex flex-col gap-2.5 border-t border-ecom-ink/10 pt-5 text-sm text-ecom-ink/60 transition-colors duration-300 group-hover:border-ecom-orange/25 group-hover:text-ecom-ink/80">
+                <ul className="mt-5 flex flex-col gap-2.5 border-t border-ecom-ink/10 pt-5 text-sm text-ecom-ink/70 transition-colors duration-300 group-hover:border-ecom-orange/25 group-hover:text-ecom-ink/80">
                   {category.highlights.map((highlight) => (
                     <li key={highlight.en} className="flex items-start gap-2.5">
                       <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-ecom-orange" />
@@ -104,7 +104,7 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
       <Reveal delay={0.2} className="mt-16">
         <Link
           href={localizedHref(lang, "/services")}
-          className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:bg-ecom-red"
+          className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange-solid px-7 py-3.5 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:bg-ecom-red"
         >
           {t.servicesOverview.cta}
           <span

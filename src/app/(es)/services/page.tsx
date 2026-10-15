@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import BackgroundVideo from "@/components/BackgroundVideo";
 import Highlight from "@/components/Highlight";
 import { serviceGroups } from "@/lib/services";
 import { getDict } from "@/lib/i18n/dict";
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <div className="shell py-20 lg:py-28">
-      <p className="eyebrow-rule text-sm font-medium uppercase tracking-[0.2em] text-ecom-orange">
+      <p className="eyebrow-rule text-sm font-medium uppercase tracking-[0.2em] text-ecom-orange-text">
         {t.servicesPage.eyebrow}
       </p>
       <h1 className="mt-6 max-w-5xl text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
@@ -66,12 +67,8 @@ export default function ServicesPage() {
             // Negative inset only from sm: up, so it never hangs past the viewport below 640px.
             className="absolute -top-5 right-0 z-10 w-14 sm:-top-7 sm:-right-7 sm:w-16"
           />
-          <video
+          <BackgroundVideo
             src="/videos/services-es.webm"
-            autoPlay
-            muted
-            loop
-            playsInline
             className="relative w-full overflow-hidden rounded-3xl object-cover ring-1 ring-ecom-ink/10"
             style={{ aspectRatio: "4 / 3" }}
           />

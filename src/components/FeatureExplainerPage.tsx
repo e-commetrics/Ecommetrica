@@ -19,7 +19,7 @@ export default function FeatureExplainerPage({
   return (
     <div className="shell py-20 lg:py-28">
       <Reveal>
-        <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
+        <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange-text uppercase">
           {content.eyebrow}
         </p>
         <h1 className="mt-6 max-w-3xl text-balance font-display text-[clamp(2.25rem,4.5vw,4.25rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
@@ -56,7 +56,7 @@ export default function FeatureExplainerPage({
       <Reveal delay={0.2}>
         <Link
           href={localizedHref(lang, "/pricing")}
-          className="mt-14 inline-flex items-center gap-2 rounded-full bg-ecom-orange px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:bg-ecom-red"
+          className="mt-14 inline-flex items-center gap-2 rounded-full bg-ecom-orange-solid px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:bg-ecom-red"
         >
           {content.backCta}
           <span aria-hidden>&rarr;</span>

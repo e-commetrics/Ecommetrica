@@ -1,19 +1,22 @@
 "use client";
 
-import { useRef, useState, type FormEvent, type RefObject, type SyntheticEvent } from "react";
+import { useCallback, useRef, useState, type FormEvent, type SyntheticEvent } from "react";
+import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { submitContactForm } from "@/services/contact.service";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useContactPrefill } from "@/components/ContactPrefillProvider";
 import { createContactFormSchema, type ContactFormValues } from "@/lib/validation/contactForm";
+import { localizedHref } from "@/lib/i18n/localizedHref";
 
 type Status = "idle" | "submitting" | "success";
-type FieldName = "name" | "email" | "phone" | "company" | "message";
+type FieldName = "name" | "email" | "phone" | "company" | "message" | "consent";
 type FieldErrors = Partial<Record<FieldName, string>>;
 type FieldElement = HTMLInputElement | HTMLTextAreaElement;
+type RegisterRef = (name: FieldName, element: FieldElement | null) => void;
 
-const FIELD_ORDER: FieldName[] = ["name", "email", "phone", "company", "message"];
+const FIELD_ORDER: FieldName[] = ["name", "email", "phone", "company", "message", "consent"];
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function ContactForm() {
@@ -23,6 +26,10 @@ export default function ContactForm() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [touched, setTouched] = useState<Partial<Record<FieldName, boolean>>>({});
   const fieldRefs = useRef<Partial<Record<FieldName, FieldElement>>>({});
+
+  const registerRef = useCallback<RegisterRef>((name, element) => {
+    fieldRefs.current[name] = element ?? undefined;
+  }, []);
 
   function runValidation(form: HTMLFormElement) {
     const raw = Object.fromEntries(new FormData(form).entries());
@@ -40,6 +47,7 @@ export default function ContactForm() {
       phone: flat.phone?.[0],
       company: flat.company?.[0],
       message: flat.message?.[0],
+      consent: flat.consent?.[0],
     };
     setErrors(fieldErrors);
     return { data: null as ContactFormValues | null, fieldErrors };
@@ -60,7 +68,7 @@ export default function ContactForm() {
     event.preventDefault();
     const form = event.currentTarget;
 
-    setTouched({ name: true, email: true, phone: true, company: true, message: true });
+    setTouched({ name: true, email: true, phone: true, company: true, message: true, consent: true });
     const { data, fieldErrors } = runValidation(form);
 
     if (!data) {
@@ -76,7 +84,14 @@ export default function ContactForm() {
     const message = packageSummary ? `${packageSummary}\n\n${data.message}` : data.message;
 
     try {
-      await submitContactForm({ ...data, message, lang });
+      await submitContactForm({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        company: data.company,
+        message,
+        lang,
+      });
       toast.success(t.contactForm.successToast, { id: toastId });
       setStatus("success");
       form.reset();
@@ -99,6 +114,8 @@ export default function ContactForm() {
     );
   }
 
+  const consentError = touched.consent ? errors.consent : undefined;
+
   return (
     <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
       <div className="grid gap-6 sm:grid-cols-2">
@@ -108,7 +125,7 @@ export default function ContactForm() {
           type="text"
           autoComplete="name"
           error={touched.name ? errors.name : undefined}
-          fieldRefs={fieldRefs}
+          registerRef={registerRef}
           onBlur={handleBlur}
           onChange={handleChange}
         />
@@ -118,7 +135,7 @@ export default function ContactForm() {
           type="email"
           autoComplete="email"
           error={touched.email ? errors.email : undefined}
-          fieldRefs={fieldRefs}
+          registerRef={registerRef}
           onBlur={handleBlur}
           onChange={handleChange}
         />
@@ -128,7 +145,7 @@ export default function ContactForm() {
           type="tel"
           autoComplete="tel"
           error={touched.phone ? errors.phone : undefined}
-          fieldRefs={fieldRefs}
+          registerRef={registerRef}
           onBlur={handleBlur}
           onChange={handleChange}
         />
@@ -137,7 +154,7 @@ export default function ContactForm() {
           name="company"
           type="text"
           error={touched.company ? errors.company : undefined}
-          fieldRefs={fieldRefs}
+          registerRef={registerRef}
           onBlur={handleBlur}
           onChange={handleChange}
         />
@@ -165,26 +182,57 @@ export default function ContactForm() {
       <label className="flex flex-col gap-2 text-sm font-medium tracking-widest text-white/50 uppercase">
         {t.contactForm.messageLabel}
         <textarea
-          ref={(el) => {
-            fieldRefs.current.message = el ?? undefined;
-          }}
+          ref={(el) => registerRef("message", el)}
           name="message"
           rows={3}
           aria-invalid={Boolean(touched.message && errors.message)}
           aria-describedby={errors.message ? "contact-message-error" : undefined}
           onBlur={(event) => handleBlur("message", event)}
           onChange={(event) => handleChange("message", event)}
-          className={`border-b bg-transparent py-2 text-base font-normal text-white normal-case outline-none transition-colors duration-300 placeholder:text-white/30 focus:border-ecom-orange ${
+          className={`border-b bg-transparent py-2 text-base font-normal text-white normal-case outline-none transition-colors duration-300 placeholder:text-white/50 focus:border-ecom-orange ${
             touched.message && errors.message ? "border-red-400" : "border-white/30"
           }`}
         />
         <FieldError id="contact-message-error" message={touched.message ? errors.message : undefined} />
       </label>
 
+      <div className="flex flex-col gap-3">
+        <p id="contact-privacy-notice" className="text-sm text-white/80">
+          {t.contactForm.privacyNotice}
+        </p>
+        <label className="flex items-start gap-3 text-sm text-white/80">
+          <input
+            ref={(el) => registerRef("consent", el)}
+            type="checkbox"
+            name="consent"
+            aria-invalid={Boolean(consentError)}
+            aria-describedby={
+              consentError ? "contact-privacy-notice contact-consent-error" : "contact-privacy-notice"
+            }
+            onBlur={(event) => handleBlur("consent", event)}
+            onChange={(event) => handleChange("consent", event)}
+            className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-ecom-orange"
+          />
+          <span>
+            {t.contactForm.consentBefore}{" "}
+            <Link
+              href={localizedHref(lang, "/legal/privacy-policy")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white underline underline-offset-4 hover:text-ecom-orange"
+            >
+              {t.contactForm.consentLink}
+            </Link>{" "}
+            {t.contactForm.consentAfter}
+          </span>
+        </label>
+        <FieldError id="contact-consent-error" message={consentError} />
+      </div>
+
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-2 inline-flex w-fit items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-medium text-ecom-black transition-colors hover:bg-ecom-orange hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-2 inline-flex w-fit items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-medium text-ecom-black transition-colors hover:bg-ecom-orange-solid hover:text-white disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "submitting" ? t.contactForm.submitting : t.contactForm.submit}
         <span aria-hidden>&#8599;</span>
@@ -199,7 +247,7 @@ function Field({
   type,
   autoComplete,
   error,
-  fieldRefs,
+  registerRef,
   onBlur,
   onChange,
 }: {
@@ -208,7 +256,7 @@ function Field({
   type: string;
   autoComplete?: string;
   error?: string;
-  fieldRefs: RefObject<Partial<Record<FieldName, FieldElement>>>;
+  registerRef: RegisterRef;
   onBlur: (name: FieldName, event: SyntheticEvent<FieldElement>) => void;
   onChange: (name: FieldName, event: SyntheticEvent<FieldElement>) => void;
 }) {
@@ -218,9 +266,7 @@ function Field({
     <label className="flex flex-col gap-2 text-sm font-medium tracking-widest text-white/50 uppercase">
       {label}
       <input
-        ref={(el) => {
-          fieldRefs.current[name] = el ?? undefined;
-        }}
+        ref={(el) => registerRef(name, el)}
         name={name}
         type={type}
         autoComplete={autoComplete}
@@ -228,7 +274,7 @@ function Field({
         aria-describedby={error ? errorId : undefined}
         onBlur={(event) => onBlur(name, event)}
         onChange={(event) => onChange(name, event)}
-        className={`border-b bg-transparent py-2 text-base font-normal text-white normal-case outline-none transition-colors duration-300 placeholder:text-white/30 focus:border-ecom-orange ${
+        className={`border-b bg-transparent py-2 text-base font-normal text-white normal-case outline-none transition-colors duration-300 placeholder:text-white/50 focus:border-ecom-orange ${
           error ? "border-red-400" : "border-white/30"
         }`}
       />
