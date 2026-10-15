@@ -78,7 +78,6 @@ export default function PlanMatrix() {
   };
 
   const specRows = [
-    [p.specsLabels.size, (plan: Plan) => plan.specs.size],
     [p.specsLabels.pages, (plan: Plan) => plan.specs.pages[lang]],
     [p.specsLabels.products, (plan: Plan) => plan.specs.products[lang]],
     [p.specsLabels.blog, (plan: Plan) => plan.specs.blog[lang]],

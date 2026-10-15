@@ -33,7 +33,6 @@ export default function PlanFeatures({
 
   const visibleFeatures = planNewRows(plan, region);
   const specs = [
-    [p.specsLabels.size, plan.specs.size],
     [p.specsLabels.pages, plan.specs.pages[lang]],
     [p.specsLabels.products, plan.specs.products[lang]],
     [p.specsLabels.blog, plan.specs.blog[lang]],

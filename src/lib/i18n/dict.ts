@@ -250,7 +250,7 @@ export type Dict = {
     learnMore: string;
     /** Side-column heading on the feature explainer pages: the plans carrying the feature. */
     includedInLabel: string;
-    specsLabels: { size: string; pages: string; products: string; blog: string; social: string };
+    specsLabels: { pages: string; products: string; blog: string; social: string };
     compareTitle: string;
     compareSub: string;
     colService: string;
@@ -692,7 +692,6 @@ export const dict: Record<Lang, Dict> = {
       learnMore: "Saber más",
       includedInLabel: "Incluido en",
       specsLabels: {
-        size: "Talla",
         pages: "Páginas",
         products: "Productos en tienda",
         blog: "Posts de blog al mes",
@@ -1295,7 +1294,6 @@ export const dict: Record<Lang, Dict> = {
       learnMore: "Learn more",
       includedInLabel: "Included in",
       specsLabels: {
-        size: "Size",
         pages: "Pages",
         products: "Store products",
         blog: "Blog posts a month",

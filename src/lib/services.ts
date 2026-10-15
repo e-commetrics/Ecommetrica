@@ -117,7 +117,7 @@ export const services: Service[] = [
       { es: "Blog SEO/AEO", en: "SEO/AEO blog" },
       { es: "Google Business Profile", en: "Google Business Profile" },
     ],
-    includedFrom: "express",
+    includedFrom: "simple",
   },
   {
     id: "publicidad",

@@ -35,7 +35,6 @@ export type MatrixCategory = {
 };
 
 export type PlanSpecs = {
-  size: string;
   pages: Localized;
   products: Localized;
   blog: Localized;
@@ -78,7 +77,6 @@ export const plans: Plan[] = [
     oneTime: true,
     priceValue: { mx: 370, us: 790 },
     specs: {
-      size: "XS",
       pages: { es: "1 a 3", en: "1 to 3" },
       products: { es: "Hasta 5", en: "Up to 5" },
       blog: { es: "—", en: "—" },
@@ -103,7 +101,6 @@ export const plans: Plan[] = [
     durationMonths: 3,
     priceValue: { mx: 675, us: 1450 },
     specs: {
-      size: "S",
       pages: { es: "8 a 10", en: "8 to 10" },
       products: { es: "Hasta 25", en: "Up to 25" },
       blog: { es: "1", en: "1" },
@@ -125,7 +122,6 @@ export const plans: Plan[] = [
     durationMonths: 4,
     priceValue: { mx: 995, us: 2450 },
     specs: {
-      size: "M",
       pages: { es: "10 a 18", en: "10 to 18" },
       products: { es: "Hasta 100", en: "Up to 100" },
       blog: { es: "2", en: "2" },
@@ -150,7 +146,6 @@ export const plans: Plan[] = [
     durationMonths: 6,
     priceValue: { mx: 1185, us: 3200 },
     specs: {
-      size: "L",
       pages: { es: "19 a 50", en: "19 to 50" },
       products: { es: "Hasta 300", en: "Up to 300" },
       blog: { es: "4", en: "4" },
@@ -176,7 +171,6 @@ export const plans: Plan[] = [
     durationMonths: 8,
     priceValue: { mx: 1555, us: 4500 },
     specs: {
-      size: "XL",
       pages: { es: "Más de 50", en: "More than 50" },
       products: { es: "Hasta 1,000", en: "Up to 1,000" },
       blog: { es: "6", en: "6" },
@@ -200,11 +194,11 @@ export const matrix: MatrixCategory[] = [
       {
         id: "shopify",
         text: {
-          es: "Sitio o tienda Shopify (talla según plan)",
-          en: "Website or Shopify store (size by plan)",
+          es: "Sitio o tienda Shopify (páginas y productos según plan)",
+          en: "Website or Shopify store (pages and products by plan)",
         },
         shortLabel: { es: "Sitio o tienda Shopify", en: "Website or Shopify store" },
-        availability: sameInBoth(fromPlan("express")),
+        availability: sameInBoth(fromPlan("simple")),
       },
       {
         id: "ai-site",
@@ -224,7 +218,20 @@ export const matrix: MatrixCategory[] = [
         id: "bilingual",
         text: { es: "Sitio bilingüe EN/ES", en: "Bilingual EN/ES site" },
         shortLabel: { es: "Sitio bilingüe", en: "Bilingual site" },
-        availability: sameInBoth(fromPlan("express")),
+        availability: sameInBoth(onlyPlan("express")),
+      },
+      {
+        id: "multilingual",
+        text: {
+          es: "Sitio multilingüe (mejora del sitio bilingüe)",
+          en: "Multilingual site (upgrade from the bilingual site)",
+        },
+        shortLabel: { es: "Sitio multilingüe", en: "Multilingual site" },
+        description: {
+          es: "Más allá de español e inglés: tu sitio en los idiomas que tu mercado necesite.",
+          en: "Beyond English and Spanish: your site in the languages your market needs.",
+        },
+        availability: sameInBoth(fromPlan("simple")),
       },
       {
         id: "hosting",
@@ -292,6 +299,15 @@ export const matrix: MatrixCategory[] = [
         availability: sameInBoth(fromPlan("simple")),
       },
       {
+        id: "aeo",
+        text: {
+          es: "AEO: que las IAs te encuentren y te citen",
+          en: "AEO: get found and cited by AI answers",
+        },
+        shortLabel: { es: "AEO", en: "AEO" },
+        availability: sameInBoth(onlyPlan("express")),
+      },
+      {
         id: "seo-aeo",
         text: { es: "SEO y AEO (incluye Search Console)", en: "SEO & AEO (incl. Search Console)" },
         shortLabel: { es: "SEO y AEO", en: "SEO & AEO" },
@@ -299,7 +315,7 @@ export const matrix: MatrixCategory[] = [
           es: "Incluye configuración de Search Console, para que en los motores de búsqueda y las IAs hablen de ti desde que inicias.",
           en: "Includes Search Console setup, so search engines and AI answers are already talking about you from day one.",
         },
-        availability: sameInBoth(fromPlan("express")),
+        availability: sameInBoth(fromPlan("simple")),
       },
       {
         id: "blog",
@@ -391,6 +407,7 @@ export const matrix: MatrixCategory[] = [
           es: "Contenido para redes generado con IA (6 piezas, una vez)",
           en: "AI-generated social content (6 pieces, once)",
         },
+        shortLabel: { es: "Contenido para redes con IA", en: "AI social content" },
         availability: sameInBoth(onlyPlan("express")),
       },
       {
