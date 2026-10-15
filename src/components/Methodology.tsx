@@ -30,7 +30,7 @@ export default function Methodology({ lang }: { lang: Lang }) {
           <Reveal key={step.title} delay={i * 0.1}>
             <p
               aria-hidden
-              className="font-display text-3xl font-medium tracking-[-0.02em] text-ecom-orange"
+              className="font-display text-3xl font-medium tracking-[-0.02em] text-ecom-eyebrow"
             >
               {String(i + 1).padStart(2, "0")}
             </p>

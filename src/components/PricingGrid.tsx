@@ -23,7 +23,7 @@ export default function PricingGrid() {
 
   return (
     <div className="shell py-20 lg:py-28">
-      <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
+      <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-eyebrow uppercase">
         {p.eyebrow}
       </p>
       <h1 className="mt-6 max-w-3xl text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
@@ -58,32 +58,32 @@ export default function PricingGrid() {
               }`}
             >
               {plan.featured && (
-                <span className="absolute -top-3 left-7 rounded-full bg-ecom-orange px-3 py-1 text-xs font-medium tracking-widest text-white uppercase">
+                <span className="absolute -top-3 left-7 rounded-full bg-ecom-orange px-3 py-1 text-xs font-medium tracking-widest text-ecom-on-accent uppercase">
                   {p.bestValueBadge}
                 </span>
               )}
-              <p className="mb-3 text-xs font-medium tracking-[0.15em] text-ecom-orange uppercase">
+              <p className="mb-3 text-xs font-medium tracking-[0.15em] text-ecom-eyebrow uppercase">
                 {plan.stage[lang]}
               </p>
               <h3 className="font-display text-lg font-medium tracking-wide text-ecom-ink">
                 {plan.name[lang]}
               </h3>
-              <p className="mt-1 text-xs tracking-wide text-ecom-ink/50 uppercase">
+              <p className="mt-1 text-xs tracking-wide text-ecom-meta uppercase">
                 {plan.duration[lang]}
               </p>
               <p className="mt-3 text-sm leading-relaxed text-ecom-ink/70">{plan.tagline[lang]}</p>
 
               <p className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] text-ecom-ink">
                 {formatUSD(plan.priceValue[region])}
-                <span className="ml-1 text-sm font-normal text-ecom-ink/50">{p.perMonth}</span>
+                <span className="ml-1 text-sm font-normal text-ecom-meta">{p.perMonth}</span>
               </p>
-              <p className="mt-1 text-xs text-ecom-ink/50">
+              <p className="mt-1 text-xs text-ecom-meta">
                 {p.totalLabel} {formatUSD(total)} · {planServiceCount(plan, region)} {p.servicesLabel}
               </p>
               <p
                 className={`mt-3 rounded-lg px-3 py-2 text-xs font-medium ${
                   plan.featured
-                    ? "bg-ecom-orange/10 text-ecom-orange"
+                    ? "bg-ecom-orange/10 text-ecom-eyebrow"
                     : "bg-ecom-ink/5 text-ecom-ink/70"
                 }`}
               >
@@ -97,10 +97,10 @@ export default function PricingGrid() {
 
               <Link
                 href={`${localizedHref(lang, "/packages")}?plan=${plan.id}`}
-                className={`mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-medium tracking-wide uppercase transition-colors duration-300 ${
+                className={`mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 btn-text tracking-wide uppercase transition-colors duration-300 ${
                   plan.featured
-                    ? "bg-ecom-orange text-white hover:bg-ecom-ink"
-                    : "bg-ecom-ink/5 text-ecom-ink hover:bg-ecom-orange hover:text-white"
+                    ? "bg-ecom-orange text-ecom-on-accent hover:bg-ecom-accent-hover hover:text-ecom-on-accent-hover"
+                    : "bg-ecom-ink/5 text-ecom-ink hover:bg-ecom-orange hover:text-ecom-on-accent"
                 }`}
               >
                 {p.selectCta}
@@ -110,13 +110,13 @@ export default function PricingGrid() {
         })}
       </div>
 
-      {region === "us" && <p className="mt-6 text-sm text-ecom-ink/50">{p.footnote}</p>}
+      {region === "us" && <p className="mt-6 text-sm text-ecom-meta">{p.footnote}</p>}
 
       <CustomPlanBanner />
 
       <PlanMatrix />
 
-      <p className="mt-10 border-t border-ecom-ink/10 pt-6 text-sm text-ecom-ink/50">{p.footer}</p>
+      <p className="mt-10 border-t border-ecom-ink/10 pt-6 text-sm text-ecom-meta">{p.footer}</p>
     </div>
   );
 }

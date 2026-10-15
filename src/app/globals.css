@@ -12,18 +12,28 @@
                            hardcoded white, so they must never lighten.
      Use ink for text/borders on the page, and dark/black for dark blocks.
      Never use ecom-dark as a text color — it is a background role. */
+  /* Defaults are the Ember theme with its original look, so the server render
+     matches before ThemeSwitcher runs (keep in sync with lookVars() there).
+     Orange and logo are #E84A34 in all six themes: the E never changes color. */
   --color-ecom-orange: #e84a34; /* primary accent, from logo mark */
-  /* The navbar lockup. Its own token rather than the accent: it tracks the
-     accent in the colored themes, but the monochrome one wants a white logo,
-     not the grey its accent resolves to. Default is ember's, so the mark is
-     right on the server render before ThemeSwitcher repoints it. */
-  --color-ecom-logo: #e84a34;
-  --color-ecom-red: #9c1512; /* deep red, BrandBook 2026 */
+  --color-ecom-logo: #e84a34; /* the navbar lockup; same in every theme */
+  --color-ecom-red: #9c1512; /* deep accent: gradients and fills only, never text */
   --color-ecom-gray: #585a5c;
   --color-ecom-cream: #f2ede9;
 
   --color-ecom-surface: #f2ede9;
   --color-ecom-ink: #25272a;
+  /* Eyebrows, numerals and small accent text on the surface. Its own token
+     because the orange doesn't hold contrast on every surface (Ácido is lime). */
+  --color-ecom-eyebrow: #e84a34;
+  /* Eyebrows on dark blocks (orange in Ember, white in the handoff themes). */
+  --color-ecom-eyebrow-dark: #e84a34;
+  /* Secondary/meta text on the surface: ink at 50% in Ember, 70% elsewhere. */
+  --color-ecom-meta: color-mix(in srgb, #25272a 50%, transparent);
+  /* Labels on an orange fill, and the orange button's hover state. */
+  --color-ecom-on-accent: #ffffff;
+  --color-ecom-accent-hover: #9c1512;
+  --color-ecom-on-accent-hover: #ffffff;
 
   --color-ecom-dark: #25272a;
   --color-ecom-black: #121213;
@@ -103,9 +113,18 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 }
 
+/* Theme look values that aren't colors (set per theme by ThemeSwitcher's
+   lookVars; these defaults are Ember's original look). */
+:root {
+  --ecom-btn-size: var(--text-sm);
+  --ecom-btn-weight: 500;
+  --ecom-dash: currentColor;
+  --ecom-dash-opacity: 0.5;
+}
+
 ::selection {
   background: var(--color-ecom-orange);
-  color: #fff;
+  color: var(--color-ecom-on-accent); /* same rule as button labels on the orange */
 }
 
 /* ThemeSwitcher adds .theming to <html> for the length of a swap so every
@@ -185,7 +204,7 @@ html.theming *::after {
   --tw-prose-headings: var(--color-ecom-ink);
   --tw-prose-lead: color-mix(in srgb, var(--color-ecom-ink) 70%, transparent);
   --tw-prose-bold: var(--color-ecom-ink);
-  --tw-prose-links: var(--color-ecom-orange);
+  --tw-prose-links: var(--color-ecom-eyebrow);
   --tw-prose-counters: color-mix(in srgb, var(--color-ecom-ink) 60%, transparent);
   --tw-prose-bullets: color-mix(in srgb, var(--color-ecom-ink) 35%, transparent);
   --tw-prose-hr: color-mix(in srgb, var(--color-ecom-ink) 15%, transparent);
@@ -230,7 +249,9 @@ html.theming *::after {
   }
 }
 
-/* Eyebrow rule: the small accent dash that precedes section kickers. */
+/* Eyebrow rule: the small accent dash that precedes section kickers. Ember draws
+   it in the eyebrow's own color at half strength; the handoff themes always use
+   solid orange, whatever color the eyebrow text takes. */
 @utility eyebrow-rule {
   &::before {
     content: "";
@@ -239,7 +260,15 @@ html.theming *::after {
     height: 1px;
     margin-right: 0.75rem;
     vertical-align: middle;
-    background: currentColor;
-    opacity: 0.5;
+    background: var(--ecom-dash);
+    opacity: var(--ecom-dash-opacity);
   }
+}
+
+/* Pill button label size: 17px medium in Ember, 19px semibold (large text) in
+   the handoff themes. Line height follows the size like Tailwind's text-*. */
+@utility btn-text {
+  font-size: var(--ecom-btn-size);
+  font-weight: var(--ecom-btn-weight);
+  line-height: 1.5;
 }

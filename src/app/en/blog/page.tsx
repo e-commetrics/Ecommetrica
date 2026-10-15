@@ -21,7 +21,7 @@ export default function BlogPage() {
 
   return (
     <div className="shell py-20 lg:py-28">
-      <p className="text-sm font-medium uppercase tracking-[0.2em] text-ecom-orange">
+      <p className="text-sm font-medium uppercase tracking-[0.2em] text-ecom-eyebrow">
         Blog
       </p>
       <h1 className="mt-6 font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
@@ -36,7 +36,7 @@ export default function BlogPage() {
           <p>{t.blogPage.intro.closing}</p>
         </div>
         <div>
-          <p className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
+          <p className="text-sm font-medium uppercase tracking-widest text-ecom-meta">
             {t.blogPage.intro.listTitle}
           </p>
           <ul className="mt-5 space-y-4">
@@ -50,7 +50,7 @@ export default function BlogPage() {
         </div>
       </div>
 
-      <h2 className="mt-14 text-sm font-medium uppercase tracking-[0.2em] text-ecom-ink/50">
+      <h2 className="mt-14 text-sm font-medium uppercase tracking-[0.2em] text-ecom-meta">
         {t.blogPage.latestTitle}
       </h2>
 
@@ -71,7 +71,7 @@ export default function BlogPage() {
               />
             ) : null}
             <div>
-              <p className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
+              <p className="text-sm font-medium uppercase tracking-widest text-ecom-meta">
                 {new Date(post.date).toLocaleDateString(t.blogPage.dateLocale, {
                   year: "numeric",
                   month: "long",

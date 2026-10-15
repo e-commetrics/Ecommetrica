@@ -82,11 +82,11 @@ export default function Planes() {
                 }`}
               >
                 {plan.featured && (
-                  <span className="absolute -top-3 left-8 rounded-full bg-ecom-orange px-3 py-1 text-xs font-medium tracking-widest text-white uppercase">
+                  <span className="absolute -top-3 left-8 rounded-full bg-ecom-orange px-3 py-1 text-xs font-medium tracking-widest text-ecom-on-accent uppercase">
                     {p.bestValueBadge}
                   </span>
                 )}
-                <p className="mb-3 text-xs font-medium tracking-[0.15em] text-ecom-orange uppercase">
+                <p className="mb-3 text-xs font-medium tracking-[0.15em] text-ecom-eyebrow-dark uppercase">
                   {plan.stage[lang]}
                 </p>
                 <h3 className="font-display text-lg font-medium tracking-wide">
@@ -107,9 +107,9 @@ export default function Planes() {
                 </div>
                 <Link
                   href={`${localizedHref(lang, "/packages")}?plan=${plan.id}`}
-                  className={`group/cta mt-9 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-sm font-medium tracking-wide transition-colors duration-300 ${
+                  className={`group/cta mt-9 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 btn-text tracking-wide transition-colors duration-300 ${
                     plan.featured
-                      ? "bg-white text-ecom-black hover:bg-ecom-orange hover:text-white"
+                      ? "bg-white text-ecom-black hover:bg-ecom-orange hover:text-ecom-on-accent"
                       : "bg-white/10 hover:bg-ecom-orange"
                   }`}
                 >

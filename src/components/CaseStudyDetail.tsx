@@ -66,7 +66,7 @@ export default function CaseStudyDetail({
         />
         <div className="shell relative">
           <Reveal>
-            <p className="eyebrow-rule text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
+            <p className="eyebrow-rule text-sm font-medium uppercase tracking-widest text-ecom-meta">
               {categoryLabel(project.category, lang)}
             </p>
             <h1 className="mt-3 text-balance font-display text-[clamp(2.5rem,6vw,5.5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
@@ -130,7 +130,7 @@ export default function CaseStudyDetail({
                 href={project.webpage}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium uppercase tracking-wide text-white transition-colors duration-300 hover:bg-ecom-red"
+                className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 btn-text uppercase tracking-wide text-ecom-on-accent transition-colors duration-300 hover:bg-ecom-accent-hover hover:text-ecom-on-accent-hover"
               >
                 {t.workDetail.visitSite}
                 <span
@@ -148,7 +148,7 @@ export default function CaseStudyDetail({
           <dl className="mt-10 grid grid-cols-2 gap-8 border-y border-ecom-ink/10 py-8 sm:grid-cols-3">
             {details?.client && (
               <div>
-                <dt className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
+                <dt className="text-sm font-medium uppercase tracking-widest text-ecom-meta">
                   {t.workDetail.client}
                 </dt>
                 <dd className="mt-1 text-ecom-ink">{details.client}</dd>
@@ -156,7 +156,7 @@ export default function CaseStudyDetail({
             )}
             {details?.year && (
               <div>
-                <dt className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
+                <dt className="text-sm font-medium uppercase tracking-widest text-ecom-meta">
                   {t.workDetail.year}
                 </dt>
                 <dd className="mt-1 text-ecom-ink">{details.year}</dd>

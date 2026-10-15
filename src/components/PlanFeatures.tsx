@@ -108,7 +108,7 @@ export default function PlanFeatures({
                 {feature.text[lang]}
                 {isUsOnlyCell(feature, plan.id, region) && " ★"}
                 {feature.description && (
-                  <span className={`block italic ${dark ? "text-white/40" : "text-ecom-ink/50"}`}>
+                  <span className={`block italic ${dark ? "text-white/40" : "text-ecom-meta"}`}>
                     {feature.description[lang]}
                   </span>
                 )}
@@ -116,7 +116,7 @@ export default function PlanFeatures({
                   <Link
                     href={localizedHref(lang, `/${feature.learnMoreSlug}`)}
                     onClick={(event) => event.stopPropagation()}
-                    className="ml-1.5 inline-flex items-center gap-1 text-ecom-orange hover:underline"
+                    className={`ml-1.5 inline-flex items-center gap-1 ${dark ? "text-ecom-orange" : "text-ecom-eyebrow"} hover:underline`}
                   >
                     {p.learnMore}
                     <span aria-hidden>&rarr;</span>
@@ -136,7 +136,7 @@ export default function PlanFeatures({
         >
           {specs.map(([label, value]) => (
             <div key={label} className="flex items-baseline justify-between gap-3">
-              <dt className={`text-xs tracking-wide uppercase ${dark ? "text-white/40" : "text-ecom-ink/50"}`}>
+              <dt className={`text-xs tracking-wide uppercase ${dark ? "text-white/40" : "text-ecom-meta"}`}>
                 {label}
               </dt>
               <dd className={`text-right text-sm font-medium ${dark ? "text-white/90" : "text-ecom-ink"}`}>

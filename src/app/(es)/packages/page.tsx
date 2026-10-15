@@ -23,7 +23,7 @@ export default function PackagesPage() {
   return (
     <div className="shell py-20 lg:py-28">
       <JsonLd data={serviceCatalogSchema(LANG)} />
-      <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-orange uppercase">
+      <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-eyebrow uppercase">
         {t.packagesPage.eyebrow}
       </p>
       <h1 className="mt-6 max-w-3xl text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">

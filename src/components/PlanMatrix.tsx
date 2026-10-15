@@ -112,7 +112,7 @@ export default function PlanMatrix() {
               onClick={() => togglePlan(plan.id)}
               className={`rounded-full border px-4 py-1.5 text-xs font-medium tracking-wide uppercase transition-colors duration-300 ${
                 active
-                  ? "border-ecom-orange bg-ecom-orange text-white"
+                  ? "border-ecom-orange bg-ecom-orange text-ecom-on-accent"
                   : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-ink/40 hover:text-ecom-ink"
               }`}
             >
@@ -140,7 +140,7 @@ export default function PlanMatrix() {
             </button>
           </>
         ) : (
-          <span className="ml-2 text-xs text-ecom-ink/50">{p.compareHint}</span>
+          <span className="ml-2 text-xs text-ecom-meta">{p.compareHint}</span>
         )}
       </div>
 
@@ -207,7 +207,7 @@ export default function PlanMatrix() {
                                 <span
                                   role="img"
                                   aria-label={p.includedAria}
-                                  className={star ? "text-ecom-orange" : "text-ecom-ink"}
+                                  className={star ? "text-ecom-eyebrow" : "text-ecom-ink"}
                                 >
                                   {star ? "★" : "✓"}
                                 </span>
@@ -250,7 +250,7 @@ export default function PlanMatrix() {
               (plan) => {
                 const saving = plan.savingPercent[region];
                 return (
-                  <span className={plan.featured ? "font-medium text-ecom-orange" : "text-ecom-ink"}>
+                  <span className={plan.featured ? "font-medium text-ecom-eyebrow" : "text-ecom-ink"}>
                     {saving === null ? p.comparedWithMarket : `${saving.toFixed(1)}%`}
                   </span>
                 );
@@ -263,7 +263,7 @@ export default function PlanMatrix() {
         </table>
       </div>
 
-      <div className="mt-6 flex flex-col gap-3 text-sm leading-relaxed text-ecom-ink/50">
+      <div className="mt-6 flex flex-col gap-3 text-sm leading-relaxed text-ecom-meta">
         <p>{p.notes.inheritance}</p>
         <p>{p.notes.hosting(formatUSD(hostingRenewalValue[region]))}</p>
         <p>{p.notes.clientCosts}</p>

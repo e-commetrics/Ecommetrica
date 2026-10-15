@@ -81,7 +81,7 @@ export default async function BlogPostPage({
         </div>
       ) : (
         <div className="mx-auto max-w-4xl px-6 pt-20 lg:px-10 lg:pt-28">
-          <p className="text-sm font-medium uppercase tracking-widest text-ecom-ink/50">
+          <p className="text-sm font-medium uppercase tracking-widest text-ecom-meta">
             {dateLabel}
           </p>
           <h1 className="mt-3 font-display text-[clamp(2.25rem,4vw,3.75rem)] font-medium leading-[1.05] tracking-[-0.02em] text-ecom-ink">
@@ -91,7 +91,7 @@ export default async function BlogPostPage({
       )}
 
       <div className="mx-auto max-w-4xl px-6 pt-10 lg:px-10 lg:pt-14">
-        <div className="prose prose-neutral max-w-none lg:prose-lg prose-headings:font-display prose-headings:text-ecom-ink prose-a:text-ecom-orange">
+        <div className="prose prose-neutral max-w-none lg:prose-lg prose-headings:font-display prose-headings:text-ecom-ink prose-a:text-ecom-eyebrow">
           <MDXRemote source={post.content} components={mdxComponents} />
         </div>
       </div>

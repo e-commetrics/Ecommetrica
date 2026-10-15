@@ -87,14 +87,14 @@ export default function ServicesExplorer({ lang }: { lang: Lang }) {
                 <div className="mt-6 flex flex-col gap-3">
                   <Link
                     href={`${localizedHref(lang, "/packages")}?plan=${plan.id}`}
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-ecom-orange px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:bg-ecom-red"
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-ecom-orange px-6 py-3 btn-text tracking-wide text-ecom-on-accent uppercase transition-colors duration-300 hover:bg-ecom-accent-hover hover:text-ecom-on-accent-hover"
                   >
                     {p.bundleCta(plan.name[lang])}
                     <span aria-hidden>&rarr;</span>
                   </Link>
                   <Link
                     href={localizedHref(lang, "/pricing")}
-                    className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:border-white/50"
+                    className="inline-flex items-center justify-center rounded-full border border-white/20 px-6 py-3 btn-text tracking-wide text-white uppercase transition-colors duration-300 hover:border-white/50"
                   >
                     {p.compareCta}
                   </Link>
@@ -172,7 +172,7 @@ function ServiceCard({
       </ul>
       {showIncluded && plan && (
         <p className="mt-auto pt-6">
-          <span className="inline-flex rounded-full bg-ecom-orange/10 px-3 py-1 text-xs font-medium tracking-wide text-ecom-orange">
+          <span className="inline-flex rounded-full bg-ecom-orange/10 px-3 py-1 text-xs font-medium tracking-wide text-ecom-eyebrow">
             {t.servicesPage.includedFrom(plan.name[lang])}
           </span>
         </p>

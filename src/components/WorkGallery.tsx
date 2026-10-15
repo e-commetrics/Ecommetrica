@@ -155,7 +155,7 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
                 aria-pressed={selected}
                 className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium tracking-widest uppercase transition-colors duration-300 ${
                   selected
-                    ? "border-ecom-orange bg-ecom-orange text-white"
+                    ? "border-ecom-orange bg-ecom-orange text-ecom-on-accent"
                     : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/40 hover:text-ecom-ink"
                 }`}
               >
@@ -179,13 +179,13 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
               aria-label={t.workGallery.withTestimonialAriaLabel}
               className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium tracking-widest uppercase transition-colors duration-300 ${
                 testimonialsOnly
-                  ? "border-ecom-orange bg-ecom-orange/10 text-ecom-orange"
+                  ? "border-ecom-orange bg-ecom-orange/10 text-ecom-eyebrow"
                   : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/40 hover:text-ecom-ink"
               }`}
             >
               <PlayIcon className="h-2.5 w-2.5" />
               {t.workGallery.withTestimonial}
-              <span className={testimonialsOnly ? "text-ecom-orange/60" : "text-ecom-ink/40"}>
+              <span className={testimonialsOnly ? "text-ecom-eyebrow/70" : "text-ecom-ink/40"}>
                 {String(testimonials.length).padStart(2, "0")}
               </span>
             </button>

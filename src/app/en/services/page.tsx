@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <div className="shell py-20 lg:py-28">
-      <p className="eyebrow-rule text-sm font-medium uppercase tracking-[0.2em] text-ecom-orange">
+      <p className="eyebrow-rule text-sm font-medium uppercase tracking-[0.2em] text-ecom-eyebrow">
         {t.servicesPage.eyebrow}
       </p>
       <h1 className="mt-6 max-w-5xl text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">

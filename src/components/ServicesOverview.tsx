@@ -39,7 +39,7 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
           headline and layer list share the left column, rings and panel the right. */}
       <div className="grid gap-10 xl:grid-cols-[1fr_minmax(0,36rem)] xl:gap-x-16 xl:gap-y-8">
         <Reveal className="xl:col-start-1 xl:row-start-1">
-          <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-ink/50 uppercase">
+          <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-meta uppercase">
             {t.servicesOverview.eyebrow}
           </p>
           <h2 className="mt-6 font-display text-[clamp(2.5rem,5.5vw,6.5rem)] font-medium leading-[0.98] tracking-[-0.03em] text-ecom-ink">
@@ -72,7 +72,7 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
                   onMouseEnter={() => setActive(item.id)}
                   className={`rounded-full border px-4 py-2 text-left transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] xl:rounded-none xl:border-0 xl:border-l-2 xl:px-0 xl:py-2.5 xl:pl-5 ${
                     isActive
-                      ? "border-ecom-orange bg-ecom-orange text-white xl:bg-transparent xl:text-ecom-ink"
+                      ? "border-ecom-orange bg-ecom-orange text-ecom-on-accent xl:bg-transparent xl:text-ecom-ink"
                       : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/50 xl:border-ecom-ink/10"
                   }`}
                 >
@@ -135,7 +135,7 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
       <Reveal delay={0.2} className="mt-14 flex flex-wrap items-center gap-4">
         <Link
           href={localizedHref(lang, "/pricing")}
-          className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 text-sm font-medium tracking-wide text-white uppercase transition-colors duration-300 hover:bg-ecom-red"
+          className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 btn-text tracking-wide text-ecom-on-accent uppercase transition-colors duration-300 hover:bg-ecom-accent-hover hover:text-ecom-on-accent-hover"
         >
           {t.servicesOverview.ctaPlans}
           <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
@@ -144,7 +144,7 @@ export default function ServicesOverview({ lang }: { lang: Lang }) {
         </Link>
         <Link
           href={localizedHref(lang, "/services")}
-          className="inline-flex items-center gap-2 rounded-full border border-ecom-ink/15 px-7 py-3.5 text-sm font-medium tracking-wide text-ecom-ink uppercase transition-colors duration-300 hover:border-ecom-orange hover:text-ecom-orange"
+          className="inline-flex items-center gap-2 rounded-full border border-ecom-ink/15 px-7 py-3.5 btn-text tracking-wide text-ecom-ink uppercase transition-colors duration-300 hover:border-ecom-orange hover:text-ecom-orange"
         >
           {t.servicesOverview.cta}
         </Link>
