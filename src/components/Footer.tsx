@@ -16,7 +16,7 @@ export default function Footer() {
             left most of the shell empty on a wide screen. */}
         <div className="grid gap-14 lg:grid-cols-2 lg:items-start lg:gap-24">
           <Reveal>
-            <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-white uppercase">
+            <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-white/60 uppercase">
               {t.footer.eyebrow}
             </p>
             <h2 className="mt-5 font-display text-[clamp(2.5rem,6vw,7rem)] font-medium leading-[0.98] tracking-[-0.03em]">

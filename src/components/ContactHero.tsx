@@ -26,7 +26,7 @@ export default function ContactHero() {
             event.preventDefault();
             smoothScrollTo("#contact-form");
           }}
-          className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-ecom-orange/30 bg-ecom-orange/[0.06] px-5 py-3 text-base font-semibold text-ecom-eyebrow transition-colors duration-300 hover:bg-ecom-orange/10"
+          className="mt-8 inline-flex items-center gap-2.5 rounded-full border border-ecom-orange/30 bg-ecom-orange/[0.06] px-5 py-3 btn-text text-ecom-eyebrow transition-colors duration-300 hover:bg-ecom-orange/10"
         >
           {t.contactPage.scrollToFormCta}
           <motion.span

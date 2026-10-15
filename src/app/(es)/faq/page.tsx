@@ -40,7 +40,7 @@ export default function FaqPage() {
               <p className="mt-2 text-sm text-ecom-ink/70">{t.faqPage.stillCopy}</p>
               <Link
                 href={localizedHref(LANG, "/contact")}
-                className="mt-5 inline-flex items-center gap-2 rounded-full bg-ecom-orange px-6 py-3 text-base font-semibold tracking-wide text-ecom-black uppercase transition-colors duration-300 hover:bg-ecom-ink hover:text-ecom-surface"
+                className="mt-5 inline-flex items-center gap-2 rounded-full bg-ecom-orange px-6 py-3 btn-text tracking-wide text-ecom-on-accent uppercase transition-colors duration-300 hover:bg-ecom-accent-hover hover:text-ecom-on-accent-hover"
               >
                 {t.faqPage.cta}
                 <span aria-hidden>&rarr;</span>

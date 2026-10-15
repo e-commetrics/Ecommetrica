@@ -32,7 +32,7 @@ export default function CustomPlanBanner({ variant = "light" }: { variant?: "lig
         </h3>
         <p
           className={`mt-1 text-xs tracking-wide uppercase ${
-            dark ? "text-white/50" : "text-ecom-ink/70"
+            dark ? "text-white/50" : "text-ecom-meta"
           }`}
         >
           {customPlan.minDuration[lang]}
@@ -64,7 +64,7 @@ export default function CustomPlanBanner({ variant = "light" }: { variant?: "lig
           {p.customFromLabel} {formatUSD(customPlan.priceFromValue[region])}
           <span
             className={`ml-1.5 text-sm font-normal tracking-normal ${
-              dark ? "text-white/50" : "text-ecom-ink/70"
+              dark ? "text-white/50" : "text-ecom-meta"
             }`}
           >
             {p.perMonth}
@@ -77,7 +77,7 @@ export default function CustomPlanBanner({ variant = "light" }: { variant?: "lig
               customPlanSummaryMessage(lang, region, t.packagesFlow.messagePlanLabel, p.perMonth),
             )
           }
-          className={`group/cta mt-7 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 text-base font-semibold tracking-wide transition-colors duration-300 hover:bg-ecom-orange hover:text-ecom-black ${
+          className={`group/cta mt-7 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3.5 btn-text tracking-wide transition-colors duration-300 hover:bg-ecom-orange hover:text-ecom-on-accent ${
             dark ? "bg-white text-ecom-black" : "bg-ecom-ink/5 text-ecom-ink"
           }`}
         >

@@ -10,11 +10,15 @@ import { useLanguage } from "@/components/LanguageProvider";
  *
  * `swatch` is the switcher dot: the two companions of the orange, split at 135°. The
  * orange itself is already on the logo and the buttons, so it isn't repeated here.
+ *
+ * `look` picks the component rules layered on top of the colors (see `lookVars`):
+ * Ember keeps the site's original look; the five new themes use the handoff rules.
  */
 export const THEMES = [
   {
     id: "ember",
     name: "Ember",
+    look: "original",
     swatch: ["#25272A", "#F2EDE9"],
     vars: {
       "--color-ecom-orange": "#E84A34",
@@ -23,12 +27,14 @@ export const THEMES = [
       "--color-ecom-surface": "#F2EDE9",
       "--color-ecom-ink": "#25272A",
       "--color-ecom-dark": "#25272A",
-      "--color-ecom-black": "#25272A",
-      "--color-ecom-eyebrow": "#25272A",
+      // The original near-black, not the handoff's #25272A: the dark blocks keep their depth.
+      "--color-ecom-black": "#121213",
+      "--color-ecom-eyebrow": "#E84A34",
     },
   },
   {
     id: "brasa",
+    look: "handoff",
     name: "Brasa",
     swatch: ["#9C1512", "#2B110B"],
     vars: {
@@ -44,6 +50,7 @@ export const THEMES = [
   },
   {
     id: "bugambilia",
+    look: "handoff",
     name: "Bugambilia",
     swatch: ["#C62B7A", "#420F32"],
     vars: {
@@ -59,6 +66,7 @@ export const THEMES = [
   },
   {
     id: "neon",
+    look: "handoff",
     name: "Neón",
     swatch: ["#45F0E4", "#0E1035"],
     vars: {
@@ -74,6 +82,7 @@ export const THEMES = [
   },
   {
     id: "acido",
+    look: "handoff",
     name: "Ácido",
     swatch: ["#D9FB3E", "#16180A"],
     vars: {
@@ -89,6 +98,7 @@ export const THEMES = [
   },
   {
     id: "holograma",
+    look: "handoff",
     name: "Holograma",
     swatch: ["#5B3FD1", "#F3F0FA"],
     vars: {
@@ -104,7 +114,44 @@ export const THEMES = [
   },
 ] as const;
 
-type ThemeId = (typeof THEMES)[number]["id"];
+type Theme = (typeof THEMES)[number];
+type ThemeId = Theme["id"];
+
+/**
+ * Component rules layered on top of a theme's colors. They're tokens rather than
+ * classes so one set of components can carry both looks. Keep the "original" branch in
+ * sync with the `:root` / `@theme` defaults in globals.css (the server render).
+ */
+function lookVars(theme: Theme): Record<string, string> {
+  const v = theme.vars;
+  if (theme.look === "original") {
+    return {
+      "--color-ecom-eyebrow-dark": v["--color-ecom-orange"],
+      "--color-ecom-on-accent": "#FFFFFF",
+      "--color-ecom-accent-hover": v["--color-ecom-red"],
+      "--color-ecom-on-accent-hover": "#FFFFFF",
+      "--color-ecom-meta": `color-mix(in srgb, ${v["--color-ecom-ink"]} 50%, transparent)`,
+      "--ecom-btn-size": "var(--text-sm)",
+      "--ecom-btn-weight": "500",
+      "--ecom-dash": "currentColor",
+      "--ecom-dash-opacity": "0.5",
+    };
+  }
+  // Handoff (15 oct 2026): white eyebrows on dark blocks, dark labels on the orange,
+  // ink/70 meta, 19px semibold buttons, solid orange dash. Orange buttons hover to
+  // ink/surface — a dark label on the deep accent would fail contrast.
+  return {
+    "--color-ecom-eyebrow-dark": "#FFFFFF",
+    "--color-ecom-on-accent": v["--color-ecom-black"],
+    "--color-ecom-accent-hover": v["--color-ecom-ink"],
+    "--color-ecom-on-accent-hover": v["--color-ecom-surface"],
+    "--color-ecom-meta": `color-mix(in srgb, ${v["--color-ecom-ink"]} 70%, transparent)`,
+    "--ecom-btn-size": "var(--text-base)",
+    "--ecom-btn-weight": "600",
+    "--ecom-dash": v["--color-ecom-orange"],
+    "--ecom-dash-opacity": "1",
+  };
+}
 
 export const DEFAULT_THEME: ThemeId = "ember";
 
@@ -151,7 +198,9 @@ export default function ThemeSwitcher() {
       window.setTimeout(() => root.classList.remove("theming"), 500);
     }
 
-    for (const [name, value] of Object.entries(theme.vars)) root.style.setProperty(name, value);
+    for (const [name, value] of Object.entries({ ...theme.vars, ...lookVars(theme) })) {
+      root.style.setProperty(name, value);
+    }
 
     setActive(id);
     if (persist) {

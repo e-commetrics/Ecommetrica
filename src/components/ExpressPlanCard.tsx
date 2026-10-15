@@ -32,7 +32,7 @@ export default function ExpressPlanCard({
       <div className="lg:w-2/5 lg:shrink-0">
         <p
           className={`text-xs font-medium tracking-[0.15em] uppercase ${
-            dark ? "text-white" : "text-ecom-eyebrow"
+            dark ? "text-ecom-eyebrow-dark" : "text-ecom-eyebrow"
           }`}
         >
           {p.stageLabel} · {plan.stage[lang]}
@@ -44,7 +44,7 @@ export default function ExpressPlanCard({
         >
           {plan.name[lang]}
         </h3>
-        <p className={`mt-1 text-xs tracking-wide uppercase ${dark ? "text-white/50" : "text-ecom-ink/70"}`}>
+        <p className={`mt-1 text-xs tracking-wide uppercase ${dark ? "text-white/50" : "text-ecom-meta"}`}>
           {plan.duration[lang]}
         </p>
         <p className={`mt-3 text-sm leading-relaxed ${dark ? "text-white/60" : "text-ecom-ink/70"}`}>
@@ -57,7 +57,7 @@ export default function ExpressPlanCard({
         >
           {formatUSD(plan.priceValue[region])}
         </p>
-        <p className={`mt-1 text-xs ${dark ? "text-white/40" : "text-ecom-ink/70"}`}>
+        <p className={`mt-1 text-xs ${dark ? "text-white/40" : "text-ecom-meta"}`}>
           {p.oneTimeLabel} · {planServiceCount(plan, region)} {p.servicesLabel}
         </p>
         {plan.note && (
@@ -71,10 +71,10 @@ export default function ExpressPlanCard({
         )}
         <Link
           href={`${localizedHref(lang, "/packages")}?plan=${plan.id}`}
-          className={`mt-7 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-base font-semibold tracking-wide uppercase transition-colors duration-300 ${
+          className={`mt-7 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 btn-text tracking-wide uppercase transition-colors duration-300 ${
             dark
-              ? "bg-white text-ecom-black hover:bg-ecom-orange hover:text-ecom-black"
-              : "bg-ecom-ink/5 text-ecom-ink hover:bg-ecom-orange hover:text-ecom-black"
+              ? "bg-white text-ecom-black hover:bg-ecom-orange hover:text-ecom-on-accent"
+              : "bg-ecom-ink/5 text-ecom-ink hover:bg-ecom-orange hover:text-ecom-on-accent"
           }`}
         >
           {ctaLabel}

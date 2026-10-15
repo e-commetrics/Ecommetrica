@@ -256,7 +256,7 @@ export default function PackagesConfigurator() {
           type="button"
           onClick={handleBack}
           disabled={step === 0}
-          className="inline-flex items-center gap-2 rounded-full border border-ecom-ink/15 px-6 py-3 text-base font-semibold text-ecom-ink transition-colors duration-300 hover:border-ecom-ink/30 disabled:cursor-not-allowed disabled:opacity-0"
+          className="inline-flex items-center gap-2 rounded-full border border-ecom-ink/15 px-6 py-3 btn-text text-ecom-ink transition-colors duration-300 hover:border-ecom-ink/30 disabled:cursor-not-allowed disabled:opacity-0"
         >
           <span aria-hidden>&larr;</span>
           {t.packagesFlow.backCta}
@@ -266,7 +266,7 @@ export default function PackagesConfigurator() {
           <button
             type="button"
             onClick={handleContinue}
-            className="inline-flex items-center gap-2 rounded-full bg-ecom-ink px-8 py-3.5 text-base font-semibold text-ecom-surface transition-colors duration-300 hover:bg-ecom-orange hover:text-ecom-black"
+            className="inline-flex items-center gap-2 rounded-full bg-ecom-ink px-8 py-3.5 btn-text text-ecom-surface transition-colors duration-300 hover:bg-ecom-orange hover:text-ecom-on-accent"
           >
             {t.packagesFlow.continueCta}
             <span aria-hidden>&rarr;</span>
@@ -275,7 +275,7 @@ export default function PackagesConfigurator() {
           <Link
             href={`${localizedHref(lang, "/contact")}#contact-form`}
             onClick={() => setPackageSummary(buildSummaryMessage())}
-            className="inline-flex items-center gap-2 rounded-full bg-ecom-orange px-8 py-3.5 text-base font-semibold text-ecom-black transition-colors duration-300 hover:bg-ecom-ink hover:text-ecom-surface"
+            className="inline-flex items-center gap-2 rounded-full bg-ecom-orange px-8 py-3.5 btn-text text-ecom-on-accent transition-colors duration-300 hover:bg-ecom-accent-hover hover:text-ecom-on-accent-hover"
           >
             {t.packagesFlow.summarySendCta}
             <span aria-hidden>&rarr;</span>
@@ -304,7 +304,7 @@ function Stepper({
 }) {
   return (
     <div>
-      <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/70 uppercase lg:hidden">
+      <p className="text-sm font-medium tracking-[0.2em] text-ecom-meta uppercase lg:hidden">
         {stepOfLabel}
       </p>
       <ol className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-3 lg:mt-0">
@@ -330,7 +330,7 @@ function Stepper({
                 aria-current={isActive ? "step" : undefined}
                 className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-sm font-medium tracking-wide transition-colors duration-300 sm:px-4 ${
                   isActive
-                    ? "border-ecom-orange bg-ecom-orange text-ecom-black"
+                    ? "border-ecom-orange bg-ecom-orange text-ecom-on-accent"
                     : isDone
                       ? "border-ecom-orange/40 text-ecom-ink hover:border-ecom-orange"
                       : "border-ecom-ink/15 text-ecom-ink/40"
@@ -385,7 +385,7 @@ function PlanStep({
             }`}
           >
             {plan.featured && (
-              <span className="absolute -top-3 left-7 rounded-full bg-ecom-orange px-3 py-1 text-xs font-medium tracking-widest text-ecom-black uppercase">
+              <span className="absolute -top-3 left-7 rounded-full bg-ecom-orange px-3 py-1 text-xs font-medium tracking-widest text-ecom-on-accent uppercase">
                 {t.pricingPage.bestValueBadge}
               </span>
             )}
@@ -402,7 +402,7 @@ function PlanStep({
                 aria-hidden
                 className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full border text-sm transition-colors duration-300 ${
                   isSelected
-                    ? "border-ecom-orange bg-ecom-orange text-ecom-black"
+                    ? "border-ecom-orange bg-ecom-orange text-ecom-on-accent"
                     : "border-ecom-ink/20 text-transparent"
                 }`}
               >
@@ -412,12 +412,12 @@ function PlanStep({
             <p className="mt-4 font-display text-3xl font-medium tracking-[-0.02em] text-ecom-ink">
               {formatUSD(plan.priceValue[region])}
               {!plan.oneTime && (
-                <span className="ml-1.5 text-sm font-normal tracking-normal text-ecom-ink/70">
+                <span className="ml-1.5 text-sm font-normal tracking-normal text-ecom-meta">
                   {t.pricingPage.perMonth}
                 </span>
               )}
             </p>
-            <p className="mt-1 text-xs text-ecom-ink/70">
+            <p className="mt-1 text-xs text-ecom-meta">
               {plan.oneTime
                 ? plan.duration[lang]
                 : `${t.pricingPage.totalLabel} ${formatUSD(planTotal(plan, region))} · ${plan.duration[lang]}`}
@@ -429,7 +429,7 @@ function PlanStep({
               type="button"
               aria-pressed={isSelected}
               className={`mt-6 inline-flex w-fit cursor-pointer items-center gap-2 rounded-full px-4 py-2 text-sm font-medium tracking-wide uppercase focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ecom-orange ${
-                isSelected ? "bg-ecom-orange text-ecom-black" : "bg-ecom-ink/5 text-ecom-ink/70"
+                isSelected ? "bg-ecom-orange text-ecom-on-accent" : "bg-ecom-ink/5 text-ecom-ink/70"
               }`}
             >
               {isSelected ? selectedLabel : selectLabel}
@@ -438,7 +438,7 @@ function PlanStep({
         );
       })}
     </div>
-    {region === "us" && <p className="mt-6 text-sm text-ecom-ink/70">{t.pricingPage.footnote}</p>}
+    {region === "us" && <p className="mt-6 text-sm text-ecom-meta">{t.pricingPage.footnote}</p>}
     </>
   );
 }
@@ -507,7 +507,7 @@ function AddonStep({
                   included
                     ? "cursor-not-allowed border-ecom-ink/10 text-ecom-ink/40"
                     : selected
-                      ? "border-ecom-orange bg-ecom-orange text-ecom-black"
+                      ? "border-ecom-orange bg-ecom-orange text-ecom-on-accent"
                       : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/50 hover:text-ecom-ink"
                 }`}
               >
@@ -566,14 +566,14 @@ function TotalBlock({
         <span className={amountClass}>
           {formatUSD(oneTime ? packageTotal : monthlyTotal)}
           {!oneTime && (
-            <span className="ml-1 text-sm font-normal tracking-normal text-ecom-ink/70">
+            <span className="ml-1 text-sm font-normal tracking-normal text-ecom-meta">
               {t.pricingPage.perMonth}
             </span>
           )}
         </span>
       </div>
       {plan && (
-        <p className="mt-1 text-right text-xs text-ecom-ink/70">
+        <p className="mt-1 text-right text-xs text-ecom-meta">
           {oneTime
             ? plan.duration[lang]
             : `${t.packagesFlow.summaryPlanTotal} ${formatUSD(packageTotal)} · ${plan.duration[lang]}`}
@@ -618,20 +618,20 @@ function SummaryStep({
             <p className="font-display text-xl font-medium text-ecom-ink">
               {formatUSD(plan.priceValue[region])}
               {!plan.oneTime && (
-                <span className="ml-1 text-sm font-normal text-ecom-ink/70">
+                <span className="ml-1 text-sm font-normal text-ecom-meta">
                   {t.pricingPage.perMonth}
                 </span>
               )}
             </p>
           </div>
           {plan.oneTime && (
-            <p className="mt-1 text-right text-xs text-ecom-ink/70">{plan.duration[lang]}</p>
+            <p className="mt-1 text-right text-xs text-ecom-meta">{plan.duration[lang]}</p>
           )}
         </div>
       )}
 
       <div className="mt-6">
-        <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/70 uppercase">
+        <p className="text-sm font-medium tracking-[0.2em] text-ecom-meta uppercase">
           {t.packagesFlow.summaryExtras}
         </p>
         {plan?.oneTime ? (
@@ -690,7 +690,7 @@ function OrderSummary({
 
   return (
     <aside className="rounded-2xl border border-ecom-ink/10 bg-ecom-ink/[0.02] p-6 lg:sticky lg:top-28">
-      <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/70 uppercase">
+      <p className="text-sm font-medium tracking-[0.2em] text-ecom-meta uppercase">
         {t.packagesFlow.orderSummaryLabel}
       </p>
 
@@ -703,7 +703,7 @@ function OrderSummary({
           </span>
         </div>
       ) : (
-        <p className="mt-4 border-b border-ecom-ink/10 pb-4 text-sm text-ecom-ink/70">
+        <p className="mt-4 border-b border-ecom-ink/10 pb-4 text-sm text-ecom-meta">
           {t.packagesFlow.requirePlanNotice}
         </p>
       )}

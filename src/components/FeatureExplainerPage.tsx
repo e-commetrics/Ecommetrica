@@ -70,7 +70,7 @@ export default function FeatureExplainerPage({
           <aside className="rounded-3xl border border-ecom-ink/10 bg-ecom-ink/[0.03] p-6 sm:p-8">
             {includingPlans.length > 0 && (
               <>
-                <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/70 uppercase">
+                <p className="text-sm font-medium tracking-[0.2em] text-ecom-meta uppercase">
                   {t.pricingPage.includedInLabel}
                 </p>
                 <ul className="mt-5 flex flex-col divide-y divide-ecom-ink/10">
@@ -97,14 +97,14 @@ export default function FeatureExplainerPage({
             <div className="mt-6 flex flex-col gap-3">
               <Link
                 href={localizedHref(lang, "/pricing")}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-ecom-orange px-6 py-3 text-base font-semibold tracking-wide text-ecom-black uppercase transition-colors duration-300 hover:bg-ecom-ink hover:text-ecom-surface"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-ecom-orange px-6 py-3 btn-text tracking-wide text-ecom-on-accent uppercase transition-colors duration-300 hover:bg-ecom-accent-hover hover:text-ecom-on-accent-hover"
               >
                 {content.backCta}
                 <span aria-hidden>&rarr;</span>
               </Link>
               <Link
                 href={localizedHref(lang, "/contact")}
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-ecom-ink/15 px-6 py-3 text-base font-semibold tracking-wide text-ecom-ink uppercase transition-colors duration-300 hover:border-ecom-orange hover:text-ecom-orange"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-ecom-ink/15 px-6 py-3 btn-text tracking-wide text-ecom-ink uppercase transition-colors duration-300 hover:border-ecom-orange hover:text-ecom-orange"
               >
                 {t.nav.talk}
               </Link>

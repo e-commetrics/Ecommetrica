@@ -223,7 +223,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="mt-2 inline-flex w-fit items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-medium text-ecom-black transition-colors hover:bg-ecom-orange hover:text-ecom-black disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-2 inline-flex w-fit items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-sm font-medium text-ecom-black transition-colors hover:bg-ecom-orange hover:text-ecom-on-accent disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "submitting" ? t.contactForm.submitting : t.contactForm.submit}
         <span aria-hidden>&#8599;</span>

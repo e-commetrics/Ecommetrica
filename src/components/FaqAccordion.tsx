@@ -48,7 +48,7 @@ export default function FaqAccordion({ lang }: { lang: Lang }) {
                 <span
                   className={`grid size-9 shrink-0 place-items-center rounded-full border transition-colors duration-300 ${
                     isOpen
-                      ? "border-ecom-orange bg-ecom-orange text-ecom-black"
+                      ? "border-ecom-orange bg-ecom-orange text-ecom-on-accent"
                       : "border-ecom-ink/15 text-ecom-ink/60 group-hover:border-ecom-orange group-hover:text-ecom-orange"
                   }`}
                 >

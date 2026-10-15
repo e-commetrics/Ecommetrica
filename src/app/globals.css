@@ -12,9 +12,9 @@
                            hardcoded white, so they must never lighten.
      Use ink for text/borders on the page, and dark/black for dark blocks.
      Never use ecom-dark as a text color — it is a background role. */
-  /* Defaults are the Ember theme (brand book V1.3 §02), so the server render
-     matches before ThemeSwitcher runs. Orange and logo are #E84A34 in all six
-     themes: the E never changes color. */
+  /* Defaults are the Ember theme with its original look, so the server render
+     matches before ThemeSwitcher runs (keep in sync with lookVars() there).
+     Orange and logo are #E84A34 in all six themes: the E never changes color. */
   --color-ecom-orange: #e84a34; /* primary accent, from logo mark */
   --color-ecom-logo: #e84a34; /* the navbar lockup; same in every theme */
   --color-ecom-red: #9c1512; /* deep accent: gradients and fills only, never text */
@@ -23,12 +23,20 @@
 
   --color-ecom-surface: #f2ede9;
   --color-ecom-ink: #25272a;
-  /* Eyebrows and numerals on the surface. Its own token because the orange
-     doesn't hold contrast on every surface (Ácido is lime). */
-  --color-ecom-eyebrow: #25272a;
+  /* Eyebrows, numerals and small accent text on the surface. Its own token
+     because the orange doesn't hold contrast on every surface (Ácido is lime). */
+  --color-ecom-eyebrow: #e84a34;
+  /* Eyebrows on dark blocks (orange in Ember, white in the handoff themes). */
+  --color-ecom-eyebrow-dark: #e84a34;
+  /* Secondary/meta text on the surface: ink at 50% in Ember, 70% elsewhere. */
+  --color-ecom-meta: color-mix(in srgb, #25272a 50%, transparent);
+  /* Labels on an orange fill, and the orange button's hover state. */
+  --color-ecom-on-accent: #ffffff;
+  --color-ecom-accent-hover: #9c1512;
+  --color-ecom-on-accent-hover: #ffffff;
 
   --color-ecom-dark: #25272a;
-  --color-ecom-black: #25272a;
+  --color-ecom-black: #121213;
 
   --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
@@ -105,9 +113,18 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
 }
 
+/* Theme look values that aren't colors (set per theme by ThemeSwitcher's
+   lookVars; these defaults are Ember's original look). */
+:root {
+  --ecom-btn-size: var(--text-sm);
+  --ecom-btn-weight: 500;
+  --ecom-dash: currentColor;
+  --ecom-dash-opacity: 0.5;
+}
+
 ::selection {
   background: var(--color-ecom-orange);
-  color: var(--color-ecom-black); /* same rule as button labels on the orange */
+  color: var(--color-ecom-on-accent); /* same rule as button labels on the orange */
 }
 
 /* ThemeSwitcher adds .theming to <html> for the length of a swap so every
@@ -232,8 +249,9 @@ html.theming *::after {
   }
 }
 
-/* Eyebrow rule: the small accent dash that precedes section kickers. Always the
-   brand orange, whatever color the eyebrow text itself takes in the theme. */
+/* Eyebrow rule: the small accent dash that precedes section kickers. Ember draws
+   it in the eyebrow's own color at half strength; the handoff themes always use
+   solid orange, whatever color the eyebrow text takes. */
 @utility eyebrow-rule {
   &::before {
     content: "";
@@ -242,6 +260,15 @@ html.theming *::after {
     height: 1px;
     margin-right: 0.75rem;
     vertical-align: middle;
-    background: var(--color-ecom-orange);
+    background: var(--ecom-dash);
+    opacity: var(--ecom-dash-opacity);
   }
+}
+
+/* Pill button label size: 17px medium in Ember, 19px semibold (large text) in
+   the handoff themes. Line height follows the size like Tailwind's text-*. */
+@utility btn-text {
+  font-size: var(--ecom-btn-size);
+  font-weight: var(--ecom-btn-weight);
+  line-height: 1.5;
 }

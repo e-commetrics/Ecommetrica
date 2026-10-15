@@ -94,7 +94,7 @@ export default function AboutStudio() {
         transition={{ duration: 0.6 }}
         className="text-right"
       >
-        <p className="text-sm font-medium tracking-[0.2em] text-ecom-ink/70 uppercase">
+        <p className="text-sm font-medium tracking-[0.2em] text-ecom-meta uppercase">
           {t.aboutStudio.eyebrow}
         </p>
         {/* The asterisk was a &#10038; glyph, whose weight and proportions are
@@ -206,7 +206,7 @@ export default function AboutStudio() {
               >
                 <motion.span
                   variants={textItemVariants}
-                  className="block text-sm font-medium tracking-widest text-ecom-ink/70 uppercase"
+                  className="block text-sm font-medium tracking-widest text-ecom-meta uppercase"
                 >
                   {String(index + 1).padStart(2, "0")} /{" "}
                   {String(TOTAL).padStart(2, "0")}
@@ -219,7 +219,7 @@ export default function AboutStudio() {
                 </motion.h3>
                 <motion.p
                   variants={textItemVariants}
-                  className="mt-1 text-sm font-medium tracking-wide text-ecom-ink/70 uppercase"
+                  className="mt-1 text-sm font-medium tracking-wide text-ecom-meta uppercase"
                 >
                   {member.role[lang]}
                 </motion.p>

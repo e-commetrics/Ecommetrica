@@ -128,7 +128,7 @@ function ProjectSlide({
           )}
           <div className="absolute inset-0 flex items-start justify-end p-4">
             {/* Sits on the artwork, so it stays a light pill in every theme */}
-            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-ecom-black shadow-sm transition-all duration-300 group-hover:bg-ecom-orange group-hover:text-ecom-black">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-ecom-black shadow-sm transition-all duration-300 group-hover:bg-ecom-orange group-hover:text-ecom-on-accent">
               &#8599;
             </span>
           </div>
@@ -142,7 +142,7 @@ function ProjectSlide({
             transition={{ duration: 0.3, ease: "easeOut" }}
             className="absolute inset-0 flex flex-col justify-end bg-linear-to-t from-ecom-black/90 via-ecom-black/50 to-transparent p-6"
           >
-            <span className="text-sm font-medium tracking-widest text-white uppercase">
+            <span className="text-sm font-medium tracking-widest text-ecom-eyebrow-dark uppercase">
               {String(order).padStart(2, "0")} — {categoryLabel(project.category, lang)}
             </span>
             <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-white/80">
@@ -217,7 +217,7 @@ function SeeAllProjects({ href, label, className = "" }: { href: string; label: 
       href={href}
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.97 }}
-      className={`group inline-flex items-center gap-2.5 rounded-full bg-ecom-dark px-7 py-3.5 text-base font-semibold text-white uppercase tracking-wide shadow-lg shadow-ecom-dark/20 transition-colors duration-300 hover:bg-ecom-orange ${className}`}
+      className={`group inline-flex items-center gap-2.5 rounded-full bg-ecom-dark px-7 py-3.5 btn-text text-white uppercase tracking-wide shadow-lg shadow-ecom-dark/20 transition-colors duration-300 hover:bg-ecom-orange ${className}`}
     >
       {label}
       <span
