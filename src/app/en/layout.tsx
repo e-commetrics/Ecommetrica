@@ -10,6 +10,8 @@ import { LanguageProvider } from "@/components/LanguageProvider";
 import { RegionProvider } from "@/components/RegionProvider";
 import { ContactPrefillProvider } from "@/components/ContactPrefillProvider";
 import JsonLd from "@/components/JsonLd";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import MetaPixel from "@/components/MetaPixel";
 import { getDict } from "@/lib/i18n/dict";
 import { SITE_URL } from "@/lib/i18n/seo";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
@@ -53,6 +55,8 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col antialiased" suppressHydrationWarning>
         <JsonLd data={organizationSchema(LANG)} />
         <JsonLd data={websiteSchema(LANG)} />
+        <GoogleAnalytics />
+        <MetaPixel />
         <LanguageProvider lang={LANG}>
           <RegionProvider>
             <ContactPrefillProvider>

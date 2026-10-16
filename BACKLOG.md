@@ -25,7 +25,7 @@ Pendientes y puntos por revisar.
   - **Declaración de accesibilidad:** no existe página ni enlace en el footer (solo `/vpat`, que explica el servicio). Necesita fecha de prueba, estándar, límites conocidos y contacto para reportar barreras.
   - **Enlace "saltar al contenido":** no hay, y `<main>` en `(es)/layout.tsx` y `en/layout.tsx` no tiene ancla.
   - **Videos con autoplay y bucle** sin control de pausa ni subtítulos: `Pillars.tsx`, `studio/page.tsx`, `services/page.tsx` (es y en) y `CaseStudyDetail.tsx` (el que lleva `controls` sí se puede pausar). Confirmar cuáles tienen audio y si respetan `prefers-reduced-motion`.
-  - **Contraste (4.5:1):** medir `text-white/50` (etiquetas de `ContactForm.tsx`) y `text-white/60` (links del footer) sobre el degradado, en `ember`, `crimson` y `noir`. Sospecha de que no llegan, sobre todo en el tramo naranja.
+  - **Contraste (4.5:1): medido con axe el 2026-10-15 sobre el árbol unido con QA.** Ember conserva el aspecto original aprobado por el owner y falla en cuatro casos: etiquetas naranja pequeñas (`text-ecom-eyebrow`, 3.3:1), texto secundario al 50 % (`text-ecom-meta`, 2.96:1), letra blanca sobre botón naranja (3.84:1) y algunos `ink/45` sueltos. Los otros temas tienen fallos puntuales (2 a 21 elementos). Se arreglaría con valores de token solo en Ember, pendiente de aprobación del owner (la solución probada está en el commit `68f77f0`).
   - **Alt:** 11 de 18 `<img>` tienen `alt=""`; revisar que todos sean decorativos.
   - **Menú móvil (`Header.tsx`):** confirmar que atrapa y devuelve el foco, y que Escape lo cierra.
   - **Evidencia de pruebas:** correr axe en cada plantilla (home, services, pricing, packages, work, blog, contact, legal), más una pasada con teclado y con NVDA y VoiceOver sobre el formulario. Guardar el reporte con fecha y quién lo hizo. Sin esto no se puede publicar la declaración ni usar el VPAT propio.
@@ -74,3 +74,10 @@ Pendientes y puntos por revisar.
 - [ ] **Probar con teclado** la tarjeta de plan del configurador (`PackagesConfigurator.tsx`, `PlanStep`): Tab, Enter y Espacio sobre "Ver todo lo incluido", "Saber más" y "Seleccionar". Se corrigió leyendo el código, no en un navegador.
 - [ ] **Mensaje del commit `62449a1`** dice que VPAT se "refactorizó" sobre `FeatureExplainerPage`, pero `/vpat` y `vpatPage` no existían antes; es una página nueva. El commit ya está en `production` y `qa`, así que solo queda como nota.
 - [ ] **Cambios sin commit** de la revisión del 2026-10-02: `scripts/generate-seo.ts` (sitemap con `/packages`, `/ga4`, `/meta-graph-api`, `/google-business-profile`), `PackagesConfigurator.tsx` (botón real en vez de `role="button"`) y `Planes.tsx` (nota de la ★ en la home). Falta commit y PR a `qa`.
+
+## Actualización 2026-10-15
+- Se unió `development` con la rama QA del owner (commit `42ad630`); en colores y textos ganó la versión del owner. El contraste de Ember queda como decisión del owner: la solución probada de cuatro valores está en el commit `68f77f0`.
+- Se agregaron Google Analytics (GA4, `G-41JBQVH40M`) y Meta Pixel (`557300731391676`) en `src/components/GoogleAnalytics.tsx` y `MetaPixel.tsx`, usados en `src/app/(es)/layout.tsx` y `src/app/en/layout.tsx`. No cargan en `/arturo` ni `/bites`. Cargan antes de cualquier consentimiento: faltan banner, Consent Mode v2 y GPC (decisión 20 del resumen para el owner).
+- La política publicada en `src/lib/i18n/dict.ts` (es, línea ~920; en, línea ~1570) dice que el sitio no usa cookies de publicidad ni de analítica: deja de ser cierta con los rastreadores activos.
+- `NEXT_PUBLIC_BACKEND_URL` se fija al compilar: compilar con la URL real de producción antes de subir `out/`.
+- Detalle completo en `BACKLOG-compliance-remediation.md` (carpeta `e-commetrics`, fuera del repo).

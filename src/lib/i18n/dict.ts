@@ -917,7 +917,7 @@ export const dict: Record<Lang, Dict> = {
         {
           heading: "Cookies y registros técnicos",
           paragraphs: [
-            "Este sitio no usa cookies de publicidad ni de analítica. Solo guarda en tu navegador el tema de color que elijas, que no te identifica.",
+            "Este sitio usa Google Analytics para medir las visitas y Meta Pixel para medir la publicidad. Ambos pueden guardar cookies y enviar a Google y a Meta datos como tu dirección IP, las páginas que visitas y información de tu navegador. Además, el sitio guarda en tu navegador el tema de color, el idioma y la región de precios que elijas, que no te identifican.",
             "Para mostrarte los precios de tu mercado (México o Estados Unidos), nuestro servidor consulta de qué país viene tu dirección IP. Solo usamos el país, no lo guardamos ni lo vinculamos contigo.",
             "Como cualquier sitio web, nuestro proveedor de hosting registra datos técnicos de cada visita (dirección IP, navegador, fecha y hora) para operar y proteger el sitio. Estos registros no se vinculan con tus datos de contacto.",
           ],
@@ -1567,7 +1567,7 @@ export const dict: Record<Lang, Dict> = {
         {
           heading: "Cookies and technical logs",
           paragraphs: [
-            "This site doesn't use advertising or analytics cookies. It only stores the color theme you choose in your browser, which doesn't identify you.",
+            "This site uses Google Analytics to measure visits and Meta Pixel to measure advertising. Both may store cookies and send data such as your IP address, the pages you visit and information about your browser to Google and Meta. The site also stores in your browser the color theme, language and pricing region you choose, which do not identify you.",
             "To show you the prices for your market (Mexico or the United States), our server looks up which country your IP address comes from. We only use the country; we don't store it or link it to you.",
             "Like any website, our hosting provider logs technical data for each visit (IP address, browser, date and time) to run and protect the site. These logs aren't linked to your contact details.",
           ],
