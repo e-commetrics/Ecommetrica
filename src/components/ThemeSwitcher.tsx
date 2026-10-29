@@ -30,6 +30,7 @@ export const THEMES = [
       // The original near-black, not the handoff's #25272A: the dark blocks keep their depth.
       "--color-ecom-black": "#121213",
       "--color-ecom-eyebrow": "#E84A34",
+      "--color-ecom-hero": "#E84A34",
     },
   },
   {
@@ -46,6 +47,7 @@ export const THEMES = [
       "--color-ecom-dark": "#3B1D16",
       "--color-ecom-black": "#1C0906",
       "--color-ecom-eyebrow": "#E84A34",
+      "--color-ecom-hero": "#9C1512",
     },
   },
   {
@@ -62,6 +64,7 @@ export const THEMES = [
       "--color-ecom-dark": "#561B43",
       "--color-ecom-black": "#190B15",
       "--color-ecom-eyebrow": "#EDA6C1",
+      "--color-ecom-hero": "#C62B7A",
     },
   },
   {
@@ -78,6 +81,7 @@ export const THEMES = [
       "--color-ecom-dark": "#1C2060",
       "--color-ecom-black": "#07081F",
       "--color-ecom-eyebrow": "#45F0E4",
+      "--color-ecom-hero": "#45F0E4",
     },
   },
   {
@@ -94,6 +98,7 @@ export const THEMES = [
       "--color-ecom-dark": "#2A2F10",
       "--color-ecom-black": "#16180A",
       "--color-ecom-eyebrow": "#16180A",
+      "--color-ecom-hero": "#D9FB3E",
     },
   },
   {
@@ -110,6 +115,7 @@ export const THEMES = [
       "--color-ecom-dark": "#2A2450",
       "--color-ecom-black": "#14112A",
       "--color-ecom-eyebrow": "#5B3FD1",
+      "--color-ecom-hero": "#FF5FC8",
     },
   },
 ] as const;

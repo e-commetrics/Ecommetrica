@@ -18,6 +18,7 @@
   --color-ecom-orange: #e84a34; /* primary accent, from logo mark */
   --color-ecom-logo: #e84a34; /* the navbar lockup; same in every theme */
   --color-ecom-red: #9c1512; /* deep accent: gradients and fills only, never text */
+  --color-ecom-hero: #e84a34; /* per-theme color of the hero canvases (rings, particles) */
   --color-ecom-gray: #585a5c;
   --color-ecom-cream: #f2ede9;
 

@@ -193,7 +193,7 @@ export default function BlogHero({ lang, posts, topics }: { lang: Lang; posts: B
                   href={localizedHref(lang, `/blog/${post.slug}`)}
                   tabIndex={isTop ? 0 : -1}
                   aria-hidden={isTop ? undefined : true}
-                  className="absolute top-1/2 left-1/2 block aspect-[4/5] w-[min(78%,480px)] origin-[50%_120%] overflow-hidden rounded-[22px] bg-[#1b1b1d] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)] ring-1 ring-white/10 transition-[transform,opacity,filter] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
+                  className="absolute top-1/2 left-1/2 block aspect-[4/5] w-[min(86%,480px)] origin-[50%_120%] overflow-hidden rounded-[22px] bg-[#1b1b1d] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.8)] ring-1 ring-white/10 transition-[transform,opacity,filter] duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]"
                   style={{
                     transform,
                     zIndex: 10 - pos,
@@ -203,14 +203,14 @@ export default function BlogHero({ lang, posts, topics }: { lang: Lang; posts: B
                   }}
                 >
                   {post.coverImage && (
-                    <Image src={post.coverImage} alt={post.coverImageAlt ?? ""} fill sizes="(min-width: 1024px) 480px, 78vw" className="object-cover" priority={pos === 0} />
+                    <Image src={post.coverImage} alt={post.coverImageAlt ?? ""} fill sizes="(min-width: 1024px) 480px, 86vw" className="object-cover" priority={pos === 0} />
                   )}
                   <span className="absolute top-4 left-4 rounded-full bg-black/55 px-3 py-1.5 text-xs tracking-wide backdrop-blur-sm">
                     {formatDate(post.date)}
                   </span>
-                  <span className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/95 via-black/70 to-transparent p-6 pt-16">
-                    <span className="block font-display text-[1.35rem] leading-tight font-medium">{post.title}</span>
-                    <span className="mt-2 line-clamp-2 block text-sm leading-relaxed text-white/70">{post.excerpt}</span>
+                  <span className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/95 via-black/70 to-transparent p-5 pt-12 sm:p-6 sm:pt-16">
+                    <span className="block font-display text-lg leading-tight font-medium sm:text-[1.35rem]">{post.title}</span>
+                    <span className="mt-2 line-clamp-2 text-sm leading-relaxed text-white/70">{post.excerpt}</span>
                     <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium tracking-[0.14em] text-ecom-orange uppercase">
                       {h.readCta} <span aria-hidden>&rarr;</span>
                     </span>

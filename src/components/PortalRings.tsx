@@ -12,7 +12,7 @@ const PARTICLES = 70;
  * - Pauses its frame loop while off screen (browsers already pause it in hidden tabs).
  * - With prefers-reduced-motion it draws one still frame.
  * - On touch devices (no hover) the tilt drifts on its own instead of following a pointer.
- * The color is read from --color-ecom-orange, which is #E84A34 in every theme.
+ * The color is read every frame from --color-ecom-hero, so it follows the theme switcher.
  */
 export default function PortalRings({ className = "" }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -26,8 +26,7 @@ export default function PortalRings({ className = "" }: { className?: string }) 
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const canHover = window.matchMedia("(hover: hover)").matches;
-    const orange = getComputedStyle(document.documentElement).getPropertyValue("--color-ecom-orange").trim() || "#e84a34";
-    const [r, g, b] = [1, 3, 5].map((i) => parseInt(orange.slice(i, i + 2), 16));
+    const rootStyle = getComputedStyle(document.documentElement);
 
     let width = 0;
     let height = 0;
@@ -75,6 +74,10 @@ export default function PortalRings({ className = "" }: { className?: string }) 
       x += (targetX - x) * 0.05;
       y += (targetY - y) * 0.05;
 
+      const hero = rootStyle.getPropertyValue("--color-ecom-hero").trim() || "#e84a34";
+      const [r, g, b] = [1, 3, 5].map((i) => parseInt(hero.slice(i, i + 2), 16));
+      const [pr, pg, pb] = [r, g, b].map((c) => Math.round((c + 510) / 3));
+
       ctx.clearRect(0, 0, width, height);
       const cx = width / 2 + x * 80;
       const cy = height / 2 + y * 60;
@@ -102,7 +105,7 @@ export default function PortalRings({ className = "" }: { className?: string }) 
         ctx.stroke();
         ctx.restore();
 
-        ctx.fillStyle = `rgba(255,190,170,${alpha})`;
+        ctx.fillStyle = `rgba(${pr},${pg},${pb},${alpha})`;
         for (const p of particles) {
           if (p.ring !== i) continue;
           if (!reduceMotion) p.angle += p.speed * 0.01;

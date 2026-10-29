@@ -129,10 +129,17 @@ export function mountGravityScene(o: GravitySceneOptions): () => void {
 
   const geo = new THREE.TorusGeometry(0.8, 0.28, 32, 96);
   const mats = [
-    new THREE.MeshPhysicalMaterial({ color: 0xe84a34, roughness: 0.22, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.1 }),
-    new THREE.MeshPhysicalMaterial({ color: 0x1c1c1f, roughness: 0.28, metalness: 0.35, clearcoat: 1, clearcoatRoughness: 0.15 }),
+    new THREE.MeshPhysicalMaterial({ roughness: 0.22, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.1 }),
+    new THREE.MeshPhysicalMaterial({ roughness: 0.28, metalness: 0.35, clearcoat: 1, clearcoatRoughness: 0.15 }),
     new THREE.MeshPhysicalMaterial({ color: 0xf2ede9, roughness: 0.35, metalness: 0, clearcoat: 0.6 }),
   ];
+  const tintRings = () => {
+    const hero = css().getPropertyValue("--color-ecom-hero").trim() || "#e84a34";
+    mats[0].color.set(hero);
+    mats[1].color.set(css().getPropertyValue("--color-ecom-dark").trim() || "#1c1c1f");
+    rim.color.set(hero);
+  };
+  tintRings();
   const count = wide() ? 22 : 12;
   const sizeScale = wide() ? 1 : 0.85;
   const rings: Ring[] = [];
@@ -379,9 +386,10 @@ export function mountGravityScene(o: GravitySceneOptions): () => void {
     if (reducedMotion) composer.render();
   });
   resize.observe(canvas);
-  // ThemeSwitcher repoints the color tokens on <html>'s inline style: repaint the backdrop.
+  // ThemeSwitcher repoints the color tokens on <html>'s inline style: repaint the backdrop and rings.
   const themeWatch = new MutationObserver(() => {
     paintBg();
+    tintRings();
     if (reducedMotion) composer.render();
   });
   themeWatch.observe(document.documentElement, { attributes: true, attributeFilter: ["style"] });

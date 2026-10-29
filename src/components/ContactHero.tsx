@@ -89,7 +89,8 @@ export default function ContactHero() {
       canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       const wide = W >= 900;
-      const region = wide ? { x: W * 0.42, y: H * 0.14, w: W * 0.54, h: H * 0.52 } : { x: W * 0.05, y: 130, w: W * 0.9, h: H * 0.28 };
+      // Phones: a fixed band above the copy, which the copy's top padding keeps clear.
+      const region = wide ? { x: W * 0.48, y: H * 0.14, w: W * 0.48, h: H * 0.52 } : { x: W * 0.05, y: 150, w: W * 0.9, h: 115 };
       const N = wide ? 3200 : 2000;
       const fontFamily = getComputedStyle(document.documentElement).getPropertyValue("--font-clash").trim() || "sans-serif";
       await document.fonts.load(`600 100px ${fontFamily}`).catch(() => undefined);
@@ -133,11 +134,11 @@ export default function ContactHero() {
         P.forEach((p, i) => { const q = pts[i % pts.length]; p.tx = q[0] + (Math.random() - 0.5) * 1.2; p.ty = q[1] + (Math.random() - 0.5) * 1.2; });
       let shapeIdx = 0;
       assign(shapes[0]);
-      const accent = getComputedStyle(document.documentElement).getPropertyValue("--color-ecom-orange").trim() || "#e84a34";
+      const rootStyle = getComputedStyle(document.documentElement);
       const size = wide ? 2 : 1.6;
       const draw = () => {
         ctx.clearRect(0, 0, W, H);
-        ctx.fillStyle = accent;
+        ctx.fillStyle = rootStyle.getPropertyValue("--color-ecom-hero").trim() || "#e84a34";
         for (const p of P) if (!p.white) ctx.fillRect(p.x, p.y, size, size);
         ctx.fillStyle = "rgba(255,255,255,.85)";
         for (const p of P) if (p.white) ctx.fillRect(p.x, p.y, size, size);
@@ -210,7 +211,7 @@ export default function ContactHero() {
         {h.hint}
       </div>
 
-      <div className="pointer-events-none relative z-10 shell flex min-h-hero flex-col justify-end pt-32 pb-12 lg:pb-14">
+      <div className="pointer-events-none relative z-10 shell flex min-h-hero flex-col justify-start pt-[240px] pb-12 min-[900px]:justify-end min-[900px]:pt-32 lg:pb-14">
         <motion.p
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
