@@ -30,15 +30,15 @@ function MaskLine({ children, delay, className = "" }: { children: React.ReactNo
 }
 
 /**
- * Home hero — "portal de anillos": the brand rings as a 3D tunnel (PortalRings) behind a
+ * Studio hero — "portal de anillos": the brand rings as a 3D tunnel (PortalRings) behind a
  * centered three-line headline. Dark in every theme (bg-ecom-black, white text).
  */
-export default function Hero() {
+export default function PortalHero() {
   const { t, lang } = useLanguage();
 
   return (
     // overflow-clip, not -hidden: crops the canvas without becoming a scroll container.
-    <section className="relative flex min-h-[100svh] items-center overflow-clip bg-ecom-black text-white">
+    <section className="relative flex min-h-hero items-center overflow-clip bg-ecom-black text-white">
       <PortalRings />
 
       {/* Dark halo behind the copy: the rings keep moving around it, never through the

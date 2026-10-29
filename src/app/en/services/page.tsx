@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import LiveBuildHero from "@/components/LiveBuildHero";
 import ServicesExplorer from "@/components/ServicesExplorer";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
@@ -15,16 +16,17 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <div className="shell py-20 lg:py-28">
-      <p className="eyebrow-rule text-sm font-medium uppercase tracking-[0.2em] text-ecom-eyebrow">
-        {t.servicesPage.eyebrow}
-      </p>
-      <h1 className="mt-6 max-w-5xl text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
-        {t.servicesPage.headline}
-      </h1>
-      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ecom-ink/70">{t.servicesPage.sub}</p>
+    <>
+      <LiveBuildHero lang={LANG} />
+      {/* The page h1 lives in LiveBuildHero; its "explore" link scrolls here. */}
+      <div id="services-explorer" className="shell scroll-mt-24 py-20 lg:py-28">
+        <h2 className="max-w-5xl text-balance font-display text-[clamp(2.25rem,4.5vw,4.5rem)] font-medium leading-[1.04] tracking-[-0.03em] text-ecom-ink">
+          {t.servicesPage.headline}
+        </h2>
+        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-ecom-ink/70">{t.servicesPage.sub}</p>
 
-      <ServicesExplorer lang={LANG} />
-    </div>
+        <ServicesExplorer lang={LANG} />
+      </div>
+    </>
   );
 }

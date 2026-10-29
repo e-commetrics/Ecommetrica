@@ -105,7 +105,7 @@ export default function WorkHero({ lang }: { lang: Lang }) {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[100svh] overflow-clip bg-ecom-black text-white [--rad:min(30vmin,260px)] [--x:62%] [--y:38%]"
+      className="relative min-h-hero overflow-clip bg-ecom-black text-white [--rad:min(30vmin,260px)] [--x:62%] [--y:38%]"
     >
       {/* The wall: tilted, oversized so its rotated edges never show. */}
       <div aria-hidden className="absolute -inset-x-[8%] -inset-y-[12%] rotate-[-8deg] scale-110">
@@ -167,7 +167,7 @@ export default function WorkHero({ lang }: { lang: Lang }) {
         {t.lensLabel}
       </div>
 
-      <div className="relative z-10 shell flex min-h-[100svh] flex-col justify-end pt-32 pb-16 lg:pb-20">
+      <div className="relative z-10 shell flex min-h-hero flex-col justify-end pt-32 pb-16 lg:pb-20">
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}

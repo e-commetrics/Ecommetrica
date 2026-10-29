@@ -170,20 +170,61 @@ export type Dict = {
     allSub: string;
     includedFrom: (plan: string) => string;
   };
-  /** Studio page hero: a browser that builds a site live next to the headline. */
-  studioHero: {
+  /** Home hero: brand rings in 3D gravity under a water layer (GravityHero). */
+  homeHero: {
+    /** Headline reads "{line1} / {line2} / {accent}" — painted into the 3D scene. */
+    line1: string;
+    line2: string;
+    accent: string;
+    sub: string;
+    hint: string;
+  };
+  /** Services page hero: a browser that builds a site live next to the headline. */
+  servicesHero: {
     eyebrow: string;
     headline: string;
     /** Typed one after another after the headline: "para vender.", "en semanas."… */
     typed: string[];
     sub: string;
-    ctaServices: string;
-    ctaWork: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
     browserAria: string;
     performance: string;
     seo: string;
     leadTitle: string;
     leadMeta: string;
+  };
+  /** Contact page hero: particles that assemble the logo and `words` in turn. */
+  contactHero: {
+    line1: string;
+    line2: string;
+    accent: string;
+    /** Shown by the particles after the logo, one at a time. Keep them short. */
+    words: string[];
+    cta: string;
+    status: string;
+    hint: string;
+  };
+  /** Blog page hero: a fan of the latest posts. */
+  blogHero: {
+    line1: string;
+    line2: string;
+    accent: string;
+    sub: string;
+    articlesLabel: string;
+    topicsLabel: string;
+    readCta: string;
+  };
+  /** FAQ page hero: kinetic type — "{line1} [slot] {line3}", the slot word rotating. */
+  faqHero: {
+    line1: string;
+    slots: string[];
+    line3: string;
+    sub: string;
+    ctaQuestions: string;
+    ctaContact: string;
+    /** Outlined ribbon along the bottom of the hero. */
+    topics: string[];
   };
   studioPage: {
     metaDescription: string;
@@ -587,18 +628,52 @@ export const dict: Record<Lang, Dict> = {
       allSub: "Cada servicio viene incluido en nuestros planes: elige el plan y todo trabaja junto.",
       includedFrom: (plan) => `Incluido desde ${plan}`,
     },
-    studioHero: {
-      eyebrow: "Studio",
+    homeHero: {
+      line1: "Sitios que",
+      line2: "se sienten",
+      accent: "vivos.",
+      sub: "Diseño, código y movimiento que hacen que tu marca se quede en la mente de quien te visita.",
+      hint: "Mueve el cursor · clic para dispersar los anillos",
+    },
+    servicesHero: {
+      eyebrow: "Servicios",
       headline: "Tu sitio, construido",
       typed: ["para vender.", "en semanas.", "frente a ti."],
       sub: "Diseño, código, SEO y medición en un mismo equipo. Así se ve tu crecimiento cuando todo trabaja junto.",
-      ctaServices: "Descubre los servicios",
-      ctaWork: "Ve nuestro trabajo",
+      ctaPrimary: "Ver planes",
+      ctaSecondary: "Explorar servicios",
       browserAria: "Animación: un sitio web se construye y recibe un nuevo lead",
       performance: "Rendimiento",
       seo: "SEO",
       leadTitle: "Nuevo lead",
       leadMeta: "Formulario de contacto · hace 2 s",
+    },
+    contactHero: {
+      line1: "Tu próximo sitio",
+      line2: "empieza con",
+      accent: "un mensaje.",
+      words: ["TU IDEA", "TU MARCA", "TU SITIO"],
+      cta: "Escríbenos",
+      status: "En línea",
+      hint: "Pasa el cursor sobre las partículas",
+    },
+    blogHero: {
+      line1: "Ideas que",
+      line2: "hacen crecer",
+      accent: "tu negocio.",
+      sub: "Guías prácticas sobre sitios web, SEO, AEO y comercio en línea, escritas por el equipo que los construye.",
+      articlesLabel: "Artículos publicados",
+      topicsLabel: "Temas",
+      readCta: "Leer artículo",
+    },
+    faqHero: {
+      line1: "Sin letras",
+      slots: ["chiquitas", "ocultas", "confusas"],
+      line3: "ni sorpresas.",
+      sub: "Respuestas directas sobre precios, tiempos, pagos y soporte, antes de que tengas que preguntar.",
+      ctaQuestions: "Ver preguntas",
+      ctaContact: "Hablemos",
+      topics: ["Precios", "Tiempos", "Pagos", "Hosting", "SEO y AEO", "Soporte", "Planes"],
     },
     studioPage: {
       metaDescription:
@@ -1265,18 +1340,52 @@ export const dict: Record<Lang, Dict> = {
       allSub: "Every service comes included in our plans: pick the plan and everything works together.",
       includedFrom: (plan) => `Included from ${plan}`,
     },
-    studioHero: {
-      eyebrow: "Studio",
+    homeHero: {
+      line1: "Sites that",
+      line2: "feel",
+      accent: "alive.",
+      sub: "Design, code, and motion that keep your brand on the mind of everyone who visits.",
+      hint: "Move the cursor · click to scatter the rings",
+    },
+    servicesHero: {
+      eyebrow: "Services",
       headline: "Your site, built",
       typed: ["to sell.", "in weeks.", "right before you."],
       sub: "Design, code, SEO, and analytics in one team. This is what growth looks like when everything works together.",
-      ctaServices: "Discover the services",
-      ctaWork: "See our work",
+      ctaPrimary: "See plans",
+      ctaSecondary: "Explore services",
       browserAria: "Animation: a website gets built and receives a new lead",
       performance: "Performance",
       seo: "SEO",
       leadTitle: "New lead",
       leadMeta: "Contact form · 2 s ago",
+    },
+    contactHero: {
+      line1: "Your next site",
+      line2: "starts with",
+      accent: "a message.",
+      words: ["YOUR IDEA", "YOUR BRAND", "YOUR SITE"],
+      cta: "Write to us",
+      status: "Online",
+      hint: "Hover over the particles",
+    },
+    blogHero: {
+      line1: "Ideas that",
+      line2: "grow",
+      accent: "your business.",
+      sub: "Practical guides on websites, SEO, AEO, and e-commerce, written by the team that builds them.",
+      articlesLabel: "Articles published",
+      topicsLabel: "Topics",
+      readCta: "Read article",
+    },
+    faqHero: {
+      line1: "No",
+      slots: ["fine print", "hidden terms", "guesswork"],
+      line3: "and no surprises.",
+      sub: "Straight answers on pricing, timing, payments, and support, before you have to ask.",
+      ctaQuestions: "See the questions",
+      ctaContact: "Let's talk",
+      topics: ["Pricing", "Timing", "Payments", "Hosting", "SEO & AEO", "Support", "Plans"],
     },
     studioPage: {
       metaDescription: "We build secure digital ecosystems for sustainable business growth.",

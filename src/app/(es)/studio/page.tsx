@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Methodology from "@/components/Methodology";
 import Highlight from "@/components/Highlight";
-import StudioHero from "@/components/StudioHero";
+import PortalHero from "@/components/PortalHero";
 import { team } from "@/lib/team";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
@@ -20,9 +20,9 @@ export const metadata: Metadata = {
 export default function StudioPage() {
   return (
     <>
-    <StudioHero lang={LANG} />
+    <PortalHero />
     <div className="shell py-20 lg:py-28">
-      {/* The page h1 lives in StudioHero; the studio quote opens the body as its statement. */}
+      {/* The page h1 lives in PortalHero; the studio quote opens the body as its statement. */}
       <h2 className="max-w-4xl font-display text-[clamp(2.25rem,4.5vw,4.5rem)] font-medium leading-[1.04] tracking-[-0.03em] text-ecom-ink">
         &ldquo;{t.studioPage.quote}&rdquo;
       </h2>

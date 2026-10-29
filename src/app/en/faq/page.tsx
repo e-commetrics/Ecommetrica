@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import FaqAccordion from "@/components/FaqAccordion";
+import FaqHero from "@/components/FaqHero";
 import Reveal from "@/components/Reveal";
 import JsonLd from "@/components/JsonLd";
 import { getDict } from "@/lib/i18n/dict";
@@ -20,8 +21,11 @@ export const metadata: Metadata = {
 
 export default function FaqPage() {
   return (
-    <div className="shell py-20 lg:py-28">
-      <JsonLd data={faqPageSchema(LANG)} />
+    <>
+    <JsonLd data={faqPageSchema(LANG)} />
+    <FaqHero lang={LANG} />
+    {/* id: target of the FaqHero "see the questions" button; the page h1 lives in FaqHero. */}
+    <div id="questions" className="shell scroll-mt-24 py-20 lg:py-28">
       {/* Intro and list side by side: the intro sticks while the answers
           expand, so the page keeps its context on a tall screen. */}
       <div className="grid gap-14 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-20">
@@ -30,9 +34,9 @@ export default function FaqPage() {
             <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-eyebrow uppercase">
               {t.faqPage.eyebrow}
             </p>
-            <h1 className="mt-6 text-balance font-display text-[clamp(2.25rem,4.5vw,4.25rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
+            <h2 className="mt-6 text-balance font-display text-[clamp(2.25rem,4.5vw,4.25rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
               {t.faqPage.headline}
-            </h1>
+            </h2>
             <div className="mt-10 rounded-2xl border border-ecom-ink/10 p-6">
               <p className="font-display text-base font-medium text-ecom-ink">
                 {t.faqPage.stillTitle}
@@ -55,5 +59,6 @@ export default function FaqPage() {
         </Reveal>
       </div>
     </div>
+    </>
   );
 }

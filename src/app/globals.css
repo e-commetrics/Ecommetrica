@@ -293,6 +293,13 @@ html.theming *::after {
   }
 }
 
+/* Page heroes fill the first screen *below* the sticky header (≈78px tall,
+   Header.tsx), so content pinned to a hero's bottom — buttons, CTAs — is never
+   pushed past the fold. A plain 100svh hero ends ~78px below the screen. */
+@utility min-h-hero {
+  min-height: calc(100svh - 4.875rem);
+}
+
 /* Pill button label size: 17px medium in Ember, 19px semibold (large text) in
    the handoff themes. Line height follows the size like Tailwind's text-*. */
 @utility btn-text {

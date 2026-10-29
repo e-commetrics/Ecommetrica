@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Hero from "@/components/Hero";
+import GravityHero from "@/components/GravityHero";
 import SelectWork from "@/components/SelectWork";
 import Pillars from "@/components/Pillars";
 import ServicesOverview from "@/components/ServicesOverview";
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <Hero />
+      <GravityHero />
       <SelectWork />
       <Pillars lang="en" />
       <ServicesOverview lang="en" />

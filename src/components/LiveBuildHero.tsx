@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { getDict } from "@/lib/i18n/dict";
 import { localizedHref } from "@/lib/i18n/localizedHref";
+import { smoothScrollTo } from "@/components/SmoothScroll";
 import type { Lang } from "@/lib/i18n/types";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -104,12 +105,12 @@ function Gauge({ value, label }: { value: number; label: string }) {
 }
 
 /**
- * Studio hero — "construcción en vivo": a browser mock that wires up, codes, fills in a
+ * Services hero — "construcción en vivo": a browser mock that wires up, codes, fills in a
  * real project capture, scores 98/100 and receives a lead, looping across projects.
  * Dark in every theme (bg-ecom-black, white text). Reduced motion shows the finished state.
  */
-export default function StudioHero({ lang }: { lang: Lang }) {
-  const t = getDict(lang).studioHero;
+export default function LiveBuildHero({ lang }: { lang: Lang }) {
+  const t = getDict(lang).servicesHero;
   const still = Boolean(useReducedMotion());
   const [round, setRound] = useState(0);
   const [elapsed, setElapsed] = useState(still ? T.loop : 0);
@@ -148,7 +149,7 @@ export default function StudioHero({ lang }: { lang: Lang }) {
         aria-hidden
         className="pointer-events-none absolute -right-40 top-1/3 h-[36rem] w-[36rem] rounded-full bg-ecom-orange/20 blur-[130px]"
       />
-      <div className="relative shell grid min-h-[100svh] items-center gap-14 pt-32 pb-24 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:pt-36">
+      <div className="relative shell grid min-h-hero items-center gap-14 pt-32 pb-24 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:pt-36">
         <div>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -183,23 +184,28 @@ export default function StudioHero({ lang }: { lang: Lang }) {
             className="mt-10 flex flex-wrap items-center gap-6"
           >
             <Link
-              href={localizedHref(lang, "/services")}
+              href={localizedHref(lang, "/pricing")}
               className="group inline-flex items-center gap-2.5 rounded-full bg-ecom-orange px-7 py-3.5 btn-text text-ecom-on-accent uppercase tracking-wide transition-colors duration-300 hover:bg-white hover:text-ecom-black"
             >
-              {t.ctaServices}
+              {t.ctaPrimary}
               <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                 &#8599;
               </span>
             </Link>
-            <Link
-              href={localizedHref(lang, "/work")}
+            {/* Same page: down to the services list (ServicesExplorer, #services-explorer). */}
+            <a
+              href="#services-explorer"
+              onClick={(event) => {
+                event.preventDefault();
+                smoothScrollTo("#services-explorer");
+              }}
               className="group inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-white/60 transition-colors duration-300 hover:text-white"
             >
-              {t.ctaWork}
-              <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
-                &rarr;
+              {t.ctaSecondary}
+              <span aria-hidden className="transition-transform duration-300 group-hover:translate-y-0.5">
+                &darr;
               </span>
-            </Link>
+            </a>
           </motion.div>
         </div>
 

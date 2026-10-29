@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import BlogHero from "@/components/BlogHero";
 import { getAllPosts } from "@/lib/blog";
 import { getDict } from "@/lib/i18n/dict";
 import { localizedHref } from "@/lib/i18n/localizedHref";
@@ -20,13 +21,13 @@ export default function BlogPage() {
   const posts = getAllPosts(LANG);
 
   return (
+    <>
+    <BlogHero lang={LANG} posts={posts} topics={t.blogPage.intro.items.length} />
     <div className="shell py-20 lg:py-28">
-      <p className="text-sm font-medium uppercase tracking-[0.2em] text-ecom-eyebrow">
-        Blog
-      </p>
-      <h1 className="mt-6 font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
+      {/* The page h1 lives in BlogHero. */}
+      <h2 className="font-display text-[clamp(2.25rem,4.5vw,4.5rem)] font-medium leading-[1.04] tracking-[-0.03em] text-ecom-ink">
         {t.blogPage.headline}
-      </h1>
+      </h2>
 
       {/* Page intro: what this blog is, for first-time visitors. Kept as page
           copy (not a post) so it never scrolls out of the feed over time. */}
@@ -50,7 +51,8 @@ export default function BlogPage() {
         </div>
       </div>
 
-      <h2 className="mt-14 text-sm font-medium uppercase tracking-[0.2em] text-ecom-meta">
+      {/* id: target of the BlogHero button. */}
+      <h2 id="articles" className="mt-14 scroll-mt-28 text-sm font-medium uppercase tracking-[0.2em] text-ecom-meta">
         {t.blogPage.latestTitle}
       </h2>
 
@@ -88,5 +90,6 @@ export default function BlogPage() {
         ))}
       </div>
     </div>
+    </>
   );
 }
