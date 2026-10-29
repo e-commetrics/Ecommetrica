@@ -1,46 +1,33 @@
 # Backlog
 
-Pendientes y puntos por revisar.
+Pendientes y puntos por revisar. Actualizado el 2026-10-15.
 
 ## Pendiente
 
-- [ ] **Páginas explicativas con media pantalla vacía** (`/ga4`, `/meta-graph-api`, `/google-business-profile`, `/vpat` y sus versiones `/en/...`).
-  `src/components/FeatureExplainerPage.tsx` limita el contenido a `max-w-3xl` dentro de `shell` (hasta 112rem), así que en pantallas anchas la mitad derecha queda en blanco.
-  Opciones:
-  - Columna lateral fija con los planes que incluyen la característica (usando `learnMoreSlug` en las filas de `matrix` de `src/lib/pricing.ts`) y un CTA a planes o contacto.
-  - Centrar el contenido.
-
-- [ ] **Cumplimiento de privacidad en México (LFPDPPP 2025), a partir del doc "Compliance Remediation Plan" (2026-10-12).** El sitio no carga ningún script de tracking (sin GA, Pixel, Clarity ni `next/script`), así que el capítulo de CCPA/CIPA (CMP, Consent Mode, GPC) no aplica a este repo. Brechas reales:
-  - `ContactForm.tsx`: agregar casilla de consentimiento sin marcar y obligatoria, con aviso simplificado que enlace a la política (validada como los demás campos, textos es/en en `dict.ts`).
-  - Política de privacidad (`dict.ts`, `privacySections` y `privacyIntro`, es y en): no tiene fecha ni correo de privacidad, no nombra al responsable, no dice retención ni cómo ejercer derechos ARCO, no menciona que los datos del formulario viajan por correo (SMTP), y habla de "registrarse en una Cuenta" cuando el sitio no tiene cuentas.
-  - Decisiones previas: correo de privacidad (el doc sugiere `privacidad@ecommetrica.com`), cómo identificar al responsable (DBA) sin exponer de más el nombre personal, y revisión de un abogado antes de publicar el texto legal. `dict.ts` es copy aceptado: solo se toca con visto bueno explícito.
-  - Fuera de este repo: sitios de clientes (Lumbán, Monge, Cesia, Palmas), auditoría de accesibilidad con axe, NVDA y VoiceOver, y la política de retención y borrado del backend (proceso, no código). `/arturo` y `/bites` tienen su propio layout y texto de privacidad; se dejan aparte.
-  - Subtítulos y transcripciones de los videos de testimonial (el doc los pide para todo video); no se sabe cuáles ya los llevan.
+- [ ] **Precios US de tres extras** (`src/lib/packages.ts`, `price.us: null`): Video producción, Gestión y producción esencial — Meta y — Google. MX ya tiene precio ($750 / $570 / $670 al mes); en US se muestra "Cotización a solicitud" hasta que el proyecto de precios los confirme.
+- [ ] **Privacidad (LFPDPPP), antes de publicar**: revisión de un abogado del aviso de privacidad (`dict.ts`, `privacyIntro` / `privacySections`, es y en) y reenvío funcionando de `privacidad@ecommetrica.com`. El código ya está: casilla de consentimiento obligatoria en `ContactForm.tsx` y aviso reescrito (responsable, datos, finalidades, SMTP, 12 meses de conservación, derechos ARCO en 7 días hábiles).
+  - Fuera de este repo: sitios de clientes (Lumbán, Monge, Cesia, Palmas), auditoría de accesibilidad con axe, NVDA y VoiceOver, y la política de retención y borrado del backend (proceso, no código).
+  - Subtítulos y transcripciones de los videos de testimonial; no se sabe cuáles ya los llevan.
+- [ ] **Probar en navegador la versión US**: precios US, filas solo-US (★) y la nota al pie. Hasta ahora solo se verificó la lógica.
 
 ## Por revisar
 
-- [ ] **Escalera v1.2 (2026-10-09): puntos abiertos** (matriz Tijuana-ES / San Diego-EN ya aplicada en `src/lib/pricing.ts`).
-  - `N0` / `N1` aparecen tal cual en la fila "Renovación à la carte" de Escala y Cúspide (`Plan.renewal`). Confirmar qué significan y ponerles nombre; el cliente no los entiende.
-  - Tarifa de horas de código: el PDF de Tijuana dice $62/h y el de San Diego no pone tarifa, así que solo se muestra para MX (`codingHourRate`). En `packages.ts` el bloque de 10 h en US cuesta $1,100 ($110/h).
-  - `googleBusinessProfilePage` (dict.ts): título y meta ya dicen "Arranque", pero el cuerpo sigue diciendo "en este nivel ya estás convirtiendo tráfico en clientes".
-  - Revisar `src/lib/faq.ts` por menciones de precios o planes (no se tocó).
-  - El ahorro de 56% a 72% se tomó tal cual del PDF; falta la lista de precios por servicio que lo respalda.
-  - Duda de contenido en el PDF: Arranque en MX incluye "Declaración de accesibilidad" sin "Sitio accesible ADA/WCAG" (este empieza en Tracción). En US se resuelve dando ADA desde Arranque.
-  - Decidir si se agrega un selector visible de mercado (Tijuana / San Diego); hoy la región sale solo de la geolocalización (`RegionProvider`) y por defecto es MX.
-  - Probar en navegador la versión US (precios $790 y ★); solo se verificó la lógica con un script.
+- [ ] **Ahorro de 56% a 72%** (`Plan.savingPercent`): se tomó tal cual del PDF de la Escalera v1.2; falta la lista de precios por servicio que lo respalda.
+- [ ] **Arranque en MX**: incluye "Declaración de accesibilidad" sin "Sitio accesible ADA/WCAG" (este empieza en Tracción en MX; en US viene desde Arranque). Confirmar si es intencional.
+- [ ] **Selector visible de mercado** (Tijuana / San Diego): hoy la región sale solo de la geolocalización (`RegionProvider`) y por defecto es MX.
+- [ ] **Copy "cada plan incluye todo lo del anterior"** (`pricingPage.notes.inheritance`): puede contradecirse con las filas solo-US (★).
+- [ ] **Probar con teclado**: el comparador de `PlanMatrix.tsx` y la tarjeta de plan del configurador (`PlanStep`: "Ver todo lo incluido", "Saber más", "Seleccionar").
+- [ ] **ESLint roto**: `npm run lint` falla con "Converting circular structure to JSON" (plugin `react`, desajuste entre `eslint-config-next` y `eslint`). Mientras tanto los cambios se validan con `tsc` y `next build`.
 
-- [ ] **Cambios sin commit (2026-10-09), sin probar en navegador**:
-  - `PlanFeatures.tsx`: Talla, Páginas, Productos, Posts de blog y Piezas para redes pasaron al final de "Ver todo lo incluido" (afecta home, `/pricing`, Express y configurador; en Express también quedan ocultos tras el botón).
-  - Nuevo `CustomPlanBanner.tsx` (Aliado) usado en `Planes.tsx` y `PricingGrid.tsx`; en `/pricing` el grid pasó a 4 columnas y Aliado quedó como franja debajo. Se quitaron de `/pricing` el total, la etiqueta de escala y el "elige uno" para igualar el home.
-  - `PlanMatrix.tsx`: comparador de dos planes (A vs B) con resaltado de diferencias y opción "Solo diferencias" (activa por defecto). Textos nuevos en `dict.ts` (`compareHint`, `compareClear`, `compareOnlyDiff`). Falta decidir si se permiten 3 o más planes y si "Solo diferencias" debe arrancar desactivada.
-  - Verificar en claro y `noir`, en MX y US, y con teclado el selector del comparador.
-- [ ] **Hallazgos de la revisión de `41c0666` sin resolver**:
-  - `PackagesConfigurator.tsx:63`: el "Total" suma el precio mensual del plan con add-ons de pago único; solo es correcto en AI Express. El mensaje precargado a contacto tiene la misma ambigüedad.
-  - `PackagesConfigurator.tsx:105`: el crédito de AI Express al pasar a Launch en 30 días solo está en la nota de la tarjeta, no en el configurador ni en el mensaje a ventas.
-  - `schema.ts:131`: `serviceCatalogSchema` publica AI Express (370 / 790 USD) como un Offer igual a los planes mensuales; falta marcar que es pago único (`priceSpecification` o `unitText`).
-  - `pricing.ts:819`: `planPerService` devuelve Infinity o NaN si un plan queda sin filas en una región; solo lo protegen los callers.
-  - `dict.ts` (~1178): el copy "cada plan incluye todo lo del anterior" puede contradecirse con las filas solo-US (★).
-- [ ] **ESLint roto**: `npm run lint` falla con "Converting circular structure to JSON" (plugin `react`, desajuste entre `eslint-config-next` y `eslint`). Sin lint, los cambios solo se validan con `tsc` y `next build`.
-- [ ] **Probar con teclado** la tarjeta de plan del configurador (`PackagesConfigurator.tsx`, `PlanStep`): Tab, Enter y Espacio sobre "Ver todo lo incluido", "Saber más" y "Seleccionar". Se corrigió leyendo el código, no en un navegador.
-- [ ] **Mensaje del commit `62449a1`** dice que VPAT se "refactorizó" sobre `FeatureExplainerPage`, pero `/vpat` y `vpatPage` no existían antes; es una página nueva. El commit ya está en `production` y `qa`, así que solo queda como nota.
-- [ ] **Cambios sin commit** de la revisión del 2026-10-02: `scripts/generate-seo.ts` (sitemap con `/packages`, `/ga4`, `/meta-graph-api`, `/google-business-profile`), `PackagesConfigurator.tsx` (botón real en vez de `role="button"`) y `Planes.tsx` (nota de la ★ en la home). Falta commit y PR a `qa`.
+## Decidido / resuelto (oct 2026)
+
+- `N0` / `N1` en la fila de renovación de Escala y Cúspide: se quedan como están (códigos internos, no se explican en el sitio).
+- Trabajo por horas y tarifa de código: se quitaron del sitio (información interna).
+- `planPerService` sin protección contra un plan sin filas: se deja así.
+- Configurador: precios mensuales (plan + extras), total del paquete por plazo, IA Exprés se vende solo y sin extras, crédito IA Exprés → Arranque visible y en el mensaje a ventas.
+- `schema.ts`: los planes mensuales publican precio por mes (`UnitPriceSpecification`, `MON`) y su plazo; IA Exprés queda como pago único.
+- Páginas explicativas (`/ga4`, `/vpat`, …): columna lateral con los planes que incluyen la característica.
+- FAQ de tiempos (`faq.ts`): cubre IA Exprés (7 días) y los cuatro planes mensuales.
+- Temas de color: seis temas; Ember conserva el look original (ver `CLAUDE.md`).
+- Servicios: sección de inicio y `/services` por capas (opción C), solo con planes.
+- Contenido de planes: IA Exprés solo sitio con IA y AEO; sin "Talla"; Arranque con sitio multilingüe.

@@ -123,8 +123,22 @@ export function caseStudyArticleSchema(project: CaseStudy, lang: Lang) {
   };
 }
 
+/** Monthly price as a UnitPriceSpecification ("MON" = UN/CEFACT month), so validators
+ *  don't read a monthly fee as the whole price. `months` adds the contract term. */
+function monthlyPrice(price: number, months?: number) {
+  return {
+    "@type": "UnitPriceSpecification",
+    price,
+    priceCurrency: "USD",
+    unitCode: "MON",
+    referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
+    ...(months ? { billingDuration: `P${months}M` } : {}),
+  };
+}
+
 /** One Offer per plan per region — price is region-dependent, so a single Offer can't
- *  carry both without ambiguity for validators. Includes `customPlan` as its "from" price. */
+ *  carry both without ambiguity for validators. Includes `customPlan` as its "from" price.
+ *  Monthly plans carry a per-month price specification; AI Express is a one-time price. */
 export function serviceCatalogSchema(lang: Lang) {
   const t = getDict(lang);
 
@@ -134,6 +148,9 @@ export function serviceCatalogSchema(lang: Lang) {
       name: `${plan.name[lang]} (${region.toUpperCase()})`,
       price: plan.priceValue[region],
       priceCurrency: "USD",
+      ...(plan.oneTime
+        ? { description: plan.duration[lang] }
+        : { priceSpecification: monthlyPrice(plan.priceValue[region], plan.durationMonths) }),
       eligibleRegion: { "@type": "Country", name: region.toUpperCase() },
       itemOffered: {
         "@type": "Service",
@@ -148,6 +165,11 @@ export function serviceCatalogSchema(lang: Lang) {
     name: `${customPlan.name[lang]} (${region.toUpperCase()})`,
     price: customPlan.priceFromValue[region],
     priceCurrency: "USD",
+    priceSpecification: {
+      ...monthlyPrice(customPlan.priceFromValue[region]),
+      // "From" price: the monthly fee starts here and scales with the team.
+      minPrice: customPlan.priceFromValue[region],
+    },
     eligibleRegion: { "@type": "Country", name: region.toUpperCase() },
     itemOffered: {
       "@type": "Service",

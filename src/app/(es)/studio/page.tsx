@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Methodology from "@/components/Methodology";
 import Highlight from "@/components/Highlight";
+import StudioHero from "@/components/StudioHero";
 import { team } from "@/lib/team";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
@@ -18,36 +19,18 @@ export const metadata: Metadata = {
 
 export default function StudioPage() {
   return (
+    <>
+    <StudioHero lang={LANG} />
     <div className="shell py-20 lg:py-28">
-      <p className="text-sm font-medium uppercase tracking-[0.2em] text-ecom-eyebrow">
-        Studio
-      </p>
-      <h1 className="mt-6 max-w-4xl font-display text-[clamp(2.5rem,5vw,5rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ecom-ink">
+      {/* The page h1 lives in StudioHero; the studio quote opens the body as its statement. */}
+      <h2 className="max-w-4xl font-display text-[clamp(2.25rem,4.5vw,4.5rem)] font-medium leading-[1.04] tracking-[-0.03em] text-ecom-ink">
         &ldquo;{t.studioPage.quote}&rdquo;
-      </h1>
+      </h2>
 
       <div className="mt-10 max-w-3xl space-y-4 text-lg leading-relaxed text-ecom-ink/70">
         {t.studioPage.intro.map((paragraph) => (
           <p key={paragraph}>{paragraph}</p>
         ))}
-      </div>
-
-      {/* Full-width banner between the opening statement and mission/vision —
-          this page ran text-only from the quote all the way to the team grid. */}
-      <div className="relative mt-16">
-        <Highlight
-          shape="asterisk"
-          className="absolute -top-8 right-6 z-10 w-16 sm:w-20"
-        />
-        <video
-          src="/videos/studio-es.webm"
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="relative w-full overflow-hidden rounded-3xl object-cover ring-1 ring-ecom-ink/10"
-          style={{ aspectRatio: "21 / 9" }}
-        />
       </div>
 
       <div className="mt-16 grid gap-12 lg:grid-cols-2">
@@ -126,6 +109,7 @@ export default function StudioPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

@@ -168,6 +168,21 @@ export type Dict = {
     allSub: string;
     includedFrom: (plan: string) => string;
   };
+  /** Studio page hero: a browser that builds a site live next to the headline. */
+  studioHero: {
+    eyebrow: string;
+    headline: string;
+    /** Typed one after another after the headline: "para vender.", "en semanas."… */
+    typed: string[];
+    sub: string;
+    ctaServices: string;
+    ctaWork: string;
+    browserAria: string;
+    performance: string;
+    seo: string;
+    leadTitle: string;
+    leadMeta: string;
+  };
   studioPage: {
     metaDescription: string;
     keywords: string[];
@@ -182,6 +197,17 @@ export type Dict = {
     teamTitle: string;
   };
   workPage: { metaDescription: string; keywords: string[]; headline: string };
+  /** Work page hero: a wall of client sites (phone captures) lit by a cursor flashlight. */
+  workHero: {
+    eyebrow: string;
+    /** Headline reads "{count}+ / {line1} / {line2} {accent}". */
+    line1: string;
+    line2: string;
+    accent: string;
+    cta: string;
+    ctaProjects: string;
+    lensLabel: string;
+  };
   workDetail: {
     back: string;
     briefing: string;
@@ -383,10 +409,10 @@ export const dict: Record<Lang, Dict> = {
     },
     hero: {
       eyebrow: "Desarrollo web y webapps en Tijuana y San Diego",
-      headlinePre: "Creamos",
-      headlineAccent: "marcas",
-      headlinePost: "que transforman industrias e impulsan negocios.",
-      sub: "Tu website y tus webapps son las herramientas de crecimiento más eficaces.",
+      headlinePre: "Entra a tu",
+      headlineAccent: "siguiente",
+      headlinePost: "nivel.",
+      sub: "Marca, sitio, visibilidad, contenido y operación: cinco capas, un solo equipo para que tu negocio crezca.",
       ctaServices: "Descubre los servicios",
       ctaWork: "Ve nuestro trabajo",
     },
@@ -547,6 +573,19 @@ export const dict: Record<Lang, Dict> = {
       allSub: "Cada servicio viene incluido en nuestros planes: elige el plan y todo trabaja junto.",
       includedFrom: (plan) => `Incluido desde ${plan}`,
     },
+    studioHero: {
+      eyebrow: "Studio",
+      headline: "Tu sitio, construido",
+      typed: ["para vender.", "en semanas.", "frente a ti."],
+      sub: "Diseño, código, SEO y medición en un mismo equipo. Así se ve tu crecimiento cuando todo trabaja junto.",
+      ctaServices: "Descubre los servicios",
+      ctaWork: "Ve nuestro trabajo",
+      browserAria: "Animación: un sitio web se construye y recibe un nuevo lead",
+      performance: "Rendimiento",
+      seo: "SEO",
+      leadTitle: "Nuevo lead",
+      leadMeta: "Formulario de contacto · hace 2 s",
+    },
     studioPage: {
       metaDescription:
         "Construimos ecosistemas digitales seguros para el crecimiento sostenible de los negocios.",
@@ -593,6 +632,15 @@ export const dict: Record<Lang, Dict> = {
         },
       ],
       teamTitle: "El equipo",
+    },
+    workHero: {
+      eyebrow: "Work",
+      line1: "marcas",
+      line2: "ya dijeron",
+      accent: "wow.",
+      cta: "Quiero el mío",
+      ctaProjects: "Ve los proyectos",
+      lensLabel: "Mira",
     },
     workPage: {
       metaDescription: "Proyectos de branding y desarrollo web de Ecommetrica.",
@@ -987,10 +1035,10 @@ export const dict: Record<Lang, Dict> = {
     },
     hero: {
       eyebrow: "Web development & webapps in Tijuana and San Diego",
-      headlinePre: "We build",
-      headlineAccent: "brands",
-      headlinePost: "that transform industries and boost businesses.",
-      sub: "Your website and your web apps are the most effective growth tools you have.",
+      headlinePre: "Step into",
+      headlineAccent: "your next",
+      headlinePost: "level.",
+      sub: "Brand, site, visibility, content, and operations: five layers, one team to grow your business.",
       ctaServices: "Discover the services",
       ctaWork: "See our work",
     },
@@ -1151,6 +1199,19 @@ export const dict: Record<Lang, Dict> = {
       allSub: "Every service comes included in our plans: pick the plan and everything works together.",
       includedFrom: (plan) => `Included from ${plan}`,
     },
+    studioHero: {
+      eyebrow: "Studio",
+      headline: "Your site, built",
+      typed: ["to sell.", "in weeks.", "right before you."],
+      sub: "Design, code, SEO, and analytics in one team. This is what growth looks like when everything works together.",
+      ctaServices: "Discover the services",
+      ctaWork: "See our work",
+      browserAria: "Animation: a website gets built and receives a new lead",
+      performance: "Performance",
+      seo: "SEO",
+      leadTitle: "New lead",
+      leadMeta: "Contact form · 2 s ago",
+    },
     studioPage: {
       metaDescription: "We build secure digital ecosystems for sustainable business growth.",
       keywords: [
@@ -1195,6 +1256,15 @@ export const dict: Record<Lang, Dict> = {
         },
       ],
       teamTitle: "The team",
+    },
+    workHero: {
+      eyebrow: "Work",
+      line1: "brands",
+      line2: "already said",
+      accent: "wow.",
+      cta: "I want mine",
+      ctaProjects: "See the projects",
+      lensLabel: "Look",
     },
     workPage: {
       metaDescription: "Branding and web development projects by Ecommetrica.",

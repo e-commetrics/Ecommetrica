@@ -196,6 +196,34 @@ html.theming *::after {
   }
 }
 
+/* WorkHero wall: each column holds its captures twice, so a -50% shift loops
+   seamlessly. Alternate columns run the other way for the drifting-wall look. */
+@keyframes wall-up {
+  to {
+    transform: translateY(-50%);
+  }
+}
+@keyframes wall-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.animate-wall-up {
+  animation: wall-up 60s linear infinite;
+}
+.animate-wall-down {
+  animation: wall-down 72s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-wall-up,
+  .animate-wall-down {
+    animation: none;
+  }
+}
+
 /* @tailwindcss/typography ships fixed neutral greys, which go unreadable as
    soon as the surface turns dark. Repoint its palette at the themed ink so
    article bodies follow the active theme like everything else. */

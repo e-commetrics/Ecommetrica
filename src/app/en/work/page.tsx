@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import WorkGallery from "@/components/WorkGallery";
+import WorkHero from "@/components/WorkHero";
 import { caseStudies } from "@/lib/work";
 import { getDict } from "@/lib/i18n/dict";
 import { seoAlternates } from "@/lib/i18n/seo";
@@ -16,17 +17,18 @@ export const metadata: Metadata = {
 
 export default function WorkPage() {
   return (
-    <div className="shell py-24 lg:py-32">
-      <p className="eyebrow-rule text-sm font-medium tracking-[0.2em] text-ecom-eyebrow uppercase">
-        Work
-      </p>
-      <h1 className="mt-6 max-w-5xl text-balance font-display text-[clamp(2.5rem,5.5vw,5.5rem)] font-medium leading-[1.0] tracking-[-0.035em] text-ecom-ink">
+    <>
+    <WorkHero lang={LANG} />
+    {/* id: target of the WorkHero "see the projects" link; the page h1 lives in WorkHero. */}
+    <div id="projects" className="shell scroll-mt-24 py-24 lg:py-32">
+      <h2 className="max-w-5xl text-balance font-display text-[clamp(2.25rem,5vw,5rem)] font-medium leading-[1.0] tracking-[-0.035em] text-ecom-ink">
         {t.workPage.headline}
-      </h1>
+      </h2>
 
       {/* Filtering is client-side, so the list lives in a client component
           while this page stays a server component and keeps its metadata. */}
       <WorkGallery projects={caseStudies} />
     </div>
+    </>
   );
 }
