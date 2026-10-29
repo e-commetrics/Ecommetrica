@@ -40,9 +40,11 @@ export type Dict = {
   mobileMenu: { open: string; close: string };
   languageSwitcher: { ariaLabel: string };
   themeSwitcher: { ariaLabel: string };
+  a11y: { skipToContent: string; pauseVideo: string; playVideo: string };
   footer: {
     privacy: string;
     terms: string;
+    accessibility: string;
     faq: string;
     eyebrow: string;
     headline: string;
@@ -351,6 +353,12 @@ export type Dict = {
     termsKeywords: string[];
     termsIntro: string[];
     termsSections: LegalSection[];
+    accessibilityTitle: string;
+    accessibilityMetaDescription: string;
+    accessibilityKeywords: string[];
+    accessibilityMeta: string;
+    accessibilityIntro: string[];
+    accessibilitySections: LegalSection[];
   };
   notFound: {
     title: string;
@@ -398,9 +406,15 @@ export const dict: Record<Lang, Dict> = {
     mobileMenu: { open: "Menú", close: "Cerrar menú" },
     languageSwitcher: { ariaLabel: "Cambiar idioma" },
     themeSwitcher: { ariaLabel: "Tema" },
+    a11y: {
+      skipToContent: "Saltar al contenido",
+      pauseVideo: "Pausar video",
+      playVideo: "Reproducir video",
+    },
     footer: {
       privacy: "Política de privacidad",
       terms: "Términos y condiciones",
+      accessibility: "Accesibilidad",
       faq: "FAQ",
       eyebrow: "Contáctanos",
       headline: "¿Estás listo?",
@@ -951,7 +965,7 @@ export const dict: Record<Lang, Dict> = {
         {
           heading: "Cookies y registros técnicos",
           paragraphs: [
-            "Este sitio no usa cookies de publicidad ni de analítica. Solo guarda en tu navegador el tema de color que elijas, que no te identifica.",
+            "Este sitio usa Google Analytics para medir las visitas y Meta Pixel para medir la publicidad. Ambos pueden guardar cookies y enviar a Google y a Meta datos como tu dirección IP, las páginas que visitas y información de tu navegador. Además, el sitio guarda en tu navegador el tema de color, el idioma y la región de precios que elijas, que no te identifican.",
             "Para mostrarte los precios de tu mercado (México o Estados Unidos), nuestro servidor consulta de qué país viene tu dirección IP. Solo usamos el país, no lo guardamos ni lo vinculamos contigo.",
             "Como cualquier sitio web, nuestro proveedor de hosting registra datos técnicos de cada visita (dirección IP, navegador, fecha y hora) para operar y proteger el sitio. Estos registros no se vinculan con tus datos de contacto.",
           ],
@@ -981,6 +995,52 @@ export const dict: Record<Lang, Dict> = {
           heading: "Cambios y devoluciones",
           paragraphs: [
             "Toda situación que se presente por cambio o devolución deberá ser notificada por correo electrónico a juanmanuel@ecommetrica.com enviando descripción del problema o razón de la devolución.",
+          ],
+        },
+      ],
+      accessibilityTitle: "Declaración de accesibilidad",
+      accessibilityMetaDescription:
+        "Declaración de accesibilidad de Ecommetrica: el estándar que usamos, el estado actual del sitio, sus limitaciones conocidas y cómo reportar una barrera.",
+      accessibilityKeywords: ["declaración de accesibilidad", "accesibilidad web", "WCAG 2.1"],
+      accessibilityMeta: "Última actualización: 13 de octubre de 2026",
+      accessibilityIntro: [
+        "Queremos que ecommetrica.com se pueda usar con teclado, con lector de pantalla y en pantallas de distintos tamaños. Tomamos como referencia las pautas WCAG 2.1 nivel AA.",
+        "Esta declaración describe el estado actual del sitio. No afirma que cumpla todas las pautas: las limitaciones conocidas están más abajo.",
+      ],
+      accessibilitySections: [
+        {
+          heading: "Qué hemos hecho",
+          paragraphs: [
+            "El 13 de octubre de 2026 revisamos con la herramienta automática axe las páginas principales del sitio en español y en inglés, y corregimos los problemas críticos y serios que encontró, salvo los de contraste de color descritos en las limitaciones.",
+          ],
+          bullets: [
+            "Enlace para saltar al contenido principal al navegar con teclado.",
+            "Menú móvil que se maneja con teclado: el foco queda dentro del menú y Escape lo cierra.",
+            "Videos decorativos con botón de pausa; si tu sistema pide menos movimiento, no se reproducen solos.",
+            "Formularios con etiquetas y mensajes de error escritos, no solo en color.",
+          ],
+        },
+        {
+          heading: "Limitaciones conocidas",
+          paragraphs: [
+            "Estamos trabajando en estos puntos y actualizaremos esta declaración cuando se resuelvan.",
+          ],
+          bullets: [
+            "Algunos textos secundarios y botones de color de acento no alcanzan la relación de contraste de 4.5:1 en uno o más de los temas visuales.",
+            "Aún no hemos hecho pruebas manuales con lectores de pantalla (NVDA y VoiceOver).",
+            "Dos videos de testimonios todavía no tienen subtítulos.",
+          ],
+        },
+        {
+          heading: "Cómo lo medimos",
+          paragraphs: [
+            "Usamos pruebas automáticas con axe y revisión con teclado de las funciones nuevas. Esto no es una auditoría de conformidad completa.",
+          ],
+        },
+        {
+          heading: "Reporta una barrera",
+          paragraphs: [
+            "Si hay algo del sitio que no puedes usar, escríbenos a juanmanuel@ecommetrica.com con la dirección de la página y qué problema tuviste. Te responderemos lo antes posible.",
           ],
         },
       ],
@@ -1024,9 +1084,15 @@ export const dict: Record<Lang, Dict> = {
     mobileMenu: { open: "Menu", close: "Close menu" },
     languageSwitcher: { ariaLabel: "Toggle language" },
     themeSwitcher: { ariaLabel: "Theme" },
+    a11y: {
+      skipToContent: "Skip to content",
+      pauseVideo: "Pause video",
+      playVideo: "Play video",
+    },
     footer: {
       privacy: "Privacy policy",
       terms: "Terms & conditions",
+      accessibility: "Accessibility",
       faq: "FAQ",
       eyebrow: "Contact us",
       headline: "Are you ready?",
@@ -1571,7 +1637,7 @@ export const dict: Record<Lang, Dict> = {
         {
           heading: "Cookies and technical logs",
           paragraphs: [
-            "This site doesn't use advertising or analytics cookies. It only stores the color theme you choose in your browser, which doesn't identify you.",
+            "This site uses Google Analytics to measure visits and Meta Pixel to measure advertising. Both may store cookies and send data such as your IP address, the pages you visit and information about your browser to Google and Meta. The site also stores in your browser the color theme, language and pricing region you choose, which do not identify you.",
             "To show you the prices for your market (Mexico or the United States), our server looks up which country your IP address comes from. We only use the country; we don't store it or link it to you.",
             "Like any website, our hosting provider logs technical data for each visit (IP address, browser, date and time) to run and protect the site. These logs aren't linked to your contact details.",
           ],
@@ -1601,6 +1667,52 @@ export const dict: Record<Lang, Dict> = {
           heading: "Changes and returns",
           paragraphs: [
             "Any situation involving a change or return must be reported by email to juanmanuel@ecommetrica.com, including a description of the problem or the reason for the return.",
+          ],
+        },
+      ],
+      accessibilityTitle: "Accessibility statement",
+      accessibilityMetaDescription:
+        "Ecommetrica's accessibility statement: the standard we use, the current state of the site, its known limitations and how to report a barrier.",
+      accessibilityKeywords: ["accessibility statement", "web accessibility", "WCAG 2.1"],
+      accessibilityMeta: "Last updated: October 13, 2026",
+      accessibilityIntro: [
+        "We want ecommetrica.com to be usable with a keyboard, with a screen reader and on screens of different sizes. We use the WCAG 2.1 Level AA guidelines as our reference.",
+        "This statement describes the current state of the site. It does not claim that the site meets every guideline: the known limitations are listed below.",
+      ],
+      accessibilitySections: [
+        {
+          heading: "What we have done",
+          paragraphs: [
+            "On October 13, 2026 we ran the axe automated tool on the main pages of the site in Spanish and English, and fixed the critical and serious problems it found, except the color contrast ones described under known limitations.",
+          ],
+          bullets: [
+            "A link to skip to the main content when navigating with a keyboard.",
+            "A mobile menu that works with the keyboard: focus stays inside the menu and Escape closes it.",
+            "Decorative videos with a pause button; if your system asks for reduced motion, they do not play on their own.",
+            "Forms with labels and error messages written in text, not only in color.",
+          ],
+        },
+        {
+          heading: "Known limitations",
+          paragraphs: [
+            "We are working on these points and will update this statement when they are resolved.",
+          ],
+          bullets: [
+            "Some secondary text and accent-colored buttons do not reach the 4.5:1 contrast ratio in one or more of the visual themes.",
+            "We have not yet done manual testing with screen readers (NVDA and VoiceOver).",
+            "Two testimonial videos do not have captions yet.",
+          ],
+        },
+        {
+          heading: "How we measured",
+          paragraphs: [
+            "We used automated testing with axe and a keyboard review of the new features. This is not a full conformance audit.",
+          ],
+        },
+        {
+          heading: "Report a barrier",
+          paragraphs: [
+            "If something on the site is hard to use, write to juanmanuel@ecommetrica.com with the page address and the problem you had. We will reply as soon as we can.",
           ],
         },
       ],

@@ -28,10 +28,12 @@ function linkify(text: string): ReactNode[] {
 
 export default function LegalDocument({
   title,
+  meta,
   intro,
   sections,
 }: {
   title: string;
+  meta?: string;
   intro: string[];
   sections: LegalSection[];
 }) {
@@ -40,6 +42,7 @@ export default function LegalDocument({
       <h1 className="font-display text-[clamp(2.25rem,4vw,3.75rem)] font-medium leading-[1.05] tracking-[-0.02em] text-ecom-ink">
         {title}
       </h1>
+      {meta && <p className="mt-4 text-sm text-ecom-ink/70">{meta}</p>}
 
       <div className="mt-10 space-y-5 text-ecom-ink/70">
         {intro.map((paragraph, i) => (

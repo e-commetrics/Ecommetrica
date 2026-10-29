@@ -7,21 +7,18 @@ import { useEffect, useState } from "react";
  * request so a missing file quietly hides the video feature instead of showing a broken player. Starts optimistic (true) so the common case never flashes.
  */
 export function useVideoAvailable(src?: string): boolean {
-  const [available, setAvailable] = useState(Boolean(src));
+  const [failedSrc, setFailedSrc] = useState<string | undefined>(undefined);
 
   useEffect(() => {
-    if (!src) {
-      setAvailable(false);
-      return;
-    }
+    if (!src) return;
 
     let cancelled = false;
     fetch(src, { method: "HEAD" })
       .then((res) => {
-        if (!cancelled) setAvailable(res.ok);
+        if (!cancelled) setFailedSrc(res.ok ? undefined : src);
       })
       .catch(() => {
-        if (!cancelled) setAvailable(false);
+        if (!cancelled) setFailedSrc(src);
       });
 
     return () => {
@@ -29,5 +26,5 @@ export function useVideoAvailable(src?: string): boolean {
     };
   }, [src]);
 
-  return available;
+  return Boolean(src) && failedSrc !== src;
 }

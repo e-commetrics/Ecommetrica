@@ -4,11 +4,14 @@ import { Toaster } from "react-hot-toast";
 import "../globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SkipLink from "@/components/SkipLink";
 import SmoothScroll from "@/components/SmoothScroll";
 import { LanguageProvider } from "@/components/LanguageProvider";
 import { RegionProvider } from "@/components/RegionProvider";
 import { ContactPrefillProvider } from "@/components/ContactPrefillProvider";
 import JsonLd from "@/components/JsonLd";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import MetaPixel from "@/components/MetaPixel";
 import { getDict } from "@/lib/i18n/dict";
 import { SITE_URL } from "@/lib/i18n/seo";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
@@ -48,16 +51,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang={LANG} className={clashDisplay.variable}>
+    <html lang="en-US" className={clashDisplay.variable}>
       <body className="flex min-h-screen flex-col antialiased" suppressHydrationWarning>
         <JsonLd data={organizationSchema(LANG)} />
         <JsonLd data={websiteSchema(LANG)} />
+        <GoogleAnalytics />
+        <MetaPixel />
         <LanguageProvider lang={LANG}>
           <RegionProvider>
             <ContactPrefillProvider>
+              <SkipLink />
               <SmoothScroll />
               <Header />
-              <main className="flex-1">{children}</main>
+              <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
+                {children}
+              </main>
               <Footer />
               <Toaster
                 position="bottom-right"
