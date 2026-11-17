@@ -3,6 +3,7 @@ import { getDict } from "@/lib/i18n/dict";
 import { SITE_URL } from "@/lib/i18n/seo";
 import { localizedHref, withTrailingSlash } from "@/lib/i18n/localizedHref";
 import { plans, customPlan } from "@/lib/pricing";
+import { fillTokens, landingPath, landingPlanName, landingPrice, type LandingContent } from "@/lib/landings";
 import { faqs } from "@/lib/faq";
 import type { PostMeta } from "@/lib/blog";
 import type { CaseStudy } from "@/lib/work";
@@ -184,4 +185,43 @@ export function serviceCatalogSchema(lang: Lang) {
     name: t.pricingPage.headline,
     itemListElement: [...planOffers, ...customOffers],
   };
+}
+
+/** A package landing: the package as a Service with its price per market, plus its FAQ. */
+export function packageLandingSchema(content: LandingContent, lang: Lang) {
+  const prices = REGIONS.map((region) => landingPrice(content.planId, region));
+  const amount = (region: Region) =>
+    content.planId === "custom"
+      ? customPlan.priceFromValue[region]
+      : plans.find((item) => item.id === content.planId)?.priceValue[region];
+  // The page shows only the visitor's market; structured data names both.
+  const join = (key: "price" | "total" | "saving" | "hosting") =>
+    prices.map((price) => price[key]).filter(Boolean).join(" / ");
+  const both = (text: string) =>
+    fillTokens(text, { price: join("price"), total: join("total"), saving: join("saving"), hosting: join("hosting") });
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      name: landingPlanName(content.planId, lang),
+      description: content.meta.description[lang],
+      url: absoluteUrl(lang, landingPath(content.slug)),
+      provider: { "@id": ORGANIZATION_ID },
+      offers: REGIONS.map((region) => ({
+        "@type": "Offer",
+        price: amount(region),
+        priceCurrency: "USD",
+        areaServed: region === "mx" ? "MX" : "US",
+      })),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: content.faq.items.map((item) => ({
+        "@type": "Question",
+        name: item.title[lang],
+        acceptedAnswer: { "@type": "Answer", text: both(item.body[lang]) },
+      })),
+    },
+  ];
 }

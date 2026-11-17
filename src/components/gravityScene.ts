@@ -129,7 +129,8 @@ export function mountGravityScene(o: GravitySceneOptions): () => void {
 
   const geo = new THREE.TorusGeometry(0.8, 0.28, 32, 96);
   const mats = [
-    new THREE.MeshPhysicalMaterial({ color: 0xe84a34, roughness: 0.22, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.1 }),
+    // Color comes from the theme's second color (tintRings, below).
+    new THREE.MeshPhysicalMaterial({ roughness: 0.22, metalness: 0.15, clearcoat: 1, clearcoatRoughness: 0.1 }),
     new THREE.MeshPhysicalMaterial({ color: 0x1c1c1f, roughness: 0.28, metalness: 0.35, clearcoat: 1, clearcoatRoughness: 0.15 }),
     new THREE.MeshPhysicalMaterial({ color: 0xf2ede9, roughness: 0.35, metalness: 0, clearcoat: 0.6 }),
   ];
@@ -173,16 +174,17 @@ export function mountGravityScene(o: GravitySceneOptions): () => void {
   composer.addPass(ripple);
   composer.addPass(new OutputPass());
 
-  /** x, y in CSS px from the top-left; height rows run bottom-up. */
-  const drop = (x: number, y: number, strength: number) => {
+  /** x, y in CSS px from the top-left; height rows run bottom-up. `reach` is in grid cells. */
+  const drop = (x: number, y: number, strength: number, reach = 3) => {
     const gx = Math.round((x / W) * (GW - 1));
     const gy = Math.round((1 - y / H) * (GH - 1));
-    for (let j = -2; j <= 2; j++) {
-      for (let i = -2; i <= 2; i++) {
+    const k = Math.ceil(reach) - 1;
+    for (let j = -k; j <= k; j++) {
+      for (let i = -k; i <= k; i++) {
         const X = gx + i;
         const Y = gy + j;
         if (X < 1 || Y < 1 || X >= GW - 1 || Y >= GH - 1) continue;
-        const f = 1 - Math.hypot(i, j) / 3;
+        const f = 1 - Math.hypot(i, j) / reach;
         if (f > 0) cur[Y * GW + X] += strength * f;
       }
     }
@@ -228,7 +230,8 @@ export function mountGravityScene(o: GravitySceneOptions): () => void {
     }
     if (lx !== null && ly !== null) {
       const n = Math.min(12, Math.ceil(Math.hypot(x - lx, y - ly) / 10));
-      for (let k = 1; k <= n; k++) drop(lx + ((x - lx) * k) / n, ly + ((y - ly) * k) / n, 0.9);
+      // A narrow trail: the cursor's touch is small, so chasing the rings is the fun part.
+      for (let k = 1; k <= n; k++) drop(lx + ((x - lx) * k) / n, ly + ((y - ly) * k) / n, 1.1, 2);
     }
     lx = x;
     ly = y;
@@ -267,7 +270,7 @@ export function mountGravityScene(o: GravitySceneOptions): () => void {
     drop(e.clientX - rect.left, e.clientY - rect.top, 7);
   };
 
-  const MOUSE_R = 1.7;
+  const MOUSE_R = 1;
   let simTime = 0;
   const step = (dt: number) => {
     simTime += dt;
@@ -379,9 +382,19 @@ export function mountGravityScene(o: GravitySceneOptions): () => void {
     if (reducedMotion) composer.render();
   });
   resize.observe(canvas);
-  // ThemeSwitcher repoints the color tokens on <html>'s inline style: repaint the backdrop.
+  // The colored rings (and the rim light that edges them all) wear the theme's second
+  // color, --color-ecom-red: deep red in Ember, magenta in Bugambilia, violet in Neón…
+  const tintRings = () => {
+    const second = css().getPropertyValue("--color-ecom-red").trim() || "#9c1512";
+    mats[0].color.setStyle(second);
+    rim.color.setStyle(second);
+  };
+  tintRings();
+  // ThemeSwitcher repoints the color tokens on <html>'s inline style: repaint the backdrop
+  // and retint the rings.
   const themeWatch = new MutationObserver(() => {
     paintBg();
+    tintRings();
     if (reducedMotion) composer.render();
   });
   themeWatch.observe(document.documentElement, { attributes: true, attributeFilter: ["style"] });
@@ -443,10 +456,11 @@ export function mountGravityScene(o: GravitySceneOptions): () => void {
   section.addEventListener("pointerleave", onLeave);
   section.addEventListener("click", onClick);
 
-  // Idle drops, plus one wave across the headline on arrival.
+  // Soft idle drops (about two on the surface at a time), plus one wave across the
+  // headline on arrival.
   const rain = window.setInterval(() => {
-    if (performance.now() - lastMove > 1500) drop(Math.random() * W, Math.random() * H, 2.6);
-  }, 750);
+    if (performance.now() - lastMove > 1500) drop(Math.random() * W, Math.random() * H, 2);
+  }, 1150);
   const arrival = headlineBox();
   const waveY = arrival.top + arrival.height / 2;
   for (let k = 0; k <= 48; k++) {

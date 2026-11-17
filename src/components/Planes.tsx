@@ -6,7 +6,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { plans, formatUSD, planTotal } from "@/lib/pricing";
 import Reveal from "@/components/Reveal";
 import PlanFeatures from "@/components/PlanFeatures";
-import ExpressPlanCard from "@/components/ExpressPlanCard";
 import CustomPlanBanner from "@/components/CustomPlanBanner";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useRegion } from "@/components/RegionProvider";
@@ -65,13 +64,7 @@ export default function Planes() {
           </Link>
         </Reveal>
 
-        <Reveal>
-          <div className="mt-16 lg:mt-24">
-            <ExpressPlanCard variant="dark" ctaLabel={t.planes.select} />
-          </div>
-        </Reveal>
-
-        <div className="mt-6 grid gap-6 lg:grid-cols-4">
+        <div className="mt-16 grid gap-6 lg:mt-24 lg:grid-cols-4">
           {plans.filter((plan) => !plan.oneTime).map((plan, i) => (
             <Reveal key={plan.name.en} delay={i * 0.1}>
               <div

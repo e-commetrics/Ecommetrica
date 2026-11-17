@@ -7,8 +7,10 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import MusicToggle from "@/components/MusicToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { localizedHref } from "@/lib/i18n/localizedHref";
+import { PACKAGE_LANDINGS, landingPath, landingPlanName } from "@/lib/landings";
 
 const PAUSE_DELAY_MS = 400;
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -31,6 +33,9 @@ function isActiveHref(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+type NavChild = { href: string; label: string; line?: string };
+type NavLink = { href: string; label: string; children?: NavChild[] };
+
 const subscribeNoop = () => () => {};
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -42,6 +47,8 @@ export default function Header() {
   // Falls back to "" (matches nothing) — usePathname() has no router context
   // to read from on the bypassed global-not-found page.
   const pathname = usePathname() ?? "";
+  // Exact-page checks ignore the trailing slash next.config.ts adds to every URL.
+  const here = pathname.replace(/\/$/, "") || "/";
   const pauseTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
@@ -57,14 +64,24 @@ export default function Header() {
 
   useEffect(() => () => clearTimeout(pauseTimer.current), []);
 
-  const navLinks = [
-    { href: localizedHref(lang, "/studio"), label: t.nav.studio },
-    { href: localizedHref(lang, "/services"), label: t.nav.services },
-    { href: localizedHref(lang, "/work"), label: t.nav.work },
-    { href: localizedHref(lang, "/blog"), label: t.nav.blog },
-    { href: localizedHref(lang, "/faq"), label: t.nav.faq },
-    { href: localizedHref(lang, "/contact"), label: t.nav.contact },
-  ].map((link) => ({ ...link, active: isActiveHref(pathname, link.href) }));
+  // "Precios" opens /pricing itself; its dropdown lists one landing per package, in order.
+  const pricingChildren: NavChild[] = PACKAGE_LANDINGS.map((landing) => ({
+    href: localizedHref(lang, landingPath(landing.slug)),
+    label: landingPlanName(landing.planId, lang),
+    line: landing.menuLine[lang],
+  }));
+
+  const navLinks = (
+    [
+      { href: localizedHref(lang, "/studio"), label: t.nav.studio },
+      { href: localizedHref(lang, "/services"), label: t.nav.services },
+      { href: localizedHref(lang, "/pricing"), label: t.nav.pricing, children: pricingChildren },
+      { href: localizedHref(lang, "/work"), label: t.nav.work },
+      { href: localizedHref(lang, "/blog"), label: t.nav.blog },
+      { href: localizedHref(lang, "/faq"), label: t.nav.faq },
+      { href: localizedHref(lang, "/contact"), label: t.nav.contact },
+    ] as NavLink[]
+  ).map((link) => ({ ...link, active: isActiveHref(pathname, link.href) }));
 
   return (
     <>
@@ -103,24 +120,56 @@ export default function Header() {
 
         {/* Breakpoint is xl, not lg: with the Spanish labels, logo + six links + switchers + CTA
             need ~1040px, which overflowed a 1024px laptop (and more once a scrollbar takes ~15px). */}
-        <nav className="hidden items-center gap-8 text-sm font-medium tracking-wide uppercase xl:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              aria-current={link.active ? "page" : undefined}
-              className={`relative transition-colors duration-300 after:absolute after:-bottom-1.5 after:left-0 after:h-px after:bg-ecom-orange after:transition-all after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-white hover:after:w-full ${
-                link.active ? "text-white after:w-full" : "text-white/70 after:w-0"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+        {/* gap-6 below 2xl: with "Planes" added, gap-8 overflowed a 1280px window by ~18px in Spanish. */}
+        <nav className="hidden items-center gap-6 text-sm font-medium tracking-wide uppercase xl:flex 2xl:gap-8">
+          {navLinks.map((link) => {
+            const anchor = (
+              <Link
+                href={link.href}
+                aria-current={link.active ? "page" : undefined}
+                className={`relative inline-flex items-center gap-1.5 transition-colors duration-300 after:absolute after:-bottom-1.5 after:left-0 after:h-px after:bg-ecom-orange after:transition-all after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-white hover:after:w-full ${
+                  link.active ? "text-white after:w-full" : "text-white/70 after:w-0"
+                }`}
+              >
+                {link.label}
+                {link.children && (
+                  <svg aria-hidden viewBox="0 0 10 6" className="h-1.5 w-2.5 transition-transform duration-300 group-hover/menu:rotate-180">
+                    <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
+              </Link>
+            );
+            if (!link.children) return <span key={link.href}>{anchor}</span>;
+            // Opens on hover and on keyboard focus (focus-within), so Tab walks into it.
+            return (
+              <div key={link.href} className="group/menu relative">
+                {anchor}
+                <div className="invisible absolute top-full left-1/2 z-50 -translate-x-1/2 pt-5 opacity-0 transition-[opacity,visibility,transform] duration-300 group-focus-within/menu:visible group-focus-within/menu:opacity-100 group-hover/menu:visible group-hover/menu:opacity-100">
+                  <div className="w-80 rounded-2xl border border-white/10 bg-ecom-black/95 p-2 tracking-normal normal-case shadow-2xl backdrop-blur">
+                    {link.children.map((child) => (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        aria-current={here === child.href ? "page" : undefined}
+                        className={`block rounded-xl px-4 py-3 transition-colors duration-300 hover:bg-white/[0.07] ${
+                          here === child.href ? "bg-white/[0.05]" : ""
+                        }`}
+                      >
+                        <span className="block font-display text-base text-white">{child.label}</span>
+                        {child.line && <span className="mt-0.5 block text-xs font-normal text-white/55">{child.line}</span>}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </nav>
 
         <div className="hidden items-center gap-5 xl:flex">
           <LanguageSwitcher />
           <ThemeSwitcher />
+          <MusicToggle />
           <Link
             href={localizedHref(lang, "/contact")}
             className="rounded-full bg-ecom-orange px-5 py-2.5 btn-text tracking-wide text-ecom-on-accent shadow-lg shadow-ecom-orange/20 transition-all duration-300 hover:bg-ecom-accent-hover hover:text-ecom-on-accent-hover hover:shadow-ecom-red/25"
@@ -151,7 +200,7 @@ function MobileNav({
   contactHref,
   logoAlt,
 }: {
-  navLinks: { href: string; label: string; active: boolean }[];
+  navLinks: (NavLink & { active: boolean })[];
   talk: string;
   menuLabel: string;
   closeLabel: string;
@@ -215,7 +264,8 @@ function MobileNav({
   }, [open, close]);
 
   return (
-    <div className="xl:hidden">
+    <div className="flex items-center gap-3 xl:hidden">
+      <MusicToggle />
       <button
         ref={triggerRef}
         type="button"
@@ -298,7 +348,7 @@ function MobileNav({
                     className="flex flex-1 flex-col items-center justify-center gap-8 px-6"
                   >
                     {navLinks.map((link) => (
-                      <motion.div key={link.href} variants={menuItem}>
+                      <motion.div key={link.href} variants={menuItem} className="flex flex-col items-center">
                         <Link
                           href={link.href}
                           onClick={close}
@@ -309,6 +359,21 @@ function MobileNav({
                         >
                           {link.label}
                         </Link>
+                        {/* Sub-pages: the package landings. */}
+                        {link.children && (
+                          <div className="mt-2 flex flex-wrap justify-center gap-x-5 gap-y-1">
+                            {link.children.map((child) => (
+                              <Link
+                                key={child.href}
+                                href={child.href}
+                                onClick={close}
+                                className="text-sm font-medium tracking-wide text-white/60 uppercase transition-colors duration-300 hover:text-ecom-orange"
+                              >
+                                {child.label}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
                       </motion.div>
                     ))}
                   </motion.nav>

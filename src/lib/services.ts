@@ -79,8 +79,8 @@ export const services: Service[] = [
     layer: "sitio",
     name: { es: "Desarrollo web", en: "Web development" },
     description: {
-      es: "Sitios y tiendas Shopify a la medida: rápidos, bilingües y accesibles.",
-      en: "Custom websites and Shopify stores: fast, bilingual, and accessible.",
+      es: "Sitios y tiendas Shopify rápidos, bilingües y accesibles.",
+      en: "Websites and Shopify stores: fast, bilingual, and accessible.",
     },
     items: [
       { es: "Sitio o tienda Shopify", en: "Website or Shopify store" },
@@ -139,8 +139,8 @@ export const services: Service[] = [
     layer: "contenido",
     name: { es: "Video y contenido", en: "Video and content" },
     description: {
-      es: "Contenido para redes, producción de video y piezas originales hechas por personas.",
-      en: "Social content, video production, and original pieces made by people.",
+      es: "Contenido para redes, producción de video y piezas originales.",
+      en: "Social content, video production, and original pieces.",
     },
     items: [
       { es: "Contenido para redes", en: "Social media content" },

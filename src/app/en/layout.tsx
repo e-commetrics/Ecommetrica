@@ -58,7 +58,7 @@ export default function RootLayout({
         <GoogleAnalytics />
         <MetaPixel />
         <LanguageProvider lang={LANG}>
-          <RegionProvider>
+          <RegionProvider initialRegion="us">
             <ContactPrefillProvider>
               <SkipLink />
               <SmoothScroll />

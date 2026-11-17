@@ -72,18 +72,21 @@ export default function PackagesConfigurator() {
   const isExpress = Boolean(selectedPlan?.oneTime);
   const activeAddons = isExpress ? [] : selectedAddons;
 
-  // Everything else is priced per month: extras are monthly too, so the plan's monthly
-  // fee and the extras add up to one monthly figure, run for the plan's whole term.
-  const addonsMonthly = activeAddons.reduce(
-    (sum, addon) => sum + (addon.price[region] ?? 0),
-    0,
-  );
+  // Everything else is priced per month: the plan's monthly fee and the monthly extras add
+  // up to one monthly figure, run for the plan's whole term. One-time extras (branding)
+  // are added once to the contract total.
+  const addonsMonthly = activeAddons
+    .filter((addon) => !addon.oneTime)
+    .reduce((sum, addon) => sum + (addon.price[region] ?? 0), 0);
+  const addonsOneTime = activeAddons
+    .filter((addon) => addon.oneTime)
+    .reduce((sum, addon) => sum + (addon.price[region] ?? 0), 0);
   const monthlyTotal = (selectedPlan?.priceValue[region] ?? 0) + addonsMonthly;
   const packageTotal = !selectedPlan
     ? 0
     : isExpress
       ? planTotal(selectedPlan, region)
-      : monthlyTotal * selectedPlan.durationMonths;
+      : monthlyTotal * selectedPlan.durationMonths + addonsOneTime;
   const creditNote = expressCreditNote(selectedPlan, region, t.packagesFlow.expressCredit);
 
   function isIncluded(addon: PackageAddon) {
@@ -514,11 +517,12 @@ function AddonStep({
   );
 }
 
-/** Extras are monthly, like the plans: "+$450/mes", or "quote on request". */
+/** "+$450/mes" for monthly extras, "+$350 · pago único" for one-time ones, or "quote on request". */
 function addonPriceLabel(addon: PackageAddon, region: Region, t: Dict) {
   const price = addon.price[region];
-  return price == null
-    ? t.packagesFlow.quoteOnRequestLabel
+  if (price == null) return t.packagesFlow.quoteOnRequestLabel;
+  return addon.oneTime
+    ? `+${formatUSD(price)} · ${t.pricingPage.oneTimeLabel.toLowerCase()}`
     : `+${formatUSD(price)}${t.pricingPage.perMonth}`;
 }
 

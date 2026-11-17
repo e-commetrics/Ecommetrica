@@ -14,7 +14,7 @@
      Never use ecom-dark as a text color — it is a background role. */
   /* Defaults are the Ember theme with its original look, so the server render
      matches before ThemeSwitcher runs (keep in sync with lookVars() there).
-     Orange and logo are #E84A34 in all six themes: the E never changes color. */
+     Orange and logo are #E84A34 in all four themes: the E never changes color. */
   --color-ecom-orange: #e84a34; /* primary accent, from logo mark */
   --color-ecom-logo: #e84a34; /* the navbar lockup; same in every theme */
   --color-ecom-red: #9c1512; /* deep accent: gradients and fills only, never text */
@@ -24,7 +24,7 @@
   --color-ecom-surface: #f2ede9;
   --color-ecom-ink: #25272a;
   /* Eyebrows, numerals and small accent text on the surface. Its own token
-     because the orange doesn't hold contrast on every surface (Ácido is lime). */
+     because the orange doesn't hold contrast on every surface (Bugambilia is pale lavender). */
   --color-ecom-eyebrow: #e84a34;
   /* Eyebrows on dark blocks (orange in Ember, white in the handoff themes). */
   --color-ecom-eyebrow-dark: #e84a34;
@@ -222,6 +222,17 @@ html.theming *::after {
   .animate-wall-down {
     animation: none;
   }
+}
+
+/* GravityHero's typed subtitle: a terminal caret that blinks a few times once the text
+   is in, then goes away (animationend), so nothing blinks indefinitely. */
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+.animate-caret-blink {
+  animation: caret-blink 1s steps(1, end) 4;
 }
 
 /* @tailwindcss/typography ships fixed neutral greys, which go unreadable as
