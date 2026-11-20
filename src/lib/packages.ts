@@ -4,9 +4,12 @@ export type PackageAddon = {
   id: string;
   name: Localized;
   description: Localized;
-  /** Monthly price per market. `null` = no price set yet in that market: the configurator
-   *  shows "quote on request" instead and leaves it out of the running total. */
+  /** Price per market — monthly unless `oneTime`. `null` = no price set yet in that market:
+   *  the configurator shows "quote on request" instead and leaves it out of the total. */
   price: Record<Region, number | null>;
+  /** Paid once (the branding packages), not every month: added to the contract total,
+   *  never to the monthly figure. */
+  oneTime?: boolean;
   /** Plan ids (see `Plan.id` in pricing.ts) whose feature list already covers this —
    *  configurator marks the addon "included" instead of letting it be added twice. */
   includedInPlanIds: string[];
@@ -47,8 +50,7 @@ export const packagePhases: PackagePhase[] = [
           es: "Contenido para 1 mes en 1 Shooting con pre y post producción.",
           en: "1 month of content in a single shoot, with pre- and post-production.",
         },
-        // US pending confirmation from the pricing project.
-        price: { mx: 750, us: null },
+        price: { mx: 750, us: 3000 },
         includedInPlanIds: [],
       },
       {
@@ -58,7 +60,7 @@ export const packagePhases: PackagePhase[] = [
           es: "1 video formato 2K a 4K + 1 photoshoot profesional: Ambos incluyen pre y post producción compleja y distribución personalizada.",
           en: "1 video shot in 2K to 4K + 1 professional photoshoot: both include complex pre- and post-production and personalized distribution.",
         },
-        price: { mx: 1200, us: 1200 },
+        price: { mx: 1200, us: 4800 },
         includedInPlanIds: [],
       },
     ],
@@ -98,11 +100,10 @@ export const packagePhases: PackagePhase[] = [
           en: "Essential management and production — Meta",
         },
         description: {
-          es: "1 campaña + 4 piezas visuales. Ideal para campañas específicas para un servicio o rendimiento de una campaña de temporada alcance directo.",
-          en: "1 campaign + 4 visual pieces. Ideal for a specific service launch or a direct-reach seasonal campaign.",
+          es: "1 campaña + 4 piezas visuales. Ideal para campañas específicas para un servicio o rendimiento de una campaña de temporada alcance directo. Cubre una inversión en pauta de hasta $100 a la semana (recomendado desde $75).",
+          en: "1 campaign + 4 visual pieces. Ideal for a specific service launch or a direct-reach seasonal campaign. Covers ad spend of up to $100 a week (recommended from $75).",
         },
-        // US pending confirmation from the pricing project.
-        price: { mx: 570, us: null },
+        price: { mx: 570, us: 1150 },
         includedInPlanIds: ["grower", "high-profile"],
       },
       {
@@ -112,19 +113,18 @@ export const packagePhases: PackagePhase[] = [
           en: "Essential management and production — Google",
         },
         description: {
-          es: "1 campaña + 3 keywords + 2 blogs con SEO. Ideal para campañas específicas para un servicio o rendimiento de una campaña de temporada alcance directo.",
-          en: "1 campaign + 3 keywords + 2 SEO blog posts. Ideal for a specific service launch or a direct-reach seasonal campaign.",
+          es: "1 campaña + 3 keywords + 2 blogs con SEO. Ideal para campañas específicas para un servicio o rendimiento de una campaña de temporada alcance directo. Cubre una inversión en pauta de hasta $100 a la semana (recomendado desde $75).",
+          en: "1 campaign + 3 keywords + 2 SEO blog posts. Ideal for a specific service launch or a direct-reach seasonal campaign. Covers ad spend of up to $100 a week (recommended from $75).",
         },
-        // US pending confirmation from the pricing project.
-        price: { mx: 670, us: null },
+        price: { mx: 670, us: 1350 },
         includedInPlanIds: ["grower", "high-profile"],
       },
       {
         id: "mgmt-creatives-meta",
         name: { es: "Gestión + dirección creativa — Meta", en: "Management + creative direction — Meta" },
         description: {
-          es: "3 campañas + 8 piezas visuales. Ideal para escalar, posicionar y mantener tu sitio y redes sociales unificadas.",
-          en: "3 campaigns + 8 visual pieces. Ideal to scale, position, and keep your site and social channels unified.",
+          es: "3 campañas + 8 piezas visuales. Ideal para escalar, posicionar y mantener tu sitio y redes sociales unificadas. Cubre una inversión en pauta de hasta $250 a la semana.",
+          en: "3 campaigns + 8 visual pieces. Ideal to scale, position, and keep your site and social channels unified. Covers ad spend of up to $250 a week.",
         },
         price: { mx: 680, us: 1350 },
         includedInPlanIds: ["grower", "high-profile"],
@@ -133,8 +133,8 @@ export const packagePhases: PackagePhase[] = [
         id: "mgmt-creatives-google",
         name: { es: "Gestión + dirección creativa — Google", en: "Management + creative direction — Google" },
         description: {
-          es: "3 campañas + 6 keywords + 5 blogs con SEO. Ideal para escalar, posicionar y mantener tu sitio y redes sociales unificadas.",
-          en: "3 campaigns + 6 keywords + 5 SEO blog posts. Ideal to scale, position, and keep your site and social channels unified.",
+          es: "3 campañas + 6 keywords + 5 blogs con SEO. Ideal para escalar, posicionar y mantener tu sitio y redes sociales unificadas. Cubre una inversión en pauta de hasta $250 a la semana.",
+          en: "3 campaigns + 6 keywords + 5 SEO blog posts. Ideal to scale, position, and keep your site and social channels unified. Covers ad spend of up to $250 a week.",
         },
         price: { mx: 780, us: 1550 },
         includedInPlanIds: ["grower", "high-profile"],
@@ -143,8 +143,8 @@ export const packagePhases: PackagePhase[] = [
         id: "mgmt-content-engine-meta",
         name: { es: "Motor de contenido — Meta", en: "Content engine — Meta" },
         description: {
-          es: "4 campañas + 12 piezas visuales + 1 video publicitario. Ideal para quienes buscan ampliar su alcance con volumen constante de contenido curado y pauta agresiva.",
-          en: "4 campaigns + 12 visual pieces + 1 ad video. Ideal for expanding reach with a steady volume of curated content and aggressive ad spend.",
+          es: "4 campañas + 12 piezas visuales + 1 video publicitario. Ideal para quienes buscan ampliar su alcance con volumen constante de contenido curado y pauta agresiva. Cubre una inversión en pauta de hasta $10,000 al mes; arriba de eso, 13% de la inversión.",
+          en: "4 campaigns + 12 visual pieces + 1 ad video. Ideal for expanding reach with a steady volume of curated content and aggressive ad spend. Covers ad spend of up to $10,000 a month; above that, 13% of ad spend.",
         },
         price: { mx: 1150, us: 2300 },
         includedInPlanIds: ["grower", "high-profile"],
@@ -153,8 +153,8 @@ export const packagePhases: PackagePhase[] = [
         id: "mgmt-content-engine-google",
         name: { es: "Motor de contenido — Google", en: "Content engine — Google" },
         description: {
-          es: "4 campañas + 9 keywords + 9 blogs con SEO. Ideal para quienes buscan ampliar su alcance con volumen constante de contenido curado y pauta agresiva.",
-          en: "4 campaigns + 9 keywords + 9 SEO blog posts. Ideal for expanding reach with a steady volume of curated content and aggressive ad spend.",
+          es: "4 campañas + 9 keywords + 9 blogs con SEO. Ideal para quienes buscan ampliar su alcance con volumen constante de contenido curado y pauta agresiva. Cubre una inversión en pauta de hasta $10,000 al mes; arriba de eso, 13% de la inversión.",
+          en: "4 campaigns + 9 keywords + 9 SEO blog posts. Ideal for expanding reach with a steady volume of curated content and aggressive ad spend. Covers ad spend of up to $10,000 a month; above that, 13% of ad spend.",
         },
         price: { mx: 1290, us: 2550 },
         includedInPlanIds: ["grower", "high-profile"],
@@ -176,7 +176,8 @@ export const packagePhases: PackagePhase[] = [
           es: "ADN de marca, moodboard, logos, manual de marca.",
           en: "Brand DNA, moodboard, logos, brand manual.",
         },
-        price: { mx: 350, us: 350 },
+        price: { mx: 350, us: 1400 },
+        oneTime: true,
         includedInPlanIds: ["advanced", "grower", "high-profile"],
       },
       {
@@ -186,7 +187,8 @@ export const packagePhases: PackagePhase[] = [
           es: "Identidad visual y manual de marca + diseño aplicado en redes y papelería offline. Se entrega con editables.",
           en: "Visual identity and brand manual + design applied to social media and offline stationery. Delivered with editable files.",
         },
-        price: { mx: 490, us: 490 },
+        price: { mx: 490, us: 2400 },
+        oneTime: true,
         includedInPlanIds: ["grower", "high-profile"],
       },
       {
@@ -196,7 +198,8 @@ export const packagePhases: PackagePhase[] = [
           es: "Brand refresh o rebranding + diseño digital y papelería. Se entrega con editables.",
           en: "Brand refresh or rebranding + digital design and stationery. Delivered with editable files.",
         },
-        price: { mx: 860, us: 860 },
+        price: { mx: 860, us: 4200 },
+        oneTime: true,
         includedInPlanIds: ["high-profile"],
       },
     ],

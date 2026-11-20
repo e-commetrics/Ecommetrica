@@ -66,6 +66,6 @@ Pendientes y puntos por revisar. Actualizado el 2026-10-15.
 - `schema.ts`: los planes mensuales publican precio por mes (`UnitPriceSpecification`, `MON`) y su plazo; IA Exprés queda como pago único.
 - Páginas explicativas (`/ga4`, `/vpat`, …): columna lateral con los planes que incluyen la característica.
 - FAQ de tiempos (`faq.ts`): cubre IA Exprés (7 días) y los cuatro planes mensuales.
-- Temas de color: seis temas; Ember conserva el look original (ver `CLAUDE.md`).
+- Temas de color: cuatro temas (Ember, Neón, Bugambilia, Oro; 11 nov 2026); Ember conserva el look original (ver `CLAUDE.md`).
 - Servicios: sección de inicio y `/services` por capas (opción C), solo con planes.
 - Contenido de planes: IA Exprés solo sitio con IA y AEO; sin "Talla"; Arranque con sitio multilingüe.

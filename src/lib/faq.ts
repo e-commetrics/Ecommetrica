@@ -41,14 +41,14 @@ export const faqs: Faq[] = [
     },
   },
   {
-    // Timings mirror `plans` in pricing.ts (durationMonths; AI Express is 7 days) — keep in sync.
+    // Timings mirror `plans` in pricing.ts (durationMonths; AI Express is 3 days) — keep in sync.
     question: {
       es: "¿Cuánto tiempo tomará tener mi sitio o tienda en línea lista?",
       en: "How long will it take to have my website or online store ready?",
     },
     answer: {
-      es: "Depende del plan. Con IA Exprés tu sitio queda listo en 7 días a partir de tu contenido completo. Los planes mensuales se construyen a lo largo de su plazo: Arranque en 3 meses, Tracción en 4, Escala en 6 y Cúspide en 8. Mientras tanto, siempre tienes una versión en desarrollo para probar y empezar a convertir tráfico en ingresos.",
-      en: "It depends on the plan. With AI Express your site is ready in 7 days from your complete content. The monthly plans are built over their term: Launch in 3 months, Traction in 4, Scale in 6, and Peak in 8. Meanwhile, you always have a development version to test and start turning traffic into revenue.",
+      es: "Depende del plan. Con IA Exprés tu sitio queda listo en 3 días a partir de tu contenido completo, con 1 ronda de revisión. Los planes mensuales se construyen a lo largo de su plazo: Arranque en 3 meses, Tracción en 4, Escala en 6 y Cúspide en 8. Mientras tanto, siempre tienes una versión en desarrollo para probar y empezar a convertir tráfico en ingresos.",
+      en: "It depends on the plan. With AI Express your site is ready in 3 days from your complete content, with 1 revision round. The monthly plans are built over their term: Launch in 3 months, Traction in 4, Scale in 6, and Peak in 8. Meanwhile, you always have a development version to test and start turning traffic into revenue.",
     },
   },
   {

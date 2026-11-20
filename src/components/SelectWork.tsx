@@ -18,7 +18,7 @@ const TOTAL = PROJECTS.length;
 // 2-3 sit in frame at once — reads as a scatter, not a list.
 const SLIDE_VH = 36;
 
-const SLIDE_HEIGHT = `max(${SLIDE_VH}vh, calc(min(48rem, 100vw - 12rem) / 2 + 8rem))`;
+const SLIDE_HEIGHT = `max(${SLIDE_VH}vh, calc(var(--slide-w) / 2 + var(--slide-gap)))`;
 
 // Scroll budget beyond the slide track itself: head hold for the title, tail
 // room for the last card to clear the top.
@@ -97,7 +97,7 @@ function ProjectSlide({
           videoRef.current?.pause();
           if (videoRef.current) videoRef.current.currentTime = 0;
         }}
-        className={`group w-full ${className}`}
+        className={`group w-full lg:max-xl:w-[60%] ${className}`}
       >
         {/* 2:1 roughly matches the screenshots' native ratio, so object-cover trims a
             few percent instead of slicing off the sides. */}
@@ -284,7 +284,7 @@ export default function Projects() {
       {/* Desktop: pinned title with the projects scrolling across it. */}
       <section
         ref={containerRef}
-        className="relative hidden bg-ecom-surface lg:block"
+        className="relative hidden bg-ecom-surface [--slide-gap:12rem] [--slide-w:min(48rem,_100vw_-_12rem)] lg:block lg:max-xl:[--slide-w:calc((100vw_-_12rem)_*_0.6)] min-[1800px]:[--slide-gap:8rem]"
         style={{ "--slide-h": SLIDE_HEIGHT, height: SECTION_HEIGHT } as CSSProperties}
       >
         <div className="sticky top-0 h-screen overflow-hidden">

@@ -4,12 +4,20 @@ export function formatUSD(value: number) {
   return `$${value.toLocaleString("en-US")}`;
 }
 
+/** A plan's saving as the price list states it, always one decimal: "76.4%", "77.0%". */
+export function formatSaving(value: number) {
+  return `${value.toFixed(1)}%`;
+}
+
 export type PlanId = "express" | "simple" | "advanced" | "grower" | "high-profile";
 
 const PLAN_ORDER: PlanId[] = ["express", "simple", "advanced", "grower", "high-profile"];
 
 const fromPlan = (start: PlanId): PlanId[] => PLAN_ORDER.slice(PLAN_ORDER.indexOf(start));
 const onlyPlan = (id: PlanId): PlanId[] => [id];
+/** From `start` up to and including `end`: for a line a later plan replaces with a better one. */
+const planRange = (start: PlanId, end: PlanId): PlanId[] =>
+  PLAN_ORDER.slice(PLAN_ORDER.indexOf(start), PLAN_ORDER.indexOf(end) + 1);
 const sameInBoth = (ids: PlanId[]): Record<Region, PlanId[]> => ({ mx: ids, us: ids });
 
 export type MatrixRow = {
@@ -24,7 +32,9 @@ export type MatrixRow = {
    *  /vpat or /en/vpat via localizedHref. Rendered as a "Learn more" link. */
   learnMoreSlug?: string;
   /** Plans that carry this row, per market. A plan present in `us` but absent from `mx`
-   *  is a US-market inclusion and renders with a ★. */
+   *  is a US-market inclusion and renders with a ★. Each plan's service count is the number
+   *  of rows it carries, so a line a later plan upgrades (bilingual → multilingual) ends at
+   *  the plan before the upgrade instead of being counted twice. */
   availability: Record<Region, PlanId[]>;
 };
 
@@ -54,23 +64,33 @@ export type Plan = {
   specs: PlanSpecs;
   stage: Localized;
   renewal: Localized;
-  /** Saving against buying every included service separately. Null when the plan is only
+  /** Saving against the value of every included service on its own (services are only sold
+   *  alone as a rebuy, after a package). Null when the plan is only
    *  compared with the market (AI Express). */
   savingPercent: Record<Region, number | null>;
   note?: Localized;
   featured?: boolean;
+  /** "Elígelo si" signals on /pricing: what a buyer would recognize in their own business.
+   *  Each one must follow from the plan's specs and matrix rows. */
+  chooseIf?: Localized[];
   /** Id of the plan this one fully includes — rendered as a single "Everything in X" line
    *  (PlanFeatures.tsx) instead of repeating X's features. */
   inheritsFromPlanId?: PlanId;
 };
 
+/**
+ * Prices, savings, counts and lines follow the pricing master (5 Nov 2026; savings from
+ * ladder v1.3, 12 Nov 2026). Market "mx" is the Tijuana offer, "us" the San Diego one.
+ * Expected service counts (rows each plan carries): mx 11 / 22 / 29 / 46 / 54,
+ * us 11 / 22 / 30 / 47 / 56.
+ */
 export const plans: Plan[] = [
   {
     id: "express",
     name: { es: "IA Exprés", en: "AI Express" },
     tagline: {
-      es: "Tu sitio terminado en 7 días a partir de tu contenido completo, generado con IA.",
-      en: "Your finished site in 7 days from your complete content, generated with AI.",
+      es: "Tu sitio terminado en 3 días a partir de tu contenido completo, generado con IA.",
+      en: "Your finished site in 3 days from your complete content, AI-generated.",
     },
     duration: { es: "Pago único", en: "One-time" },
     durationMonths: 0,
@@ -80,7 +100,7 @@ export const plans: Plan[] = [
       pages: { es: "1 a 3", en: "1 to 3" },
       products: { es: "Hasta 5", en: "Up to 5" },
       blog: { es: "—", en: "—" },
-      social: { es: "6 (una vez)", en: "6 (once)" },
+      social: { es: "3 (una vez)", en: "3 (once)" },
     },
     stage: { es: "Quiere estar en línea ya", en: "Wants to be online now" },
     renewal: { es: "Cualquier servicio", en: "Any service" },
@@ -99,7 +119,7 @@ export const plans: Plan[] = [
     },
     duration: { es: "3 meses", en: "3 months" },
     durationMonths: 3,
-    priceValue: { mx: 675, us: 1450 },
+    priceValue: { mx: 675, us: 1650 },
     specs: {
       pages: { es: "8 a 10", en: "8 to 10" },
       products: { es: "Hasta 25", en: "Up to 25" },
@@ -107,8 +127,13 @@ export const plans: Plan[] = [
       social: { es: "4 al mes", en: "4 a month" },
     },
     stage: { es: "Apenas abre", en: "Just opening" },
+    chooseIf: [
+      { es: "Apenas abres, o tu sitio actual ya no te representa", en: "You're just opening, or your current site no longer fits you" },
+      { es: "Quieres marca, sitio y redes en orden desde el inicio", en: "You want your brand, site and social in order from the start" },
+      { es: "Te bastan hasta 10 páginas y 25 productos", en: "Up to 10 pages and 25 products is enough" },
+    ],
     renewal: { es: "Cualquier servicio", en: "Any service" },
-    savingPercent: { mx: 56.1, us: 69.6 },
+    savingPercent: { mx: 65.4, us: 68.3 },
     inheritsFromPlanId: "express",
   },
   {
@@ -124,23 +149,28 @@ export const plans: Plan[] = [
     specs: {
       pages: { es: "10 a 18", en: "10 to 18" },
       products: { es: "Hasta 100", en: "Up to 100" },
-      blog: { es: "2", en: "2" },
+      blog: { es: "3", en: "3" },
       social: { es: "8 al mes", en: "8 a month" },
     },
     stage: { es: "Ya tiene clientes", en: "Already has clients" },
+    chooseIf: [
+      { es: "Ya vendes y quieres reservas y pagos en línea", en: "You already sell and want online booking and payments" },
+      { es: "Quieres empezar a anunciarte en Meta", en: "You want to start advertising on Meta" },
+      { es: "Tu catálogo llega a 100 productos", en: "Your catalog reaches 100 products" },
+    ],
     renewal: {
-      es: "Todo excepto Branding + Identidad Visual",
-      en: "Everything except Branding + Visual Identity",
+      es: "Todo excepto Branding + identidad visual",
+      en: "Everything except Branding + visual identity",
     },
-    savingPercent: { mx: 62.5, us: 66.6 },
+    savingPercent: { mx: 64.2, us: 66.1 },
     inheritsFromPlanId: "simple",
   },
   {
     id: "grower",
     name: { es: "Escala", en: "Scale" },
     tagline: {
-      es: "Crecimiento mensual sostenido. Todo a la medida.",
-      en: "Sustained monthly growth. Everything built to fit.",
+      es: "Crecimiento mensual sostenido. Todo conectado.",
+      en: "Sustained monthly growth. Everything connected.",
     },
     duration: { es: "6 meses", en: "6 months" },
     durationMonths: 6,
@@ -152,11 +182,16 @@ export const plans: Plan[] = [
       social: { es: "12 al mes", en: "12 a month" },
     },
     stage: { es: "Opera y quiere crecer", en: "Operating and growing" },
+    chooseIf: [
+      { es: "Quieres crecer cada mes con estrategia y pauta en Meta y Google", en: "You want to grow every month with strategy and Meta and Google ads" },
+      { es: "Necesitas landing pages, asistente IA y automatización", en: "You need landing pages, an AI assistant and automation" },
+      { es: "Manejas hasta 300 productos y 12 piezas para redes al mes", en: "You handle up to 300 products and 12 social posts a month" },
+    ],
     renewal: {
-      es: "Todo excepto N0, Branding + Identidad Visual y Branding + Diseño Digital",
-      en: "Everything except N0, Branding + Visual Identity and Branding + Digital Design",
+      es: "Todo excepto Gestión pura, Branding + identidad visual y Branding + diseño digital",
+      en: "Everything except Pure management, Branding + visual identity and Branding + digital design",
     },
-    savingPercent: { mx: 70.7, us: 72.1 },
+    savingPercent: { mx: 76.4, us: 77.0 },
     featured: true,
     inheritsFromPlanId: "advanced",
   },
@@ -169,19 +204,24 @@ export const plans: Plan[] = [
     },
     duration: { es: "8 meses", en: "8 months" },
     durationMonths: 8,
-    priceValue: { mx: 1555, us: 4500 },
+    priceValue: { mx: 1950, us: 5000 },
     specs: {
-      pages: { es: "Más de 50", en: "More than 50" },
+      pages: { es: "51 a 999", en: "51 to 999" },
       products: { es: "Hasta 1,000", en: "Up to 1,000" },
       blog: { es: "6", en: "6" },
       social: { es: "16 al mes", en: "16 a month" },
     },
     stage: { es: "Opera con volumen", en: "Operating at volume" },
+    chooseIf: [
+      { es: "Operas con volumen y quieres dejar las tareas manuales", en: "You operate at volume and want to drop the manual work" },
+      { es: "Necesitas integraciones con tus sistemas y una app de BI", en: "You need integrations with your systems and a BI app" },
+      { es: "Tu sitio pasa de 50 páginas y hasta 1,000 productos", en: "Your site goes past 50 pages and up to 1,000 products" },
+    ],
     renewal: {
-      es: "Todo excepto N0, N1 y los 3 paquetes de Branding",
-      en: "Everything except N0, N1 and the 3 Branding packages",
+      es: "Todo excepto Gestión pura, Gestión y producción esencial y los 3 paquetes de branding",
+      en: "Everything except Pure management, Essential management and production and the 3 branding packages",
     },
-    savingPercent: { mx: 68.4, us: 69.2 },
+    savingPercent: { mx: 68.6, us: 71.1 },
     inheritsFromPlanId: "grower",
   },
 ];
@@ -192,80 +232,100 @@ export const matrix: MatrixCategory[] = [
     title: { es: "Sitio y desarrollo", en: "Website and development" },
     rows: [
       {
-        id: "shopify",
-        text: {
-          es: "Sitio o tienda Shopify (páginas y productos según plan)",
-          en: "Website or Shopify store (pages and products by plan)",
-        },
-        shortLabel: { es: "Sitio o tienda Shopify", en: "Website or Shopify store" },
-        availability: sameInBoth(fromPlan("simple")),
-      },
-      {
         id: "ai-site",
         text: { es: "Sitio generado con IA", en: "AI-generated site" },
         availability: sameInBoth(onlyPlan("express")),
       },
       {
-        id: "people-site",
+        id: "shopify",
         text: {
-          es: "Sitio hecho por personas, asistido con IA",
-          en: "Site made by people, AI-assisted",
+          es: "Sitio web o tienda Shopify, con capacitación para administrar tu sitio, migración de tu sitio actual sin perder posicionamiento y, en tienda, catálogo conectado a Google Shopping y a Meta",
+          en: "Website or Shopify store, with training to manage your site, migration of your current site without losing rankings and, for stores, a catalog connected to Google Shopping and Meta",
         },
-        shortLabel: { es: "Sitio hecho por personas", en: "Site made by people" },
+        shortLabel: { es: "Sitio o tienda Shopify", en: "Website or Shopify store" },
         availability: sameInBoth(fromPlan("simple")),
+      },
+      {
+        id: "ai-powered",
+        text: { es: "Potenciado con IA", en: "AI-powered" },
+        availability: sameInBoth(planRange("simple", "grower")),
+      },
+      {
+        id: "ai-partnered",
+        text: { es: "Sitio aliado de la IA", en: "AI-partnered site" },
+        availability: sameInBoth(onlyPlan("high-profile")),
+      },
+      {
+        id: "no-templates",
+        text: { es: "Sin plantillas genéricas", en: "No generic templates" },
+        availability: sameInBoth(fromPlan("advanced")),
       },
       {
         id: "bilingual",
         text: { es: "Sitio bilingüe EN/ES", en: "Bilingual EN/ES site" },
         shortLabel: { es: "Sitio bilingüe", en: "Bilingual site" },
-        availability: sameInBoth(onlyPlan("express")),
+        availability: sameInBoth(planRange("express", "advanced")),
       },
       {
         id: "multilingual",
-        text: {
-          es: "Sitio multilingüe (mejora del sitio bilingüe)",
-          en: "Multilingual site (upgrade from the bilingual site)",
-        },
-        shortLabel: { es: "Sitio multilingüe", en: "Multilingual site" },
+        text: { es: "Sitio multilingüe", en: "Multilingual site" },
         description: {
           es: "Más allá de español e inglés: tu sitio en los idiomas que tu mercado necesite.",
           en: "Beyond English and Spanish: your site in the languages your market needs.",
         },
-        availability: sameInBoth(fromPlan("simple")),
+        availability: sameInBoth(fromPlan("grower")),
       },
       {
         id: "hosting",
         text: {
-          es: "Hosting y mantenimiento (primeros 12 meses)",
-          en: "Hosting and maintenance (first 12 months)",
+          es: "Hosting y mantenimiento con respaldos y seguridad (primeros 12 meses)",
+          en: "Hosting and maintenance with backups and security (first 12 months)",
         },
         shortLabel: { es: "Hosting y mantenimiento", en: "Hosting & maintenance" },
         availability: sameInBoth(fromPlan("express")),
       },
       {
-        id: "whatsapp-contact",
-        text: {
-          es: "Botón de WhatsApp y formulario de contacto",
-          en: "WhatsApp button and contact form",
-        },
-        shortLabel: { es: "WhatsApp y contacto", en: "WhatsApp & contact" },
+        id: "social-button-form",
+        text: { es: "Botón de redes sociales y formulario", en: "Social media button and form" },
+        shortLabel: { es: "Redes y formulario", en: "Social & form" },
         availability: sameInBoth(fromPlan("express")),
       },
       {
+        id: "business-email",
+        text: {
+          es: "Correo de negocio con tu dominio y entregabilidad (SPF, DKIM y DMARC; licencias aparte)",
+          en: "Business email on your domain + deliverability (SPF, DKIM and DMARC; licenses separate)",
+        },
+        shortLabel: { es: "Correo de negocio", en: "Business email" },
+        availability: sameInBoth(fromPlan("simple")),
+      },
+      {
         id: "booking",
-        text: { es: "Reservas y pagos en línea", en: "Online booking and payments" },
+        text: {
+          es: "Reservas y pagos en línea, con facturación electrónica CFDI",
+          en: "Online booking and payments",
+        },
         shortLabel: { es: "Reservas y pagos", en: "Booking & payments" },
         availability: sameInBoth(fromPlan("advanced")),
       },
       {
         id: "landing-pages",
-        text: { es: "Landing pages para campañas (2)", en: "Campaign landing pages (2)" },
+        text: { es: "Landing pages para campañas (3)", en: "Campaign landing pages (3)" },
         shortLabel: { es: "Landing pages", en: "Landing pages" },
         availability: sameInBoth(fromPlan("grower")),
       },
       {
+        id: "monitoring",
+        text: {
+          es: "Monitoreo del sitio en vivo (uptime y alertas)",
+          en: "Live site monitoring (uptime and alerts)",
+        },
+        shortLabel: { es: "Monitoreo en vivo", en: "Live monitoring" },
+        availability: sameInBoth(fromPlan("grower")),
+      },
+      {
         id: "ai-assistant",
-        text: { es: "Asistente IA en el sitio", en: "AI assistant on the site" },
+        text: { es: "Asistente IA en el sitio y en WhatsApp", en: "AI assistant on the site and on WhatsApp" },
         shortLabel: { es: "Asistente IA", en: "AI assistant" },
         availability: sameInBoth(fromPlan("grower")),
       },
@@ -275,7 +335,7 @@ export const matrix: MatrixCategory[] = [
           es: "Diseño y desarrollo web a la medida (hasta 12 h de código)",
           en: "Custom web design and development (up to 12 h of code)",
         },
-        shortLabel: { es: "Desarrollo a medida", en: "Custom dev" },
+        shortLabel: { es: "Desarrollo a la medida", en: "Custom dev" },
         availability: sameInBoth(onlyPlan("high-profile")),
       },
     ],
@@ -290,12 +350,9 @@ export const matrix: MatrixCategory[] = [
         availability: sameInBoth(onlyPlan("express")),
       },
       {
-        id: "people-copy",
-        text: {
-          es: "Textos del sitio escritos por personas, asistidos con IA",
-          en: "Website copy written by people, AI-assisted",
-        },
-        shortLabel: { es: "Textos por personas", en: "Copy by people" },
+        id: "original-copy",
+        text: { es: "Textos: contenido original", en: "Website copy: original content" },
+        shortLabel: { es: "Textos originales", en: "Original copy" },
         availability: sameInBoth(fromPlan("simple")),
       },
       {
@@ -315,16 +372,7 @@ export const matrix: MatrixCategory[] = [
           es: "Incluye configuración de Search Console, para que en los motores de búsqueda y las IAs hablen de ti desde que inicias.",
           en: "Includes Search Console setup, so search engines and AI answers are already talking about you from day one.",
         },
-        availability: sameInBoth(fromPlan("simple")),
-      },
-      {
-        id: "blog",
-        text: {
-          es: "Blog SEO/AEO (posts al mes según plan)",
-          en: "SEO/AEO blog (posts a month by plan)",
-        },
-        shortLabel: { es: "Blog SEO/AEO", en: "SEO/AEO blog" },
-        availability: sameInBoth(fromPlan("simple")),
+        availability: sameInBoth(onlyPlan("simple")),
       },
       {
         id: "advanced-seo",
@@ -337,12 +385,27 @@ export const matrix: MatrixCategory[] = [
         availability: sameInBoth(fromPlan("advanced")),
       },
       {
-        id: "original-content",
+        id: "blog",
         text: {
-          es: "Contenido original (creado desde cero por personas)",
-          en: "Original content (created from scratch by people)",
+          es: "Blog SEO/AEO (posts al mes según plan)",
+          en: "SEO/AEO blog (posts a month by plan)",
         },
+        shortLabel: { es: "Blog SEO/AEO", en: "SEO/AEO blog" },
+        availability: sameInBoth(fromPlan("simple")),
+      },
+      {
+        id: "original-blog",
+        text: { es: "Contenido original para blog y SEO", en: "Original content for blog and SEO" },
         shortLabel: { es: "Contenido original", en: "Original content" },
+        availability: sameInBoth(fromPlan("grower")),
+      },
+      {
+        id: "ai-visibility-report",
+        text: {
+          es: "Reporte de visibilidad en buscadores con IA (ChatGPT, Gemini, Perplexity)",
+          en: "AI search visibility report (ChatGPT, Gemini, Perplexity)",
+        },
+        shortLabel: { es: "Visibilidad en IAs", en: "AI visibility" },
         availability: sameInBoth(fromPlan("grower")),
       },
     ],
@@ -357,8 +420,8 @@ export const matrix: MatrixCategory[] = [
         availability: sameInBoth(fromPlan("simple")),
       },
       {
-        id: "branding",
-        text: { es: "Branding", en: "Branding" },
+        id: "core-branding",
+        text: { es: "Branding base", en: "Core branding" },
         description: {
           es: "Identidad visual y personalidad de marca: logotipo, tipografía, colores y elementos gráficos, tono de comunicación, estilo, etc.",
           en: "Visual identity and brand personality: logo, typography, colors and graphic elements, tone of voice, style, and more.",
@@ -367,7 +430,20 @@ export const matrix: MatrixCategory[] = [
       },
       {
         id: "digital-design",
-        text: { es: "Diseño Digital", en: "Digital design" },
+        text: {
+          es: "Diseño Digital: cobertura de diseño (12 horas en el plan)",
+          en: "Digital design: design coverage (12 hours in the plan)",
+        },
+        shortLabel: { es: "Diseño Digital", en: "Digital design" },
+        availability: sameInBoth(fromPlan("grower")),
+      },
+      {
+        id: "hd-video",
+        text: {
+          es: "4 a 5 videos HD al mes (producción y grabación de video profesional en HD)",
+          en: "4 to 5 HD videos a month (professional HD video production and filming)",
+        },
+        shortLabel: { es: "Videos HD", en: "HD videos" },
         availability: sameInBoth(fromPlan("grower")),
       },
       {
@@ -380,19 +456,9 @@ export const matrix: MatrixCategory[] = [
         availability: sameInBoth(onlyPlan("high-profile")),
       },
       {
-        id: "video-production",
-        text: { es: "Producción de video completa", en: "Full video production" },
-        shortLabel: { es: "Producción de video", en: "Video production" },
-        description: {
-          es: "Planeación, producción y postproducción.",
-          en: "Planning, production, and post-production.",
-        },
-        availability: sameInBoth(fromPlan("grower")),
-      },
-      {
         id: "video-4k",
-        text: { es: "Video cinematográfico 4K", en: "Cinematic 4K video" },
-        shortLabel: { es: "Video 4K", en: "4K video" },
+        text: { es: "Tu marca con imagen de cine: 2 a 3 videos en 4K", en: "Your brand with a cinematic look: 2 to 3 videos in 4K" },
+        shortLabel: { es: "Videos 4K", en: "4K videos" },
         availability: sameInBoth(onlyPlan("high-profile")),
       },
     ],
@@ -404,17 +470,17 @@ export const matrix: MatrixCategory[] = [
       {
         id: "ai-social",
         text: {
-          es: "Contenido para redes generado con IA (6 piezas, una vez)",
-          en: "AI-generated social content (6 pieces, once)",
+          es: "Contenido para redes con IA: imágenes y miniclips (3 piezas, una vez)",
+          en: "AI-generated social content: images and mini clips (3 pieces, once)",
         },
         shortLabel: { es: "Contenido para redes con IA", en: "AI social content" },
         availability: sameInBoth(onlyPlan("express")),
       },
       {
-        id: "people-social",
+        id: "ai-powered-social",
         text: {
-          es: "Contenido para redes hecho por personas, asistido con IA",
-          en: "Social content made by people, AI-assisted",
+          es: "Contenido para redes potenciado con IA (piezas al mes según plan)",
+          en: "AI-powered social content (pieces a month by plan)",
         },
         shortLabel: { es: "Contenido para redes", en: "Social content" },
         description: {
@@ -425,21 +491,17 @@ export const matrix: MatrixCategory[] = [
       },
       {
         id: "original-social",
-        text: {
-          es: "Contenido original para redes (creado desde cero por personas)",
-          en: "Original social content (created from scratch by people)",
-        },
+        text: { es: "Contenido original para redes", en: "Original social content" },
         shortLabel: { es: "Contenido original redes", en: "Original social content" },
         availability: sameInBoth(fromPlan("grower")),
       },
       {
         id: "social-setup",
-        text: { es: "Configuración de perfiles sociales", en: "Social profile setup" },
-        shortLabel: { es: "Perfiles sociales", en: "Social setup" },
-        description: {
-          es: "Accesos en orden, todo listo para que pautes sin problema o tengas a tu equipo listo y tu información brindada.",
-          en: "Access set up in order, everything ready for you to run ads without friction or to hand your team a fully briefed setup.",
+        text: {
+          es: "Configuración de perfiles sociales: Ecosistema Meta (Facebook, Instagram y WhatsApp) y TikTok",
+          en: "Social profile setup: Meta ecosystem (Facebook, Instagram and WhatsApp) and TikTok",
         },
+        shortLabel: { es: "Perfiles sociales", en: "Social setup" },
         availability: sameInBoth(fromPlan("simple")),
       },
       {
@@ -453,14 +515,18 @@ export const matrix: MatrixCategory[] = [
       },
       {
         id: "reviews",
-        text: { es: "Reseñas y reputación", en: "Reviews and reputation" },
+        text: {
+          es: "Reseñas y reputación: testimonios en el sitio web conectados con tu reputación en Meta, Google y otras redes",
+          en: "Reviews and reputation: website testimonials linked to your reputation on Meta, Google and other networks",
+        },
+        shortLabel: { es: "Reseñas y reputación", en: "Reviews and reputation" },
         availability: sameInBoth(fromPlan("advanced")),
       },
       {
         id: "meta-ads",
         text: {
-          es: "Pauta en Meta (1 campaña en Tracción, completa desde Escala)",
-          en: "Meta ads (1 campaign in Traction, full from Scale)",
+          es: "Pauta en Meta: gestionamos 1 campaña al mes (Facebook e Instagram) en Tracción; gestión completa desde Escala. La inversión en anuncios la paga el cliente",
+          en: "Meta ads: we manage 1 campaign a month (Facebook and Instagram) in Traction; full management from Scale. Ad spend is paid by the client",
         },
         shortLabel: { es: "Pauta en Meta", en: "Meta ads" },
         availability: sameInBoth(fromPlan("advanced")),
@@ -473,23 +539,38 @@ export const matrix: MatrixCategory[] = [
       },
       {
         id: "social-strategy",
-        text: { es: "Estrategia mensual de redes", en: "Monthly social strategy" },
+        text: {
+          es: "Estrategia mensual de redes sociales en Meta (otras redes, extra)",
+          en: "Monthly social media strategy on Meta (other networks are extra)",
+        },
         shortLabel: { es: "Estrategia mensual", en: "Monthly strategy" },
+        availability: sameInBoth(onlyPlan("grower")),
+      },
+      {
+        id: "multichannel-strategy",
+        text: { es: "Estrategia multicanal mensual", en: "Monthly multichannel strategy" },
+        shortLabel: { es: "Estrategia multicanal", en: "Multichannel strategy" },
+        availability: sameInBoth(onlyPlan("high-profile")),
+      },
+      {
+        id: "outbound-campaigns",
+        text: { es: "Campañas salientes: 3 al mes (multicanal)", en: "Outgoing campaigns: 3 a month (multichannel)" },
+        shortLabel: { es: "Campañas salientes", en: "Outgoing campaigns" },
         availability: sameInBoth(fromPlan("grower")),
       },
       {
-        id: "basic-automation",
+        id: "automation",
         text: {
-          es: "Automatización básica (correo y WhatsApp)",
-          en: "Basic automation (email and WhatsApp)",
+          es: "Automatización de emails y mensajes de WhatsApp desde el sitio web",
+          en: "Email and WhatsApp message automation from the website",
         },
-        shortLabel: { es: "Automatización básica", en: "Basic automation" },
+        shortLabel: { es: "Automatización", en: "Automation" },
         availability: sameInBoth(fromPlan("grower")),
       },
       {
         id: "marketing-automation",
         text: { es: "Automatización de marketing", en: "Marketing automation" },
-        shortLabel: { es: "Automatización", en: "Automation" },
+        shortLabel: { es: "Automatización de marketing", en: "Marketing automation" },
         description: {
           es: "Correos masivos, respuestas, calendarización sin esfuerzo manual.",
           en: "Bulk email, replies, and scheduling — no manual effort.",
@@ -520,21 +601,37 @@ export const matrix: MatrixCategory[] = [
         availability: sameInBoth(fromPlan("express")),
       },
       {
-        id: "google-business",
-        text: { es: "Google Business Profile", en: "Google Business Profile" },
-        shortLabel: { es: "Google Business", en: "Google Business" },
+        id: "google-ecosystem",
+        text: {
+          es: "Ecosistema Google (incluye Google Business Profile) y directorios locales (Apple Maps, Bing y Yelp)",
+          en: "Google ecosystem (incl. Google Business Profile) and local directories (Apple Maps, Bing and Yelp)",
+        },
+        shortLabel: { es: "Google y directorios", en: "Google & directories" },
         learnMoreSlug: "google-business-profile",
         availability: sameInBoth(fromPlan("simple")),
       },
       {
         id: "dashboard",
-        text: { es: "Dashboard E-commetrics", en: "E-commetrics dashboard" },
-        availability: sameInBoth(fromPlan("advanced")),
+        text: { es: "Dashboard E-commetrics con reporte mensual", en: "E-commetrics dashboard with monthly report" },
+        shortLabel: { es: "Dashboard E-commetrics", en: "E-commetrics dashboard" },
+        availability: sameInBoth(fromPlan("simple")),
       },
       {
-        id: "dashboard-crm",
-        text: { es: "Dashboard con calendario o CRM", en: "Dashboard with calendar or CRM" },
-        shortLabel: { es: "Dashboard con CRM", en: "Dashboard with CRM" },
+        id: "server-side-tracking",
+        text: {
+          es: "Medición de conversiones avanzada del lado del servidor (Meta Conversions API, Google, llamadas y formularios)",
+          en: "Advanced server-side conversion tracking (Meta Conversions API, Google, calls and forms)",
+        },
+        shortLabel: { es: "Medición avanzada", en: "Advanced tracking" },
+        availability: sameInBoth(fromPlan("grower")),
+      },
+      {
+        id: "calendar-crm",
+        text: {
+          es: "Calendario, CRM o dashboard personalizado integrado al sitio web",
+          en: "Calendar, CRM or custom dashboard built into the website",
+        },
+        shortLabel: { es: "Calendario o CRM", en: "Calendar or CRM" },
         availability: sameInBoth(fromPlan("grower")),
       },
       {
@@ -552,25 +649,25 @@ export const matrix: MatrixCategory[] = [
         availability: sameInBoth(fromPlan("grower")),
       },
       {
-        id: "system-integrations",
+        id: "bi-app",
         text: {
-          es: "Integraciones con tus sistemas (máx. 2, hasta 16 h)",
-          en: "Integrations with your systems (max. 2, up to 16 h)",
+          es: "App de inteligencia de negocio (BI) a la medida",
+          en: "Custom business intelligence (BI) app",
         },
-        shortLabel: { es: "Integraciones API", en: "API integrations" },
-        availability: sameInBoth(onlyPlan("high-profile")),
-      },
-      {
-        id: "bi-dashboard",
-        text: {
-          es: "App de dashboard personalizado con BI",
-          en: "Custom dashboard app with BI",
-        },
-        shortLabel: { es: "Dashboard y BI", en: "Dashboard and BI" },
+        shortLabel: { es: "App de BI", en: "BI app" },
         description: {
           es: "Tu propia web App con todos tus datos, gestión de calendarios, información con los accesos que desees.",
           en: "Your own web app with all your data, calendar management, and information with the access levels you want.",
         },
+        availability: sameInBoth(onlyPlan("high-profile")),
+      },
+      {
+        id: "system-integrations",
+        text: {
+          es: "Integraciones con tus sistemas (máx. 3, hasta 16 h)",
+          en: "Integrations with your systems (max. 3, up to 16 h)",
+        },
+        shortLabel: { es: "Integraciones API", en: "API integrations" },
         availability: sameInBoth(onlyPlan("high-profile")),
       },
     ],
@@ -592,7 +689,7 @@ export const matrix: MatrixCategory[] = [
         id: "ada",
         text: { es: "Sitio accesible ADA / WCAG 2.1 AA", en: "ADA / WCAG 2.1 AA accessible site" },
         shortLabel: { es: "Accesibilidad ADA", en: "ADA accessibility" },
-        availability: { mx: fromPlan("advanced"), us: fromPlan("simple") },
+        availability: sameInBoth(fromPlan("simple")),
       },
       {
         id: "accessibility-audit",
@@ -662,12 +759,9 @@ export const matrix: MatrixCategory[] = [
         availability: sameInBoth(fromPlan("grower")),
       },
       {
-        id: "monitoring",
-        text: {
-          es: "Monitoreo del sitio en vivo (uptime y alertas)",
-          en: "Live site monitoring (uptime and alerts)",
-        },
-        shortLabel: { es: "Monitoreo en vivo", en: "Live monitoring" },
+        id: "english-account",
+        text: { es: "Tu cuenta puede llevarse 100% en inglés", en: "English account management" },
+        shortLabel: { es: "Cuenta en inglés", en: "English account" },
         availability: sameInBoth(fromPlan("grower")),
       },
       {
@@ -675,12 +769,6 @@ export const matrix: MatrixCategory[] = [
         text: { es: "Estrategia y roadmap trimestrales", en: "Quarterly strategy and roadmap" },
         shortLabel: { es: "Roadmap trimestral", en: "Quarterly roadmap" },
         availability: sameInBoth(onlyPlan("high-profile")),
-      },
-      {
-        id: "english-account",
-        text: { es: "Gestión de cuenta en inglés", en: "English account management" },
-        shortLabel: { es: "Cuenta en inglés", en: "English account" },
-        availability: { mx: [], us: fromPlan("grower") },
       },
       {
         id: "on-site",
@@ -750,13 +838,13 @@ export const customPlan: CustomPlan = {
     en: "For whoever needs a full area of specialty, not just another vendor.",
   },
   minDuration: { es: "Mínimo 8 meses", en: "Minimum 8 months" },
-  priceFromValue: { mx: 2500, us: 6500 },
-  totalFromValue: { mx: 20000, us: 52000 },
+  priceFromValue: { mx: 3200, us: 7500 },
+  totalFromValue: { mx: 25600, us: 60000 },
   highlights: [
     {
       text: {
-        es: "Relación a la medida para sitios de más de 100 páginas, fuera de la matriz",
-        en: "Custom relationship for sites of more than 100 pages, outside the matrix",
+        es: "Para sitios de 1,000 páginas o más, o tiendas con más de 1,000 productos",
+        en: "For sites of 1,000 pages or more, or stores with more than 1,000 products",
       },
     },
     {
@@ -770,44 +858,45 @@ export const customPlan: CustomPlan = {
       usOnly: true,
     },
   ],
+  // The client picks one module (pricing master, 5 Nov 2026).
   modules: [
     {
-      title: { es: "Tienda Shopify", en: "Shopify store" },
+      title: { es: "Shopify y apps", en: "Shopify and apps" },
       description: {
-        es: "1,000+ productos.",
-        en: "1,000+ products.",
+        es: "Tiendas de más de 1,000 productos y las apps que las hacen operar.",
+        en: "Stores with more than 1,000 products and the apps that run them.",
       },
     },
     {
-      title: { es: "Equipo embebido", en: "Embedded team" },
+      title: { es: "Equipo integrado", en: "Embedded team" },
       description: {
         es: "Capital humano asignado a tu área con operación mensual fija.",
         en: "Dedicated people assigned to your area with fixed monthly capacity.",
       },
     },
     {
-      title: { es: "Roadmap y sprints continuas", en: "Continuous roadmap and sprints" },
-      description: {
-        es: "Desarrollo fluido del proyecto: Entregables quincenales contra roadmap.",
-        en: "Smooth, ongoing development: biweekly deliverables against the roadmap.",
-      },
-    },
-    {
-      title: { es: "Motor de contenido AEO-first", en: "AEO-first content engine" },
+      title: { es: "Motor de contenido con IA in-house", en: "In-house AI content engine" },
       description: {
         es: "Contenido en volumen para ser referencia en las IAs y motores de búsqueda.",
         en: "Content at volume, built to become the reference cited by AI answers and search.",
       },
     },
     {
+      title: { es: "Desarrollo de IA agéntica", en: "Agentic AI development" },
+      description: {
+        es: "Agentes de IA que trabajan dentro de tu operación.",
+        en: "AI agents that work inside your operation.",
+      },
+    },
+    {
       title: { es: "Consultoría estratégica", en: "Strategic consulting" },
       description: {
-        es: "Dirección digital: Arquitectura, presupuesto y prioridades.",
+        es: "Dirección digital: arquitectura, presupuesto y prioridades.",
         en: "Digital direction at decision level: architecture, budget, and priorities.",
       },
     },
     {
-      title: { es: "App a la medida", en: "Custom application" },
+      title: { es: "Desarrollo de apps a la medida", en: "Custom app development" },
       description: {
         es: "Desarrollo de software propio.",
         en: "Development of your own custom software.",

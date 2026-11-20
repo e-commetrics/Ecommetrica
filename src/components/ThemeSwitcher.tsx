@@ -6,20 +6,19 @@ import { useLanguage } from "@/components/LanguageProvider";
 /**
  * Site color themes (brand book V1.3 §02, decided 15 oct 2026). Each theme re-tints the
  * page — surface, ink, dark blocks, deep accent, eyebrows — but the brand orange and the
- * logo stay #E84A34 in all six: the E never changes color.
+ * logo stay #E84A34 in all four: the E never changes color.
  *
- * `swatch` is the switcher dot: the two companions of the orange, split at 135°. The
+ * The switcher dot is one solid color: the theme's second color (--color-ecom-red). The
  * orange itself is already on the logo and the buttons, so it isn't repeated here.
  *
  * `look` picks the component rules layered on top of the colors (see `lookVars`):
- * Ember keeps the site's original look; the five new themes use the handoff rules.
+ * Ember keeps the site's original look; the three others use the handoff rules.
  */
 export const THEMES = [
   {
     id: "ember",
     name: "Ember",
     look: "original",
-    swatch: ["#25272A", "#F2EDE9"],
     vars: {
       "--color-ecom-orange": "#E84A34",
       "--color-ecom-red": "#9C1512",
@@ -34,44 +33,9 @@ export const THEMES = [
     },
   },
   {
-    id: "brasa",
-    look: "handoff",
-    name: "Brasa",
-    swatch: ["#9C1512", "#2B110B"],
-    vars: {
-      "--color-ecom-orange": "#E84A34",
-      "--color-ecom-red": "#9C1512",
-      "--color-ecom-logo": "#E84A34",
-      "--color-ecom-surface": "#2B110B",
-      "--color-ecom-ink": "#F5EFE7",
-      "--color-ecom-dark": "#3B1D16",
-      "--color-ecom-black": "#1C0906",
-      "--color-ecom-eyebrow": "#E84A34",
-      "--color-ecom-hero": "#9C1512",
-    },
-  },
-  {
-    id: "bugambilia",
-    look: "handoff",
-    name: "Bugambilia",
-    swatch: ["#C62B7A", "#420F32"],
-    vars: {
-      "--color-ecom-orange": "#E84A34",
-      "--color-ecom-red": "#C62B7A",
-      "--color-ecom-logo": "#E84A34",
-      "--color-ecom-surface": "#420F32",
-      "--color-ecom-ink": "#FBF1ED",
-      "--color-ecom-dark": "#561B43",
-      "--color-ecom-black": "#190B15",
-      "--color-ecom-eyebrow": "#EDA6C1",
-      "--color-ecom-hero": "#C62B7A",
-    },
-  },
-  {
     id: "neon",
     look: "handoff",
     name: "Neón",
-    swatch: ["#45F0E4", "#0E1035"],
     vars: {
       "--color-ecom-orange": "#E84A34",
       "--color-ecom-red": "#7B2CFF",
@@ -85,27 +49,10 @@ export const THEMES = [
     },
   },
   {
-    id: "acido",
+    // Lavender and hot pink (named Holograma until 11 nov 2026).
+    id: "bugambilia",
     look: "handoff",
-    name: "Ácido",
-    swatch: ["#D9FB3E", "#16180A"],
-    vars: {
-      "--color-ecom-orange": "#E84A34",
-      "--color-ecom-red": "#A8E000",
-      "--color-ecom-logo": "#E84A34",
-      "--color-ecom-surface": "#D9FB3E",
-      "--color-ecom-ink": "#16180A",
-      "--color-ecom-dark": "#2A2F10",
-      "--color-ecom-black": "#16180A",
-      "--color-ecom-eyebrow": "#16180A",
-      "--color-ecom-hero": "#D9FB3E",
-    },
-  },
-  {
-    id: "holograma",
-    look: "handoff",
-    name: "Holograma",
-    swatch: ["#5B3FD1", "#F3F0FA"],
+    name: "Bugambilia",
     vars: {
       "--color-ecom-orange": "#E84A34",
       "--color-ecom-red": "#FF5FC8",
@@ -116,6 +63,23 @@ export const THEMES = [
       "--color-ecom-black": "#14112A",
       "--color-ecom-eyebrow": "#5B3FD1",
       "--color-ecom-hero": "#FF5FC8",
+    },
+  },
+  {
+    // Black and gold: glowing gold on charcoal (replaced Brasa, 11 nov 2026).
+    id: "oro",
+    look: "handoff",
+    name: "Oro",
+    vars: {
+      "--color-ecom-orange": "#E84A34",
+      "--color-ecom-red": "#E0A63A",
+      "--color-ecom-logo": "#E84A34",
+      "--color-ecom-surface": "#161412",
+      "--color-ecom-ink": "#F7F1E8",
+      "--color-ecom-dark": "#2A2420",
+      "--color-ecom-black": "#0D0B0A",
+      "--color-ecom-eyebrow": "#FFC857",
+      "--color-ecom-hero": "#E0A63A",
     },
   },
 ] as const;
@@ -161,8 +125,12 @@ function lookVars(theme: Theme): Record<string, string> {
 
 export const DEFAULT_THEME: ThemeId = "ember";
 
-/** Themes saved in localStorage["ecom-theme"] before the 15 oct 2026 change. */
-export const LEGACY_THEMES: Record<string, ThemeId> = { crimson: "brasa", noir: "bugambilia" };
+/**
+ * Retired theme ids still saved in localStorage["ecom-theme"]: the pre-15-oct-2026 ones,
+ * and those dropped on 11 nov 2026 (Brasa became Oro, Holograma was renamed Bugambilia,
+ * and the plum Bugambilia went away, so its id now opens the lavender one).
+ */
+export const LEGACY_THEMES: Record<string, ThemeId> = { crimson: "oro", noir: "bugambilia", brasa: "oro", holograma: "bugambilia" };
 
 const STORAGE_KEY = "ecom-theme";
 
@@ -234,7 +202,7 @@ export default function ThemeSwitcher() {
               : "ring-1 ring-white/30 hover:ring-white/60"
           }`}
           style={{
-            background: `linear-gradient(135deg, ${theme.swatch[0]} 0 50%, ${theme.swatch[1]} 50% 100%)`,
+            background: theme.vars["--color-ecom-red"],
           }}
         />
       ))}

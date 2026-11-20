@@ -110,7 +110,10 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
      chip could advertise "Medical 06" and render two cards. */
   const pool = testimonialsOnly ? testimonials : projects;
 
-  const categories = useMemo(() => categoriesOf(pool), [pool]);
+  const categories = useMemo(() => {
+    const poolCounts = new Map(categoriesOf(pool));
+    return categoriesOf(projects).map(([id, total]): [CategoryId, number, number] => [id, poolCounts.get(id) ?? 0, total]);
+  }, [projects, pool]);
 
   const groups = useMemo(() => {
     const visible =
@@ -128,12 +131,18 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
     setTestimonialsOnly(next);
   }
 
-  const chips: [string, number, string][] = [
-    [ALL, pool.length, t.workGallery.all],
-    ...categories.map(([id, count]): [string, number, string] => [
+  function selectCategory(id: string, outsidePool: boolean) {
+    if (outsidePool) setTestimonialsOnly(false);
+    setActive(id);
+  }
+
+  const chips: [string, number, string, boolean][] = [
+    [ALL, pool.length, t.workGallery.all, false],
+    ...categories.map(([id, count, total]): [string, number, string, boolean] => [
       id,
-      count,
+      count || total,
       categoryLabel(id, lang),
+      count === 0,
     ]),
   ];
 
@@ -145,22 +154,24 @@ export default function WorkGallery({ projects }: { projects: CaseStudy[] }) {
           aria-label={t.workGallery.filterAriaLabel}
           className="flex flex-wrap gap-2.5"
         >
-          {chips.map(([id, count, label]) => {
+          {chips.map(([id, count, label, outsidePool]) => {
             const selected = active === id;
             return (
               <button
                 key={id}
                 type="button"
-                onClick={() => setActive(id)}
+                onClick={() => selectCategory(id, outsidePool)}
                 aria-pressed={selected}
                 className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium tracking-widest uppercase transition-colors duration-300 ${
                   selected
                     ? "border-ecom-orange bg-ecom-orange text-ecom-on-accent"
-                    : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/40 hover:text-ecom-ink"
+                    : outsidePool
+                      ? "border-dashed border-ecom-ink/20 text-ecom-ink/45 hover:border-solid hover:border-ecom-orange/40 hover:text-ecom-ink"
+                      : "border-ecom-ink/15 text-ecom-ink/70 hover:border-ecom-orange/40 hover:text-ecom-ink"
                 }`}
               >
                 {label}
-                <span className={selected ? "text-white/70" : "text-ecom-ink/40"}>
+                <span className={selected ? "text-ecom-on-accent/70" : "text-ecom-ink/40"}>
                   {String(count).padStart(2, "0")}
                 </span>
               </button>

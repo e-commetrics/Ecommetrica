@@ -12,6 +12,7 @@ import { localizedHref, withTrailingSlash } from "../src/lib/i18n/localizedHref"
 import { getInternalCaseStudies } from "../src/lib/work";
 import { getAllPosts } from "../src/lib/blog";
 import { getDict } from "../src/lib/i18n/dict";
+import { PACKAGE_LANDINGS, landingPath, landingPlanName } from "../src/lib/landings";
 import type { Lang } from "../src/lib/i18n/types";
 
 const OUT_DIR = path.join(process.cwd(), "out");
@@ -25,6 +26,7 @@ const STATIC_ENTRIES: Entry[] = [
   { path: "/services" },
   { path: "/pricing" },
   { path: "/packages" },
+  ...PACKAGE_LANDINGS.map((landing) => ({ path: landingPath(landing.slug) })),
   { path: "/vpat" },
   { path: "/ga4" },
   { path: "/meta-graph-api" },
@@ -110,6 +112,12 @@ const STATIC_LABELS: Record<string, { es: string; en: string }> = {
   "/services": { es: "Servicios", en: "Services" },
   "/pricing": { es: "Precios", en: "Pricing" },
   "/packages": { es: "Paquetes", en: "Packages" },
+  ...Object.fromEntries(
+    PACKAGE_LANDINGS.map((landing) => [
+      landingPath(landing.slug),
+      { es: landingPlanName(landing.planId, "es"), en: landingPlanName(landing.planId, "en") },
+    ]),
+  ),
   "/vpat": { es: "VPAT / Reporte de conformidad", en: "VPAT / Conformance report" },
   "/ga4": { es: "Google Analytics 4", en: "Google Analytics 4" },
   "/meta-graph-api": { es: "Meta Graph API", en: "Meta Graph API" },

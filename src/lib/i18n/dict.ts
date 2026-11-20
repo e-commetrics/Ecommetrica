@@ -36,10 +36,14 @@ export type Dict = {
     contact: string;
     talk: string;
     logoAlt: string;
+    /** The "Precios" menu item (opens /pricing); the package landings nest under it. */
+    pricing: string;
   };
   mobileMenu: { open: string; close: string };
   languageSwitcher: { ariaLabel: string };
   themeSwitcher: { ariaLabel: string };
+  /** Background-music toggle in the header (MusicToggle). */
+  music: { play: string; pause: string; title: string };
   a11y: { skipToContent: string; pauseVideo: string; playVideo: string };
   footer: {
     privacy: string;
@@ -339,6 +343,26 @@ export type Dict = {
     compareClear: string;
     compareOnlyDiff: string;
     stageLabel: string;
+    /** Package pages: the saving next to the price, and what it's measured against. */
+    savingLine: (saving: string) => string;
+    savingNote: string;
+    /** Stage chooser, "Elígelo si" lists and the two-plan compare on /pricing. */
+    chooserTitle: string;
+    chooserSub: string;
+    recommendedBadge: string;
+    /** Line under the stage chooser once a stage is picked: "Te recomendamos Tracción". */
+    chooserResult: string;
+    chooserSee: string;
+    chooseIfLabel: string;
+    compareAdd: string;
+    compareAdded: string;
+    compareTrayOne: string;
+    compareAddsTitle: (upper: string, lower: string) => string;
+    guideEyebrow: string;
+    guideTitle: string;
+    guide: { title: string; body: string }[];
+    /** /pricing's pointer to the custom Aliado package and its landing. */
+    partnerTeaser: { eyebrow: string; title: string; body: (price: string, total: string) => string; cta: string };
     notes: {
       inheritance: string;
       hosting: (price: string) => string;
@@ -441,12 +465,14 @@ export const dict: Record<Lang, Dict> = {
       faq: "FAQ",
       contact: "Contacto",
       talk: "Hablemos",
+      pricing: "Precios",
       logoAlt:
         "Ecommetrica es una consultora y empresa de gestión especializada en marketing y tecnología para el comercio electrónico de empresas y marcas",
     },
     mobileMenu: { open: "Menú", close: "Cerrar menú" },
     languageSwitcher: { ariaLabel: "Cambiar idioma" },
     themeSwitcher: { ariaLabel: "Tema" },
+    music: { play: "Reproducir música", pause: "Pausar música", title: "Satie · Gymnopédie n.º 1" },
     a11y: {
       skipToContent: "Saltar al contenido",
       pauseVideo: "Pausar video",
@@ -463,7 +489,7 @@ export const dict: Record<Lang, Dict> = {
       rights: "Todos los derechos reservados.",
     },
     hero: {
-      eyebrow: "Desarrollo web y webapps en Tijuana y San Diego",
+      eyebrow: "Desarrollo web y webapps en San Diego y Tijuana",
       headlinePre: "Entra a tu",
       headlineAccent: "siguiente",
       headlinePost: "nivel.",
@@ -632,7 +658,7 @@ export const dict: Record<Lang, Dict> = {
       line1: "Sitios que",
       line2: "se sienten",
       accent: "vivos.",
-      sub: "Diseño, código y movimiento que hacen que tu marca se quede en la mente de quien te visita.",
+      sub: "Diseño, Código y Flow para que tu marca se quede en la mente de quien te visita.",
       hint: "Mueve el cursor · clic para dispersar los anillos",
     },
     servicesHero: {
@@ -844,7 +870,7 @@ export const dict: Record<Lang, Dict> = {
       summaryTitle: "Resumen",
       rowServices: "Servicios incluidos",
       rowPerService: "Costo mensual por servicio (USD)",
-      rowSaving: "Ahorro vs. comprar cada servicio por separado",
+      rowSaving: "Ahorro vs. el valor de cada servicio por separado",
       rowStage: "Etapa del negocio",
       rowRenewal: "Renovación à la carte (al terminar el plan)",
       comparedWithMarket: "Se compara con el mercado",
@@ -854,9 +880,49 @@ export const dict: Record<Lang, Dict> = {
       compareClear: "Quitar comparación",
       compareOnlyDiff: "Solo diferencias",
       stageLabel: "Ideal si",
+      savingLine: (saving) => `Ahorras ${saving} frente al valor de cada servicio por separado`,
+      savingNote:
+        "Los servicios no se venden por separado a clientes nuevos: solo como recompra, al terminar un paquete. El ahorro se mide frente a ese valor individual.",
+      chooserTitle: "¿En qué etapa está tu negocio?",
+      chooserSub: "Elige la que más se parezca y te decimos qué plan va contigo.",
+      recommendedBadge: "Recomendado para ti",
+      chooserResult: "Te recomendamos",
+      chooserSee: "Ver plan",
+      chooseIfLabel: "Elígelo si",
+      compareAdd: "Comparar",
+      compareAdded: "Comparando",
+      compareTrayOne: "Elige un plan más para compararlos.",
+      compareAddsTitle: (upper, lower) => `Lo que ${upper} suma sobre ${lower}`,
+      guideEyebrow: "Cómo elegir",
+      guideTitle: "Cuatro cosas que te ayudan a decidir.",
+      guide: [
+        {
+          title: "Elige por etapa, no por lista",
+          body: "Cada plan incluye todo lo del anterior. Empieza donde está tu negocio hoy y sube cuando lo pida.",
+        },
+        {
+          title: "Mira el total, no solo la mensualidad",
+          body: "Junto a cada precio mensual está el total del contrato. Y entre más subes, menos pagas por cada servicio.",
+        },
+        {
+          title: "Mejor valor: Escala",
+          body: "Es el plan con el mayor ahorro frente al valor de cada servicio por separado.",
+        },
+        {
+          title: "Sabe qué pagas aparte",
+          body: "El dominio, la inversión en pauta y la suscripción de Shopify los pagas directo. El hosting del primer año va incluido.",
+        },
+      ],
+      partnerTeaser: {
+        eyebrow: "¿Necesitas un equipo, no un proveedor?",
+        title: "Aliado: tu área digital completa.",
+        body: (price, total) =>
+          `Desde ${price}/mes · desde ${total} en total · mínimo 8 meses. Para sitios de 1,000 páginas o más: eliges el módulo que necesitas, con el único soporte 24/7.`,
+        cta: "Conocer Aliado",
+      },
       notes: {
         inheritance:
-          "Cada plan incluye todo lo del plan anterior; desde Arranque, lo que IA Exprés genera con IA lo hacen personas asistidas con IA. El total del contrato siempre se muestra junto al precio mensual. Mejor valor = el plan con el mayor ahorro frente a comprar cada servicio por separado.",
+          "Cada plan incluye todo lo del plan anterior. IA Exprés es generado con IA; de Arranque a Escala, potenciado con IA; Cúspide y Aliado, sitio aliado de la IA. El total del contrato siempre se muestra junto al precio mensual. Mejor valor = el plan con el mayor ahorro frente al valor de cada servicio por separado.",
         hosting: (price) =>
           `Hosting y mantenimiento: los primeros 12 meses van incluidos en todos los paquetes. Después se renueva cada año en la fecha de inicio: ${price} al año.`,
         clientCosts:
@@ -1153,12 +1219,14 @@ export const dict: Record<Lang, Dict> = {
       faq: "FAQ",
       contact: "Contact",
       talk: "Let's talk",
+      pricing: "Pricing",
       logoAlt:
         "Ecommetrica is a consulting and management company specialized in marketing and technology for e-commerce businesses and brands",
     },
     mobileMenu: { open: "Menu", close: "Close menu" },
     languageSwitcher: { ariaLabel: "Toggle language" },
     themeSwitcher: { ariaLabel: "Theme" },
+    music: { play: "Play music", pause: "Pause music", title: "Satie · Gymnopédie No. 1" },
     a11y: {
       skipToContent: "Skip to content",
       pauseVideo: "Pause video",
@@ -1175,7 +1243,7 @@ export const dict: Record<Lang, Dict> = {
       rights: "All rights reserved.",
     },
     hero: {
-      eyebrow: "Web development & webapps in Tijuana and San Diego",
+      eyebrow: "Web development & webapps in San Diego and Tijuana",
       headlinePre: "Step into",
       headlineAccent: "your next",
       headlinePost: "level.",
@@ -1344,7 +1412,7 @@ export const dict: Record<Lang, Dict> = {
       line1: "Sites that",
       line2: "feel",
       accent: "alive.",
-      sub: "Design, code, and motion that keep your brand on the mind of everyone who visits.",
+      sub: "Design, Code and Flow so your brand stays in the mind of everyone who visits.",
       hint: "Move the cursor · click to scatter the rings",
     },
     servicesHero: {
@@ -1554,7 +1622,7 @@ export const dict: Record<Lang, Dict> = {
       summaryTitle: "Summary",
       rowServices: "Services included",
       rowPerService: "Monthly cost per service (USD)",
-      rowSaving: "Saving vs. buying each service separately",
+      rowSaving: "Saving vs. the value of each service on its own",
       rowStage: "Business stage",
       rowRenewal: "À la carte renewal (after the plan ends)",
       comparedWithMarket: "Compared with the market",
@@ -1564,9 +1632,49 @@ export const dict: Record<Lang, Dict> = {
       compareClear: "Clear comparison",
       compareOnlyDiff: "Differences only",
       stageLabel: "Best if",
+      savingLine: (saving) => `You save ${saving} against the value of each service on its own`,
+      savingNote:
+        "Services aren't sold on their own to new clients: only as a rebuy, once a package is complete. The saving is measured against that individual value.",
+      chooserTitle: "What stage is your business at?",
+      chooserSub: "Pick the one that sounds most like you and we'll point you to your plan.",
+      recommendedBadge: "Recommended for you",
+      chooserResult: "We recommend",
+      chooserSee: "See plan",
+      chooseIfLabel: "Choose it if",
+      compareAdd: "Compare",
+      compareAdded: "Comparing",
+      compareTrayOne: "Pick one more plan to compare them.",
+      compareAddsTitle: (upper, lower) => `What ${upper} adds over ${lower}`,
+      guideEyebrow: "How to choose",
+      guideTitle: "Four things that help you decide.",
+      guide: [
+        {
+          title: "Choose by stage, not by list",
+          body: "Each plan includes everything in the one before. Start where your business is today and move up when it asks for more.",
+        },
+        {
+          title: "Look at the total, not just the monthly fee",
+          body: "Every monthly price sits next to the contract total. And the higher you go, the less you pay per service.",
+        },
+        {
+          title: "Best value: Scale",
+          body: "It's the plan with the biggest saving against the value of each service on its own.",
+        },
+        {
+          title: "Know what you pay separately",
+          body: "The domain, ad spend and the Shopify subscription are paid directly by you. The first year of hosting is included.",
+        },
+      ],
+      partnerTeaser: {
+        eyebrow: "Need a team, not a vendor?",
+        title: "Partner: your whole digital area.",
+        body: (price, total) =>
+          `From ${price}/mo · from ${total} total · minimum 8 months. For sites of 1,000 pages or more: you pick the module you need, with the only 24/7 support.`,
+        cta: "Explore Partner",
+      },
       notes: {
         inheritance:
-          "Each plan includes everything in the plan before it; from Launch, what AI Express generates with AI is made by people with AI assistance. The contract total is always shown next to the monthly price. Best value = the plan with the biggest saving against buying each service separately.",
+          "Each plan includes everything in the plan before it. AI Express is AI-generated; Launch to Scale are AI-powered; Peak and Partner are AI-partnered sites. The contract total is always shown next to the monthly price. Best value = the plan with the biggest saving against the value of each service on its own.",
         hosting: (price) =>
           `Hosting and maintenance: the first 12 months are included in every package. After that it renews yearly on the start date at ${price} a year.`,
         clientCosts:

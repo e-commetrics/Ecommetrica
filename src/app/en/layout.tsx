@@ -58,7 +58,7 @@ export default function RootLayout({
         <GoogleAnalytics />
         <MetaPixel />
         <LanguageProvider lang={LANG}>
-          <RegionProvider>
+          <RegionProvider initialRegion="us">
             <ContactPrefillProvider>
               <SkipLink />
               <SmoothScroll />
@@ -77,7 +77,7 @@ export default function RootLayout({
                     borderRadius: "9999px",
                     padding: "12px 20px",
                   },
-                  success: { iconTheme: { primary: "#e84a34", secondary: "#f2ede9" } },
+                  success: { iconTheme: { primary: "#22a06b", secondary: "#f2ede9" } },
                   error: { iconTheme: { primary: "#9c1512", secondary: "#f2ede9" } },
                 }}
               />

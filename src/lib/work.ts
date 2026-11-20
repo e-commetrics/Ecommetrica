@@ -1825,6 +1825,18 @@ export const caseStudies: CaseStudy[] = [
     image: "/projects/proyectopage.webp",
     webpage: "https://proyectotijuana-claudionaranjo.com",
   },
+  {
+    slug: "gran-logia-baja-california",
+    name: "Gran Logia de Baja California",
+    category: "Other",
+    description: {
+      es: "Sitio web bilingüe para la Muy Respetable Gran Logia de Estado «Baja California», institución masónica con raíces desde 1894. Diseñamos una portada inmersiva con un mapa en relieve de la península y un directorio de sus seis Orientes y treinta y nueve logias, con días y horarios de trabajo. El sitio reúne su historia, su regularidad, sus relaciones y reconocimientos internacionales, y una guía para quien quiere ser masón con su formulario de solicitud.",
+      en: "Bilingual website for the Most Worshipful Grand Lodge of the State of «Baja California», a Masonic institution with roots going back to 1894. We designed an immersive homepage with a relief map of the peninsula and a directory of its six Orients and thirty-nine lodges, with their meeting days and times. The site brings together its history, its regularity, its international relations and recognitions, and a guide for anyone who wants to become a Mason, with its application form.",
+    },
+    image: "/projects/granlogiapage.webp",
+    featured: true,
+    webpage: "https://www.granlogiadebajacalifornia.com/",
+  },
 ];
 
 export function getCaseStudy(slug: string) {
